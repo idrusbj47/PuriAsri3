@@ -1,1 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kas Puri Asri 3 — TH.2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0a7c52;--green-bg:#e6f5ee;--green-mid:#1da876;
+  --red:#b5341a;--red-bg:#fdeee9;
+  --amber:#8a5c00;--amber-bg:#fef3d8;
+  --text:#1a1a18;--text2:#5c5c58;--text3:#9a9a94;
+  --bg:#f7f6f2;--surface:#ffffff;--border:#e8e6df;--border2:#d4d1c8;
+  --radius:10px;--radius-lg:14px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+.logo-area{display:flex;align-items:center;gap:12px}
+.logo-circle{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1da876,#0a7c52);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
+.logo-text h1{font-size:16px;font-weight:600;color:var(--text);line-height:1.2}
+.logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.header-right{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:0 14px;height:34px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s}
+.btn:hover{background:var(--bg);border-color:var(--border2)}
+.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn.primary:hover{background:#0a6b46}
+.last-update{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* HAMBURGER MENU */
+.ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
+.ham-btn span{display:block;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
+.ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham-btn.open span:nth-child(2){opacity:0}
+.ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;top:0;left:0;height:100vh;width:260px;background:var(--surface);border-right:1px solid var(--border);z-index:999;transform:translateX(-100%);transition:transform .28s ease;box-shadow:4px 0 24px rgba(0,0,0,0.08)}
+.nav-drawer.open{transform:translateX(0)}
+.nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:998;opacity:0;pointer-events:none;transition:opacity .28s}
+.nav-overlay.open{opacity:1;pointer-events:all}
+.nav-header{padding:1.25rem 1.25rem 1rem;border-bottom:1px solid var(--border)}
+.nav-header h2{font-size:14px;font-weight:600}
+.nav-header p{font-size:11px;color:var(--text3);margin-top:2px}
+.nav-section{padding:.75rem 1rem .25rem;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);font-weight:500}
+.nav-item{display:flex;align-items:center;gap:10px;padding:.65rem 1.25rem;font-size:13.5px;color:var(--text);text-decoration:none;font-weight:500;transition:background .15s;border-left:3px solid transparent}
+.nav-item:hover{background:var(--bg)}
+.nav-item.active{background:var(--green-bg);color:var(--green);border-left-color:var(--green)}
+.nav-item .nav-icon{font-size:16px;width:20px;text-align:center}
+
+/* LAYOUT */
+.container{max-width:1200px;margin:0 auto;padding:1.5rem}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
+.stat-card .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
+.stat-card .value{font-size:28px;font-weight:600;color:var(--text);line-height:1;font-family:'DM Mono',monospace}
+.stat-card .sub{font-size:11px;color:var(--text3);margin-top:4px}
+.stat-card.green{border-left:3px solid var(--green-mid)}
+.stat-card.green .value{color:var(--green)}
+.stat-card.red{border-left:3px solid #e85d3a}
+.stat-card.red .value{color:var(--red)}
+.stat-card.amber{border-left:3px solid #d4a017}
+.stat-card.amber .value{color:var(--amber)}
+
+/* FINANCE BAR */
+.finance-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;flex-direction:column;gap:4px}
+.fin-card .fin-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.fin-card .fin-value{font-size:22px;font-weight:600;font-family:'DM Mono',monospace;line-height:1.2}
+.fin-card .fin-sub{font-size:11px;color:var(--text3)}
+.fin-card.masuk{border-top:3px solid var(--green-mid)}
+.fin-card.masuk .fin-value{color:var(--green)}
+.fin-card.keluar{border-top:3px solid #e85d3a}
+.fin-card.keluar .fin-value{color:var(--red)}
+.fin-card.saldo{border-top:3px solid #d4a017;background:var(--amber-bg)}
+.fin-card.saldo .fin-value{color:var(--amber)}
+@media(max-width:600px){.finance-bar{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* SUMMARY BAR */
+.summary-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem}
+.summary-bar .bar-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
+.progress-track{height:8px;background:var(--bg);border-radius:999px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green-mid),var(--green));border-radius:999px;transition:width .6s ease}
+.bar-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* MONTH ROW */
+.month-section{margin-bottom:1.25rem}
+.month-section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
+.month-pills{display:flex;gap:6px;flex-wrap:wrap}
+.mpill{display:inline-flex;align-items:center;gap:5px;padding:0 12px;height:30px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);font-size:12px;cursor:pointer;font-family:inherit;color:var(--text2);font-weight:500;transition:all .15s}
+.mpill:hover{border-color:var(--border2);background:var(--bg)}
+.mpill.active{background:var(--green-bg);border-color:var(--green-mid);color:var(--green)}
+.mpill.many-missing{border-color:#f0a080;color:var(--red)}
+.mpill .count{font-size:10px;font-family:'DM Mono',monospace;background:var(--bg);padding:1px 5px;border-radius:999px}
+.mpill.active .count{background:rgba(29,168,118,.15)}
+
+/* FILTER ROW */
+.filter-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.filter-row input{flex:1;min-width:200px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);padding:0 12px;font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border .15s}
+.filter-row input:focus{border-color:#1da876}
+.fbtn{padding:0 13px;height:36px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);font-size:12.5px;cursor:pointer;font-family:inherit;color:var(--text2);font-weight:500;transition:all .15s}
+.fbtn:hover{background:var(--bg)}
+.fbtn.on{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* BLOK FILTER */
+.blok-row{display:flex;gap:5px;margin-bottom:1rem;flex-wrap:wrap}
+.bbtn{padding:0 11px;height:28px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:11.5px;cursor:pointer;font-family:'DM Mono',monospace;color:var(--text2);font-weight:500;transition:all .15s}
+.bbtn:hover{background:var(--bg);border-color:var(--border2)}
+.bbtn.on{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* TABLE */
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow-x: auto; /* <-- INI YANG DITAMBAHKAN AGAR BISA DIGESER */
+  -webkit-overflow-scrolling: touch; /* Biar gesernya mulus di HP Android/iPhone */
+}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:12.5px}
+.table-wrap thead th{background:var(--bg);border-bottom:1px solid var(--border);padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.table-wrap tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
+.table-wrap tbody tr:last-child td{border-bottom:none}
+.table-wrap tbody tr:hover td{background:#fafaf8}
+.no-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
+.blok-tag{font-family:'DM Mono',monospace;font-size:10.5px;background:var(--bg);border:1px solid var(--border);padding:2px 8px;border-radius:6px;color:var(--text2);display:inline-block;white-space:nowrap}
+.nama-cell{font-size:12.5px;font-weight:500}
+.dots{display:flex;flex-wrap:wrap;gap:2px}
+.dot{width:19px;height:19px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;font-family:'DM Mono',monospace}
+.dot.ok{background:var(--green-bg);color:var(--green)}
+.dot.no{background:var(--red-bg);color:var(--red)}
+.total-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.status-pill{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;text-align:center}
+.status-pill.ok{background:var(--green-bg);color:var(--green)}
+.status-pill.partial{background:var(--amber-bg);color:var(--amber)}
+.status-pill.no{background:var(--red-bg);color:var(--red)}
+
+/* FOOTER */
+.tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg)}
+
+/* LOADING / ERROR */
+.state-box{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.state-box .icon{font-size:32px;margin-bottom:12px}
+.state-box p{font-size:14px}
+.spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--green-mid);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err-box{background:var(--red-bg);border:1px solid #f5c0b0;border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:13px;color:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .container{padding:1rem}
+  .header{padding:1rem}
+  .nama-cell{font-size:12px}
+  .dot{width:16px;height:16px;font-size:7.5px}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-card .value{font-size:22px}
+}
+
+/* PRINT */
+@media print{
+  .header,.filter-row,.blok-row,.month-section,.btn,.fbtn,.bbtn,.mpill{display:none!important}
+  .table-wrap{border:1px solid #ccc}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-area">
+    <div class="logo-circle">
+  <img src="Logo RT11.png" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"/>
+</div>
+    <div class="logo-text">
+      <h1>Kas Puri Asri 3</h1>
+      <p>RT 01 / RW 012 · TH.2026</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="last-update" id="last-update"></span>
+    <button class="btn" onclick="init()">↺ Refresh</button>
+    <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
+    <button class="ham-btn" id="ham-btn" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
+
+<!-- Navigation Drawer -->
+<nav class="nav-drawer" id="nav-drawer">
+  <div class="nav-header">
+    <h2>Kas Puri Asri 3</h2>
+    <p>RT 01 / RW 012 · TH. 2026</p>
+  </div>
+  <div class="nav-section">Menu Utama</div>
+  <a class="nav-item" href="index.html">
+    <span class="nav-icon">🏠</span> Beranda
+  </a>
+  <div class="nav-section">Keuangan</div>
+  <a class="nav-item active" href="kas-umum.html">
+    <span class="nav-icon">💰</span> Laporan Kas Umum
+  </a>
+  <a class="nav-item" href="Kematian.html">
+    <span class="nav-icon">🏡</span> Laporan Dana Kematian
+  </a>
+  <a class="nav-item" href="pengeluaran-kas.html">
+    <span class="nav-icon">📋</span> Pengeluaran Kas
+  </a>
+  <a class="nav-item" href="pengeluaran-kematian.html">
+    <span class="nav-icon">📄</span> Pengeluaran Dana Kematian
+  </a>
+  <div class="nav-section">Segera Hadir</div>
+  <a class="nav-item" style="opacity:.4;pointer-events:none" href="#">
+    <span class="nav-icon">📅</span> Program &amp; Acara RT
+  </a>
+  <a class="nav-item" style="opacity:.4;pointer-events:none" href="#">
+    <span class="nav-icon">📦</span> Daftar Inventaris
+  </a>
+  <a class="nav-item" style="opacity:.4;pointer-events:none" href="#">
+    <span class="nav-icon">📃</span> AD/ART
+  </a>
+  <a class="nav-item" style="opacity:.4;pointer-events:none" href="#">
+    <span class="nav-icon">🖼️</span> Dokumentasi Acara
+  </a>
+</nav>
+
+<div class="container">
+  <div id="err-box" class="err-box" style="display:none"></div>
+  <div id="loading" class="state-box">
+    <div class="spinner"></div>
+    <p>Mengambil data dari Google Sheets...</p>
+  </div>
+
+  <div id="content" style="display:none">
+    <!-- FINANCE BAR: Masuk / Keluar / Saldo -->
+    <div class="finance-bar">
+      <div class="fin-card masuk">
+        <div class="fin-label">💰 Total Dana Masuk</div>
+        <div class="fin-value" id="fin-masuk">—</div>
+        <div class="fin-sub" id="fin-masuk-sub">dari iuran warga tahun ini</div>
+      </div>
+      <div class="fin-card keluar">
+        <div class="fin-label">📤 Total Pengeluaran</div>
+        <div class="fin-value" id="fin-keluar">—</div>
+        <div class="fin-sub" id="fin-keluar-sub">pengeluaran kas tercatat</div>
+      </div>
+      <div class="fin-card saldo">
+        <div class="fin-label">🏦 Sisa Saldo</div>
+        <div class="fin-value" id="fin-saldo">—</div>
+        <div class="fin-sub">masuk dikurangi pengeluaran</div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Anggota</div>
+        <div class="value" id="s-total">—</div>
+        <div class="sub">terdaftar</div>
+      </div>
+      <div class="stat-card green">
+        <div class="label">Total Kas</div>
+        <div class="value" id="s-kas">—</div>
+        <div class="sub" id="s-kas-sub"></div>
+      </div>
+      <div class="stat-card amber">
+        <div class="label">Ada Pembayaran</div>
+        <div class="value" id="s-bayar">—</div>
+        <div class="sub">anggota</div>
+      </div>
+      <div class="stat-card red">
+        <div class="label">Belum Bayar</div>
+        <div class="value" id="s-none">—</div>
+        <div class="sub">anggota</div>
+      </div>
+    </div>
+
+    <div class="summary-bar">
+      <div class="bar-label">Persentase anggota yang sudah bayar</div>
+      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="bar-meta">
+        <span id="prog-left"></span>
+        <span id="prog-right"></span>
+      </div>
+    </div>
+
+    <div class="month-section">
+      <div class="month-section-title">Filter bulan — klik untuk lihat yang belum bayar</div>
+      <div class="month-pills" id="month-pills"></div>
+    </div>
+
+    <div class="blok-row" id="blok-row"></div>
+
+    <div class="filter-row">
+      <input type="text" id="search" placeholder="🔍  Cari nama atau blok..." oninput="render()"/>
+      <button class="fbtn on" id="fb-all" onclick="setFilter('all')">Semua</button>
+      <button class="fbtn" id="fb-bayar" onclick="setFilter('bayar')">Ada Bayaran</button>
+      <button class="fbtn" id="fb-none" onclick="setFilter('none')">Belum Bayar</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:36px">No</th>
+            <th style="width:76px">Blok</th>
+            <th>Pemilik</th>
+            <th>Jan Feb Mar Apr Mei Jun Jul Agu Sep Okt Nov Des</th>
+            <th style="text-align:right;width:80px">Total</th>
+            <th style="text-align:center;width:68px">Status</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="tfoot">
+        <span id="foot-count"></span>
+        <span id="foot-total"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Link CSV murni langsung tanpa proxy (Aman karena dijalankan dari server web GitHub)
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1608654388&single=true&output=csv';
+
+// ── Ambil MASUK, KELUAR, SISA dari raw CSV (baris header sheet) ──
+function parseFinance(text) {
+  const lines = text.split('\n');
+  let masuk = 0, keluar = 0, sisa = 0;
+
+  // Log semua baris mentah untuk debug
+  for (let i = 0; i < Math.min(15, lines.length); i++) {
+    console.log('[CSV row ' + i + ']', lines[i]);
+  }
+
+  for (let i = 0; i < Math.min(15, lines.length); i++) {
+    const raw   = lines[i];
+    const upper = raw.toUpperCase();
+    const cols  = splitLine(raw);
+
+    // Lewati baris yang mengandung TOTAL MASUK / BULAN (baris ringkasan per bulan)
+    if (upper.includes('TOTAL') && upper.includes('MASUK') && upper.includes('BULAN')) continue;
+
+    // Baris SISA / SALDO — cari dulu karena paling mudah diidentifikasi
+    if ((upper.includes('SISA') || upper.includes('SALDO')) && !upper.includes('PEMILIK')) {
+      for (let c = 0; c < cols.length; c++) {
+        const val = parseRp(cols[c]);
+        if (val > 100000) { sisa = val; break; }
+      }
+      console.log('[Finance] SISA row', i, '→', sisa);
+    }
+
+    // Baris yang ada MASUK (dan bukan baris TOTAL/BULAN/PEMILIK)
+    if (upper.includes('MASUK') && !upper.includes('PEMILIK') && !upper.includes('BULAN')) {
+      // Scan seluruh kolom, ambil nilai terbesar (nilai MASUK biasanya paling besar di baris ini)
+      let best = 0;
+      for (let c = 0; c < cols.length; c++) {
+        const val = parseRp(cols[c]);
+        if (val > best) best = val;
+      }
+      // Kalau ada KELUAR di baris yang sama, nilai masuk adalah yg PERTAMA ditemukan setelah kata MASUK
+      if (upper.includes('KELUAR')) {
+        let afterMasuk = false, afterKeluar = false;
+        let tmpMasuk = 0, tmpKeluar = 0;
+        for (let c = 0; c < cols.length; c++) {
+          const cu = cols[c].toUpperCase().replace(/"/g,'').trim();
+          if (cu.includes('MASUK'))  { afterMasuk = true;  afterKeluar = false; continue; }
+          if (cu.includes('KELUAR')) { afterKeluar = true; afterMasuk  = false; continue; }
+          const val = parseRp(cols[c]);
+          if (afterMasuk  && val > 100000 && tmpMasuk  === 0) tmpMasuk  = val;
+          if (afterKeluar && val > 100000 && tmpKeluar === 0) tmpKeluar = val;
+        }
+        if (tmpMasuk  > 0) masuk  = tmpMasuk;
+        if (tmpKeluar > 0) keluar = tmpKeluar;
+        console.log('[Finance] MASUK+KELUAR row', i, '→ masuk:', masuk, 'keluar:', keluar);
+      } else {
+        // Hanya ada MASUK, ambil nilai terbesar
+        if (best > masuk) masuk = best;
+        console.log('[Finance] MASUK only row', i, '→', masuk);
+      }
+    }
+
+    // Baris KELUAR saja (tanpa MASUK)
+    if (upper.includes('KELUAR') && !upper.includes('MASUK') && !upper.includes('PEMILIK')) {
+      for (let c = 0; c < cols.length; c++) {
+        const val = parseRp(cols[c]);
+        if (val > 100000 && val > keluar) keluar = val;
+      }
+      console.log('[Finance] KELUAR only row', i, '→', keluar);
+    }
+  }
+
+  if (sisa === 0 && masuk > 0) sisa = masuk - keluar;
+  console.log('[Finance FINAL] masuk:', masuk, '| keluar:', keluar, '| sisa:', sisa);
+  return { masuk, keluar, sisa };
+}
+
+// Parse format Rp seperti "Rp17,073,500" atau "17073500"
+function parseRp(v) {
+  if (!v) return 0;
+  v = v.toString().replace(/"/g, '').replace(/Rp/gi, '').replace(/\./g, '').replace(/,/g, '').trim();
+  const n = parseFloat(v);
+  return isNaN(n) ? 0 : n;
+}
+
+function fmtRpFull(n) {
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+
+const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MK = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+let allRows = [], filterMode = 'all', activeMonth = null, activeBlok = null;
+
+function parseK(v) {
+  if (!v) return 0;
+  v = v.toString().trim().toUpperCase().replace(/"/g, '');
+  const m = v.match(/^(\d+(?:\.\d+)?)K$/);
+  if (m) return parseFloat(m[1]) * 1000;
+  const n = parseFloat(v.replace(/[^0-9.]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+function paid(v) { return parseK(v) > 0; }
+function fmtRp(n) {
+  if (n >= 1000000) return 'Rp ' + (n / 1000000).toFixed(1).replace('.0', '') + ' Jt';
+  if (n >= 1000) return 'Rp ' + Math.round(n / 1000) + 'K';
+  return 'Rp ' + n;
+}
+
+function setFilter(f) {
+  filterMode = f;
+  ['all','bayar','none'].forEach(x => document.getElementById('fb-' + x).classList.toggle('on', x === f));
+  render();
+}
+function setMonth(m) {
+  activeMonth = activeMonth === m ? null : m;
+  document.querySelectorAll('.mpill').forEach(el => el.classList.toggle('active', el.dataset.m === activeMonth));
+  render();
+}
+function setBlok(b) {
+  activeBlok = activeBlok === b ? null : b;
+  document.querySelectorAll('.bbtn').forEach(el => el.classList.toggle('on', el.dataset.b === activeBlok));
+  render();
+}
+
+function splitLine(line) {
+  const r = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
+    else { cur += c; }
+  }
+  r.push(cur.trim());
+  return r;
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n');
+  let hi = -1;
+  for (let i = 0; i < Math.min(15, lines.length); i++) {
+    const rawLine = lines[i].toUpperCase();
+    if (rawLine.includes('PEMILIK') && rawLine.includes('BLOK')) { hi = i; break; }
+  }
+  if (hi < 0) hi = 6;
+  
+  const headers = splitLine(lines[hi]).map(h => h.replace(/"/g, '').trim().toUpperCase());
+  const iNo = headers.findIndex(h => h === 'NO');
+  const iBlok = headers.findIndex(h => h === 'BLOK');
+  const iPem = headers.findIndex(h => h.includes('PEMILIK'));
+  const mIdx = MK.map(m => headers.findIndex(h => h === m));
+  
+  allRows = [];
+  for (let i = hi + 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const cols = splitLine(lines[i]);
+    const nama = (cols[iPem] || '').replace(/"/g, '').trim();
+    
+    if (!nama || !isNaN(Number(nama)) || nama === '0' || nama.toUpperCase().includes('TOTAL')) continue;
+    const blok = (cols[iBlok] || '').replace(/"/g, '').trim();
+    if (!blok || blok === '0') continue;
+    
+    const no = (cols[iNo] || '').replace(/"/g, '').trim();
+    const months = mIdx.map(mi => mi >= 0 ? (cols[mi] || '0K').replace(/"/g, '').trim() : '0K');
+    allRows.push({ no, blok, nama, months });
+  }
+}
+
+function buildUI(finData) {
+  const total = allRows.length;
+  if (total === 0) return;
+
+  // Ambil dari sheet langsung (masuk = total semua pemasukan termasuk saldo tahun lalu)
+  const masuk  = (finData && finData.masuk  > 0) ? finData.masuk  : allRows.reduce((s,r)=>s+r.months.reduce((ss,v)=>ss+parseK(v),0),0);
+  const keluar = (finData && finData.keluar > 0) ? finData.keluar : 0;
+  const saldo  = (finData && finData.sisa   > 0) ? finData.sisa   : (masuk - keluar);
+
+  document.getElementById('fin-masuk').textContent  = fmtRpFull(masuk);
+  document.getElementById('fin-masuk-sub').textContent = 'total kas masuk (termasuk saldo lama)';
+  document.getElementById('fin-keluar').textContent = fmtRpFull(keluar);
+  document.getElementById('fin-keluar-sub').textContent = keluar > 0 ? 'pengeluaran kas tercatat' : 'belum ada data pengeluaran';
+  document.getElementById('fin-saldo').textContent  = fmtRpFull(saldo);
+  
+  const hasBayar = allRows.filter(r => r.months.some(v => paid(v))).length;
+  const kas = allRows.reduce((s, r) => s + r.months.reduce((ss, v) => ss + parseK(v), 0), 0);
+  const pct = Math.round(hasBayar / total * 100);
+
+  document.getElementById('s-total').textContent = total;
+  document.getElementById('s-kas').textContent = fmtRp(kas);
+  document.getElementById('s-kas-sub').textContent = 'terkumpul tahun ini';
+  document.getElementById('s-bayar').textContent = hasBayar;
+  document.getElementById('s-none').textContent = total - hasBayar;
+  setTimeout(() => { document.getElementById('prog-fill').style.width = pct + '%'; }, 100);
+  document.getElementById('prog-left').textContent = hasBayar + ' dari ' + total + ' anggota (' + pct + '%)';
+  document.getElementById('prog-right').textContent = fmtRp(kas);
+
+  // Month pills
+  const mp = document.getElementById('month-pills');
+  mp.innerHTML = MN.map((m, i) => {
+    const belum = allRows.filter(r => !paid(r.months[i])).length;
+    const many = belum > total * 0.6;
+    return `<button class="mpill${many ? ' many-missing' : ''}" data-m="${MK[i]}" onclick="setMonth('${MK[i]}')">${m} <span class="count">${belum} blm</span></button>`;
+  }).join('');
+
+  // Blok filter
+  const bloks = [...new Set(allRows.map(r => { const m = r.blok.match(/^[A-Za-z]+/); return m ? m[0].toUpperCase() : r.blok[0]; }))].sort();
+  document.getElementById('blok-row').innerHTML =
+    '<span style="font-size:11px;color:var(--text3);font-weight:500;align-self:center;margin-right:4px">Blok:</span>' +
+    bloks.map(b => `<button class="bbtn" data-b="${b}" onclick="setBlok('${b}')">${b}</button>`).join('');
+
+  // Last update
+  document.getElementById('last-update').textContent = 'Update: ' + new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function render() {
+  const q = (document.getElementById('search').value || '').toLowerCase();
+  let list = allRows.filter(r => {
+    const mq = r.nama.toLowerCase().includes(q) || r.blok.toLowerCase().includes(q);
+    const hasBayar = r.months.some(v => paid(v));
+    const mf = filterMode === 'all' || (filterMode === 'bayar' && hasBayar) || (filterMode === 'none' && !hasBayar);
+    const mi = activeMonth === null || !paid(r.months[MK.indexOf(activeMonth)]);
+    const mb = activeBlok === null || r.blok.toUpperCase().startsWith(activeBlok);
+    return mq && mf && mi && mb;
+  });
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = list.map(r => {
+    const total = r.months.reduce((s, v) => s + parseK(v), 0);
+    const hasBayar = r.months.some(v => paid(v));
+    const allPaid = r.months.every(v => paid(v));
+    const statusClass = allPaid ? 'ok' : hasBayar ? 'partial' : 'no';
+    const statusText = allPaid ? 'Lunas' : hasBayar ? 'Sebagian' : 'Belum';
+    const dots = r.months.map((v, i) =>
+      `<div class="dot ${paid(v) ? 'ok' : 'no'}" title="${MN[i]}: ${paid(v) ? fmtRp(parseK(v)) : 'Belum bayar'}">${MN[i].slice(0,1)}</div>`
+    ).join('');
+    return `<tr>
+      <td class="no-cell">${r.no}</td>
+      <td><span class="blok-tag">${r.blok}</span></td>
+      <td class="nama-cell">${r.nama}</td>
+      <td><div class="dots">${dots}</div></td>
+      <td class="total-cell">${total > 0 ? fmtRp(total) : '—'}</td>
+      <td style="text-align:center"><span class="status-pill ${statusClass}">${statusText}</span></td>
+    </tr>`;
+  }).join('');
+
+  const totalFiltered = list.reduce((s, r) => s + r.months.reduce((ss, v) => ss + parseK(v), 0), 0);
+  document.getElementById('foot-count').textContent = `Menampilkan ${list.length} dari ${allRows.length} anggota`;
+  document.getElementById('foot-total').textContent = list.length !== allRows.length ? `Total filter: ${fmtRp(totalFiltered)}` : '';
+}
+
+async function init() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('content').style.display = 'none';
+  document.getElementById('err-box').style.display = 'none';
+  activeMonth = null; activeBlok = null; filterMode = 'all';
+  try {
+    const cacheBusterUrl = `${CSV_URL}&t=${new Date().getTime()}`;
+    const res = await fetch(cacheBusterUrl);
+    if (!res.ok) throw new Error('Gagal menarik data langsung dari Google Sheets.');
+    
+    const text = await res.text();
+    const finData = parseFinance(text);
+    parseCSV(text);
+    
+    if (allRows.length === 0) {
+      throw new Error('Data gagal diproses. Kolom BLOK atau PEMILIK tidak ditemukan.');
+    }
+    
+    buildUI(finData);
+    render();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+  } catch (e) {
+    console.error(e);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('err-box').style.display = 'block';
+    document.getElementById('err-box').innerHTML = `⚠️ <strong>Error Pengambilan Data:</strong> ${e.message}`;
+  }
+}
+
+init();
+
+function toggleNav(){
+  document.getElementById('nav-drawer').classList.toggle('open');
+  document.getElementById('nav-overlay').classList.toggle('open');
+  document.getElementById('ham-btn').classList.toggle('open');
+}
+function closeNav(){
+  document.getElementById('nav-drawer').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.getElementById('ham-btn').classList.remove('open');
+}
+</script>
+</body>
+</html>
