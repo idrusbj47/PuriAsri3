@@ -272,9 +272,7 @@ let allRows = [], filterMode = 'all', activeMonth = null;
 
 function fmtRp(n) {
   if (!n || n === 0) return '—';
-  if (n >= 1000000) return 'Rp ' + (n/1000000).toFixed(1).replace('.0','') + ' Jt';
-  if (n >= 1000) return 'Rp ' + Math.round(n/1000) + 'K';
-  return 'Rp ' + n.toLocaleString('id-ID');
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
 }
 function fmtRpFull(n) {
   if (!n || n === 0) return 'Rp 0';
