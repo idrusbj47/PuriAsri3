@@ -132,6 +132,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .dot{width:19px;height:19px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;font-family:'DM Mono',monospace}
 .dot.ok{background:var(--green-bg);color:var(--green)}
 .dot.no{background:var(--red-bg);color:var(--red)}
+.dot.future{background:transparent;color:var(--text3);border:1px dashed var(--border2)}
 .total-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
 .status-pill{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;text-align:center}
 .status-pill.ok{background:var(--green-bg);color:var(--green)}
@@ -272,12 +273,12 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
         <div class="sub" id="s-kas-sub"></div>
       </div>
       <div class="stat-card amber">
-        <div class="label">Ada Pembayaran</div>
+        <div class="label">Lunas s.d. Bulan Ini</div>
         <div class="value" id="s-bayar">—</div>
         <div class="sub">anggota</div>
       </div>
       <div class="stat-card red">
-        <div class="label">Belum Bayar</div>
+        <div class="label">Belum Lunas</div>
         <div class="value" id="s-none">—</div>
         <div class="sub">anggota</div>
       </div>
@@ -510,7 +511,8 @@ function buildUI(finData) {
   document.getElementById('fin-keluar-sub').textContent = keluar > 0 ? 'pengeluaran kas tercatat' : 'belum ada data pengeluaran';
   document.getElementById('fin-saldo').textContent  = fmtRpFull(saldo);
   
-  const hasBayar = allRows.filter(r => r.months.some(v => paid(v))).length;
+  const currentMonthIdx = new Date().getMonth(); // 0-based
+  const hasBayar = allRows.filter(r => r.months.slice(0, currentMonthIdx + 1).every(v => paid(v))).length;
   const kas = allRows.reduce((s, r) => s + r.months.reduce((ss, v) => ss + parseK(v), 0), 0);
   const pct = Math.round(hasBayar / total * 100);
 
@@ -553,15 +555,42 @@ function render() {
   });
 
   const tbody = document.getElementById('tbody');
+  // Bulan berjalan: 0=Jan, 1=Feb, ..., 11=Des
+  const currentMonth = new Date().getMonth(); // 0-based
+
   tbody.innerHTML = list.map(r => {
     const total = r.months.reduce((s, v) => s + parseK(v), 0);
+
+    // Cek apakah semua bulan s.d. bulan berjalan sudah dibayar
+    const paidUpToCurrent = r.months.slice(0, currentMonth + 1).every(v => paid(v));
     const hasBayar = r.months.some(v => paid(v));
-    const allPaid = r.months.every(v => paid(v));
-    const statusClass = allPaid ? 'ok' : hasBayar ? 'partial' : 'no';
-    const statusText = allPaid ? 'Lunas' : hasBayar ? 'Sebagian' : 'Belum';
-    const dots = r.months.map((v, i) =>
-      `<div class="dot ${paid(v) ? 'ok' : 'no'}" title="${MN[i]}: ${paid(v) ? fmtRp(parseK(v)) : 'Belum bayar'}">${MN[i].slice(0,1)}</div>`
-    ).join('');
+
+    let statusClass, statusText;
+    if (paidUpToCurrent) {
+      statusClass = 'ok';
+      statusText = 'Lunas';
+    } else if (hasBayar) {
+      statusClass = 'partial';
+      statusText = 'Sebagian';
+    } else {
+      statusClass = 'no';
+      statusText = 'Belum';
+    }
+
+    const dots = r.months.map((v, i) => {
+      let dotClass, title;
+      if (paid(v)) {
+        dotClass = 'ok';
+        title = `${MN[i]}: ${fmtRp(parseK(v))}`;
+      } else if (i > currentMonth) {
+        dotClass = 'future';
+        title = `${MN[i]}: Belum waktunya`;
+      } else {
+        dotClass = 'no';
+        title = `${MN[i]}: Belum bayar`;
+      }
+      return `<div class="dot ${dotClass}" title="${title}">${MN[i].slice(0,1)}</div>`;
+    }).join('');
     return `<tr>
       <td class="no-cell">${r.no}</td>
       <td><span class="blok-tag">${r.blok}</span></td>
