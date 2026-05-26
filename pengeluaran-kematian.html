@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Pengeluaran Kas Puri Asri 3 — TH.2026</title>
+<title>Pengeluaran Dana Kematian Puri Asri 3 — TH.2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
@@ -19,22 +19,45 @@
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100}
+/* HEADER — Dana Kematian: dark slate elegant */
+.header{
+  background:linear-gradient(135deg,#1e1e2e 0%,#2a2440 50%,#1e2535 100%);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 16px rgba(0,0,0,0.25);
+}
 .logo-area{display:flex;align-items:center;gap:12px}
-.logo-circle{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1da876,#0a7c52);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
-.logo-text h1{font-size:16px;font-weight:600;color:var(--text);line-height:1.2}
-.logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.logo-circle{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#7c6fa0,#4a3f6b);
+  border:1.5px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+.logo-text h1{font-size:16px;font-weight:600;color:#f0eef8;line-height:1.2}
+.logo-text p{font-size:12px;color:rgba(200,195,220,0.65);font-family:'DM Mono',monospace}
 .header-right{display:flex;align-items:center;gap:8px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:0 14px;height:34px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s}
-.btn:hover{background:var(--bg);border-color:var(--border2)}
-.btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
-.btn.primary:hover{background:#0a6b46}
-.last-update{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;padding:0 14px;height:34px;
+  border-radius:var(--radius);border:1px solid rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.08);color:rgba(220,215,240,0.9);
+  font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s;
+  backdrop-filter:blur(4px);
+}
+.btn:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.25)}
+.btn.primary{
+  background:linear-gradient(135deg,#7c6fa0,#4a3f6b);
+  color:#fff;border-color:rgba(255,255,255,0.2);
+  box-shadow:0 1px 6px rgba(0,0,0,0.3);
+}
+.btn.primary:hover{background:linear-gradient(135deg,#8f82b5,#5a4f80)}
+.last-update{font-size:11px;color:rgba(180,175,205,0.7);font-family:'DM Mono',monospace}
 
 /* HAMBURGER */
-.ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
-.ham-btn span{display:block;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
+.ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius);background:rgba(255,255,255,0.08);cursor:pointer;padding:0 8px;flex-shrink:0;backdrop-filter:blur(4px)}
+.ham-btn span{display:block;height:2px;background:rgba(220,215,240,0.85);border-radius:2px;transition:all .25s}
 .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .ham-btn.open span:nth-child(2){opacity:0}
 .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
@@ -144,7 +167,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
       <img src="Logo RT11.png" alt="Logo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='💰'"/>
     </div>
     <div class="logo-text">
-      <h1>Pengeluaran Kas Puri Asri 3</h1>
+      <h1>Pengeluaran Dana Kematian Puri Asri 3</h1>
       <p>RT 01 / RW 012 · TH.2026</p>
     </div>
   </div>
@@ -169,8 +192,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   <div class="nav-section">Keuangan</div>
   <a class="nav-item" href="kas-umum.html"><span class="nav-icon">💰</span> Laporan Kas Umum</a>
   <a class="nav-item" href="Kematian.html"><span class="nav-icon">🏡</span> Laporan Dana Kematian</a>
-  <a class="nav-item active" href="pengeluaran-kas.html"><span class="nav-icon">📋</span> Pengeluaran Kas</a>
-  <a class="nav-item" href="pengeluaran-kematian.html"><span class="nav-icon">📄</span> Pengeluaran Dana Kematian</a>
+  <a class="nav-item" href="pengeluaran-kas.html"><span class="nav-icon">📋</span> Pengeluaran Kas</a>
+  <a class="nav-item active" href="pengeluaran-kematian.html"><span class="nav-icon">📄</span> Pengeluaran Dana Kematian</a>
   <div class="nav-section">Segera Hadir</div>
   <a class="nav-item" style="opacity:.4;pointer-events:none" href="#"><span class="nav-icon">📅</span> Program &amp; Acara RT</a>
   <a class="nav-item" style="opacity:.4;pointer-events:none" href="#"><span class="nav-icon">📦</span> Daftar Inventaris</a>
