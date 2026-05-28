@@ -497,7 +497,7 @@
     .secondary-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 48px;
     }
 
@@ -505,12 +505,12 @@
       background: var(--cream-card);
       border: 1px solid var(--border-light);
       border-radius: var(--radius-md);
-      padding: 20px 22px;
+      padding: 16px 18px;
       text-decoration: none;
       color: inherit;
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       box-shadow: var(--shadow-card);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       cursor: pointer;
@@ -522,9 +522,13 @@
       border-color: var(--border-mid);
     }
 
+    .secondary-card.full-row {
+      grid-column: span 2;
+    }
+
     .sec-icon {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: var(--radius-sm);
       background: var(--gold-100);
       border: 1px solid rgba(196, 154, 60, 0.2);
@@ -532,28 +536,30 @@
       align-items: center;
       justify-content: center;
       color: var(--gold-700);
-      font-size: 18px;
       flex-shrink: 0;
     }
 
-    .sec-body { flex: 1; }
+    .sec-body { flex: 1; min-width: 0; }
 
     .sec-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text-dark);
       margin-bottom: 2px;
+      line-height: 1.35;
     }
 
     .sec-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
       font-weight: 300;
+      line-height: 1.4;
     }
 
     .sec-arrow {
       color: var(--text-muted);
       font-size: 14px;
+      flex-shrink: 0;
     }
 
     /* ── COMING SOON SECTION ── */
@@ -635,13 +641,18 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      main { padding: 36px 16px 60px; }
-      .menu-grid { grid-template-columns: 1fr; }
-      .secondary-grid { grid-template-columns: 1fr; }
-      .coming-soon-grid { grid-template-columns: repeat(1, 1fr); }
-      .hero-title { font-size: 28px; }
+      main { padding: 28px 14px 60px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      .secondary-grid { grid-template-columns: 1fr; gap: 10px; }
+      .secondary-card.full-row { grid-column: span 1; }
+      .coming-soon-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 26px; }
+      .hero-desc { font-size: 14px; }
+      .hero { margin-bottom: 36px; }
       header { padding: 0 1rem; }
       .header-badge { display: none; }
+      .sec-title { font-size: 13px; }
+      .sec-desc { font-size: 11px; }
     }
 
     /* ── ENTRANCE ANIMATION ── */
@@ -779,7 +790,7 @@
       </a>
 
       <!-- AD/ART -->
-      <a class="secondary-card" href="adart.html" style="grid-column: span 2;">
+      <a class="secondary-card full-row" href="adart.html">
         <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
