@@ -366,33 +366,32 @@
     footer strong { color: var(--green-700); font-weight: 500; }
     .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46, 112, 56, 0.06); pointer-events: none; z-index: 0; }
 
-    /* ── TOMBOL WA FLOATING ELEKAN INTERAKTIF (2-KLIK) ── */
+    /* ── SEPERTI DIINGINKAN: TOMBOL INTERAKTIF SIMETRIS HP & DESKTOP ── */
     .wa-float-container {
       position: fixed;
       bottom: 24px;
       right: 24px;
       z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      display: inline-block;
       font-family: 'DM Sans', sans-serif;
       animation: floatBounce 3s ease-in-out infinite;
     }
 
     .wa-interactive-btn {
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: flex-start;
       background: linear-gradient(135deg, #1e4225 0%, #2e7038 100%);
       border: 1px solid var(--gold-400);
-      border-radius: 30px;
+      border-radius: 28px;
       box-shadow: 0 4px 20px rgba(30, 66, 37, 0.3);
       color: #ffffff;
       cursor: pointer;
       overflow: hidden;
-      padding: 6px;
-      max-width: 52px; /* Awalnya hanya seukuran lingkaran icon */
+      padding: 5px;
+      width: 52px; /* Simetris bulat sempurna di awal */
       height: 52px;
-      transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease, box-shadow 0.3s ease;
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
     }
 
     .wa-icon-circle {
@@ -400,7 +399,7 @@
       height: 40px;
       background: #25d366;
       border-radius: 50%;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
@@ -414,20 +413,22 @@
     }
 
     .wa-content-text {
-      display: flex;
+      display: inline-flex;
       flex-direction: column;
-      padding: 0 14px 0 8px;
+      justify-content: center;
+      padding-left: 12px;
+      padding-right: 16px;
       white-space: nowrap;
       opacity: 0;
       visibility: hidden;
-      transform: translateX(10px);
-      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s, visibility 0.3s;
+      transform: translateX(8px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s, visibility 0.25s;
     }
 
     .wa-title-label {
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       color: var(--gold-300);
       font-weight: 500;
       line-height: 1.2;
@@ -439,13 +440,12 @@
       letter-spacing: 0.01em;
       color: #ffffff;
       line-height: 1.3;
-      margin-top: 1px;
+      margin-top: 2px;
     }
 
-    /* Ketika class 'expanded' aktif (Klik Pertama) */
+    /* Ketika class 'expanded' aktif (Klik Pertama) — Lebar simetris & aman untuk HP */
     .wa-interactive-btn.expanded {
-      max-width: 260px; /* Melebar memperlihatkan teks */
-      padding: 6px 14px 6px 6px;
+      width: 245px; 
       box-shadow: 0 8px 28px rgba(30, 66, 37, 0.45);
     }
 
@@ -456,23 +456,77 @@
     }
 
     .wa-interactive-btn:hover {
-      box-shadow: 0 8px 24px rgba(30, 66, 37, 0.4);
+      box-shadow: 0 6px 24px rgba(30, 66, 37, 0.4);
     }
 
     @keyframes floatBounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
+    /* ── RESPONSIVE MOBILE SIZING (DIJAMIN SIMETRIS KEMAS) ── */
     @media (max-width: 600px) {
-      .wa-float-container { bottom: 16px; right: 16px; }
-      .wa-interactive-btn.expanded { max-width: 230px; }
-      .wa-name-desc { font-size: 12px; }
+      main { padding: 28px 14px 60px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      .secondary-grid { grid-template-columns: 1fr; gap: 10px; }
+      .secondary-card.full-row { grid-column: span 1; }
+      .coming-soon-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 26px; }
+      .hero-desc { font-size: 14px; }
+      .hero { margin-bottom: 36px; }
+      header { padding: 0 1rem; }
+      .header-badge { display: none; }
+      
+      /* Menggeser letak penentu kontainer di HP secara simetris */
+      .wa-float-container { 
+        bottom: 20px; 
+        right: 20px; 
+      }
+      .wa-interactive-btn {
+        width: 48px;
+        height: 48px;
+        padding: 4px;
+      }
+      .wa-icon-circle {
+        width: 38px;
+        height: 38px;
+      }
+      .wa-icon-circle svg {
+        width: 20px;
+        height: 20px;
+      }
+      /* Sizing teks lebar di mobile agar tidak terpotong */
+      .wa-interactive-btn.expanded { 
+        width: 220px; 
+      }
+      .wa-content-text {
+        padding-left: 10px;
+        padding-right: 12px;
+      }
+      .wa-title-label {
+        font-size: 9px;
+      }
+      .wa-name-desc { 
+        font-size: 12px; 
+      }
     }
+
+    /* ── ENTRANCE ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero        { animation: fadeUp 0.55s ease both; animation-delay: 0.05s; }
+    .menu-grid   { animation: fadeUp 0.55s ease both; animation-delay: 0.18s; }
+    .secondary-grid { animation: fadeUp 0.55s ease both; animation-delay: 0.28s; }
+    .section-label:last-of-type,
+    .coming-soon-grid { animation: fadeUp 0.55s ease both; animation-delay: 0.38s; }
   </style>
 </head>
 <body>
 
+  <!-- Decorative rings -->
   <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
   <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
 
@@ -492,17 +546,21 @@
 
   <!-- MAIN -->
   <main>
+
+    <!-- HERO -->
     <div class="hero">
       <div class="hero-eyebrow">Beranda</div>
       <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
       <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
     </div>
 
+    <!-- MAIN MENU -->
     <div class="section-label">
       <span>Laporan Keuangan</span>
     </div>
 
     <div class="menu-grid">
+
       <!-- Kas Umum -->
       <a class="menu-card featured" href="kas-umum.html">
         <div class="card-icon-wrap">
@@ -547,9 +605,13 @@
           <div class="card-arrow">→</div>
         </div>
       </a>
+
     </div>
 
+    <!-- SECONDARY MENU -->
     <div class="secondary-grid">
+
+      <!-- Pengeluaran Kas -->
       <a class="secondary-card" href="pengeluaran-kas.html">
         <div class="sec-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -564,6 +626,7 @@
         <div class="sec-arrow">→</div>
       </a>
 
+      <!-- Pengeluaran Dana Kematian -->
       <a class="secondary-card" href="pengeluaran-kematian.html">
         <div class="sec-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -580,6 +643,7 @@
         <div class="sec-arrow">→</div>
       </a>
 
+      <!-- AD/ART -->
       <a class="secondary-card full-row" href="adart.html">
         <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -595,8 +659,10 @@
         </div>
         <div class="sec-arrow">→</div>
       </a>
+
     </div>
 
+    <!-- COMING SOON -->
     <div class="section-label" style="margin-bottom:16px;">
       <span>Segera Hadir</span>
     </div>
@@ -643,6 +709,7 @@
         </div>
       </div>
     </div>
+
   </main>
 
   <!-- FOOTER -->
@@ -651,7 +718,7 @@
     <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
   </footer>
 
-  <!-- TOMBOL INTERAKTIF 2-KLIK (WHATSAPP) -->
+  <!-- TOMBOL INTERAKTIF 2-KLIK (WHATSAPP) — JELAS, PROPORSIONAL & SIMETRIS -->
   <div class="wa-float-container">
     <div class="wa-interactive-btn" id="waBtn" onclick="handleWaClick()">
       <div class="wa-icon-circle">
@@ -670,17 +737,17 @@
     function handleWaClick() {
       var btn = document.getElementById('waBtn');
       
-      // Jika belum melebar (Klik Pertama)
+      // Klik Pertama: Melebarkan tombol untuk memperlihatkan keterangan teks
       if (!btn.classList.contains('expanded')) {
         btn.classList.add('expanded');
       } else {
-        // Jika sudah melebar (Klik Kedua) -> Buka WhatsApp
+        // Klik Kedua: Membuka link resmi WhatsApp Pak RT Rahman
         var url = "https://wa.me/6281283876869?text=Halo%20Pak%20RT%20Rahman,%20saya%20mau%20konfirmasi%20pembayaran%20kas%20warga.";
         window.open(url, '_blank');
       }
     }
 
-    // Menutup kembali teks jika pengguna mengklik di luar tombol
+    // Menutup tombol kembali ke ukuran semula saat mengklik di luar area tombol
     document.addEventListener('click', function(event) {
       var btn = document.getElementById('waBtn');
       var container = document.querySelector('.wa-float-container');
