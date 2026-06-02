@@ -279,8 +279,53 @@ function fmtRpFull(n) {
 }
 function parseNum(v) {
   if (!v) return 0;
-  v = v.toString().replace(/"/g,'').replace(/Rp/gi,'').replace(/\./g,'').replace(/,/g,'').trim();
-  const n = parseFloat(v);
+  v = v.toString().replace(/"/g,'').replace(/Rp/gi,'').trim();
+
+  // Deteksi format angka:
+  // Format Indonesia: 510.000 atau 1.510.000 (titik = ribuan, koma = desimal)
+  // Format standar:   510,000 atau 1,510,000 (koma = ribuan, titik = desimal)
+  // Format Google Sheets export: bisa 510000 atau 510000.0
+
+  // Jika ada titik DAN koma: cari mana yang terakhir (itu desimal)
+  const hasDot   = v.includes('.');
+  const hasComma = v.includes(',');
+
+  let normalized = v;
+
+  if (hasDot && hasComma) {
+    // Cek posisi terakhir: titik lebih belakang dari koma → titik = desimal (1,234.56)
+    // Koma lebih belakang dari titik → koma = desimal (1.234,56)
+    if (v.lastIndexOf('.') > v.lastIndexOf(',')) {
+      // Format: 1,234.56 — hapus koma, biarkan titik
+      normalized = v.replace(/,/g,'');
+    } else {
+      // Format Indonesia: 1.234,56 — hapus titik, ganti koma jadi titik
+      normalized = v.replace(/\./g,'').replace(',','.');
+    }
+  } else if (hasDot && !hasComma) {
+    // Hanya ada titik: bisa ribuan (510.000) atau desimal (510.5)
+    const parts = v.split('.');
+    // Jika semua bagian setelah titik punya tepat 3 digit → ribuan
+    const afterDot = parts.slice(1);
+    if (afterDot.length > 0 && afterDot.every(p => p.length === 3)) {
+      // Format ribuan Indonesia: 510.000 atau 1.510.000
+      normalized = v.replace(/\./g,'');
+    }
+    // Selain itu biarkan apa adanya (misal 510.5)
+  } else if (!hasDot && hasComma) {
+    // Hanya ada koma: bisa ribuan (510,000) atau desimal (510,5)
+    const parts = v.split(',');
+    const afterComma = parts.slice(1);
+    if (afterComma.length === 1 && afterComma[0].length === 3) {
+      // Format ribuan: 510,000
+      normalized = v.replace(/,/g,'');
+    } else {
+      // Desimal: ganti koma jadi titik
+      normalized = v.replace(',','.');
+    }
+  }
+
+  const n = parseFloat(normalized);
   return isNaN(n) ? 0 : n;
 }
 function excelDateToStr(serial) {
