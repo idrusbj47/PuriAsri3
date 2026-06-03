@@ -54,6 +54,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .btn.primary:hover{background:linear-gradient(135deg,#8f82b5,#5a4f80)}
 .last-update{font-size:11px;color:rgba(180,175,205,0.7);font-family:'DM Mono',monospace}
 
+/* CUTOFF BADGE */
+.cutoff-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:rgba(124,111,160,0.18);border:1px solid rgba(124,111,160,0.35);font-size:11.5px;font-family:'DM Mono',monospace;color:rgba(210,200,240,0.92);font-weight:500;white-space:nowrap;backdrop-filter:blur(4px)}
+.cutoff-badge .cutoff-label{font-size:10px;color:rgba(180,175,205,0.7);font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
+
+/* PULSE DOT */
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#a78bde;position:relative;flex-shrink:0}
+.pulse-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:#a78bde;opacity:.35;animation:pulse-ring 1.8s ease-out infinite}
+.pulse-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;background:#a78bde;opacity:.15;animation:pulse-ring 1.8s ease-out infinite .4s}
+@keyframes pulse-ring{0%{transform:scale(.7);opacity:.4}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
+
 /* HAMBURGER MENU */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius);background:rgba(255,255,255,0.08);cursor:pointer;padding:0 8px;flex-shrink:0;backdrop-filter:blur(4px)}
 .ham-btn span{display:block;height:2px;background:rgba(220,215,240,0.85);border-radius:2px;transition:all .25s}
@@ -207,7 +217,13 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     </div>
   </div>
   <div class="header-right">
-    <span class="last-update" id="last-update"></span>
+    <span class="cutoff-badge" id="cutoff-badge" style="display:none">
+      <span class="pulse-dot"></span>
+      <span>
+        <span class="cutoff-label">Cut-off Data</span><br>
+        <span id="cutoff-value">—</span>
+      </span>
+    </span>
     <button class="btn" onclick="init()">↺ Refresh</button>
     <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
     <button class="ham-btn" id="ham-btn" onclick="toggleNav()" aria-label="Menu">
@@ -352,6 +368,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <script>
 // Link CSV murni langsung tanpa proxy (Aman karena dijalankan dari server web GitHub)
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1608654388&single=true&output=csv';
+// URL untuk ambil cell U1 sebagai cut-off date
+const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1608654388&single=true&output=csv&range=U1';
 
 // ── Ambil MASUK, KELUAR, SISA dari raw CSV (baris header sheet) ──
 function parseFinance(text) {
@@ -559,8 +577,7 @@ function buildUI(finData) {
     '<span style="font-size:11px;color:var(--text3);font-weight:500;align-self:center;margin-right:4px">Blok:</span>' +
     bloks.map(b => `<button class="bbtn" data-b="${b}" onclick="setBlok('${b}')">${b}</button>`).join('');
 
-  // Last update
-  document.getElementById('last-update').textContent = 'Update: ' + new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  // Cutoff badge sudah diset di init() setelah fetch U1
 }
 
 function render() {
@@ -630,10 +647,15 @@ async function init() {
   document.getElementById('loading').style.display = 'block';
   document.getElementById('content').style.display = 'none';
   document.getElementById('err-box').style.display = 'none';
+  document.getElementById('cutoff-badge').style.display = 'none';
   activeMonth = null; activeBlok = null; filterMode = 'all';
   try {
-    const cacheBusterUrl = `${CSV_URL}&t=${new Date().getTime()}`;
-    const res = await fetch(cacheBusterUrl);
+    const t = new Date().getTime();
+    // Fetch data utama dan cell U1 (cutoff) secara paralel
+    const [res, cutoffRes] = await Promise.all([
+      fetch(`${CSV_URL}&t=${t}`),
+      fetch(`${CUTOFF_URL}&t=${t}`)
+    ]);
     if (!res.ok) throw new Error('Gagal menarik data langsung dari Google Sheets.');
     
     const text = await res.text();
@@ -643,7 +665,17 @@ async function init() {
     if (allRows.length === 0) {
       throw new Error('Data gagal diproses. Kolom BLOK atau PEMILIK tidak ditemukan.');
     }
-    
+
+    // Set nilai cutoff dari cell U1
+    if (cutoffRes.ok) {
+      const cutoffText = await cutoffRes.text();
+      const cutoffVal = cutoffText.split('\n')[0].replace(/"/g,'').trim();
+      document.getElementById('cutoff-value').textContent = cutoffVal || '—';
+    } else {
+      document.getElementById('cutoff-value').textContent = '—';
+    }
+    document.getElementById('cutoff-badge').style.display = 'inline-flex';
+
     buildUI(finData);
     render();
     document.getElementById('loading').style.display = 'none';
