@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AD/ART — Puri Asri 3 RT 01 / RW 12</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-950: #0d1f10;
+      --green-900: #132b17;
+      --green-800: #1e4225;
+      --green-700: #265930;
+      --green-600: #2e7038;
+      --green-500: #3a8c45;
+      --green-400: #56a660;
+      --green-300: #80c489;
+      --green-200: #b3ddb9;
+      --green-100: #ddf0e0;
+      --green-50:  #f2fbf4;
+      --gold-700: #7a5c1e;
+      --gold-500: #c49a3c;
+      --gold-400: #d4af5a;
+      --gold-300: #e3c97e;
+      --gold-100: #f8f0da;
+      --cream-bg: #f7f5f0;
+      --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c;
+      --text-mid:  #3a5040;
+      --text-muted: #6b8570;
+      --border-light: rgba(46, 112, 56, 0.12);
+      --border-mid:   rgba(46, 112, 56, 0.22);
+      --shadow-card: 0 2px 12px rgba(30, 66, 37, 0.08), 0 1px 3px rgba(30, 66, 37, 0.06);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46, 112, 56, 0.07) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/G%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      background: var(--green-800);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+
+    .header-brand { display: flex; align-items: center; gap: 14px; }
+
+    .logo-mark {
+      width: 40px; height: 40px;
+      background: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-400);
+      flex-shrink: 0; overflow: hidden;
+    }
+
+    .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2;
+    }
+
+    .header-sub {
+      font-size: 11px; color: var(--green-200);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      font-weight: 400; margin-top: 1px;
+    }
+
+    .header-right { display: flex; align-items: center; gap: 10px; }
+
+    .btn-back {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--green-200);
+      text-decoration: none; letter-spacing: 0.04em;
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
+
+    .btn-download {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--green-900);
+      background: var(--gold-400);
+      text-decoration: none; letter-spacing: 0.04em;
+      padding: 6px 14px; border-radius: 20px; font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-download:hover { background: var(--gold-300); transform: translateY(-1px); }
+
+    /* ── INFO BAR ── */
+    .info-bar {
+      position: relative;
+      z-index: 1;
+      background: var(--cream-card);
+      border-bottom: 1px solid var(--border-light);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-card);
+    }
+
+    .info-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .doc-badge {
+      display: flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, var(--green-800), var(--green-700));
+      color: var(--gold-300);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .doc-info-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--green-900);
+    }
+
+    .doc-info-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .info-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .meta-chip {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 11px; color: var(--text-muted);
+    }
+
+    .meta-chip svg { color: var(--green-500); flex-shrink: 0; }
+
+    /* ── PDF WRAPPER ── */
+    .pdf-wrapper {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 24px 24px;
+      min-height: 0;
+    }
+
+    .pdf-frame-container {
+      flex: 1;
+      background: var(--cream-card);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(30, 66, 37, 0.10), 0 1px 4px rgba(30, 66, 37, 0.07);
+      display: flex;
+      flex-direction: column;
+      min-height: 75vh;
+    }
+
+    .pdf-frame-bar {
+      background: var(--green-900);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .frame-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    .frame-url {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 11px;
+      color: var(--green-200);
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    iframe#pdfFrame {
+      width: 100%;
+      flex: 1;
+      border: none;
+      display: block;
+      min-height: calc(75vh - 36px);
+      background: #fff;
+    }
+
+    /* Fallback */
+    .pdf-fallback {
+      display: none;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      padding: 48px 24px;
+      text-align: center;
+    }
+
+    .pdf-fallback.show { display: flex; }
+
+    .fallback-icon {
+      width: 72px; height: 72px;
+      background: var(--green-50);
+      border: 1px solid var(--border-mid);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-500);
+    }
+
+    .fallback-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; color: var(--green-900);
+    }
+
+    .fallback-desc {
+      font-size: 13px; color: var(--text-muted);
+      max-width: 360px; line-height: 1.6;
+    }
+
+    .btn-open-pdf {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green-700); color: #fff;
+      padding: 10px 22px; border-radius: 10px;
+      font-size: 13px; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-open-pdf:hover { background: var(--green-600); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 16px 24px;
+      border-top: 1px solid var(--border-light);
+      font-size: 12px; color: var(--text-muted);
+      font-weight: 300; letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    footer strong { color: var(--green-700); font-weight: 500; }
+
+    /* Decorative rings */
+    .deco-ring {
+      position: fixed; border-radius: 50%;
+      border: 1px solid rgba(46, 112, 56, 0.06);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      header { padding: 0 1rem; }
+      .btn-back span { display: none; }
+      .info-bar { flex-direction: column; align-items: flex-start; gap: 10px; padding: 12px 16px; }
+      .info-meta { display: none; }
+      .pdf-wrapper { padding: 12px 12px 16px; }
+      .pdf-frame-container { min-height: 70vh; border-radius: 10px; }
+      iframe#pdfFrame { min-height: calc(70vh - 36px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .info-bar     { animation: fadeUp 0.4s ease both; animation-delay: 0.05s; }
+    .pdf-wrapper  { animation: fadeUp 0.4s ease both; animation-delay: 0.15s; }
+  </style>
+</head>
+<body>
+
+  <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-brand">
+      <div class="logo-mark">
+        <img src="Logo RT11.png" alt="Logo Puri Asri 3">
+      </div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a href="index.html" class="btn-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Kembali</span>
+      </a>
+      <a href="adart01.pdf" download class="btn-download">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Unduh PDF
+      </a>
+    </div>
+  </header>
+
+  <!-- INFO BAR -->
+  <div class="info-bar">
+    <div class="info-left">
+      <div class="doc-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        AD / ART
+      </div>
+      <div>
+        <div class="doc-info-title">Anggaran Dasar & Anggaran Rumah Tangga</div>
+        <div class="doc-info-sub">Dokumen resmi RT 01 / RW 12 — Perumahan Puri Asri 3</div>
+      </div>
+    </div>
+    <div class="info-meta">
+      <div class="meta-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Tahun 2026
+      </div>
+      <div class="meta-chip">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Dokumen Resmi
+      </div>
+    </div>
+  </div>
+
+  <!-- PDF VIEWER -->
+  <div class="pdf-wrapper">
+    <div class="pdf-frame-container" id="frameContainer">
+
+      <!-- Fake browser bar biar terkesan elegan -->
+      <div class="pdf-frame-bar">
+        <div class="frame-dot" style="background:#ff5f57;"></div>
+        <div class="frame-dot" style="background:#ffbd2e;"></div>
+        <div class="frame-dot" style="background:#28c840;"></div>
+        <div class="frame-url">📄 adart01.pdf — Anggaran Dasar & Anggaran Rumah Tangga</div>
+      </div>
+
+      <!-- IFRAME PDF -->
+      <iframe
+        id="pdfFrame"
+        src="adart01.pdf"
+        title="AD/ART Puri Asri 3"
+        type="application/pdf"
+      ></iframe>
+
+      <!-- FALLBACK jika browser tidak support embed PDF -->
+      <div class="pdf-fallback" id="pdfFallback">
+        <div class="fallback-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="fallback-title">Dokumen AD/ART</div>
+        <div class="fallback-desc">Browser Anda tidak mendukung tampilan PDF langsung. Silakan unduh atau buka file untuk membacanya.</div>
+        <a href="adart01.pdf" target="_blank" class="btn-open-pdf">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Buka di Tab Baru
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026 &nbsp;·&nbsp;
+    <span>Dokumen resmi AD/ART · Dikelola oleh Pengurus RT</span>
+  </footer>
+
+  <script>
+    // Deteksi kalau iframe gagal load PDF, tampilkan fallback
+    const frame = document.getElementById('pdfFrame');
+    const fallback = document.getElementById('pdfFallback');
+
+    // Mobile biasanya tidak bisa embed PDF
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      frame.style.display = 'none';
+      fallback.classList.add('show');
+    } else {
+      frame.addEventListener('error', () => {
+        frame.style.display = 'none';
+        fallback.classList.add('show');
+      });
+
+      // Timeout fallback — jika setelah 5 detik iframe masih kosong
+      setTimeout(() => {
+        try {
+          const doc = frame.contentDocument || frame.contentWindow?.document;
+          if (!doc || doc.body?.innerHTML === '') {
+            frame.style.display = 'none';
+            fallback.classList.add('show');
+          }
+        } catch(e) {
+          // cross-origin, berarti sudah load — biarkan
+        }
+      }, 5000);
+    }
+  </script>
+
+</body>
+</html>
