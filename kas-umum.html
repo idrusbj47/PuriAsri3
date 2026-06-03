@@ -30,6 +30,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
 .btn.primary:hover{background:#0a6b46}
 .last-update{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.cutoff-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--amber-bg);border:1px solid #e8d08a;font-size:11px;font-family:'DM Mono',monospace;color:var(--amber);font-weight:500;white-space:nowrap}
+.cutoff-badge .cutoff-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:pulse-amber 2s ease-in-out infinite}
+@keyframes pulse-amber{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
 
 /* HAMBURGER MENU */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
@@ -184,6 +187,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     </div>
   </div>
   <div class="header-right">
+    <span id="cutoff-badge" class="cutoff-badge" style="display:none">
+      <span class="cutoff-dot"></span>
+      <span>Data s.d. <span id="cutoff-date">—</span></span>
+    </span>
     <span class="last-update" id="last-update"></span>
     <button class="btn" onclick="init()">↺ Refresh</button>
     <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
@@ -329,6 +336,25 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <script>
 // Link CSV murni langsung tanpa proxy (Aman karena dijalankan dari server web GitHub)
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=87411756&single=true&output=csv';
+
+// URL untuk ambil cell U1 (cut off date) — range=U1 saja
+const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=87411756&single=true&output=csv&range=U1';
+
+async function fetchCutoffDate() {
+  try {
+    const res = await fetch(CUTOFF_URL + '&t=' + Date.now());
+    if (!res.ok) return;
+    const text = await res.text();
+    // Ambil baris pertama, kolom pertama
+    const val = text.split('\n')[0].replace(/"/g,'').trim();
+    if (val) {
+      document.getElementById('cutoff-date').textContent = val;
+      document.getElementById('cutoff-badge').style.display = 'inline-flex';
+    }
+  } catch(e) {
+    console.warn('[CutOff] Gagal ambil U1:', e);
+  }
+}
 
 // ── Ambil MASUK, KELUAR, SISA dari raw CSV (baris header sheet) ──
 function parseFinance(text) {
@@ -608,6 +634,10 @@ async function init() {
   document.getElementById('content').style.display = 'none';
   document.getElementById('err-box').style.display = 'none';
   activeMonth = null; activeBlok = null; filterMode = 'all';
+
+  // Ambil cut off date dari cell U1
+  fetchCutoffDate();
+
   try {
     const cacheBusterUrl = `${CSV_URL}&t=${new Date().getTime()}`;
     const res = await fetch(cacheBusterUrl);
