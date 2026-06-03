@@ -67,7 +67,7 @@
       z-index: 0;
     }
 
-    /* ── HEADER DESKTOP (tetap seperti semula) ── */
+    /* ── HEADER DESKTOP ── */
     header {
       position: relative;
       z-index: 10;
@@ -134,13 +134,13 @@
     /* Badge dalam brand (mobile only) — sembunyikan di desktop */
     .header-brand .header-badge { display: none; }
 
-    /* ── HEADER MOBILE — hero logo besar tanpa warna bar ── */
+    /* ── REVISI TAMPILAN MOBILE HP ── */
     @media (max-width: 600px) {
       header {
         background: transparent;
         border-bottom: none;
         height: auto;
-        padding: 44px 24px 0;
+        padding: 24px 24px 0; /* Mengurangi padding atas agar tidak terlalu tinggi */
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -151,55 +151,67 @@
         flex-direction: column;
         align-items: center;
         gap: 0;
+        width: 100%;
       }
 
-      /* Kontainer logo dengan ring animasi */
+      /* Kontainer logo melingkar */
       .logo-mark {
-        width: 110px;
-        height: 110px;
+        width: 120px;
+        height: 120px;
         background: #fff;
         border: 3px solid var(--gold-400);
         box-shadow: 0 6px 28px rgba(46,112,56,0.14);
         position: relative;
-        overflow: visible;
+        overflow: visible; /* Diperlukan agar ring animasi luar tidak terpotong */
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
 
+      /* Gambar logo diatur rapi di dalam lingkaran agar tidak balapan keluar */
       .logo-mark img {
-        width: 88px !important;
-        height: 88px !important;
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: contain;
+        position: relative;
+        z-index: 2;
+        border-radius: 50%;
       }
 
-      /* Ring animasi melingkar */
+      /* Ring animasi melingkar disesuaikan posisinya agar tidak bertabrakan */
       .logo-mark::before {
         content: '';
         position: absolute;
-        inset: -13px;
+        inset: -8px;
         border-radius: 50%;
         border: 1.5px dashed rgba(46, 112, 56, 0.28);
         animation: spin-slow 14s linear infinite;
         pointer-events: none;
+        z-index: 1;
       }
 
       .logo-mark::after {
         content: '';
         position: absolute;
-        inset: -25px;
+        inset: -16px;
         border-radius: 50%;
         border: 1.5px solid transparent;
         border-top-color: rgba(196, 154, 60, 0.55);
         border-bottom-color: rgba(196, 154, 60, 0.55);
         animation: spin-reverse 9s linear infinite;
         pointer-events: none;
+        z-index: 1;
       }
 
       .logo-ring-outer {
         display: block;
         position: absolute;
-        inset: -39px;
+        inset: -24px;
         border-radius: 50%;
         border: 1px dashed rgba(196, 154, 60, 0.18);
         animation: spin-slow 22s linear infinite reverse;
         pointer-events: none;
+        z-index: 1;
       }
 
       @keyframes spin-slow {
@@ -212,17 +224,17 @@
       }
 
       .header-title {
-        font-size: 22px;
+        font-size: 24px;
         color: var(--green-900);
         text-align: center;
-        margin-top: 26px;
+        margin-top: 34px; /* Memberi jarak pas dari lingkaran terluar */
       }
 
       .header-sub {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--text-muted);
         text-align: center;
-        margin-top: 5px;
+        margin-top: 6px;
         letter-spacing: 0.08em;
       }
 
@@ -241,12 +253,13 @@
       /* Badge luar (Sistem Keuangan) — sembunyikan di mobile */
       header > .header-badge { display: none !important; }
 
+      /* Divider emas bawah dibuat lebih rapat */
       .header-divider {
         display: block;
         width: 44px;
         height: 2px;
         background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
-        margin: 18px auto 0;
+        margin: 14px auto 0;
         border-radius: 2px;
       }
     }
@@ -490,7 +503,6 @@
     footer strong { color: var(--green-700); font-weight: 500; }
     .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46, 112, 56, 0.06); pointer-events: none; z-index: 0; }
 
-    /* ── SEPERTI DIINGINKAN: TOMBOL INTERAKTIF SIMETRIS HP & DESKTOP ── */
     .wa-float-container {
       position: fixed;
       bottom: 24px;
@@ -513,7 +525,7 @@
       cursor: pointer;
       overflow: hidden;
       padding: 5px;
-      width: 52px; /* Simetris bulat sempurna di awal */
+      width: 52px;
       height: 52px;
       transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
     }
@@ -567,7 +579,6 @@
       margin-top: 2px;
     }
 
-    /* Ketika class 'expanded' aktif (Klik Pertama) — Lebar simetris & aman untuk HP */
     .wa-interactive-btn.expanded {
       width: 245px; 
       box-shadow: 0 8px 28px rgba(30, 66, 37, 0.45);
@@ -588,20 +599,17 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* ── RESPONSIVE MOBILE SIZING (DIJAMIN SIMETRIS KEMAS) ── */
+    /* ── RESPONSIVE MOBILE MAIN CONTENT SIZING ── */
     @media (max-width: 600px) {
-      main { padding: 28px 14px 60px; }
+      main { padding: 12px 14px 60px; } /* Dipersempit padding top-nya agar konten mendekat ke header atas */
       .menu-grid { grid-template-columns: 1fr; gap: 12px; }
       .secondary-grid { grid-template-columns: 1fr; gap: 10px; }
       .secondary-card.full-row { grid-column: span 1; }
       .coming-soon-grid { grid-template-columns: 1fr; }
       .hero-title { font-size: 26px; }
       .hero-desc { font-size: 14px; }
-      .hero { margin-bottom: 36px; }
-      header { padding: 0 1rem; }
-      .header-badge { display: none; }
+      .hero { margin-bottom: 28px; } /* Mendekatkan jarak komponen hero menuju kata Beranda */
       
-      /* Menggeser letak penentu kontainer di HP secara simetris */
       .wa-float-container { 
         bottom: 20px; 
         right: 20px; 
@@ -619,7 +627,6 @@
         width: 20px;
         height: 20px;
       }
-      /* Sizing teks lebar di mobile agar tidak terpotong */
       .wa-interactive-btn.expanded { 
         width: 220px; 
       }
@@ -659,7 +666,7 @@
     <div class="header-brand">
       <div class="logo-mark" style="background:#fff; border-color:#d4af5a;">
         <div class="logo-ring-outer"></div>
-        <img src="Logo RT11.png" alt="Logo Puri Asri 3" style="width:30px;height:30px;object-fit:contain;">
+        <img src="Logo RT11.png" alt="Logo Puri Asri 3">
       </div>
       <div>
         <div class="header-title">Puri Asri 3</div>
@@ -844,7 +851,7 @@
     <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
   </footer>
 
-  <!-- TOMBOL INTERAKTIF 2-KLIK (WHATSAPP) — JELAS, PROPORSIONAL & SIMETRIS -->
+  <!-- TOMBOL INTERAKTIF 2-KLIK (WHATSAPP) -->
   <div class="wa-float-container">
     <div class="wa-interactive-btn" id="waBtn" onclick="handleWaClick()">
       <div class="wa-icon-circle">
@@ -863,17 +870,14 @@
     function handleWaClick() {
       var btn = document.getElementById('waBtn');
       
-      // Klik Pertama: Melebarkan tombol untuk memperlihatkan keterangan teks
       if (!btn.classList.contains('expanded')) {
         btn.classList.add('expanded');
       } else {
-        // Klik Kedua: Membuka link resmi WhatsApp Pak RT Rahman
         var url = "https://wa.me/6281283876869?text=Halo%20Pak%20RT%20Rahman,%20saya%20mau%20konfirmasi%20pembayaran%20kas%20warga.";
         window.open(url, '_blank');
       }
     }
 
-    // Menutup tombol kembali ke ukuran semula saat mengklik di luar area tombol
     document.addEventListener('click', function(event) {
       var btn = document.getElementById('waBtn');
       var container = document.querySelector('.wa-float-container');
