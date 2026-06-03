@@ -19,36 +19,20 @@
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
 /* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;flex-direction:column;gap:8px;position:sticky;top:0;z-index:100}
-.header-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:100}
 .logo-area{display:flex;align-items:center;gap:12px;min-width:0}
 .logo-circle{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1da876,#0a7c52);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
 .logo-text h1{font-size:16px;font-weight:600;color:var(--text);line-height:1.2}
 .logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
 .header-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.header-meta{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .btn{display:inline-flex;align-items:center;gap:6px;padding:0 14px;height:34px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:500;transition:all .15s}
 .btn:hover{background:var(--bg);border-color:var(--border2)}
 .btn.primary{background:var(--green);color:#fff;border-color:var(--green)}
 .btn.primary:hover{background:#0a6b46}
-.last-update{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
-.cutoff-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;background:var(--amber-bg);border:1px solid #e8d08a;font-size:11px;font-family:'DM Mono',monospace;color:var(--amber);font-weight:500;white-space:nowrap}
+.cutoff-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--amber-bg);border:1px solid #e8d08a;font-size:11px;font-family:'DM Mono',monospace;color:var(--amber);font-weight:500;white-space:nowrap}
 .cutoff-badge .cutoff-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:pulse-amber 2s ease-in-out infinite}
 @keyframes pulse-amber{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-/* Desktop: sembunyikan header-meta bawah, taruh semua di header-top */
-@media(min-width:640px){
-  .header{flex-direction:row;align-items:center;padding:1.25rem 1.5rem;gap:12px}
-  .header-top{flex:1;gap:12px}
-  .header-meta{display:none}
-  .header-right .cutoff-badge-desktop{display:inline-flex}
-  .last-update{display:inline}
-}
-/* Mobile: sembunyikan last-update & cutoff dari header-right, tampilkan di baris bawah */
-@media(max-width:639px){
-  .header-right .last-update{display:none}
-  .header-right .cutoff-badge{display:none!important}
-  .header-meta .cutoff-badge{display:inline-flex!important}
-}
+@media(max-width:540px){.cutoff-badge{display:none!important}}
 
 /* HAMBURGER MENU */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
@@ -193,36 +177,25 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <body>
 
 <div class="header">
-  <div class="header-top">
-    <div class="logo-area">
-      <div class="logo-circle">
-        <img src="Logo RT11.png" alt="Logo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
-      </div>
-      <div class="logo-text">
-        <h1>Lap. Kas Puri Asri 3</h1>
-        <p>RT 01 / RW 012 · TH.2026</p>
-      </div>
+  <div class="logo-area">
+    <div class="logo-circle">
+      <img src="Logo RT11.png" alt="Logo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"/>
     </div>
-    <div class="header-right">
-      <span id="cutoff-badge" class="cutoff-badge" style="display:none">
-        <span class="cutoff-dot"></span>
-        <span>Data s.d. <span id="cutoff-date">—</span></span>
-      </span>
-      <span class="last-update" id="last-update"></span>
-      <button class="btn" onclick="init()">↺ Refresh</button>
-      <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
-      <button class="ham-btn" id="ham-btn" onclick="toggleNav()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+    <div class="logo-text">
+      <h1>Lap. Kas Puri Asri 3</h1>
+      <p>RT 01 / RW 012 · TH.2026</p>
     </div>
   </div>
-  <!-- Baris kedua: hanya tampil di mobile -->
-  <div class="header-meta">
-    <span id="cutoff-badge-mobile" class="cutoff-badge" style="display:none">
+  <div class="header-right">
+    <span id="cutoff-badge" class="cutoff-badge" style="display:none">
       <span class="cutoff-dot"></span>
-      <span>Data s.d. <span id="cutoff-date-mobile">—</span></span>
+      <span>Data s.d. <span id="cutoff-date">—</span></span>
     </span>
-    <span class="last-update" id="last-update-mobile"></span>
+    <button class="btn" onclick="init()">↺ Refresh</button>
+    <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
+    <button class="ham-btn" id="ham-btn" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </div>
 </div>
@@ -374,14 +347,8 @@ async function fetchCutoffDate() {
     const text = await res.text();
     const val = text.split('\n')[0].replace(/"/g,'').trim();
     if (val) {
-      // Desktop badge
       document.getElementById('cutoff-date').textContent = val;
       document.getElementById('cutoff-badge').style.display = 'inline-flex';
-      // Mobile badge
-      const mobDate = document.getElementById('cutoff-date-mobile');
-      const mobBadge = document.getElementById('cutoff-badge-mobile');
-      if (mobDate) mobDate.textContent = val;
-      if (mobBadge) mobBadge.style.display = 'inline-flex';
     }
   } catch(e) {
     console.warn('[CutOff] Gagal ambil U1:', e);
@@ -596,9 +563,7 @@ function buildUI(finData) {
 
   // Last update
   const updateText = 'Update: ' + new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-  document.getElementById('last-update').textContent = updateText;
-  const mob = document.getElementById('last-update-mobile');
-  if (mob) mob.textContent = updateText;
+  document.getElementById('last-update') && (document.getElementById('last-update').textContent = updateText);
 }
 
 function render() {
