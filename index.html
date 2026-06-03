@@ -89,7 +89,7 @@
     .logo-mark {
       width: 40px;
       height: 40px;
-      background: var(--green-600);
+      background: #fff !important; /* Memaksa background putih agar logo terlihat kontras */
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -97,6 +97,14 @@
       border: 2px solid var(--gold-400);
       flex-shrink: 0;
       overflow: hidden;
+    }
+
+    /* Memperbaiki ukuran gambar di tampilan komputer/desktop agar tidak meluber */
+    .logo-mark img {
+      width: 26px !important;
+      height: 26px !important;
+      object-fit: contain;
+      border-radius: 50%;
     }
 
     .header-title {
@@ -128,10 +136,9 @@
       font-weight: 500;
     }
 
-    /* Sembunyikan divider di desktop */
+    /* Sembunyikan elemen mobile secara default di desktop */
     .header-divider { display: none; }
     .logo-ring-outer { display: none; }
-    /* Badge dalam brand (mobile only) — sembunyikan di desktop */
     .header-brand .header-badge { display: none; }
 
     /* ── REVISI TAMPILAN MOBILE HP ── */
@@ -140,7 +147,7 @@
         background: transparent;
         border-bottom: none;
         height: auto;
-        padding: 24px 24px 0; /* Mengurangi padding atas agar tidak terlalu tinggi */
+        padding: 24px 24px 0;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -154,21 +161,21 @@
         width: 100%;
       }
 
-      /* Kontainer logo melingkar */
+      /* Kontainer logo melingkar khusus Mobile */
       .logo-mark {
         width: 120px;
         height: 120px;
-        background: #fff;
+        background: #fff !important;
         border: 3px solid var(--gold-400);
         box-shadow: 0 6px 28px rgba(46,112,56,0.14);
         position: relative;
-        overflow: visible; /* Diperlukan agar ring animasi luar tidak terpotong */
+        overflow: visible;
         display: flex;
         align-items: center;
         justify-content: center;
       }
 
-      /* Gambar logo diatur rapi di dalam lingkaran agar tidak balapan keluar */
+      /* Gambar logo disesuaikan khusus Mobile agar pas dalam cincin */
       .logo-mark img {
         width: 100px !important;
         height: 100px !important;
@@ -178,7 +185,7 @@
         border-radius: 50%;
       }
 
-      /* Ring animasi melingkar disesuaikan posisinya agar tidak bertabrakan */
+      /* Cincin hiasan animasi luar */
       .logo-mark::before {
         content: '';
         position: absolute;
@@ -227,7 +234,7 @@
         font-size: 24px;
         color: var(--green-900);
         text-align: center;
-        margin-top: 34px; /* Memberi jarak pas dari lingkaran terluar */
+        margin-top: 34px;
       }
 
       .header-sub {
@@ -250,10 +257,8 @@
         padding: 4px 16px;
       }
 
-      /* Badge luar (Sistem Keuangan) — sembunyikan di mobile */
       header > .header-badge { display: none !important; }
 
-      /* Divider emas bawah dibuat lebih rapat */
       .header-divider {
         display: block;
         width: 44px;
@@ -601,14 +606,14 @@
 
     /* ── RESPONSIVE MOBILE MAIN CONTENT SIZING ── */
     @media (max-width: 600px) {
-      main { padding: 12px 14px 60px; } /* Dipersempit padding top-nya agar konten mendekat ke header atas */
+      main { padding: 12px 14px 60px; }
       .menu-grid { grid-template-columns: 1fr; gap: 12px; }
       .secondary-grid { grid-template-columns: 1fr; gap: 10px; }
       .secondary-card.full-row { grid-column: span 1; }
       .coming-soon-grid { grid-template-columns: 1fr; }
       .hero-title { font-size: 26px; }
       .hero-desc { font-size: 14px; }
-      .hero { margin-bottom: 28px; } /* Mendekatkan jarak komponen hero menuju kata Beranda */
+      .hero { margin-bottom: 28px; }
       
       .wa-float-container { 
         bottom: 20px; 
