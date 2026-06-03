@@ -32,6 +32,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .btn.primary:hover{background:#0a6b46}
 .last-update{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
 
+/* CUTOFF BADGE */
+.cutoff-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:linear-gradient(135deg,#e6f5ee 0%,#f0faf5 100%);border:1px solid #b3e2cc;font-size:11.5px;font-family:'DM Mono',monospace;color:#0a7c52;font-weight:500;white-space:nowrap}
+.cutoff-badge .cutoff-label{font-size:10px;color:#5c5c58;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
+
+/* PULSE DOT */
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#1da876;position:relative;flex-shrink:0}
+.pulse-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:#1da876;opacity:.35;animation:pulse-ring 1.8s ease-out infinite}
+.pulse-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;background:#1da876;opacity:.15;animation:pulse-ring 1.8s ease-out infinite .4s}
+@keyframes pulse-ring{0%{transform:scale(.7);opacity:.4}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
+
 /* HAMBURGER */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
 .ham-btn span{display:block;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
@@ -149,7 +159,13 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     </div>
   </div>
   <div class="header-right">
-    <span class="last-update" id="last-update"></span>
+    <span class="cutoff-badge" id="cutoff-badge" style="display:none">
+      <span class="pulse-dot"></span>
+      <span>
+        <span class="cutoff-label">Cut-off Data</span><br>
+        <span id="cutoff-value">—</span>
+      </span>
+    </span>
     <button class="btn" onclick="init()">↺ Refresh</button>
     <button class="btn primary" onclick="window.print()">⎙ Cetak</button>
     <button class="ham-btn" id="ham-btn" onclick="toggleNav()" aria-label="Menu">
@@ -255,6 +271,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 // GANTI URL INI dengan link CSV dari Google Sheets kamu
 // Cara: File → Bagikan → Publikasikan ke web → CSV
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1092914454&single=true&output=csv';
+// URL untuk ambil cell U1 sebagai cut-off date
+const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1092914454&single=true&output=csv&range=U1';
 // ══════════════════════════════════════════════════
 
 const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
@@ -466,7 +484,7 @@ function buildUI(fin) {
     return `<button class="mpill" data-m="${m}" onclick="setMonth('${m}')">${MN[idx]} <span class="badge">${count} trx</span></button>`;
   }).join('');
 
-  document.getElementById('last-update').textContent = 'Update: ' + new Date().toLocaleString('id-ID', {day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  // Cutoff badge sudah diset di init() setelah fetch U1
 }
 
 function setFilter(f) {
@@ -543,11 +561,16 @@ async function init() {
   document.getElementById('loading').style.display  = 'block';
   document.getElementById('content').style.display  = 'none';
   document.getElementById('err-box').style.display  = 'none';
+  document.getElementById('cutoff-badge').style.display = 'none';
   activeMonth = null; filterMode = 'all';
 
   try {
-    const url = CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + Date.now();
-    const res  = await fetch(url);
+    const t = Date.now();
+    const url = CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + t;
+    const [res, cutoffRes] = await Promise.all([
+      fetch(url),
+      fetch(`${CUTOFF_URL}&t=${t}`)
+    ]);
     if (!res.ok) throw new Error('Gagal mengambil data dari Google Sheets.');
     const text = await res.text();
 
@@ -557,6 +580,16 @@ async function init() {
     const fin = parseFinance(text);
     buildUI(fin);
     render();
+
+    // Set nilai cutoff dari cell U1
+    if (cutoffRes.ok) {
+      const cutoffText = await cutoffRes.text();
+      const cutoffVal = cutoffText.split('\n')[0].replace(/"/g,'').trim();
+      document.getElementById('cutoff-value').textContent = cutoffVal || '—';
+    } else {
+      document.getElementById('cutoff-value').textContent = '—';
+    }
+    document.getElementById('cutoff-badge').style.display = 'inline-flex';
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('content').style.display = 'block';
