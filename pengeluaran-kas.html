@@ -119,8 +119,27 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .no-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
 .tgl-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);white-space:nowrap}
 .uraian-cell{font-size:12.5px}
-.uraian-cell.sosial{color:#7c3f00;font-weight:500}
+.uraian-cell.sosial{color:#7c3f00;font-weight:600}
 .uraian-cell.iuran{color:var(--green);font-weight:500}
+
+/* BANSOS ROW HIGHLIGHT */
+tr.row-bansos td{
+  background:#fff8e1;
+  border-bottom:1px solid #ffe082;
+}
+tr.row-bansos:hover td{background:#fff3cd!important}
+tr.row-bansos td:first-child{
+  border-left:4px solid #f59e0b;
+}
+.badge-bansos{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:600;letter-spacing:.02em;
+  background:#f59e0b;color:#fff;
+  padding:2px 7px 2px 5px;border-radius:99px;
+  vertical-align:middle;margin-left:6px;
+  white-space:nowrap;
+}
+.badge-bansos::before{content:'❤️‍🩹';font-size:10px}
 .amount-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
 .amount-cell.masuk{color:var(--green)}
 .amount-cell.keluar{color:var(--red)}
@@ -541,11 +560,12 @@ function render() {
     }
 
     const uraianClass = r.isSosial ? 'uraian-cell sosial' : isIuran || isSaldo ? 'uraian-cell iuran' : 'uraian-cell';
+    const trClass = r.isSosial ? ' class="row-bansos"' : '';
 
-    return bulanSep + `<tr>
+    return bulanSep + `<tr${trClass}>
       <td class="no-cell">${r.no}</td>
       <td class="tgl-cell">${tglStr}</td>
-      <td class="${uraianClass}">${r.uraian}${r.isSosial ? ' <span style="font-size:9px;color:#c97a00;background:#fff3cd;padding:1px 5px;border-radius:4px;border:1px solid #f0c060">sosial</span>' : ''}</td>
+      <td class="${uraianClass}">${r.uraian}${r.isSosial ? ' <span class="badge-bansos">Bansos Sakit</span>' : ''}</td>
       <td class="amount-cell ${r.masuk > 0 ? 'masuk' : 'empty'}">${r.masuk > 0 ? '+'+fmtRp(r.masuk) : '—'}</td>
       <td class="amount-cell ${r.keluar > 0 ? 'keluar' : 'empty'}">${r.keluar > 0 ? '-'+fmtRp(r.keluar) : '—'}</td>
       <td class="amount-cell sisa">${r.sisa > 0 ? fmtRp(r.sisa) : '—'}</td>
