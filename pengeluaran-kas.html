@@ -424,8 +424,10 @@ function parseCSV(text) {
     if (masuk > 0 && keluar === 0) tipe = 'masuk';
     if (keluar > 0 && masuk === 0) tipe = 'keluar';
     // Deteksi dana sosial (nama orang, bantuan sakit)
+    // Hapus prefix nomor urut seperti "1. ", "2. " jika ada
+    const uraianStripped = uraianUp.replace(/^\d+\.\s*/, '');
     const sosialKeywords = ['BU ','BP. ','PAK ','IBU ','ANANDA ','MBA ','P. ','MAMA ','ANAK '];
-    const isSosial = keluar > 0 && sosialKeywords.some(k => uraianUp.startsWith(k));
+    const isSosial = keluar > 0 && sosialKeywords.some(k => uraianStripped.startsWith(k));
 
     rowNo++;
     allRows.push({
