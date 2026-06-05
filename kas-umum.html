@@ -16,6 +16,15 @@
   --text:#1a1a18;--text2:#5c5c58;--text3:#9a9a94;
   --bg:#f7f6f2;--surface:#ffffff;--border:#e8e6df;--border2:#d4d1c8;
   --radius:10px;--radius-lg:14px;
+  --ham-color:#5c5c58;
+}
+[data-theme="dark"]{
+  --green:#22c47e;--green-bg:#0d3327;--green-mid:#22c47e;
+  --red:#f07a63;--red-bg:#3b1a14;
+  --amber:#f0c060;--amber-bg:#3a2a00;
+  --text:#e8e6df;--text2:#b0aea6;--text3:#6a6a64;
+  --bg:#111110;--surface:#1e1e1c;--border:#2e2e2a;--border2:#3e3e38;
+  --ham-color:#e8e6df;
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
@@ -44,10 +53,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* HAMBURGER MENU */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
-.ham-btn span{display:block;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
+.ham-btn span{display:block;height:2px;background:var(--ham-color);border-radius:2px;transition:all .25s}
 .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .ham-btn.open span:nth-child(2){opacity:0}
 .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle{position:fixed;bottom:20px;right:20px;z-index:1000;width:44px;height:44px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);box-shadow:0 2px 12px rgba(0,0,0,0.15);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text)}
+.theme-toggle:hover{transform:scale(1.1);box-shadow:0 4px 16px rgba(0,0,0,0.2)}
 .nav-drawer{position:fixed;top:0;left:0;height:100vh;width:260px;background:var(--surface);border-right:1px solid var(--border);z-index:999;transform:translateX(-100%);transition:transform .28s ease;box-shadow:4px 0 24px rgba(0,0,0,0.08)}
 .nav-drawer.open{transform:translateX(0)}
 .nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:998;opacity:0;pointer-events:none;transition:opacity .28s}
@@ -185,7 +198,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <body>
 
 <div class="header">
-  <div class="logo-area">
+  <div class="logo-area" style="cursor:pointer" onclick="window.location.href='index.html'" title="Ke Beranda">
     <div class="logo-circle">
   <img src="Logo RT11.png" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"/>
 </div>
@@ -342,6 +355,9 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     </div>
   </div>
 </div>
+
+<!-- Theme Toggle Button -->
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Ganti Tema" aria-label="Toggle tema gelap/terang">🌙</button>
 
 <script>
 // Link CSV murni langsung tanpa proxy (Aman karena dijalankan dari server web GitHub)
@@ -679,6 +695,24 @@ function closeNav(){
   document.getElementById('nav-overlay').classList.remove('open');
   document.getElementById('ham-btn').classList.remove('open');
 }
+
+// DARK MODE TOGGLE
+function toggleTheme(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  document.getElementById('theme-toggle').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('theme', newTheme);
+}
+
+// Init theme dari localStorage
+(function(){
+  const saved = localStorage.getItem('theme');
+  if(saved === 'dark'){
+    document.documentElement.setAttribute('data-theme','dark');
+    document.getElementById('theme-toggle').textContent = '☀️';
+  }
+})();
 </script>
 </body>
 </html>
