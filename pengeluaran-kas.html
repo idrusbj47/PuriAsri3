@@ -17,6 +17,16 @@
   --text:#1a1a18;--text2:#5c5c58;--text3:#9a9a94;
   --bg:#f7f6f2;--surface:#ffffff;--border:#e8e6df;--border2:#d4d1c8;
   --radius:10px;--radius-lg:14px;
+  --ham-color:#5c5c58;
+}
+[data-theme="dark"]{
+  --green:#22c47e;--green-bg:#0d3327;--green-mid:#22c47e;
+  --red:#f07a63;--red-bg:#3b1a14;
+  --amber:#f0c060;--amber-bg:#3a2a00;
+  --blue:#6fa3ef;--blue-bg:#0d1e35;
+  --text:#e8e6df;--text2:#b0aea6;--text3:#6a6a64;
+  --bg:#111110;--surface:#1e1e1c;--border:#2e2e2a;--border2:#3e3e38;
+  --ham-color:#e8e6df;
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
 
@@ -45,10 +55,33 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 /* HAMBURGER */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);background:var(--surface);cursor:pointer;padding:0 8px;flex-shrink:0}
-.ham-btn span{display:block;height:2px;background:var(--text2);border-radius:2px;transition:all .25s}
+.ham-btn span{display:block;height:2px;background:var(--ham-color);border-radius:2px;transition:all .25s}
 .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .ham-btn.open span:nth-child(2){opacity:0}
 .ham-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* THEME TOGGLE BUTTON */
+.theme-toggle{position:fixed;bottom:24px;right:24px;z-index:1000;width:52px;height:52px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);box-shadow:0 2px 16px rgba(0,0,0,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .2s,transform .2s;padding:0;overflow:hidden}
+.theme-toggle:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(0,0,0,0.22)}
+.theme-toggle:active{transform:scale(0.95)}
+.theme-toggle svg{width:32px;height:32px;overflow:visible}
+@keyframes sun-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes moon-rock{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@keyframes ray-pulse{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.55;transform:scaleY(.65)}}
+@keyframes star-twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
+.sun-group{transform-origin:16px 16px;animation:sun-spin 14s linear infinite}
+.sun-ray{transform-origin:16px 16px;animation:ray-pulse 2.4s ease-in-out infinite}
+.sun-ray:nth-child(2){animation-delay:.3s}
+.sun-ray:nth-child(3){animation-delay:.6s}
+.sun-ray:nth-child(4){animation-delay:.9s}
+.sun-ray:nth-child(5){animation-delay:1.2s}
+.sun-ray:nth-child(6){animation-delay:1.5s}
+.sun-ray:nth-child(7){animation-delay:1.8s}
+.sun-ray:nth-child(8){animation-delay:2.1s}
+.moon-shape{animation:moon-rock 4s ease-in-out infinite;transform-origin:16px 16px}
+.star1{animation:star-twinkle 2.5s ease-in-out infinite}
+.star2{animation:star-twinkle 2.5s ease-in-out infinite .8s}
+.star3{animation:star-twinkle 2.5s ease-in-out infinite 1.6s}
 .nav-drawer{position:fixed;top:0;left:0;height:100vh;width:260px;background:var(--surface);border-right:1px solid var(--border);z-index:999;transform:translateX(-100%);transition:transform .28s ease;box-shadow:4px 0 24px rgba(0,0,0,0.08)}
 .nav-drawer.open{transform:translateX(0)}
 .nav-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.25);z-index:998;opacity:0;pointer-events:none;transition:opacity .28s}
@@ -169,7 +202,7 @@ tr.row-bansos td:first-child{
 <body>
 
 <div class="header">
-  <div class="logo-area">
+  <div class="logo-area" style="cursor:pointer" onclick="window.location.href='index.html'" title="Ke Beranda">
     <div class="logo-circle">
       <img src="Logo RT11.png" alt="Logo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='💰'"/>
     </div>
@@ -285,6 +318,31 @@ tr.row-bansos td:first-child{
     </div>
   </div>
 </div>
+
+<!-- Theme Toggle Button -->
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Ganti Tema" aria-label="Toggle tema gelap/terang">
+  <svg id="icon-sun" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+    <g class="sun-group">
+      <line class="sun-ray" x1="16" y1="2" x2="16" y2="6" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="16" y1="26" x2="16" y2="30" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="2" y1="16" x2="6" y2="16" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="26" y1="16" x2="30" y2="16" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="5.5" y1="5.5" x2="8.4" y2="8.4" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="23.6" y1="23.6" x2="26.5" y2="26.5" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="26.5" y1="5.5" x2="23.6" y2="8.4" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="8.4" y1="23.6" x2="5.5" y2="26.5" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <circle cx="16" cy="16" r="6" fill="#f5b800" stroke="#e8a000" stroke-width="1.2"/>
+  </svg>
+  <svg id="icon-moon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <g class="moon-shape">
+      <path d="M20 9.5C17.5 9.5 14.5 11.2 13.2 14C11.6 17.4 12.8 21.5 15.8 23.6C13.8 24.1 11.5 23.8 9.7 22.5C6.2 20 5.3 15.2 7.8 11.7C10 8.6 14 7.3 17.5 8.5C18.4 8.8 19.3 9.1 20 9.5Z" fill="#a8c0f8" stroke="#7aa0f5" stroke-width="1"/>
+    </g>
+    <circle class="star1" cx="24" cy="8" r="1.5" fill="#c8d8ff"/>
+    <circle class="star2" cx="27" cy="15" r="1" fill="#c8d8ff"/>
+    <circle class="star3" cx="22" cy="20" r="1.2" fill="#c8d8ff"/>
+  </svg>
+</button>
 
 <script>
 // ══════════════════════════════════════════════════
@@ -627,6 +685,24 @@ async function init() {
 init();
 function toggleNav(){document.getElementById('nav-drawer').classList.toggle('open');document.getElementById('nav-overlay').classList.toggle('open');document.getElementById('ham-btn').classList.toggle('open')}
 function closeNav(){document.getElementById('nav-drawer').classList.remove('open');document.getElementById('nav-overlay').classList.remove('open');document.getElementById('ham-btn').classList.remove('open')}
+
+// DARK MODE TOGGLE
+function toggleTheme(){
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  document.getElementById('icon-sun').style.display = newTheme === 'dark' ? 'none' : 'block';
+  document.getElementById('icon-moon').style.display = newTheme === 'dark' ? 'block' : 'none';
+  localStorage.setItem('theme', newTheme);
+}
+(function(){
+  const saved = localStorage.getItem('theme');
+  if(saved === 'dark'){
+    document.documentElement.setAttribute('data-theme','dark');
+    document.getElementById('icon-sun').style.display = 'none';
+    document.getElementById('icon-moon').style.display = 'block';
+  }
+})();
 </script>
 </body>
 </html>
