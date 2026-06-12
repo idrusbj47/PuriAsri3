@@ -206,7 +206,7 @@
   <main id="mainContent">
     <div class="loading-wrap">
       <div class="spinner"></div>
-      <div class="loading-text">Memuat data, tarik layar atau tekan refresh untuk mempercepat …</div>
+      <div class="loading-text">Memuat data. tarik layar atau tekan refresh untuk mempercepat …</div>
     </div>
   </main>
 
@@ -348,7 +348,7 @@ function showError() {
 
 async function loadData() {
   document.getElementById('mainContent').innerHTML = `
-    <div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Memuat data program dari Google Sheets…</div></div>`;
+    <div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Memuat data. tarik layar atau tekan refresh untuk mempercepat ……</div></div>`;
   try {
     const t = new Date().getTime(); // cache-buster, sama persis dengan kas-umum.html
 
