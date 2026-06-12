@@ -275,8 +275,25 @@
     }
 
     .status-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      flex-shrink: 0; margin-top: 4px;
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 3px;
+      position: relative;
+    }
+
+    .status-dot.active::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: inherit;
+      opacity: 0.4;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    @keyframes pulse-ring {
+      0%   { transform: scale(1);   opacity: 0.4; }
+      65%  { transform: scale(2.6); opacity: 0; }
+      100% { transform: scale(2.6); opacity: 0; }
     }
 
     .program-status-text {
@@ -436,7 +453,7 @@
           <div class="program-name">Pelayanan Administrasi</div>
           <div class="program-uraian">Membantu kebutuhan surat-menyurat dan administrasi warga.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Dilaksanakan sesuai kebutuhan warga.</div>
           </div>
         </div>
@@ -452,7 +469,7 @@
           <div class="program-name">Pengelolaan Iuran Warga</div>
           <div class="program-uraian">Penagihan, penerimaan, dan pencatatan iuran Kas RT serta Dana Duka.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Dilaksanakan secara rutin setiap bulan.</div>
           </div>
         </div>
@@ -460,7 +477,7 @@
           <div class="program-name">Transparansi Keuangan</div>
           <div class="program-uraian">Publikasi laporan Kas RT dan Dana Duka kepada warga.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Pelaporan dilaksanakan setiap bulan.</div>
           </div>
         </div>
@@ -486,7 +503,7 @@
           <div class="program-name">Arisan Warga</div>
           <div class="program-uraian">Pertemuan silaturahmi rutin bulanan.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: Bu RT Aan & Bu Elis.</div>
           </div>
         </div>
@@ -494,7 +511,7 @@
           <div class="program-name">Santunan Sosial</div>
           <div class="program-uraian">Program kepedulian bagi warga yang sakit atau berduka.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: Pengurus RT.</div>
           </div>
         </div>
@@ -502,7 +519,7 @@
           <div class="program-name">Jumat Berkah</div>
           <div class="program-uraian">Kegiatan berbagi makanan bagi warga yang membutuhkan.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan melalui gotong royong warga.</div>
           </div>
         </div>
@@ -527,7 +544,7 @@
           <div class="program-name">Pengajian Rutin</div>
           <div class="program-uraian">Kajian keagamaan untuk meningkatkan silaturahmi dan kebersamaan warga.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Pengajian malam Senin dan malam Jumat oleh DKM, serta pengajian keliling malam Jumat oleh ibu-ibu. Koordinator: Bu Elis.</div>
           </div>
         </div>
@@ -535,7 +552,7 @@
           <div class="program-name">Hari Besar Nasional</div>
           <div class="program-uraian">Perayaan HUT RI dan kegiatan gotong royong warga.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: Pengurus RT.</div>
           </div>
         </div>
@@ -543,7 +560,7 @@
           <div class="program-name">Hari Besar Keagamaan</div>
           <div class="program-uraian">Shalat Id, penyelenggaraan kurban, dan Halal Bihalal.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: DKM.</div>
           </div>
         </div>
@@ -566,7 +583,7 @@
           <div class="program-name">Posyandu</div>
           <div class="program-uraian">Pemantauan kesehatan balita dan lansia.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator/Ketua: Bu Elis.</div>
           </div>
         </div>
@@ -574,7 +591,7 @@
           <div class="program-name">Senam Sehat</div>
           <div class="program-uraian">Kegiatan olahraga bersama warga.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: Bu Febby (Gang Flaminggo 2).</div>
           </div>
         </div>
@@ -613,7 +630,7 @@
           <div class="program-name">Siskamling</div>
           <div class="program-uraian">Optimalisasi ronda malam untuk menjaga keamanan lingkungan.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan di sebagian blok, dikembangkan bertahap.</div>
           </div>
         </div>
@@ -621,7 +638,7 @@
           <div class="program-name">Pengelolaan Sampah</div>
           <div class="program-uraian">Program pemilahan dan pengelolaan sampah mandiri.</div>
           <div class="program-status-row">
-            <div class="status-dot"></div>
+            <div class="status-dot active"></div>
             <div class="program-status-text">Berjalan. Koordinator: Bu Yani.</div>
           </div>
         </div>
