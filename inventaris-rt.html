@@ -5,54 +5,86 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventaris RT — Puri Asri 3 RT 01 / RW 12</title>
+  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
       --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
       --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
-      --gold-700: #7a5c1e; --gold-500: #c49a3c; --gold-100: #f8f0da;
+      --gold-700: #7a5c1e; --gold-500: #c49a3c; --gold-400: #d4af5a;
+      --gold-100: #f8f0da;
       --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
       --text-dark: #1a2b1c; --text-muted: #6b8570;
       --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
+      --radius-md: 12px; --radius-lg: 20px;
       --shadow-card: 0 2px 12px rgba(30,66,37,0.08);
     }
+
     body { font-family: 'DM Sans', sans-serif; background: var(--cream-bg); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    /* HEADER */
     header { background: var(--green-800); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-mark { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--gold-400); }
+    .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
     .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; }
-    .header-sub { font-size: 11px; color: var(--green-200); text-transform: uppercase; }
-    main { flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 40px 24px; }
+    .header-sub { font-size: 11px; color: var(--green-200); text-transform: uppercase; margin-top: 1px; }
+
+    /* MAIN */
+    main { max-width: 960px; margin: 0 auto; width: 100%; padding: 52px 24px 80px; }
     .hero { text-align: center; margin-bottom: 40px; }
-    .hero-title { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--green-900); margin-bottom: 16px; }
-    .cutoff-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-100); padding: 5px 14px; border-radius: 20px; font-size: 11px; color: var(--gold-700); font-weight: 500; }
-    .inv-table { width: 100%; border-collapse: collapse; background: var(--cream-card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-card); }
-    .inv-table th, .inv-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-light); }
-    .inv-table th { background: var(--green-50); color: var(--green-800); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .inv-table td { font-size: 14px; }
-    @media (max-width: 600px) { .inv-table { display: block; overflow-x: auto; } }
+    .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); font-weight: 500; margin-bottom: 18px; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,44px); color: var(--green-900); margin-bottom: 16px; }
+    .cutoff-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--gold-700); font-weight: 500; }
+
+    /* TABLE */
+    .table-container { background: var(--cream-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-card); }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: var(--green-50); padding: 16px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--green-800); border-bottom: 1px solid var(--border-light); }
+    td { padding: 16px; border-bottom: 1px solid var(--border-light); font-size: 13px; color: var(--text-dark); }
+    tr:last-child td { border-bottom: none; }
+    
+    /* FOOTER */
+    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; }
   </style>
 </head>
 <body>
   <header>
-    <div class="header-brand">
-      <div class="header-title">Puri Asri 3</div>
-      <div class="header-sub">RT 01 · RW 12 · Inventaris</div>
-    </div>
+    <a href="#" class="header-brand">
+      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo"></div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 · RW 12 · Inventaris</div>
+      </div>
+    </a>
   </header>
-  <main id="mainContent">
+
+  <main>
     <div class="hero">
-      <h1 class="hero-title">Daftar Inventaris RT</h1>
-      <div id="cutoffContainer"></div>
+      <div class="hero-eyebrow">Data Inventaris</div>
+      <h1 class="hero-title">Inventaris RT 01</h1>
+      <div id="cutoffContainer" class="cutoff-badge">Memuat data...</div>
     </div>
-    <table class="inv-table">
-      <thead>
-        <tr><th>No</th><th>Nama Inventaris</th><th>Jumlah</th><th>Keterangan</th></tr>
-      </thead>
-      <tbody id="tableBody"></tbody>
-    </table>
+    
+    <div class="table-container">
+      <table id="invTable">
+        <thead>
+          <tr><th>No</th><th>Nama Inventaris</th><th>Jumlah</th><th>Keterangan</th></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
   </main>
+
+  <footer>
+    <strong>Puri Asri 3</strong> · RT 01 / RW 12<br>
+    Data Inventaris RT
+  </footer>
+
   <script>
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1378010647&single=true&output=csv';
     
@@ -62,23 +94,33 @@
         const text = await response.text();
         const lines = text.trim().split('\n');
         
-        // Cek baris pertama untuk Cut Off
-        const cutoffLine = lines[0].split(',');
-        const cutoffDate = cutoffLine[cutoffLine.length - 1].replace(/"/g, '').trim();
-        document.getElementById('cutoffContainer').innerHTML = `<div class="cutoff-badge">Data per: ${cutoffDate}</div>`;
-
-        // Baris ke-2 header
-        const rows = lines.slice(2);
+        // Asumsi: Baris 0 berisi "No, Nama Inventaris, Jumlah, Keterangan"
+        // Baris 1: Cutoff data di sel F1/G1 (berdasarkan gambar, cutoff ada di sel F1)
+        // Kita ambil data dari baris ke-2 (index 1) untuk header, dan index 2 untuk isi.
+        
+        // Berdasarkan file sebelumnya, kita perlu parse dengan hati-hati.
+        // Baris 0 = header, Baris 1 = data pertama, dst.
+        const rows = lines.slice(1);
         const tbody = document.getElementById('tableBody');
-        rows.forEach(line => {
-          const cols = line.split(',');
-          if(cols.length >= 4) {
+        
+        rows.forEach((line, index) => {
+          if (index === 0) return; // Lewati header
+          const cols = line.split(',').map(c => c.replace(/"/g, '').trim());
+          if (cols.length >= 4) {
             const tr = document.createElement('tr');
             tr.innerHTML = `<td>${cols[0]}</td><td>${cols[1]}</td><td>${cols[2]}</td><td>${cols[3]}</td>`;
             tbody.appendChild(tr);
           }
         });
-      } catch(e) { console.error(e); }
+        
+        // Ambil Cutoff dari baris header (index 0) kolom F (kolom ke-6)
+        const headerCols = lines[0].split(',');
+        const cutoffDate = headerCols[5] || '—';
+        document.getElementById('cutoffContainer').innerText = 'Data diperbarui sampai: ' + cutoffDate.replace(/"/g, '').trim();
+        
+      } catch(e) { 
+        document.getElementById('tableBody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data.</td></tr>';
+      }
     }
     loadData();
   </script>
