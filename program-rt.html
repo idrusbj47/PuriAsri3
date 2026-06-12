@@ -12,330 +12,133 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green-950: #0d1f10;
-      --green-900: #132b17;
-      --green-800: #1e4225;
-      --green-700: #265930;
-      --green-600: #2e7038;
-      --green-500: #3a8c45;
-      --green-400: #56a660;
-      --green-300: #80c489;
-      --green-200: #b3ddb9;
-      --green-100: #ddf0e0;
-      --green-50:  #f2fbf4;
-      --gold-700: #7a5c1e;
-      --gold-500: #c49a3c;
-      --gold-400: #d4af5a;
-      --gold-300: #e3c97e;
-      --gold-100: #f8f0da;
-      --cream-bg: #f7f5f0;
-      --cream-card: #fdfcfa;
-      --text-dark: #1a2b1c;
-      --text-mid:  #3a5040;
-      --text-muted: #6b8570;
-      --border-light: rgba(46, 112, 56, 0.12);
-      --border-mid:   rgba(46, 112, 56, 0.22);
-      --radius-sm: 6px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --shadow-card: 0 2px 12px rgba(30, 66, 37, 0.08), 0 1px 3px rgba(30, 66, 37, 0.06);
-      --shadow-hover: 0 8px 32px rgba(30, 66, 37, 0.14), 0 2px 8px rgba(30, 66, 37, 0.08);
+      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
+      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
+      --green-400: #56a660; --green-300: #80c489; --green-200: #b3ddb9;
+      --green-100: #ddf0e0; --green-50: #f2fbf4;
+      --gold-700: #7a5c1e; --gold-500: #c49a3c; --gold-400: #d4af5a;
+      --gold-300: #e3c97e; --gold-100: #f8f0da;
+      --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c; --text-mid: #3a5040; --text-muted: #6b8570;
+      --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+      --shadow-card: 0 2px 12px rgba(30,66,37,0.08), 0 1px 3px rgba(30,66,37,0.06);
+      --shadow-hover: 0 8px 32px rgba(30,66,37,0.14), 0 2px 8px rgba(30,66,37,0.08);
     }
 
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--cream-bg);
-      color: var(--text-dark);
-      min-height: 100vh;
-      overflow-x: hidden;
-      display: flex;
-      flex-direction: column;
+      background: var(--cream-bg); color: var(--text-dark);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column;
     }
-
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
+      content: ''; position: fixed; inset: 0;
       background-image:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46, 112, 56, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.07) 0%, transparent 70%),
         url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── HEADER ── */
+    /* HEADER */
     header {
-      position: relative;
-      z-index: 10;
-      background: var(--green-800);
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      flex-shrink: 0;
+      position: relative; z-index: 10;
+      background: var(--green-800); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
     }
-
     .header-brand {
       display: flex; align-items: center; gap: 14px;
-      text-decoration: none;
-      transition: opacity 0.2s;
+      text-decoration: none; transition: opacity 0.2s;
     }
     .header-brand:hover { opacity: 0.85; }
-
     .logo-mark {
-      width: 40px; height: 40px;
-      background: #fff;
-      border-radius: 50%;
+      width: 40px; height: 40px; background: #fff; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--gold-400);
-      flex-shrink: 0; overflow: hidden;
+      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
       transition: box-shadow 0.2s;
     }
-    .header-brand:hover .logo-mark {
-      box-shadow: 0 0 0 3px rgba(212,175,90,0.35);
-    }
-
+    .header-brand:hover .logo-mark { box-shadow: 0 0 0 3px rgba(212,175,90,0.35); }
     .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
-
-    .header-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2;
-    }
-
-    .header-sub {
-      font-size: 11px; color: var(--green-200);
-      letter-spacing: 0.06em; text-transform: uppercase;
-      font-weight: 400; margin-top: 1px;
-    }
-
+    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-top: 1px; }
     .btn-back {
       display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--green-200);
-      text-decoration: none; letter-spacing: 0.04em;
-      padding: 6px 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 20px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
+      font-size: 12px; color: var(--green-200); text-decoration: none;
+      letter-spacing: 0.04em; padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      transition: all 0.2s ease; white-space: nowrap;
     }
     .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
 
-    /* ── MAIN ── */
-    main {
-      position: relative;
-      z-index: 1;
-      flex: 1;
-      max-width: 960px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 52px 24px 80px;
-    }
+    /* MAIN */
+    main { position: relative; z-index: 1; flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 52px 24px 80px; }
 
-    /* ── LOADING STATE ── */
-    .loading-wrap {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 14px; padding: 80px 24px; text-align: center;
-    }
-    .spinner {
-      width: 36px; height: 36px;
-      border: 3px solid var(--border-mid);
-      border-top-color: var(--green-500);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
+    /* LOADING */
+    .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 24px; text-align: center; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border-mid); border-top-color: var(--green-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { font-size: 13px; color: var(--text-muted); font-weight: 300; }
 
-    /* ── ERROR STATE ── */
-    .error-wrap {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 10px; padding: 60px 24px; text-align: center;
-    }
+    /* ERROR */
+    .error-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 60px 24px; text-align: center; }
     .error-wrap p { font-size: 13px; color: var(--text-muted); }
     .btn-retry {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 8px 18px; border-radius: 20px; font-size: 12px;
-      background: var(--green-700); color: #fff;
-      border: none; cursor: pointer; font-family: inherit;
-      transition: background 0.2s;
+      background: var(--green-700); color: #fff; border: none; cursor: pointer;
+      font-family: inherit; transition: background 0.2s;
     }
     .btn-retry:hover { background: var(--green-600); }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero { text-align: center; margin-bottom: 40px; }
-
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--green-600); font-weight: 500; margin-bottom: 18px;
-    }
-    .hero-eyebrow::before, .hero-eyebrow::after {
-      content: ''; display: block; width: 28px; height: 1px; background: var(--green-400);
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 5vw, 44px);
-      font-weight: 500; color: var(--green-900);
-      line-height: 1.18; letter-spacing: -0.01em; margin-bottom: 16px;
-    }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); font-weight: 500; margin-bottom: 18px; }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 28px; height: 1px; background: var(--green-400); }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,44px); font-weight: 500; color: var(--green-900); line-height: 1.18; letter-spacing: -0.01em; margin-bottom: 16px; }
     .hero-title em { font-style: italic; color: var(--green-600); }
+    .hero-desc { font-size: 15px; color: var(--text-muted); font-weight: 300; line-height: 1.7; max-width: 480px; margin: 0 auto 14px; }
+    .cutoff-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--gold-700); font-weight: 500; letter-spacing: 0.04em; }
 
-    .hero-desc {
-      font-size: 15px; color: var(--text-muted);
-      font-weight: 300; line-height: 1.7;
-      max-width: 480px; margin: 0 auto 14px;
-    }
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 48px; }
+    .stat-chip { background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 16px 14px; text-align: center; box-shadow: var(--shadow-card); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--green-700); line-height: 1; }
+    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 5px; }
 
-    /* cutoff badge */
-    .cutoff-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25);
-      border-radius: 20px; padding: 5px 14px;
-      font-size: 11px; color: var(--gold-700); font-weight: 500;
-      letter-spacing: 0.04em;
-    }
-
-    /* ── STATS ROW ── */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 48px;
-    }
-
-    .stat-chip {
-      background: var(--cream-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 16px 14px;
-      text-align: center;
-      box-shadow: var(--shadow-card);
-    }
-
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px; font-weight: 600;
-      color: var(--green-700); line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 10px; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--text-muted);
-      font-weight: 500; margin-top: 5px;
-    }
-
-    /* ── BIDANG BLOCK ── */
+    /* BIDANG */
     .bidang-block { margin-bottom: 36px; }
+    .bidang-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .bidang-icon { width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .bidang-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 500; color: var(--green-900); }
+    .bidang-count { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; background: var(--cream-bg); border: 1px solid var(--border-light); border-radius: 20px; padding: 2px 9px; margin-left: auto; white-space: nowrap; }
 
-    .bidang-header {
-      display: flex; align-items: center; gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .bidang-icon {
-      width: 36px; height: 36px;
-      border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .bidang-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px; font-weight: 500; color: var(--green-900);
-    }
-
-    .bidang-count {
-      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted); font-weight: 500;
-      background: var(--cream-bg); border: 1px solid var(--border-light);
-      border-radius: 20px; padding: 2px 9px; margin-left: auto;
-      white-space: nowrap;
-    }
-
-    /* ── PROGRAM CARDS ── */
-    .program-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
-
+    /* CARDS */
+    .program-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
     .program-card {
-      background: var(--cream-card);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-md);
-      padding: 18px 20px;
+      background: var(--cream-card); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 18px 20px;
       box-shadow: var(--shadow-card);
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
-
-    .program-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px; height: 100%;
-      border-radius: 0 2px 2px 0;
-      opacity: 0.5;
-      transition: opacity 0.2s;
-    }
-
-    .program-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--border-mid);
-    }
-
+    .program-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; border-radius: 0 2px 2px 0; opacity: 0.5; transition: opacity 0.2s; }
+    .program-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
     .program-card:hover::before { opacity: 1; }
+    .program-name { font-size: 13px; font-weight: 500; color: var(--text-dark); margin-bottom: 5px; line-height: 1.35; }
+    .program-uraian { font-size: 12px; color: var(--text-muted); font-weight: 300; line-height: 1.55; margin-bottom: 10px; }
+    .program-status-row { display: flex; align-items: flex-start; gap: 6px; }
 
-    .program-name {
-      font-size: 13px; font-weight: 500;
-      color: var(--text-dark); margin-bottom: 5px; line-height: 1.35;
-    }
+    /* PULSE DOT */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; position: relative; }
+    .status-dot.active::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; background: inherit; opacity: 0.4; animation: pulse-ring 2s ease-out infinite; }
+    @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.4; } 65% { transform: scale(2.6); opacity: 0; } 100% { transform: scale(2.6); opacity: 0; } }
+    .status-dot.tidak { background: #bbb; }
+    .program-status-text { font-size: 11px; line-height: 1.45; font-weight: 400; }
+    .program-status-text.tidak { color: var(--text-muted); }
 
-    .program-uraian {
-      font-size: 12px; color: var(--text-muted);
-      font-weight: 300; line-height: 1.55; margin-bottom: 10px;
-    }
-
-    .program-status-row {
-      display: flex; align-items: flex-start; gap: 6px;
-    }
-
-    .status-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      flex-shrink: 0; margin-top: 3px;
-      position: relative;
-    }
-
-    .status-dot.active::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: inherit;
-      opacity: 0.4;
-      animation: pulse-ring 2s ease-out infinite;
-    }
-
-    @keyframes pulse-ring {
-      0%   { transform: scale(1);   opacity: 0.4; }
-      65%  { transform: scale(2.6); opacity: 0; }
-      100% { transform: scale(2.6); opacity: 0; }
-    }
-
-    .program-status-text {
-      font-size: 11px; line-height: 1.45; font-weight: 400;
-    }
-
-    /* ── COLOR THEMES per bidang ── */
+    /* THEMES */
     .theme-admin .bidang-icon  { background: var(--gold-100); color: var(--gold-700); border: 1px solid rgba(196,154,60,0.2); }
     .theme-admin .program-card::before { background: var(--gold-500); }
     .theme-admin .status-dot.active { background: var(--gold-500); }
@@ -361,56 +164,34 @@
     .theme-keamanan .status-dot.active { background: #6a6ab0; }
     .theme-keamanan .program-status-text.aktif { color: #4a4a90; }
 
-    /* dot tidak aktif */
-    .status-dot.tidak { background: #bbb; }
-    .program-status-text.tidak { color: var(--text-muted); }
-
-    /* ── FOOTER ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center; padding: 24px;
-      border-top: 1px solid var(--border-light);
-      font-size: 12px; color: var(--text-muted);
-      font-weight: 300; letter-spacing: 0.03em;
-    }
+    /* FOOTER */
+    footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
     footer strong { color: var(--green-700); font-weight: 500; }
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.06); pointer-events: none; z-index: 0; }
 
-    .deco-ring {
-      position: fixed; border-radius: 50%;
-      border: 1px solid rgba(46, 112, 56, 0.06);
-      pointer-events: none; z-index: 0;
-    }
-
-    /* ── RESPONSIVE ── */
+    /* RESPONSIVE */
     @media (max-width: 600px) {
       header { padding: 0 1rem; }
       .btn-back span { display: none; }
       main { padding: 28px 14px 60px; }
       .hero { margin-bottom: 28px; }
       .hero-title { font-size: 26px; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 32px; }
+      .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 32px; }
       .program-grid { grid-template-columns: 1fr; }
       .program-grid .program-card { grid-column: span 1 !important; }
       .bidang-name { font-size: 15px; }
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
-
   <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
   <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
 
-  <!-- HEADER -->
   <header>
     <a href="index.html" class="header-brand">
-      <div class="logo-mark">
-        <img src="Logo RT11.png" alt="Logo Puri Asri 3">
-      </div>
+      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo Puri Asri 3"></div>
       <div>
         <div class="header-title">Puri Asri 3</div>
         <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026</div>
@@ -423,8 +204,7 @@
   </header>
 
   <main id="mainContent">
-    <!-- Diisi oleh JavaScript -->
-    <div class="loading-wrap" id="loadingState">
+    <div class="loading-wrap">
       <div class="spinner"></div>
       <div class="loading-text">Memuat data program dari Google Sheets…</div>
     </div>
@@ -432,212 +212,173 @@
 
   <footer>
     <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026<br>
-    <span style="margin-top:4px; display:block;">Program Kerja RT · Dikelola oleh Pengurus RT</span>
+    <span style="margin-top:4px;display:block;">Program Kerja RT · Dikelola oleh Pengurus RT</span>
   </footer>
 
-  <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=480065335&single=true&output=csv';
+<script>
+// ── URL CSV sheet Program RT ──
+const CSV_URL    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=480065335&single=true&output=csv';
+// Ambil cell G1 saja untuk cutoff date — pakai pola yang sama dengan kas-umum.html
+const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=480065335&single=true&output=csv&range=G1';
 
-    // Config tiap bidang: tema CSS, ikon SVG
-    const BIDANG_CONFIG = {
-      'Administrasi & Transparansi': {
-        theme: 'theme-admin',
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`
-      },
-      'Sosial & Kemasyarakatan': {
-        theme: 'theme-sosial',
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
-      },
-      'Keagamaan & Perayaan': {
-        theme: 'theme-agama',
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`
-      },
-      'Kesehatan': {
-        theme: 'theme-kesehatan',
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`
-      },
-      'Keamanan & Lingkungan': {
-        theme: 'theme-keamanan',
-        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
-      }
-    };
+const BIDANG_CONFIG = {
+  'Administrasi & Transparansi': { theme:'theme-admin', icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>` },
+  'Sosial & Kemasyarakatan':     { theme:'theme-sosial', icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>` },
+  'Keagamaan & Perayaan':        { theme:'theme-agama', icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>` },
+  'Kesehatan':                   { theme:'theme-kesehatan', icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>` },
+  'Keamanan & Lingkungan':       { theme:'theme-keamanan', icon:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>` }
+};
+const FALLBACK_THEMES = ['theme-admin','theme-sosial','theme-agama','theme-kesehatan','theme-keamanan'];
+const FALLBACK_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`;
 
-    // Fallback theme untuk bidang baru yang belum ada di config
-    const FALLBACK_THEMES = ['theme-admin','theme-sosial','theme-agama','theme-kesehatan','theme-keamanan'];
-    const FALLBACK_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+// ── Parser CSV sederhana, handle quoted fields ──
+function splitLine(line) {
+  const r = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
+    else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
+    else cur += c;
+  }
+  r.push(cur.trim()); return r;
+}
 
-    // Parse CSV sederhana — handle quoted fields dengan koma di dalamnya
-    function parseCSV(text) {
-      const lines = text.trim().split('\n');
-      if (lines.length < 2) return { headers: [], rows: [], cutoff: '' };
+function parseCSV(text) {
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
 
-      // Baris pertama: header row — cek apakah ada "Cutt Off date" di kolom F (index 5)
-      // Format header: Bidang,Program,Uraian,Status,StatusAktif,Cutt Off date :,<tanggal>
-      const firstLine = parseRow(lines[0]);
-      const headers = firstLine;
+  // Baris 0 = header (Bidang,Program,Uraian,Status,StatusAktif,...)
+  const headers = splitLine(lines[0]).map(h => h.replace(/"/g,'').trim());
 
-      // Cek cutoff — cari kolom "Cutt Off date" atau "Cutt Off date :"
-      let cutoff = '';
-      for (let i = 0; i < headers.length; i++) {
-        if (headers[i].toLowerCase().includes('cutt off') || headers[i].toLowerCase().includes('cut off')) {
-          cutoff = headers[i + 1] || '';
-          break;
-        }
-      }
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitLine(lines[i]);
+    if (!cols[0] || !cols[0].replace(/"/g,'').trim()) continue;
+    const row = {};
+    headers.forEach((h, idx) => { row[h] = (cols[idx] || '').replace(/"/g,'').trim(); });
+    rows.push(row);
+  }
+  return rows;
+}
 
-      // Baris kedua = header kolom data
-      const dataHeaders = parseRow(lines[1]).map(h => h.trim());
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 
-      const rows = [];
-      for (let i = 2; i < lines.length; i++) {
-        const cols = parseRow(lines[i]);
-        if (cols.length < 2 || !cols[0].trim()) continue;
-        const row = {};
-        dataHeaders.forEach((h, idx) => { row[h] = (cols[idx] || '').trim(); });
-        rows.push(row);
-      }
+function renderPage(rows, cutoff) {
+  // Kelompokkan per bidang
+  const bidangMap = new Map();
+  rows.forEach(row => {
+    const b = row['Bidang'] || '';
+    if (!b) return;
+    if (!bidangMap.has(b)) bidangMap.set(b, []);
+    bidangMap.get(b).push(row);
+  });
 
-      return { headers: dataHeaders, rows, cutoff };
-    }
+  const total   = rows.length;
+  const bidang  = bidangMap.size;
+  const aktif   = rows.filter(r => (r['StatusAktif']||'').toLowerCase() === 'aktif').length;
+  const tidak   = total - aktif;
 
-    function parseRow(line) {
-      const result = [];
-      let cur = '', inQuote = false;
-      for (let i = 0; i < line.length; i++) {
-        const c = line[i];
-        if (c === '"') {
-          if (inQuote && line[i+1] === '"') { cur += '"'; i++; }
-          else inQuote = !inQuote;
-        } else if (c === ',' && !inQuote) {
-          result.push(cur); cur = '';
-        } else {
-          cur += c;
-        }
-      }
-      result.push(cur);
-      return result;
-    }
+  let html = '';
 
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-    }
+  // HERO
+  html += `<div class="hero" style="animation:fadeUp .5s ease both .05s">
+    <div class="hero-eyebrow">Program Kerja</div>
+    <h1 class="hero-title">Program &amp; Kegiatan<br><em>RT 01 / RW 12</em></h1>
+    <p class="hero-desc">Rangkuman program kerja dan kegiatan warga Puri Asri 3 yang sedang berjalan maupun direncanakan.</p>
+    ${cutoff ? `<div class="cutoff-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Data diperbarui sampai: ${esc(cutoff)}
+    </div>` : ''}
+  </div>`;
 
-    function renderPage(data) {
-      const { rows, cutoff } = data;
+  // STATS
+  html += `<div class="stats-row" style="animation:fadeUp .5s ease both .15s">
+    <div class="stat-chip"><div class="stat-num">${total}</div><div class="stat-label">Total Program</div></div>
+    <div class="stat-chip"><div class="stat-num">${bidang}</div><div class="stat-label">Bidang</div></div>
+    <div class="stat-chip"><div class="stat-num">${aktif}</div><div class="stat-label">Berjalan</div></div>
+    <div class="stat-chip"><div class="stat-num">${tidak}</div><div class="stat-label">Belum / Insidental</div></div>
+  </div>`;
 
-      // Kelompokkan per bidang, pertahankan urutan kemunculan
-      const bidangMap = new Map();
-      rows.forEach(row => {
-        const b = row['Bidang'] || row['bidang'] || '';
-        if (!b) return;
-        if (!bidangMap.has(b)) bidangMap.set(b, []);
-        bidangMap.get(b).push(row);
-      });
+  // BIDANG BLOCKS
+  let delay = 0.20, themeIdx = 0;
+  bidangMap.forEach((programs, bidangName) => {
+    const cfg = BIDANG_CONFIG[bidangName] || { theme: FALLBACK_THEMES[themeIdx % FALLBACK_THEMES.length], icon: FALLBACK_ICON };
+    themeIdx++;
 
-      const totalProgram = rows.length;
-      const totalBidang  = bidangMap.size;
-      const totalAktif   = rows.filter(r => (r['StatusAktif']||'').toLowerCase() === 'aktif').length;
-      const totalTidak   = totalProgram - totalAktif;
+    html += `<div class="bidang-block ${cfg.theme}" style="animation:fadeUp .5s ease both ${delay.toFixed(2)}s">
+      <div class="bidang-header">
+        <div class="bidang-icon">${cfg.icon}</div>
+        <div class="bidang-name">${esc(bidangName)}</div>
+        <div class="bidang-count">${programs.length} program</div>
+      </div>
+      <div class="program-grid">`;
 
-      let html = '';
-
-      // HERO
-      html += `
-      <div class="hero" style="animation: fadeUp 0.5s ease both 0.05s;">
-        <div class="hero-eyebrow">Program Kerja</div>
-        <h1 class="hero-title">Program & Kegiatan<br><em>RT 01 / RW 12</em></h1>
-        <p class="hero-desc">Rangkuman program kerja dan kegiatan warga Puri Asri 3 yang sedang berjalan maupun direncanakan.</p>
-        ${cutoff ? `<div class="cutoff-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Data diperbarui sampai: ${escapeHtml(cutoff)}
-        </div>` : ''}
+    programs.forEach(prog => {
+      const isAktif = (prog['StatusAktif']||'').toLowerCase() === 'aktif';
+      html += `<div class="program-card">
+        <div class="program-name">${esc(prog['Program']||'')}</div>
+        <div class="program-uraian">${esc(prog['Uraian']||'')}</div>
+        <div class="program-status-row">
+          <div class="status-dot ${isAktif ? 'active' : 'tidak'}"></div>
+          <div class="program-status-text ${isAktif ? 'aktif' : 'tidak'}">${esc(prog['Status']||'')}</div>
+        </div>
       </div>`;
+    });
 
-      // STATS
-      html += `
-      <div class="stats-row" style="animation: fadeUp 0.5s ease both 0.15s;">
-        <div class="stat-chip"><div class="stat-num">${totalProgram}</div><div class="stat-label">Total Program</div></div>
-        <div class="stat-chip"><div class="stat-num">${totalBidang}</div><div class="stat-label">Bidang</div></div>
-        <div class="stat-chip"><div class="stat-num">${totalAktif}</div><div class="stat-label">Berjalan</div></div>
-        <div class="stat-chip"><div class="stat-num">${totalTidak}</div><div class="stat-label">Belum / Insidental</div></div>
-      </div>`;
+    html += `</div></div>`;
+    delay += 0.06;
+  });
 
-      // BIDANG BLOCKS
-      let delay = 0.20;
-      let themeIndex = 0;
-      bidangMap.forEach((programs, bidangName) => {
-        const cfg = BIDANG_CONFIG[bidangName] || {
-          theme: FALLBACK_THEMES[themeIndex % FALLBACK_THEMES.length],
-          icon: FALLBACK_ICON
-        };
-        themeIndex++;
+  document.getElementById('mainContent').innerHTML = html;
+}
 
-        html += `<div class="bidang-block ${cfg.theme}" style="animation: fadeUp 0.5s ease both ${delay.toFixed(2)}s;">`;
-        html += `
-          <div class="bidang-header">
-            <div class="bidang-icon">${cfg.icon}</div>
-            <div class="bidang-name">${escapeHtml(bidangName)}</div>
-            <div class="bidang-count">${programs.length} program</div>
-          </div>
-          <div class="program-grid">`;
+function showError() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="error-wrap">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>Gagal memuat data. Periksa koneksi internet dan coba lagi.</p>
+      <button class="btn-retry" onclick="loadData()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
+        Coba lagi
+      </button>
+    </div>`;
+}
 
-        programs.forEach(prog => {
-          const nama    = escapeHtml(prog['Program'] || prog['program'] || '');
-          const uraian  = escapeHtml(prog['Uraian']  || prog['uraian']  || '');
-          const status  = escapeHtml(prog['Status']  || prog['status']  || '');
-          const isAktif = (prog['StatusAktif'] || '').toLowerCase() === 'aktif';
+async function loadData() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Memuat data program dari Google Sheets…</div></div>`;
+  try {
+    const t = new Date().getTime(); // cache-buster, sama persis dengan kas-umum.html
 
-          html += `
-            <div class="program-card">
-              <div class="program-name">${nama}</div>
-              <div class="program-uraian">${uraian}</div>
-              <div class="program-status-row">
-                <div class="status-dot ${isAktif ? 'active' : 'tidak'}"></div>
-                <div class="program-status-text ${isAktif ? 'aktif' : 'tidak'}">${status}</div>
-              </div>
-            </div>`;
-        });
+    // Fetch data + cutoff secara paralel (pola dari kas-umum.html)
+    const [dataRes, cutoffRes] = await Promise.all([
+      fetch(`${CSV_URL}&t=${t}`),
+      fetch(`${CUTOFF_URL}&t=${t}`)
+    ]);
 
-        html += `</div></div>`;
-        delay += 0.06;
-      });
+    if (!dataRes.ok) throw new Error('HTTP ' + dataRes.status);
+    const text = await dataRes.text();
 
-      document.getElementById('mainContent').innerHTML = html;
+    // Ambil cutoff dari G1
+    let cutoff = '';
+    if (cutoffRes.ok) {
+      const ct = await cutoffRes.text();
+      cutoff = ct.split('\n')[0].replace(/"/g,'').trim();
     }
 
-    function showError(msg) {
-      document.getElementById('mainContent').innerHTML = `
-        <div class="error-wrap">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <p>${msg}</p>
-          <button class="btn-retry" onclick="loadData()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
-            Coba lagi
-          </button>
-        </div>`;
-    }
+    const rows = parseCSV(text);
+    if (rows.length === 0) throw new Error('Data kosong');
 
-    async function loadData() {
-      document.getElementById('mainContent').innerHTML = `
-        <div class="loading-wrap" id="loadingState">
-          <div class="spinner"></div>
-          <div class="loading-text">Memuat data program dari Google Sheets…</div>
-        </div>`;
-      try {
-        const res = await fetch(CSV_URL);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const text = await res.text();
-        const data = parseCSV(text);
-        if (data.rows.length === 0) throw new Error('Data kosong');
-        renderPage(data);
-      } catch (e) {
-        showError('Gagal memuat data. Periksa koneksi atau coba beberapa saat lagi.');
-        console.error(e);
-      }
-    }
+    renderPage(rows, cutoff);
+  } catch(e) {
+    console.error(e);
+    showError();
+  }
+}
 
-    loadData();
-  </script>
-
+loadData();
+</script>
 </body>
 </html>
