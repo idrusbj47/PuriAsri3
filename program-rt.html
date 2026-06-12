@@ -79,7 +79,12 @@
       flex-shrink: 0;
     }
 
-    .header-brand { display: flex; align-items: center; gap: 14px; }
+    .header-brand {
+      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .header-brand:hover { opacity: 0.85; }
 
     .logo-mark {
       width: 40px; height: 40px;
@@ -88,6 +93,10 @@
       display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--gold-400);
       flex-shrink: 0; overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .header-brand:hover .logo-mark {
+      box-shadow: 0 0 0 3px rgba(212,175,90,0.35);
     }
 
     .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
@@ -111,8 +120,8 @@
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 20px;
       transition: all 0.2s ease;
+      white-space: nowrap;
     }
-
     .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
 
     /* ── MAIN ── */
@@ -126,15 +135,46 @@
       padding: 52px 24px 80px;
     }
 
+    /* ── LOADING STATE ── */
+    .loading-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 14px; padding: 80px 24px; text-align: center;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border-mid);
+      border-top-color: var(--green-500);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+
+    /* ── ERROR STATE ── */
+    .error-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; padding: 60px 24px; text-align: center;
+    }
+    .error-wrap p { font-size: 13px; color: var(--text-muted); }
+    .btn-retry {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 20px; font-size: 12px;
+      background: var(--green-700); color: #fff;
+      border: none; cursor: pointer; font-family: inherit;
+      transition: background 0.2s;
+    }
+    .btn-retry:hover { background: var(--green-600); }
+
     /* ── HERO ── */
-    .hero { text-align: center; margin-bottom: 56px; }
+    .hero { text-align: center; margin-bottom: 40px; }
 
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--green-600); font-weight: 500; margin-bottom: 18px;
     }
-
     .hero-eyebrow::before, .hero-eyebrow::after {
       content: ''; display: block; width: 28px; height: 1px; background: var(--green-400);
     }
@@ -145,19 +185,27 @@
       font-weight: 500; color: var(--green-900);
       line-height: 1.18; letter-spacing: -0.01em; margin-bottom: 16px;
     }
-
     .hero-title em { font-style: italic; color: var(--green-600); }
 
     .hero-desc {
       font-size: 15px; color: var(--text-muted);
       font-weight: 300; line-height: 1.7;
-      max-width: 480px; margin: 0 auto;
+      max-width: 480px; margin: 0 auto 14px;
+    }
+
+    /* cutoff badge */
+    .cutoff-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 11px; color: var(--gold-700); font-weight: 500;
+      letter-spacing: 0.04em;
     }
 
     /* ── STATS ROW ── */
     .stats-row {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
       margin-bottom: 48px;
     }
@@ -181,20 +229,6 @@
       font-size: 10px; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--text-muted);
       font-weight: 500; margin-top: 5px;
-    }
-
-    /* ── SECTION LABEL ── */
-    .section-label {
-      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
-    }
-
-    .section-label span {
-      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text-muted); font-weight: 500; white-space: nowrap;
-    }
-
-    .section-label::after {
-      content: ''; flex: 1; height: 1px; background: var(--border-light);
     }
 
     /* ── BIDANG BLOCK ── */
@@ -222,6 +256,7 @@
       color: var(--text-muted); font-weight: 500;
       background: var(--cream-bg); border: 1px solid var(--border-light);
       border-radius: 20px; padding: 2px 9px; margin-left: auto;
+      white-space: nowrap;
     }
 
     /* ── PROGRAM CARDS ── */
@@ -301,36 +336,34 @@
     }
 
     /* ── COLOR THEMES per bidang ── */
-
-    /* Administrasi — gold */
-    .theme-admin .bidang-icon { background: var(--gold-100); color: var(--gold-700); border: 1px solid rgba(196,154,60,0.2); }
+    .theme-admin .bidang-icon  { background: var(--gold-100); color: var(--gold-700); border: 1px solid rgba(196,154,60,0.2); }
     .theme-admin .program-card::before { background: var(--gold-500); }
-    .theme-admin .status-dot { background: var(--gold-500); }
-    .theme-admin .program-status-text { color: var(--gold-700); }
+    .theme-admin .status-dot.active { background: var(--gold-500); }
+    .theme-admin .program-status-text.aktif { color: var(--gold-700); }
 
-    /* Sosial — green */
     .theme-sosial .bidang-icon { background: var(--green-50); color: var(--green-600); border: 1px solid var(--border-light); }
     .theme-sosial .program-card::before { background: var(--green-500); }
-    .theme-sosial .status-dot { background: var(--green-500); }
-    .theme-sosial .program-status-text { color: var(--green-700); }
+    .theme-sosial .status-dot.active { background: var(--green-500); }
+    .theme-sosial .program-status-text.aktif { color: var(--green-700); }
 
-    /* Keagamaan — teal */
-    .theme-agama .bidang-icon { background: #e8f4f8; color: #2a7a8a; border: 1px solid rgba(42,122,138,0.15); }
+    .theme-agama .bidang-icon  { background: #e8f4f8; color: #2a7a8a; border: 1px solid rgba(42,122,138,0.15); }
     .theme-agama .program-card::before { background: #3a9aaa; }
-    .theme-agama .status-dot { background: #3a9aaa; }
-    .theme-agama .program-status-text { color: #2a7a8a; }
+    .theme-agama .status-dot.active { background: #3a9aaa; }
+    .theme-agama .program-status-text.aktif { color: #2a7a8a; }
 
-    /* Kesehatan — rose */
     .theme-kesehatan .bidang-icon { background: #fdf0f0; color: #a04040; border: 1px solid rgba(160,64,64,0.15); }
     .theme-kesehatan .program-card::before { background: #c06060; }
-    .theme-kesehatan .status-dot { background: #c06060; }
-    .theme-kesehatan .program-status-text { color: #a04040; }
+    .theme-kesehatan .status-dot.active { background: #c06060; }
+    .theme-kesehatan .program-status-text.aktif { color: #a04040; }
 
-    /* Keamanan — indigo */
     .theme-keamanan .bidang-icon { background: #f0f0fb; color: #4a4a90; border: 1px solid rgba(74,74,144,0.15); }
     .theme-keamanan .program-card::before { background: #6a6ab0; }
-    .theme-keamanan .status-dot { background: #6a6ab0; }
-    .theme-keamanan .program-status-text { color: #4a4a90; }
+    .theme-keamanan .status-dot.active { background: #6a6ab0; }
+    .theme-keamanan .program-status-text.aktif { color: #4a4a90; }
+
+    /* dot tidak aktif */
+    .status-dot.tidak { background: #bbb; }
+    .program-status-text.tidak { color: var(--text-muted); }
 
     /* ── FOOTER ── */
     footer {
@@ -340,7 +373,6 @@
       font-size: 12px; color: var(--text-muted);
       font-weight: 300; letter-spacing: 0.03em;
     }
-
     footer strong { color: var(--green-700); font-weight: 500; }
 
     .deco-ring {
@@ -356,11 +388,7 @@
       main { padding: 28px 14px 60px; }
       .hero { margin-bottom: 28px; }
       .hero-title { font-size: 26px; }
-      .hero-desc { font-size: 14px; }
-      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 32px; }
-      .stats-row .stat-chip:nth-child(4),
-      .stats-row .stat-chip:nth-child(5) { grid-column: span 1; }
-      .stat-num { font-size: 22px; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 32px; }
       .program-grid { grid-template-columns: 1fr; }
       .program-grid .program-card { grid-column: span 1 !important; }
       .bidang-name { font-size: 15px; }
@@ -370,15 +398,6 @@
       from { opacity: 0; transform: translateY(14px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    .hero       { animation: fadeUp 0.5s ease both; animation-delay: 0.05s; }
-    .stats-row  { animation: fadeUp 0.5s ease both; animation-delay: 0.15s; }
-    .bidang-block { animation: fadeUp 0.5s ease both; }
-    .bidang-block:nth-child(1) { animation-delay: 0.20s; }
-    .bidang-block:nth-child(2) { animation-delay: 0.26s; }
-    .bidang-block:nth-child(3) { animation-delay: 0.32s; }
-    .bidang-block:nth-child(4) { animation-delay: 0.38s; }
-    .bidang-block:nth-child(5) { animation-delay: 0.44s; }
   </style>
 </head>
 <body>
@@ -388,7 +407,7 @@
 
   <!-- HEADER -->
   <header>
-    <div class="header-brand">
+    <a href="index.html" class="header-brand">
       <div class="logo-mark">
         <img src="Logo RT11.png" alt="Logo Puri Asri 3">
       </div>
@@ -396,261 +415,229 @@
         <div class="header-title">Puri Asri 3</div>
         <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026</div>
       </div>
-    </div>
+    </a>
     <a href="index.html" class="btn-back">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       <span>Kembali</span>
     </a>
   </header>
 
-  <main>
-
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-eyebrow">Program Kerja</div>
-      <h1 class="hero-title">Program & Kegiatan<br><em>RT 01 / RW 12</em></h1>
-      <p class="hero-desc">Rangkuman program kerja dan kegiatan warga Puri Asri 3 yang sedang berjalan maupun direncanakan.</p>
+  <main id="mainContent">
+    <!-- Diisi oleh JavaScript -->
+    <div class="loading-wrap" id="loadingState">
+      <div class="spinner"></div>
+      <div class="loading-text">Memuat data program dari Google Sheets…</div>
     </div>
-
-    <!-- STATS -->
-    <div class="stats-row">
-      <div class="stat-chip">
-        <div class="stat-num">17</div>
-        <div class="stat-label">Total Program</div>
-      </div>
-      <div class="stat-chip">
-        <div class="stat-num">5</div>
-        <div class="stat-label">Bidang</div>
-      </div>
-      <div class="stat-chip">
-        <div class="stat-num">14</div>
-        <div class="stat-label">Berjalan</div>
-      </div>
-      <div class="stat-chip">
-        <div class="stat-num">2</div>
-        <div class="stat-label">Direncanakan</div>
-      </div>
-      <div class="stat-chip">
-        <div class="stat-num">1</div>
-        <div class="stat-label">Insidental</div>
-      </div>
-    </div>
-
-    <!-- ── BIDANG 1: ADMINISTRASI ── -->
-    <div class="bidang-block theme-admin">
-      <div class="bidang-header">
-        <div class="bidang-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
-            <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-          </svg>
-        </div>
-        <div class="bidang-name">Administrasi & Transparansi</div>
-        <div class="bidang-count">4 program</div>
-      </div>
-      <div class="program-grid">
-        <div class="program-card">
-          <div class="program-name">Pelayanan Administrasi</div>
-          <div class="program-uraian">Membantu kebutuhan surat-menyurat dan administrasi warga.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Dilaksanakan sesuai kebutuhan warga.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Pendataan Warga</div>
-          <div class="program-uraian">Pembaruan data kependudukan secara berkala.</div>
-          <div class="program-status-row">
-            <div class="status-dot" style="background:#bbb;"></div>
-            <div class="program-status-text" style="color:var(--text-muted);">Belum dilakukan pembaruan data.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Pengelolaan Iuran Warga</div>
-          <div class="program-uraian">Penagihan, penerimaan, dan pencatatan iuran Kas RT serta Dana Duka.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Dilaksanakan secara rutin setiap bulan.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Transparansi Keuangan</div>
-          <div class="program-uraian">Publikasi laporan Kas RT dan Dana Duka kepada warga.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Pelaporan dilaksanakan setiap bulan.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── BIDANG 2: SOSIAL ── -->
-    <div class="bidang-block theme-sosial">
-      <div class="bidang-header">
-        <div class="bidang-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="bidang-name">Sosial & Kemasyarakatan</div>
-        <div class="bidang-count">3 program</div>
-      </div>
-      <div class="program-grid">
-        <div class="program-card">
-          <div class="program-name">Arisan Warga</div>
-          <div class="program-uraian">Pertemuan silaturahmi rutin bulanan.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: Bu RT Aan & Bu Elis.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Santunan Sosial</div>
-          <div class="program-uraian">Program kepedulian bagi warga yang sakit atau berduka.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: Pengurus RT.</div>
-          </div>
-        </div>
-        <div class="program-card" style="grid-column: span 2;">
-          <div class="program-name">Jumat Berkah</div>
-          <div class="program-uraian">Kegiatan berbagi makanan bagi warga yang membutuhkan.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan melalui gotong royong warga.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── BIDANG 3: KEAGAMAAN ── -->
-    <div class="bidang-block theme-agama">
-      <div class="bidang-header">
-        <div class="bidang-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-            <path d="M2 17l10 5 10-5"/>
-            <path d="M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div class="bidang-name">Keagamaan & Perayaan</div>
-        <div class="bidang-count">3 program</div>
-      </div>
-      <div class="program-grid">
-        <div class="program-card" style="grid-column: span 2;">
-          <div class="program-name">Pengajian Rutin</div>
-          <div class="program-uraian">Kajian keagamaan untuk meningkatkan silaturahmi dan kebersamaan warga.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Pengajian malam Senin dan malam Jumat oleh DKM, serta pengajian keliling malam Jumat oleh ibu-ibu. Koordinator: Bu Elis.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Hari Besar Nasional</div>
-          <div class="program-uraian">Perayaan HUT RI dan kegiatan gotong royong warga.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: Pengurus RT.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Hari Besar Keagamaan</div>
-          <div class="program-uraian">Shalat Id, penyelenggaraan kurban, dan Halal Bihalal.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: DKM.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── BIDANG 4: KESEHATAN ── -->
-    <div class="bidang-block theme-kesehatan">
-      <div class="bidang-header">
-        <div class="bidang-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-          </svg>
-        </div>
-        <div class="bidang-name">Kesehatan</div>
-        <div class="bidang-count">3 program</div>
-      </div>
-      <div class="program-grid">
-        <div class="program-card">
-          <div class="program-name">Posyandu</div>
-          <div class="program-uraian">Pemantauan kesehatan balita dan lansia.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator/Ketua: Bu Elis.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Senam Sehat</div>
-          <div class="program-uraian">Kegiatan olahraga bersama warga.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: Bu Febby (Gang Flaminggo 2).</div>
-          </div>
-        </div>
-        <div class="program-card" style="grid-column: span 2;">
-          <div class="program-name">Mitigasi Kesehatan</div>
-          <div class="program-uraian">Fogging dan upaya pencegahan DBD.</div>
-          <div class="program-status-row">
-            <div class="status-dot" style="background:#bbb;"></div>
-            <div class="program-status-text" style="color:var(--text-muted);">Dilaksanakan sesuai kebutuhan dan permintaan warga.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── BIDANG 5: KEAMANAN ── -->
-    <div class="bidang-block theme-keamanan">
-      <div class="bidang-header">
-        <div class="bidang-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        </div>
-        <div class="bidang-name">Keamanan & Lingkungan</div>
-        <div class="bidang-count">3 program</div>
-      </div>
-      <div class="program-grid">
-        <div class="program-card">
-          <div class="program-name">Kerja Bakti Rutin</div>
-          <div class="program-uraian">Pembersihan lingkungan secara berkala.</div>
-          <div class="program-status-row">
-            <div class="status-dot" style="background:#bbb;"></div>
-            <div class="program-status-text" style="color:var(--text-muted);">Menunggu penjadwalan.</div>
-          </div>
-        </div>
-        <div class="program-card">
-          <div class="program-name">Siskamling</div>
-          <div class="program-uraian">Optimalisasi ronda malam untuk menjaga keamanan lingkungan.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan di sebagian blok, dikembangkan bertahap.</div>
-          </div>
-        </div>
-        <div class="program-card" style="grid-column: span 2;">
-          <div class="program-name">Pengelolaan Sampah</div>
-          <div class="program-uraian">Program pemilahan dan pengelolaan sampah mandiri.</div>
-          <div class="program-status-row">
-            <div class="status-dot active"></div>
-            <div class="program-status-text">Berjalan. Koordinator: Bu Yani.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </main>
 
   <footer>
     <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026<br>
     <span style="margin-top:4px; display:block;">Program Kerja RT · Dikelola oleh Pengurus RT</span>
   </footer>
+
+  <script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=480065335&single=true&output=csv';
+
+    // Config tiap bidang: tema CSS, ikon SVG
+    const BIDANG_CONFIG = {
+      'Administrasi & Transparansi': {
+        theme: 'theme-admin',
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`
+      },
+      'Sosial & Kemasyarakatan': {
+        theme: 'theme-sosial',
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+      },
+      'Keagamaan & Perayaan': {
+        theme: 'theme-agama',
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`
+      },
+      'Kesehatan': {
+        theme: 'theme-kesehatan',
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`
+      },
+      'Keamanan & Lingkungan': {
+        theme: 'theme-keamanan',
+        icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`
+      }
+    };
+
+    // Fallback theme untuk bidang baru yang belum ada di config
+    const FALLBACK_THEMES = ['theme-admin','theme-sosial','theme-agama','theme-kesehatan','theme-keamanan'];
+    const FALLBACK_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+
+    // Parse CSV sederhana — handle quoted fields dengan koma di dalamnya
+    function parseCSV(text) {
+      const lines = text.trim().split('\n');
+      if (lines.length < 2) return { headers: [], rows: [], cutoff: '' };
+
+      // Baris pertama: header row — cek apakah ada "Cutt Off date" di kolom F (index 5)
+      // Format header: Bidang,Program,Uraian,Status,StatusAktif,Cutt Off date :,<tanggal>
+      const firstLine = parseRow(lines[0]);
+      const headers = firstLine;
+
+      // Cek cutoff — cari kolom "Cutt Off date" atau "Cutt Off date :"
+      let cutoff = '';
+      for (let i = 0; i < headers.length; i++) {
+        if (headers[i].toLowerCase().includes('cutt off') || headers[i].toLowerCase().includes('cut off')) {
+          cutoff = headers[i + 1] || '';
+          break;
+        }
+      }
+
+      // Baris kedua = header kolom data
+      const dataHeaders = parseRow(lines[1]).map(h => h.trim());
+
+      const rows = [];
+      for (let i = 2; i < lines.length; i++) {
+        const cols = parseRow(lines[i]);
+        if (cols.length < 2 || !cols[0].trim()) continue;
+        const row = {};
+        dataHeaders.forEach((h, idx) => { row[h] = (cols[idx] || '').trim(); });
+        rows.push(row);
+      }
+
+      return { headers: dataHeaders, rows, cutoff };
+    }
+
+    function parseRow(line) {
+      const result = [];
+      let cur = '', inQuote = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') {
+          if (inQuote && line[i+1] === '"') { cur += '"'; i++; }
+          else inQuote = !inQuote;
+        } else if (c === ',' && !inQuote) {
+          result.push(cur); cur = '';
+        } else {
+          cur += c;
+        }
+      }
+      result.push(cur);
+      return result;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderPage(data) {
+      const { rows, cutoff } = data;
+
+      // Kelompokkan per bidang, pertahankan urutan kemunculan
+      const bidangMap = new Map();
+      rows.forEach(row => {
+        const b = row['Bidang'] || row['bidang'] || '';
+        if (!b) return;
+        if (!bidangMap.has(b)) bidangMap.set(b, []);
+        bidangMap.get(b).push(row);
+      });
+
+      const totalProgram = rows.length;
+      const totalBidang  = bidangMap.size;
+      const totalAktif   = rows.filter(r => (r['StatusAktif']||'').toLowerCase() === 'aktif').length;
+      const totalTidak   = totalProgram - totalAktif;
+
+      let html = '';
+
+      // HERO
+      html += `
+      <div class="hero" style="animation: fadeUp 0.5s ease both 0.05s;">
+        <div class="hero-eyebrow">Program Kerja</div>
+        <h1 class="hero-title">Program & Kegiatan<br><em>RT 01 / RW 12</em></h1>
+        <p class="hero-desc">Rangkuman program kerja dan kegiatan warga Puri Asri 3 yang sedang berjalan maupun direncanakan.</p>
+        ${cutoff ? `<div class="cutoff-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Data diperbarui sampai: ${escapeHtml(cutoff)}
+        </div>` : ''}
+      </div>`;
+
+      // STATS
+      html += `
+      <div class="stats-row" style="animation: fadeUp 0.5s ease both 0.15s;">
+        <div class="stat-chip"><div class="stat-num">${totalProgram}</div><div class="stat-label">Total Program</div></div>
+        <div class="stat-chip"><div class="stat-num">${totalBidang}</div><div class="stat-label">Bidang</div></div>
+        <div class="stat-chip"><div class="stat-num">${totalAktif}</div><div class="stat-label">Berjalan</div></div>
+        <div class="stat-chip"><div class="stat-num">${totalTidak}</div><div class="stat-label">Belum / Insidental</div></div>
+      </div>`;
+
+      // BIDANG BLOCKS
+      let delay = 0.20;
+      let themeIndex = 0;
+      bidangMap.forEach((programs, bidangName) => {
+        const cfg = BIDANG_CONFIG[bidangName] || {
+          theme: FALLBACK_THEMES[themeIndex % FALLBACK_THEMES.length],
+          icon: FALLBACK_ICON
+        };
+        themeIndex++;
+
+        html += `<div class="bidang-block ${cfg.theme}" style="animation: fadeUp 0.5s ease both ${delay.toFixed(2)}s;">`;
+        html += `
+          <div class="bidang-header">
+            <div class="bidang-icon">${cfg.icon}</div>
+            <div class="bidang-name">${escapeHtml(bidangName)}</div>
+            <div class="bidang-count">${programs.length} program</div>
+          </div>
+          <div class="program-grid">`;
+
+        programs.forEach(prog => {
+          const nama    = escapeHtml(prog['Program'] || prog['program'] || '');
+          const uraian  = escapeHtml(prog['Uraian']  || prog['uraian']  || '');
+          const status  = escapeHtml(prog['Status']  || prog['status']  || '');
+          const isAktif = (prog['StatusAktif'] || '').toLowerCase() === 'aktif';
+
+          html += `
+            <div class="program-card">
+              <div class="program-name">${nama}</div>
+              <div class="program-uraian">${uraian}</div>
+              <div class="program-status-row">
+                <div class="status-dot ${isAktif ? 'active' : 'tidak'}"></div>
+                <div class="program-status-text ${isAktif ? 'aktif' : 'tidak'}">${status}</div>
+              </div>
+            </div>`;
+        });
+
+        html += `</div></div>`;
+        delay += 0.06;
+      });
+
+      document.getElementById('mainContent').innerHTML = html;
+    }
+
+    function showError(msg) {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="error-wrap">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p>${msg}</p>
+          <button class="btn-retry" onclick="loadData()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
+            Coba lagi
+          </button>
+        </div>`;
+    }
+
+    async function loadData() {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="loading-wrap" id="loadingState">
+          <div class="spinner"></div>
+          <div class="loading-text">Memuat data program dari Google Sheets…</div>
+        </div>`;
+      try {
+        const res = await fetch(CSV_URL);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const text = await res.text();
+        const data = parseCSV(text);
+        if (data.rows.length === 0) throw new Error('Data kosong');
+        renderPage(data);
+      } catch (e) {
+        showError('Gagal memuat data. Periksa koneksi atau coba beberapa saat lagi.');
+        console.error(e);
+      }
+    }
+
+    loadData();
+  </script>
 
 </body>
 </html>
