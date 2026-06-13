@@ -39,12 +39,21 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* ── HEADER ── */
+    /* ── HEADER — sticky + frosted glass ── */
     header {
-      position: relative; z-index: 10;
+      position: sticky; top: 0; z-index: 100;
       background: var(--green-800); padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
       height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      will-change: background, box-shadow;
+    }
+    header.scrolled {
+      background: rgba(30, 66, 37, 0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13, 31, 16, 0.28), 0 1px 0 rgba(255,255,255,0.06);
+      border-bottom-color: rgba(255,255,255,0.06);
     }
     .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: opacity 0.2s; }
     .header-brand:hover { opacity: 0.85; }
@@ -561,6 +570,16 @@ function animateStats() {
     countUp(el, target, 1200);
   });
 }
+
+// ── STICKY HEADER — frosted glass saat scroll ──
+(function() {
+  const hdr = document.querySelector('header');
+  function onScroll() {
+    hdr.classList.toggle('scrolled', window.scrollY > 10);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 </script>
 </body>
 </html>
