@@ -461,7 +461,7 @@ function showError() {
 
 async function loadData() {
   document.getElementById('mainContent').innerHTML = `
-    <div class="state-box"><div class="spinner"></div><div class="state-text">Memuat data inventaris dari Google Sheets…</div></div>`;
+    <div class="state-box"><div class="spinner"></div><div class="state-text">Memuat data. Tarik layar atau tekan refresh untuk mempercepat…</div></div>`;
   try {
     const t = new Date().getTime();
     const [dataRes, cutoffRes] = await Promise.all([
