@@ -70,10 +70,11 @@
       z-index: 0;
     }
 
-    /* ── HEADER DESKTOP ── */
+    /* ── HEADER DESKTOP — sticky + frosted glass ── */
     header {
-      position: relative;
-      z-index: 10;
+      position: sticky;
+      top: 0;
+      z-index: 100;
       background: var(--green-800);
       padding: 0 2rem;
       display: flex;
@@ -81,6 +82,16 @@
       justify-content: space-between;
       height: 64px;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      will-change: background, box-shadow;
+    }
+
+    header.scrolled {
+      background: rgba(30, 66, 37, 0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13, 31, 16, 0.28), 0 1px 0 rgba(255,255,255,0.06);
+      border-bottom-color: rgba(255,255,255,0.06);
     }
 
     .header-brand {
@@ -145,6 +156,7 @@
     /* ── REVISI TAMPILAN MOBILE HP ── */
     @media (max-width: 600px) {
       header {
+        position: relative; /* mobile tidak sticky, layout column */
         background: transparent;
         border-bottom: none;
         height: auto;
@@ -153,6 +165,13 @@
         align-items: center;
         justify-content: center;
         gap: 0;
+        backdrop-filter: none;
+        box-shadow: none;
+      }
+      header.scrolled {
+        background: transparent;
+        backdrop-filter: none;
+        box-shadow: none;
       }
 
       .header-brand {
@@ -644,16 +663,84 @@
       }
     }
 
+    /* ── FADE UP ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── SHIMMER pada featured card ── */
+    @keyframes shimmer-gold {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .menu-card.featured::before {
+      background: linear-gradient(90deg, var(--gold-500) 0%, var(--gold-200,#f0dfa0) 40%, var(--gold-500) 60%, var(--gold-400) 100%);
+      background-size: 200% auto;
+      animation: shimmer-gold 3s linear infinite;
+      opacity: 1;
+    }
+    .menu-card.kematian::before {
+      background: linear-gradient(90deg, #7c6fa0 0%, #c8b8f0 40%, #7c6fa0 60%, #a898cc 100%);
+      background-size: 200% auto;
+      animation: shimmer-gold 3.5s linear infinite;
+      opacity: 1;
+    }
+
+    /* ── PULSE pada status dot ── */
+    @keyframes pulse-status {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(86,166,96,0.5); }
+      50%       { box-shadow: 0 0 0 5px rgba(86,166,96,0); }
+    }
+    .card-status-dot {
+      animation: pulse-status 2.4s ease-in-out infinite;
+    }
+    .featured .card-status-dot {
+      animation: none;
+      box-shadow: 0 0 0 0 rgba(212,175,90,0.5);
+      animation: pulse-gold 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,90,0.55); }
+      50%       { box-shadow: 0 0 0 5px rgba(212,175,90,0); }
+    }
+
+    /* ── ARROW hover glide ── */
+    .menu-card:hover .card-arrow {
+      animation: arrowGlide 0.6s ease forwards;
+    }
+    @keyframes arrowGlide {
+      0%   { transform: translateX(0); }
+      40%  { transform: translateX(5px); }
+      70%  { transform: translateX(2px); }
+      100% { transform: translateX(3px); }
+    }
+
+    /* ── SECONDARY CARD icon subtle bounce on hover ── */
+    .secondary-card:hover .sec-icon {
+      animation: iconBounce 0.5s ease;
+    }
+    @keyframes iconBounce {
+      0%   { transform: scale(1); }
+      35%  { transform: scale(1.18) rotate(-4deg); }
+      65%  { transform: scale(0.96) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* ── SCROLL REVEAL — cards muncul saat masuk viewport ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── INITIAL STAGGER (above the fold) ── */
     .hero        { animation: fadeUp 0.55s ease both; animation-delay: 0.05s; }
     .menu-grid   { animation: fadeUp 0.55s ease both; animation-delay: 0.18s; }
-    .secondary-grid { animation: fadeUp 0.55s ease both; animation-delay: 0.28s; }
-    .section-label:last-of-type,
-    .coming-soon-grid { animation: fadeUp 0.55s ease both; animation-delay: 0.38s; }
   </style>
 </head>
 <body>
@@ -907,6 +994,36 @@
         btn.classList.remove('expanded');
       }
     });
+
+    // ── STICKY HEADER — frosted glass saat scroll ──
+    const header = document.querySelector('header');
+    function onScroll() {
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ── SCROLL REVEAL — elemen muncul saat masuk viewport ──
+    const revealEls = document.querySelectorAll('.secondary-grid, .section-label, .coming-soon-grid');
+    revealEls.forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 0.07) + 's';
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 
 </body>
