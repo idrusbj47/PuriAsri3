@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -13,116 +12,479 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
-      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
-      --gold-700: #7a5c1e; --gold-500: #c49a3c; --gold-400: #d4af5a;
-      --gold-100: #f8f0da;
+      --green-900: #132b17; --green-800: #1e4225; --green-700: #265930;
+      --green-600: #2e7038; --green-500: #3a8c45; --green-400: #56a660;
+      --green-300: #80c489; --green-200: #b3ddb9; --green-100: #ddf0e0; --green-50: #f2fbf4;
+      --gold-700: #7a5c1e; --gold-500: #c49a3c; --gold-400: #d4af5a; --gold-300: #e3c97e; --gold-100: #f8f0da;
       --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
       --text-dark: #1a2b1c; --text-muted: #6b8570;
       --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
-      --radius-md: 12px; --radius-lg: 20px;
-      --shadow-card: 0 2px 12px rgba(30,66,37,0.08);
+      --radius-sm: 6px; --radius-md: 12px;
+      --shadow-card: 0 2px 12px rgba(30,66,37,0.08), 0 1px 3px rgba(30,66,37,0.06);
+      --shadow-hover: 0 8px 32px rgba(30,66,37,0.14), 0 2px 8px rgba(30,66,37,0.08);
     }
 
-    body { font-family: 'DM Sans', sans-serif; background: var(--cream-bg); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
-    
-    /* HEADER */
-    header { background: var(--green-800); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-    .logo-mark { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--gold-400); }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg); color: var(--text-dark);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.07) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative; z-index: 10;
+      background: var(--green-800); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+    }
+    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: opacity 0.2s; }
+    .header-brand:hover { opacity: 0.85; }
+    .logo-mark {
+      width: 40px; height: 40px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden; transition: box-shadow 0.2s;
+    }
+    .header-brand:hover .logo-mark { box-shadow: 0 0 0 3px rgba(212,175,90,0.35); }
     .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
-    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; }
-    .header-sub { font-size: 11px; color: var(--green-200); text-transform: uppercase; margin-top: 1px; }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-top: 1px; }
+    .btn-back {
+      display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green-200);
+      text-decoration: none; letter-spacing: 0.04em; padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; transition: all 0.2s ease; white-space: nowrap;
+    }
+    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
 
-    /* MAIN */
-    main { max-width: 960px; margin: 0 auto; width: 100%; padding: 52px 24px 80px; }
+    /* ── MAIN ── */
+    main { position: relative; z-index: 1; flex: 1; max-width: 960px; margin: 0 auto; width: 100%; padding: 52px 24px 80px; }
+
+    /* ── STATE BOXES ── */
+    .state-box { display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 80px 24px; text-align: center; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border-mid); border-top-color: var(--green-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .state-text { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+    .btn-retry {
+      display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
+      border-radius: 20px; font-size: 12px; background: var(--green-700); color: #fff;
+      border: none; cursor: pointer; font-family: inherit; transition: background 0.2s;
+    }
+    .btn-retry:hover { background: var(--green-600); }
+
+    /* ── HERO ── */
     .hero { text-align: center; margin-bottom: 40px; }
-    .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); font-weight: 500; margin-bottom: 18px; }
-    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,44px); color: var(--green-900); margin-bottom: 16px; }
-    .cutoff-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--gold-700); font-weight: 500; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-600); font-weight: 500; margin-bottom: 18px; }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 28px; height: 1px; background: var(--green-400); }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(26px,5vw,42px); font-weight: 500; color: var(--green-900); line-height: 1.18; letter-spacing: -0.01em; margin-bottom: 14px; }
+    .hero-title em { font-style: italic; color: var(--green-600); }
+    .hero-desc { font-size: 15px; color: var(--text-muted); font-weight: 300; line-height: 1.7; max-width: 480px; margin: 0 auto 14px; }
+    .cutoff-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; color: var(--gold-700); font-weight: 500; letter-spacing: 0.04em; }
 
-    /* TABLE */
-    .table-container { background: var(--cream-card); border-radius: var(--radius-md); border: 1px solid var(--border-light); overflow: hidden; box-shadow: var(--shadow-card); }
-    table { width: 100%; border-collapse: collapse; }
-    th { background: var(--green-50); padding: 16px; text-align: left; font-size: 11px; text-transform: uppercase; color: var(--green-800); border-bottom: 1px solid var(--border-light); }
-    td { padding: 16px; border-bottom: 1px solid var(--border-light); font-size: 13px; color: var(--text-dark); }
-    tr:last-child td { border-bottom: none; }
-    
-    /* FOOTER */
-    footer { text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; }
+    /* ── STATS ── */
+    .stats-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 36px; }
+    .stat-chip { background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; box-shadow: var(--shadow-card); }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 600; color: var(--green-700); line-height: 1; }
+    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 6px; }
+
+    /* ── SEARCH & FILTER ── */
+    .toolbar {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1; min-width: 200px; position: relative;
+    }
+    .search-wrap svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+    .search-input {
+      width: 100%; height: 38px; border: 1px solid var(--border-mid); border-radius: 10px;
+      padding: 0 12px 0 34px; font-size: 13px; font-family: inherit;
+      background: var(--cream-card); color: var(--text-dark); outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(58,140,69,0.12); }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    .filter-pills { display: flex; gap: 6px; flex-wrap: wrap; }
+    .fpill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 0 12px; height: 34px; border-radius: 999px;
+      border: 1px solid var(--border-mid); background: var(--cream-card);
+      font-size: 12px; cursor: pointer; font-family: inherit; color: var(--text-muted);
+      font-weight: 500; transition: all 0.15s; white-space: nowrap;
+    }
+    .fpill:hover { border-color: var(--green-400); color: var(--green-600); }
+    .fpill.active { background: var(--green-100); border-color: var(--green-400); color: var(--green-700); font-weight: 600; }
+    .fpill .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+    /* ── KATEGORI SECTION ── */
+    .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; margin-top: 32px; }
+    .section-label:first-of-type { margin-top: 0; }
+    .section-label span { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; white-space: nowrap; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border-light); }
+
+    /* ── CARD GRID ── */
+    .inv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 8px; }
+
+    .inv-card {
+      background: var(--cream-card); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 18px 18px 16px;
+      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .inv-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 3px; border-radius: 0 0 0 0;
+    }
+    .inv-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
+
+    .inv-no {
+      font-family: 'Playfair Display', serif;
+      position: absolute; top: 14px; right: 16px;
+      font-size: 22px; font-weight: 600; opacity: 0.08; line-height: 1;
+      color: var(--green-800); pointer-events: none; user-select: none;
+    }
+
+    .inv-icon-wrap {
+      width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .inv-name {
+      font-size: 13.5px; font-weight: 500; color: var(--text-dark); line-height: 1.35;
+      padding-right: 28px;
+    }
+
+    .inv-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    .inv-qty {
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--green-50); border: 1px solid var(--border-light);
+      border-radius: 6px; padding: 3px 9px;
+      font-size: 12px; font-weight: 500; color: var(--green-700);
+    }
+
+    .inv-cat {
+      font-size: 11px; color: var(--text-muted); font-weight: 400;
+    }
+
+    /* ── KATEGORI WARNA ── */
+    .kat-posyandu   .inv-card::before { background: linear-gradient(90deg, #c06060, #d48080); }
+    .kat-posyandu   .inv-icon-wrap    { background: #fdf0f0; color: #a04040; }
+    .kat-posyandu   .inv-qty          { background: #fdf0f0; border-color: rgba(160,64,64,0.15); color: #a04040; }
+
+    .kat-inventaris .inv-card::before { background: linear-gradient(90deg, var(--gold-500), var(--gold-300)); }
+    .kat-inventaris .inv-icon-wrap    { background: var(--gold-100); color: var(--gold-700); }
+    .kat-inventaris .inv-qty          { background: var(--gold-100); border-color: rgba(196,154,60,0.2); color: var(--gold-700); }
+
+    .kat-fasilitas  .inv-card::before { background: linear-gradient(90deg, var(--green-500), var(--green-300)); }
+    .kat-fasilitas  .inv-icon-wrap    { background: var(--green-50); color: var(--green-600); }
+    .kat-fasilitas  .inv-qty          { background: var(--green-50); border-color: var(--border-light); color: var(--green-700); }
+
+    .kat-lainnya    .inv-card::before { background: linear-gradient(90deg, #6a6ab0, #9090c8); }
+    .kat-lainnya    .inv-icon-wrap    { background: #f0f0fb; color: #4a4a90; }
+    .kat-lainnya    .inv-qty          { background: #f0f0fb; border-color: rgba(74,74,144,0.15); color: #4a4a90; }
+
+    /* ── EMPTY STATE ── */
+    .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; }
+    .empty-state svg { display: block; margin: 0 auto 12px; opacity: 0.3; }
+
+    /* ── FOOTER ── */
+    footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
+    footer strong { color: var(--green-700); font-weight: 500; }
+
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.06); pointer-events: none; z-index: 0; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      header { padding: 0 1rem; }
+      .btn-back span { display: none; }
+      main { padding: 28px 14px 60px; }
+      .inv-grid { grid-template-columns: repeat(2,1fr); }
+      .stats-row { grid-template-columns: repeat(3,1fr); gap: 8px; }
+    }
+    @media (max-width: 480px) {
+      .inv-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(3,1fr); }
+      .stat-num { font-size: 24px; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
+  <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
+
   <header>
-    <a href="#" class="header-brand">
-      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo"></div>
+    <a href="index.html" class="header-brand">
+      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo Puri Asri 3"></div>
       <div>
         <div class="header-title">Puri Asri 3</div>
-        <div class="header-sub">RT 01 · RW 12 · Inventaris</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026</div>
       </div>
+    </a>
+    <a href="index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>Kembali</span>
     </a>
   </header>
 
-  <main>
-    <div class="hero">
-      <div class="hero-eyebrow">Data Inventaris</div>
-      <h1 class="hero-title">Inventaris RT 01</h1>
-      <div id="cutoffContainer" class="cutoff-badge">Memuat data...</div>
-    </div>
-    
-    <div class="table-container">
-      <table id="invTable">
-        <thead>
-          <tr><th>No</th><th>Nama Inventaris</th><th>Jumlah</th><th>Keterangan</th></tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
+  <main id="mainContent">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <div class="state-text">Memuat data. Tarik layar atau tekan refresh untuk mempercepat…</div>
     </div>
   </main>
 
   <footer>
-    <strong>Puri Asri 3</strong> · RT 01 / RW 12<br>
-    Data Inventaris RT
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026<br>
+    <span style="margin-top:4px;display:block;">Daftar Inventaris RT · Dikelola oleh Pengurus RT</span>
   </footer>
 
-  <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1378010647&single=true&output=csv';
-    
-    async function loadData() {
-      try {
-        const response = await fetch(CSV_URL);
-        const text = await response.text();
-        const lines = text.trim().split('\n');
-        
-        // Asumsi: Baris 0 berisi "No, Nama Inventaris, Jumlah, Keterangan"
-        // Baris 1: Cutoff data di sel F1/G1 (berdasarkan gambar, cutoff ada di sel F1)
-        // Kita ambil data dari baris ke-2 (index 1) untuk header, dan index 2 untuk isi.
-        
-        // Berdasarkan file sebelumnya, kita perlu parse dengan hati-hati.
-        // Baris 0 = header, Baris 1 = data pertama, dst.
-        const rows = lines.slice(1);
-        const tbody = document.getElementById('tableBody');
-        
-        rows.forEach((line, index) => {
-          if (index === 0) return; // Lewati header
-          const cols = line.split(',').map(c => c.replace(/"/g, '').trim());
-          if (cols.length >= 4) {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${cols[0]}</td><td>${cols[1]}</td><td>${cols[2]}</td><td>${cols[3]}</td>`;
-            tbody.appendChild(tr);
-          }
-        });
-        
-        // Ambil Cutoff dari baris header (index 0) kolom F (kolom ke-6)
-        const headerCols = lines[0].split(',');
-        const cutoffDate = headerCols[5] || '—';
-        document.getElementById('cutoffContainer').innerText = 'Data diperbarui sampai: ' + cutoffDate.replace(/"/g, '').trim();
-        
-      } catch(e) { 
-        document.getElementById('tableBody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data.</td></tr>';
-      }
+<script>
+const CSV_URL    = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1378010647&single=true&output=csv';
+const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1378010647&single=true&output=csv&range=F1';
+
+// ── Kategori config ──
+const KAT_CONFIG = {
+  'posyandu':   {
+    cls: 'kat-posyandu', label: 'Posyandu',
+    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`
+  },
+  'inventaris rt': {
+    cls: 'kat-inventaris', label: 'Inventaris RT',
+    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>`
+  },
+  'fasilitas lingkungan': {
+    cls: 'kat-fasilitas', label: 'Fasilitas Lingkungan',
+    icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`
+  }
+};
+function getKat(raw) {
+  const k = (raw || '').toLowerCase().trim();
+  return KAT_CONFIG[k] || { cls: 'kat-lainnya', label: raw || 'Lainnya', icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>` };
+}
+
+// ── CSV parser ──
+function splitLine(line) {
+  const r = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
+    else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
+    else cur += c;
+  }
+  r.push(cur.trim()); return r;
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split('\n').filter(l => l.trim());
+  if (lines.length < 2) return [];
+  const headers = splitLine(lines[0]).map(h => h.replace(/"/g,'').trim());
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitLine(lines[i]);
+    const no = (cols[0]||'').replace(/"/g,'').trim();
+    if (!no || isNaN(Number(no))) continue; // skip baris non-data
+    const row = {};
+    headers.forEach((h, idx) => { row[h] = (cols[idx]||'').replace(/"/g,'').trim(); });
+    rows.push(row);
+  }
+  return rows;
+}
+
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── State ──
+let allRows = [], activeKat = 'semua', searchQ = '';
+
+function getFilteredRows() {
+  return allRows.filter(r => {
+    const katMatch = activeKat === 'semua' || (r['Keterangan']||'').toLowerCase().trim() === activeKat.toLowerCase();
+    const q = searchQ.toLowerCase();
+    const textMatch = !q || (r['Nama Inventaris']||'').toLowerCase().includes(q) || (r['Keterangan']||'').toLowerCase().includes(q) || (r['Jumlah']||'').toLowerCase().includes(q);
+    return katMatch && textMatch;
+  });
+}
+
+function renderItems() {
+  const rows = getFilteredRows();
+  const container = document.getElementById('itemsContainer');
+
+  if (rows.length === 0) {
+    container.innerHTML = `<div class="empty-state">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Tidak ada item yang sesuai pencarian.
+    </div>`;
+    return;
+  }
+
+  // Kelompokkan per kategori
+  const katMap = new Map();
+  rows.forEach(r => {
+    const k = (r['Keterangan']||'Lainnya');
+    if (!katMap.has(k)) katMap.set(k, []);
+    katMap.get(k).push(r);
+  });
+
+  let html = '';
+  katMap.forEach((items, katName) => {
+    const cfg = getKat(katName);
+    html += `<div class="section-label"><span>${esc(cfg.label)}</span></div>`;
+    html += `<div class="inv-grid ${cfg.cls}">`;
+    items.forEach(item => {
+      html += `<div class="inv-card">
+        <div class="inv-no">${esc(item['No']||'')}</div>
+        <div class="inv-icon-wrap">${cfg.icon}</div>
+        <div class="inv-name">${esc(item['Nama Inventaris']||'')}</div>
+        <div class="inv-meta">
+          <div class="inv-qty">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+            ${esc(item['Jumlah']||'—')}
+          </div>
+          <div class="inv-cat">${esc(cfg.label)}</div>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+
+  // Update counter
+  document.getElementById('filterCount').textContent = `Menampilkan ${rows.length} dari ${allRows.length} item`;
+}
+
+function buildPage(rows, cutoff) {
+  allRows = rows;
+
+  // Hitung stats
+  const total = rows.length;
+  const katSet = new Set(rows.map(r => (r['Keterangan']||'').trim()));
+  const totalKat = katSet.size;
+  const totalUnit = rows.reduce((s, r) => {
+    const m = (r['Jumlah']||'').match(/(\d+)/);
+    return s + (m ? parseInt(m[1]) : 1);
+  }, 0);
+
+  // Build kategori pills
+  const katList = [...katSet];
+  const pillsHtml = katList.map(k => {
+    const cfg = getKat(k);
+    return `<button class="fpill" data-kat="${esc(k)}" onclick="setKat(this,'${k.replace(/'/g,"\\'")}')">
+      <span class="dot" style="background:${dotColor(cfg.cls)}"></span>${esc(cfg.label)}
+    </button>`;
+  }).join('');
+
+  const pageHtml = `
+    <!-- HERO -->
+    <div class="hero" style="animation:fadeUp .5s ease both .05s">
+      <div class="hero-eyebrow">Daftar Inventaris</div>
+      <h1 class="hero-title">Aset &amp; Inventaris<br><em>RT 01 / RW 12</em></h1>
+      <p class="hero-desc">Daftar lengkap barang inventaris milik RT yang digunakan untuk keperluan warga dan lingkungan.</p>
+      ${cutoff ? `<div class="cutoff-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Data diperbarui sampai: ${esc(cutoff)}
+      </div>` : ''}
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row" style="animation:fadeUp .5s ease both .15s">
+      <div class="stat-chip"><div class="stat-num">${total}</div><div class="stat-label">Total Item</div></div>
+      <div class="stat-chip"><div class="stat-num">${totalUnit}</div><div class="stat-label">Total Unit</div></div>
+      <div class="stat-chip"><div class="stat-num">${totalKat}</div><div class="stat-label">Kategori</div></div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="toolbar" style="animation:fadeUp .5s ease both .22s">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" id="searchInput" placeholder="Cari nama atau kategori…" oninput="onSearch(this.value)">
+      </div>
+    </div>
+    <div class="filter-pills" style="margin-bottom:24px;animation:fadeUp .5s ease both .26s">
+      <button class="fpill active" data-kat="semua" onclick="setKat(this,'semua')">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Semua
+      </button>
+      ${pillsHtml}
+    </div>
+
+    <!-- ITEMS -->
+    <div id="itemsContainer" style="animation:fadeUp .5s ease both .30s"></div>
+
+    <!-- FOOTER COUNT -->
+    <div style="text-align:center;margin-top:20px;font-size:11px;color:var(--text-muted);letter-spacing:0.04em;" id="filterCount"></div>
+  `;
+
+  document.getElementById('mainContent').innerHTML = pageHtml;
+  renderItems();
+}
+
+function dotColor(cls) {
+  const m = { 'kat-posyandu':'#c06060', 'kat-inventaris':'#c49a3c', 'kat-fasilitas':'#3a8c45', 'kat-lainnya':'#6a6ab0' };
+  return m[cls] || '#999';
+}
+
+function setKat(el, kat) {
+  activeKat = kat;
+  document.querySelectorAll('.fpill').forEach(b => b.classList.toggle('active', b.dataset.kat === kat || (kat==='semua' && b.dataset.kat==='semua')));
+  renderItems();
+}
+
+function onSearch(val) {
+  searchQ = val;
+  renderItems();
+}
+
+function showError() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="state-box">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p class="state-text">Gagal memuat data. Periksa koneksi dan coba lagi.</p>
+      <button class="btn-retry" onclick="loadData()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
+        Coba lagi
+      </button>
+    </div>`;
+}
+
+async function loadData() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="state-box"><div class="spinner"></div><div class="state-text">Memuat data inventaris dari Google Sheets…</div></div>`;
+  try {
+    const t = new Date().getTime();
+    const [dataRes, cutoffRes] = await Promise.all([
+      fetch(`${CSV_URL}&t=${t}`),
+      fetch(`${CUTOFF_URL}&t=${t}`)
+    ]);
+    if (!dataRes.ok) throw new Error('HTTP ' + dataRes.status);
+    const text = await dataRes.text();
+    let cutoff = '';
+    if (cutoffRes.ok) {
+      const ct = await cutoffRes.text();
+      cutoff = ct.split('\n')[0].replace(/"/g,'').trim();
     }
-    loadData();
-  </script>
+    const rows = parseCSV(text);
+    if (rows.length === 0) throw new Error('Data kosong');
+    buildPage(rows, cutoff);
+  } catch(e) {
+    console.error(e);
+    showError();
+  }
+}
+
+loadData();
+</script>
 </body>
 </html>
