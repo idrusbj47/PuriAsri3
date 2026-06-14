@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Program RT — Puri Asri 3 RT 01 / RW 12</title>
+  <title>Kegiatan RT — Puri Asri 3 RT 01 / RW 12</title>
   <link rel="icon" type="image/png" href="Logo RT11-1.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -311,7 +311,7 @@ function renderPage(rows, cutoff) {
 
   // STATS — angka mulai 0, count-up lewat JS
   html += `<div class="stats-row" style="animation:fadeUp .5s ease both .15s">
-    <div class="stat-chip"><div class="stat-num" data-target="${total}">0</div><div class="stat-label">Total Program</div></div>
+    <div class="stat-chip"><div class="stat-num" data-target="${total}">0</div><div class="stat-label">Total Kegiatan</div></div>
     <div class="stat-chip"><div class="stat-num" data-target="${bidang}">0</div><div class="stat-label">Bidang</div></div>
     <div class="stat-chip"><div class="stat-num" data-target="${aktif}">0</div><div class="stat-label">Berjalan</div></div>
     <div class="stat-chip"><div class="stat-num" data-target="${tidak}">0</div><div class="stat-label">Belum / Insidental</div></div>
@@ -327,7 +327,7 @@ function renderPage(rows, cutoff) {
       <div class="bidang-header">
         <div class="bidang-icon">${cfg.icon}</div>
         <div class="bidang-name">${esc(bidangName)}</div>
-        <div class="bidang-count">${programs.length} program</div>
+        <div class="bidang-count">${programs.length} kegiatan</div>
       </div>
       <div class="program-grid">`;
 
