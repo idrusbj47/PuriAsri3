@@ -226,10 +226,6 @@
       transition: color 0.2s, border-color 0.2s;
     }
     .rapat-doc-link:hover { color: var(--gold-500); border-color: var(--gold-400); }
-    .rapat-title-h2 {
-      font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 500;
-      color: var(--green-900); line-height: 1.3;
-    }
 
     /* EVENT CARDS */
     .events-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -244,52 +240,52 @@
       content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
       border-radius: 0 2px 2px 0; opacity: 0.6; transition: opacity 0.22s, height 0.4s ease;
     }
-    /* Shimmer on hover */
-    .event-card::after {
-      content: ''; position: absolute; inset: 0; opacity: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 60%);
-      transition: opacity 0.3s;
-    }
     .event-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
     .event-card:hover::before { opacity: 1; }
-    .event-card:hover::after { opacity: 1; }
 
-    .event-kategori-row { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .event-kategori-row { display: flex; align-items: center; margin-bottom: 10px; }
     .event-icon { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .event-kategori-label { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
 
     .event-title { font-size: 13px; font-weight: 500; color: var(--text-dark); margin-bottom: 6px; line-height: 1.4; }
     .event-ringkasan { font-size: 11.5px; color: var(--text-muted); font-weight: 300; line-height: 1.6; margin-bottom: 10px; }
+    
+    /* ANIMASI PULSE DAMPAK */
+    @keyframes borderPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(86,166,96,0.35); }
+      70%  { box-shadow: 0 0 0 6px rgba(86,166,96,0); }
+      100% { box-shadow: 0 0 0 0 rgba(86,166,96,0); }
+    }
     .event-dampak {
       font-size: 11px; color: var(--green-700);
       background: var(--green-50); border: 1px solid rgba(46,112,56,0.15);
       border-radius: 6px; padding: 6px 10px; line-height: 1.5; font-weight: 400;
       display: flex; gap: 6px; align-items: flex-start;
+      animation: borderPulse 2.5s infinite;
     }
     .event-dampak-icon { flex-shrink: 0; margin-top: 1px; color: var(--green-500); }
 
     /* CATEGORY THEMES */
-    /* Organisasi */
     .cat-organisasi .event-card::before { background: var(--gold-500); }
     .cat-organisasi .event-icon { background: var(--gold-100); color: var(--gold-700); }
     .cat-organisasi .event-kategori-label { color: var(--gold-700); }
-    /* Infrastruktur */
+    
     .cat-infrastruktur .event-card::before { background: #6a6ab0; }
     .cat-infrastruktur .event-icon { background: #f0f0fb; color: #4a4a90; }
     .cat-infrastruktur .event-kategori-label { color: #4a4a90; }
-    /* Keagamaan */
+    
     .cat-keagamaan .event-card::before { background: #3a9aaa; }
     .cat-keagamaan .event-icon { background: #e8f4f8; color: #2a7a8a; }
     .cat-keagamaan .event-kategori-label { color: #2a7a8a; }
-    /* Sosial */
+    
     .cat-sosial .event-card::before { background: var(--green-500); }
     .cat-sosial .event-icon { background: var(--green-50); color: var(--green-600); }
     .cat-sosial .event-kategori-label { color: var(--green-700); }
-    /* Lingkungan */
+    
     .cat-lingkungan .event-card::before { background: #5aaa6a; }
     .cat-lingkungan .event-icon { background: #edf7ef; color: #2a7a3a; }
     .cat-lingkungan .event-kategori-label { color: #2a7a3a; }
-    /* Keamanan */
+    
     .cat-keamanan .event-card::before { background: #c06060; }
     .cat-keamanan .event-icon { background: #fdf0f0; color: #a04040; }
     .cat-keamanan .event-kategori-label { color: #a04040; }
@@ -311,9 +307,6 @@
       background: var(--green-800); color: #fff; border-color: var(--green-800);
       box-shadow: 0 2px 10px rgba(30,66,37,0.2);
     }
-
-    /* ─── EMPTY STATE ─── */
-    .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; }
 
     /* ─── FOOTER ─── */
     footer {
@@ -345,12 +338,11 @@
 
     /* ─── ANIMATIONS ─── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .fade-up { animation: fadeUp 0.5s ease both; }
     .rapat-group { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
     .rapat-group.visible { opacity: 1; transform: translateY(0); }
 
-    /* PARTICLE SPARKLE (gold dots floating) */
+    /* PARTICLE SPARKLE */
     .sparkle-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .sparkle {
       position: absolute; width: 3px; height: 3px; border-radius: 50%;
@@ -363,12 +355,6 @@
       80%  { opacity: 0.3; }
       100% { opacity: 0; transform: translateY(-120px) scale(0.4); }
     }
-
-    /* TOOLTIP on dampak */
-    .event-card .event-dampak { display: none; }
-    .event-card:hover .event-dampak { display: flex; animation: fadeIn 0.25s ease both; }
-    .event-ringkasan { margin-bottom: 0; }
-    .event-card:hover .event-ringkasan { margin-bottom: 10px; }
 
     /* RESPONSIVE */
     @media (max-width: 640px) {
@@ -388,11 +374,8 @@
 
   <div class="deco-ring" style="width:700px;height:700px;top:-300px;right:-250px;"></div>
   <div class="deco-ring" style="width:500px;height:500px;bottom:-150px;left:-200px;"></div>
-
-  <!-- Sparkle particles -->
   <div class="sparkle-container" id="sparkleContainer"></div>
 
-  <!-- HEADER -->
   <header>
     <a href="index.html" class="header-brand">
       <div class="logo-mark">
@@ -427,7 +410,6 @@
     <span style="margin-top:4px;display:block;">Rekam Jejak Hasil Rapat Warga · Dikelola oleh Pengurus RT 01</span>
   </footer>
 
-  <!-- Scroll to top -->
   <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Kembali ke atas">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
@@ -435,7 +417,6 @@
 <script>
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=2015947126&single=true&output=csv';
 
-// ── Category config ──
 const CAT_CFG = {
   'Organisasi':    { cls: 'cat-organisasi',    icon: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>` },
   'Infrastruktur': { cls: 'cat-infrastruktur', icon: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>` },
@@ -471,14 +452,17 @@ function parseCSV(text) {
   return rows;
 }
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* PERBAIKAN FORMAT TANGGAL AGAR TIDAK ERROR NaN */
 function fmtDate(d) {
-  const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  if (!d) return '';
+  const monthsMap = {'Jan':'Jan', 'Feb':'Feb', 'Mar':'Mar', 'Apr':'Apr', 'May':'Mei', 'Jun':'Jun', 'Jul':'Jul', 'Aug':'Agu', 'Sep':'Sep', 'Oct':'Okt', 'Nov':'Nov', 'Dec':'Des'};
   const parts = d.split('-');
   if (parts.length === 3) {
-    const day = parseInt(parts[0],10);
-    const mon = parseInt(parts[1],10)-1;
-    const yr  = parts[2];
-    return `${day} ${months[mon] || ''} ${yr}`;
+    const day = parseInt(parts[0], 10);
+    const mon = monthsMap[parts[1]] || parts[1];
+    const yr = parts[2].length === 2 ? '20' + parts[2] : parts[2];
+    return `${day} ${mon} ${yr}`;
   }
   return d;
 }
@@ -492,11 +476,12 @@ function renderPage(rows) {
 }
 
 function buildUI(rows) {
-  // Group by year → rapat ke
   const yearMap = new Map();
   rows.forEach(row => {
     const yr = row['Tahun'] || 'Lainnya';
-    const rpt = row['Rapat Warga Ke - '] || '?';
+    // PERBAIKAN PEMBACAAN KOLOM RAPAT KE -
+    const rpt = row['Rapat Warga Ke -'] || row['Rapat Warga Ke - '] || '?'; 
+    
     const key = yr + '|' + rpt;
     if (!yearMap.has(yr)) yearMap.set(yr, new Map());
     const rapatMap = yearMap.get(yr);
@@ -504,14 +489,12 @@ function buildUI(rows) {
     rapatMap.get(rpt).rows.push(row);
   });
 
-  // Stats
   const totalRapat  = [...yearMap.values()].reduce((a, m) => a + m.size, 0);
   const totalEvent  = rows.length;
   const totalTahun  = yearMap.size;
   const categories  = [...new Set(rows.map(r => r['Kategori']).filter(Boolean))];
   const totalCat    = categories.length;
 
-  // Filter chips
   const allCats = ['Semua', ...categories];
   let filterHTML = `<div class="filter-row" id="filterRow">`;
   allCats.forEach(c => {
@@ -519,7 +502,6 @@ function buildUI(rows) {
   });
   filterHTML += `</div>`;
 
-  // Hero
   let html = `
   <div class="hero fade-up" style="animation-delay:.05s">
     <div class="hero-eyebrow">Rekam Jejak Hasil Rapat Warga</div>
@@ -540,9 +522,8 @@ function buildUI(rows) {
   ${filterHTML}
   <div id="timelineContent">`;
 
-  // Timeline per year
   const sortedYears = [...yearMap.keys()].sort((a,b) => b - a);
-  const allRapatKeys = [];
+  
   sortedYears.forEach(yr => {
     const rapatMap = yearMap.get(yr);
     const sortedRapat = [...rapatMap.keys()].sort((a,b) => Number(b)-Number(a));
@@ -559,10 +540,8 @@ function buildUI(rows) {
       const rpt = rapatMap.get(rptKey);
       const isLatest = isLastYear && rptIdx === 0;
       const nodeClass = isLatest ? 'timeline-node latest' : 'timeline-node';
-      const uid = `rapat-${yr}-${rptKey}`;
-      allRapatKeys.push(uid);
 
-      html += `<div class="rapat-group" id="${uid}" data-events="${rpt.rows.map(r=>r['Kategori']||'').join('|')}">
+      html += `<div class="rapat-group" data-events="${rpt.rows.map(r=>r['Kategori']||'').join('|')}">
         <div class="rapat-header-row">
           <div class="${nodeClass}"></div>
           <div class="rapat-meta">
@@ -581,10 +560,18 @@ function buildUI(rows) {
       rpt.rows.forEach(ev => {
         const cat = ev['Kategori'] || '';
         const cfg = CAT_CFG[cat] || FALLBACK_CAT;
+        
+        // PERBAIKAN: Menambahkan Tanggal di setiap Card
         html += `<div class="event-card ${cfg.cls}">
-          <div class="event-kategori-row">
-            <div class="event-icon">${cfg.icon}</div>
-            <span class="event-kategori-label">${esc(cat)}</span>
+          <div class="event-kategori-row" style="justify-content: space-between;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div class="event-icon">${cfg.icon}</div>
+              <span class="event-kategori-label">${esc(cat)}</span>
+            </div>
+            <div style="font-size:10px; color:var(--text-muted); font-weight:500;">
+              <svg width="10" height="10" style="vertical-align:-1px; margin-right:3px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              ${fmtDate(ev['Tanggal'])}
+            </div>
           </div>
           <div class="event-title">${esc(ev['Judul Peristiwa']||'')}</div>
           <div class="event-ringkasan">${esc(ev['Ringkasan']||'')}</div>
@@ -606,7 +593,6 @@ function buildUI(rows) {
   html += `</div>`;
   document.getElementById('mainContent').innerHTML = html;
 
-  // Animate stats
   setTimeout(() => {
     document.querySelectorAll('.stat-num[data-target]').forEach((el, i) => {
       const target = parseInt(el.dataset.target, 10);
@@ -614,13 +600,11 @@ function buildUI(rows) {
     });
   }, 80);
 
-  // Intersection observer for rapat groups
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
   }, { threshold: 0.08 });
   document.querySelectorAll('.rapat-group').forEach(g => io.observe(g));
 
-  // Filter chips
   document.querySelectorAll('.filter-chip').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
@@ -633,15 +617,11 @@ function buildUI(rows) {
 
 function applyFilter(cat) {
   document.querySelectorAll('.rapat-group').forEach(group => {
-    if (cat === 'Semua') {
-      group.style.display = '';
-      return;
-    }
+    if (cat === 'Semua') { group.style.display = ''; return; }
     const evs = group.dataset.events || '';
     const hasMatch = evs.split('|').some(e => e === cat);
     group.style.display = hasMatch ? '' : 'none';
 
-    // Also hide/show individual cards
     group.querySelectorAll('.event-card').forEach(card => {
       if (cat === 'Semua') { card.style.display = ''; return; }
       const cls = card.className;
@@ -650,7 +630,6 @@ function applyFilter(cat) {
     });
   });
 
-  // Hide year sections if all rapat hidden
   document.querySelectorAll('.year-section').forEach(sec => {
     const visible = [...sec.querySelectorAll('.rapat-group')].some(g => g.style.display !== 'none');
     sec.style.display = visible ? '' : 'none';
@@ -699,19 +678,16 @@ async function loadData() {
 }
 loadData();
 
-// ── STICKY HEADER ──
 (function(){
   const hdr = document.querySelector('header');
   window.addEventListener('scroll', () => { hdr.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
 })();
 
-// ── SCROLL TO TOP ──
 (function(){
   const btn = document.getElementById('scrollTop');
   window.addEventListener('scroll', () => { btn.classList.toggle('visible', window.scrollY > 320); }, { passive: true });
 })();
 
-// ── SPARKLE PARTICLES ──
 (function(){
   const container = document.getElementById('sparkleContainer');
   const W = window.innerWidth;
