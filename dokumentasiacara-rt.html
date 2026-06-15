@@ -35,7 +35,7 @@
       display: flex; flex-direction: column;
     }
 
-    /* BACKGROUND DECORATIONS */
+    /* BACKGROUND DECORATIONS & ANIMATIONS */
     body::before {
       content: ''; position: fixed; inset: 0;
       background-image:
@@ -44,7 +44,18 @@
         url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       pointer-events: none; z-index: 0;
     }
-    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.05); pointer-events: none; z-index: 0; }
+    
+    .deco-ring { 
+      position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.05); 
+      pointer-events: none; z-index: 0; 
+    }
+
+    @keyframes spinSlow { 100% { transform: rotate(360deg); } }
+    @keyframes floatUpDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+    @keyframes fadeUp { 
+      0% { opacity: 0; transform: translateY(20px); } 
+      100% { opacity: 1; transform: translateY(0); } 
+    }
 
     /* HEADER */
     header {
@@ -65,15 +76,17 @@
       width: 40px; height: 40px; background: #fff; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .header-brand:hover .logo-mark { transform: scale(1.08) rotate(5deg); }
     .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
     .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
     .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 1px; }
     .btn-back {
       display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green-200); text-decoration: none;
-      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; transition: all 0.2s;
+      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; transition: all 0.3s;
     }
-    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
+    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); transform: translateX(-3px); }
 
     /* MAIN CONTAINER */
     main { position: relative; z-index: 1; flex: 1; max-width: 1040px; margin: 0 auto; width: 100%; padding: 52px 24px 96px; }
@@ -82,13 +95,23 @@
     .hero { text-align: center; margin-bottom: 48px; }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-600); font-weight: 500; margin-bottom: 16px;
+      animation: fadeUp 0.8s ease-out forwards; opacity: 0;
     }
     .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 36px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400), transparent); }
-    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 44px); font-weight: 500; color: var(--green-900); line-height: 1.2; margin-bottom: 16px; }
+    .hero-title { 
+      font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 44px); font-weight: 500; color: var(--green-900); line-height: 1.2; margin-bottom: 16px; 
+      animation: fadeUp 0.8s ease-out 0.15s forwards; opacity: 0;
+    }
     .hero-title em { font-style: italic; color: var(--green-600); }
-    .hero-desc { font-size: 14.5px; color: var(--text-muted); font-weight: 300; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+    .hero-desc { 
+      font-size: 14.5px; color: var(--text-muted); font-weight: 300; max-width: 540px; margin: 0 auto; line-height: 1.7; 
+      animation: fadeUp 0.8s ease-out 0.3s forwards; opacity: 0;
+    }
     
-    .ornament-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 24px 0; }
+    .ornament-divider { 
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin: 24px 0; 
+      animation: fadeUp 0.8s ease-out 0.2s forwards; opacity: 0;
+    }
     .ornament-line { width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400)); }
     .ornament-line:last-child { background: linear-gradient(90deg, var(--gold-400), transparent); }
     .ornament-diamond { width: 6px; height: 6px; background: var(--gold-400); transform: rotate(45deg); box-shadow: 0 0 6px rgba(196,154,60,0.4); }
@@ -96,24 +119,33 @@
     /* STATS CHIPS */
     .stats-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 52px; }
     .stat-box {
-      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; box-shadow: var(--shadow-card); position: relative; overflow: hidden; transition: all 0.25s ease;
+      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; box-shadow: var(--shadow-card); position: relative; overflow: hidden; transition: all 0.3s ease;
+      opacity: 0; animation: fadeUp 0.6s ease-out forwards;
     }
+    .stat-box:nth-child(1) { animation-delay: 0.4s; }
+    .stat-box:nth-child(2) { animation-delay: 0.5s; }
+    .stat-box:nth-child(3) { animation-delay: 0.6s; }
+    .stat-box:nth-child(4) { animation-delay: 0.7s; }
+    
     .stat-box::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold-300), var(--green-400)); opacity: 0; transition: opacity 0.3s; }
-    .stat-box:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .stat-box:hover { transform: translateY(-5px) scale(1.02); box-shadow: var(--shadow-hover); }
     .stat-box:hover::after { opacity: 1; }
     .stat-value { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--green-700); line-height: 1.2; }
     .stat-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
 
     /* FILTER BUTTONS */
-    .filter-wrapper { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
-    .filter-btn {
-      font-family: inherit; font-size: 11.5px; font-weight: 500; padding: 6px 14px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border-mid); color: var(--text-mid); background: var(--cream-card); transition: all 0.2s;
+    .filter-wrapper { 
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); 
+      animation: fadeUp 0.6s ease-out 0.8s forwards; opacity: 0;
     }
-    .filter-btn:hover { border-color: var(--green-400); color: var(--green-700); }
-    .filter-btn.active { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 3px 12px rgba(30,66,37,0.15); }
+    .filter-btn {
+      font-family: inherit; font-size: 11.5px; font-weight: 500; padding: 6px 14px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border-mid); color: var(--text-mid); background: var(--cream-card); transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .filter-btn:hover { border-color: var(--green-400); color: var(--green-700); transform: translateY(-2px); }
+    .filter-btn.active { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 4px 12px rgba(30,66,37,0.2); transform: translateY(-2px); }
 
     /* YEAR GROUP BANNER */
-    .year-group { margin-bottom: 48px; }
+    .year-group { margin-bottom: 48px; transition: opacity 0.4s; }
     .year-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
     .year-title-badge { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); padding: 4px 14px; border-radius: 20px; box-shadow: var(--shadow-gold); }
     .year-hr { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(196,154,60,0.3), transparent); }
@@ -123,27 +155,31 @@
     
     /* DOCUMENTATION CARD */
     .doc-card {
-      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(16px);
+      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; display: flex; flex-direction: column; 
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+      opacity: 0; transform: translateY(20px) scale(0.98);
     }
-    .doc-card.visible { opacity: 1; transform: translateY(0); }
-    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; opacity: 0.7; transition: width 0.2s ease; }
-    .doc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
-    .doc-card:hover::before { width: 6px; }
+    .doc-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; opacity: 0.7; transition: width 0.3s ease; }
+    .doc-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-hover); border-color: var(--border-mid); z-index: 2; }
+    .doc-card:hover::before { width: 8px; }
 
     /* CARD COMPONENTS */
     .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .cat-badge { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
     .status-badge { font-size: 9px; font-weight: 500; padding: 2px 8px; border-radius: 12px; background: var(--green-50); color: var(--green-600); border: 1px solid rgba(46,112,56,0.15); }
     
-    .card-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-dark); line-height: 1.4; margin-bottom: 8px; }
+    .card-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-dark); line-height: 1.4; margin-bottom: 8px; transition: color 0.3s; }
+    .doc-card:hover .card-title { color: var(--green-800); }
     
     .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
     .meta-item svg { color: var(--text-muted); opacity: 0.7; flex-shrink: 0; }
 
-    /* FINANCIAL PANEL (PREMIUM LEDGER LOOK) */
+    /* FINANCIAL PANEL */
     .finance-panel {
-      background: #fcfbfa; border: 1px dashed var(--border-mid); border-radius: 8px; padding: 10px 12px; margin: 12px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative;
+      background: #fcfbfa; border: 1px dashed var(--border-mid); border-radius: 8px; padding: 10px 12px; margin: 12px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; transition: background 0.3s;
     }
+    .doc-card:hover .finance-panel { background: #fdfdfd; border-color: rgba(46,112,56,0.3); }
     .fin-box { display: flex; flex-direction: column; }
     .fin-box:first-child { border-right: 1px solid rgba(46,112,56,0.1); padding-right: 8px; }
     .fin-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
@@ -159,9 +195,9 @@
 
     /* PREMIUM ACTION BUTTON */
     .btn-lpj {
-      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.2s; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.3s; white-space: nowrap;
     }
-    .btn-lpj:hover { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 2px 8px rgba(30,66,37,0.15); }
+    .btn-lpj:hover { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 4px 12px rgba(30,66,37,0.2); transform: translateX(2px); }
 
     /* CATEGORY LUXURY STYLES */
     .cat-sosial::before { background: var(--green-500); }
@@ -177,7 +213,7 @@
     .cat-keamanan .cat-badge { background: #fdf0f0; color: #a23232; border: 1px solid rgba(162,50,50,0.15); }
 
     /* SCREEN INFOS */
-    .loading-view, .error-view { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px; text-align: center; gap: 12px; }
+    .loading-view, .error-view { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px; text-align: center; gap: 12px; animation: fadeUp 0.5s ease-out; }
     .spinner { width: 32px; height: 32px; border: 3px solid var(--border-mid); border-top-color: var(--green-600); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -186,8 +222,9 @@
     footer strong { color: var(--green-700); font-weight: 500; }
 
     .scroll-top {
-      position: fixed; right: 24px; bottom: 24px; z-index: 150; width: 38px; height: 38px; border-radius: 50%; background: var(--green-800); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none;
+      position: fixed; right: 24px; bottom: 24px; z-index: 150; width: 38px; height: 38px; border-radius: 50%; background: var(--green-800); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transform: translateY(15px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;
     }
+    .scroll-top:hover { transform: translateY(-3px) scale(1.1); box-shadow: 0 6px 16px rgba(0,0,0,0.25); }
     .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
 
     /* RESPONSIVE */
@@ -204,8 +241,9 @@
 </head>
 <body>
 
-  <div class="deco-ring" style="width:600px;height:600px;top:-250px;right:-200px;"></div>
-  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
+  <!-- Background Ornaments dgn Animasi CSS -->
+  <div class="deco-ring" style="width:600px;height:600px;top:-250px;right:-200px; animation: spinSlow 60s linear infinite;"></div>
+  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px; animation: floatUpDown 12s ease-in-out infinite;"></div>
 
   <header>
     <a href="index.html" class="header-brand">
@@ -246,10 +284,9 @@
   </button>
 
 <script>
-// URL Google Sheet CSV Laporan Acara/Dokumentasi Anda
+// URL Google Sheet CSV
 const DOK_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1804471725&single=true&output=csv';
 
-// Helper pemisah baris CSV standard
 function splitCsvLine(line) {
   const result = []; let current = '', inQuotes = false;
   for (let i = 0; i < line.length; i++) {
@@ -280,7 +317,6 @@ function parseCsvData(text) {
   return list;
 }
 
-// Format Tanggal Indonesia Formal (Contoh: 2024-08-17 -> 17 Agustus 2024)
 function parseAndFormatIndoDate(dateStr) {
   if (!dateStr) return '';
   const parts = dateStr.split('-');
@@ -294,7 +330,6 @@ function parseAndFormatIndoDate(dateStr) {
   return dateStr;
 }
 
-// Pembersih angka nominal uang kas untuk kalkulasi statistik
 function cleanCurrencyToNumber(val) {
   if (!val) return 0;
   return Number(val.replace(/[^0-9]/g, '')) || 0;
@@ -310,11 +345,9 @@ let loadedData = [];
 function buildDocumentationUI(data) {
   loadedData = data;
   
-  // Ambil list kategori unik untuk tombol filter chip
   const rawCategories = [...new Set(data.map(d => d['kategori']).filter(Boolean))];
   const categoriesList = ['Semua', ...rawCategories];
 
-  // Hitung akumulasi statistik riil dari file CSV
   const totalActivities = data.length;
   let totalFundsManaged = 0;
   let totalParticipantsCount = 0;
@@ -324,7 +357,6 @@ function buildDocumentationUI(data) {
     totalParticipantsCount += (parseInt(row['peserta'], 10) || 0);
   });
 
-  // Susun pengelompokan data berdasarkan Tahun secara terbalik (Terbaru di atas)
   const groupYearMap = new Map();
   data.forEach(row => {
     const year = (row['tanggal'] || 'Lainnya').split('-')[0] || 'Lainnya';
@@ -333,7 +365,6 @@ function buildDocumentationUI(data) {
   });
   const sortedYears = [...groupYearMap.keys()].sort((a,b) => b - a);
 
-  // Buat susunan kerangka komponen HTML inti
   let innerHTML = `
     <div class="hero">
       <div class="hero-eyebrow">Arsip Transparansi Publik</div>
@@ -361,7 +392,6 @@ function buildDocumentationUI(data) {
   });
   innerHTML += `</div><div id="cardsMasterContainer">`;
 
-  // Bangun struktur kartu per tahun kelompok
   sortedYears.forEach(year => {
     innerHTML += `
       <div class="year-group" data-year="${year}">
@@ -373,7 +403,6 @@ function buildDocumentationUI(data) {
     `;
 
     const rowItems = groupYearMap.get(year);
-    // Urutkan berdasarkan tanggal terbaru di atas
     rowItems.sort((a,b) => new Date(b['tanggal']) - new Date(a['tanggal']));
 
     rowItems.forEach(item => {
@@ -434,27 +463,28 @@ function buildDocumentationUI(data) {
   innerHTML += `</div>`;
   document.getElementById('mainContainer').innerHTML = innerHTML;
 
-  // Triger Animasi counter angka stat berurutan
+  // Staggered Stats Animation
   setTimeout(() => {
     document.querySelectorAll('.stat-value').forEach((el, index) => {
       const target = Number(el.dataset.target);
       const isMoney = el.getAttribute('is-money') === 'true';
-      setTimeout(() => animateStatsCounter(el, target, 1000, isMoney), index * 120);
+      setTimeout(() => animateStatsCounter(el, target, 1200, isMoney), index * 150);
     });
-  }, 100);
+  }, 300);
 
-  // Intersection Observer untuk memunculkan efek kartu naik halus
+  // Intersection Observer utk memunculkan kartu saat di scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
+        // Beri sedikit delay untuk kesan mewah
+        setTimeout(() => entry.target.classList.add('visible'), 50);
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.05 });
+  }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
   document.querySelectorAll('.doc-card').forEach(card => observer.observe(card));
 
-  // Logic Event Listener Filter Kategori
+  // Logic Filter
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -465,32 +495,47 @@ function buildDocumentationUI(data) {
 }
 
 function executeFilterAction(selectedCat) {
-  document.querySelectorAll('.doc-card').forEach(card => {
-    if (selectedCat === 'Semua') {
-      card.style.display = '';
-    } else {
-      const cardCat = card.dataset.catFilter;
-      card.style.display = (cardCat === selectedCat) ? '' : 'none';
-    }
+  const cards = document.querySelectorAll('.doc-card');
+  
+  // 1. Animasi keluar perlahan
+  cards.forEach(card => {
+    card.classList.remove('visible');
   });
 
-  // Sembunyikan judul tahun jika di dalamnya tidak ada kartu yang lolos filter
-  document.querySelectorAll('.year-group').forEach(group => {
-    const hasVisibleCard = [...group.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
-    group.style.display = hasVisibleCard ? '' : 'none';
-  });
+  // 2. Tunggu transisi selesai, ubah display, lalu animasi masuk
+  setTimeout(() => {
+    cards.forEach(card => {
+      const isMatch = selectedCat === 'Semua' || card.dataset.catFilter === selectedCat;
+      if (isMatch) {
+        card.style.display = '';
+        setTimeout(() => card.classList.add('visible'), 50); // Memicu ulang reflow masuk
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('.year-group').forEach(group => {
+      const hasVisibleCard = [...group.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
+      group.style.opacity = '0';
+      
+      setTimeout(() => {
+        group.style.display = hasVisibleCard ? '' : 'none';
+        if(hasVisibleCard) group.style.opacity = '1';
+      }, 50);
+    });
+  }, 350); // Sesuaikan durasi dengan CSS transition card (0.4s)
 }
 
 function animateStatsCounter(el, target, duration, isMoney) {
   const startTimestamp = performance.now();
   function step(now) {
     const elapsed = Math.min(now - startTimestamp, duration);
-    const progress = 1 - Math.pow(1 - elapsed / duration, 3); // Cubic ease-out
+    const progress = 1 - Math.pow(1 - elapsed / duration, 4); // Quartic ease-out untuk perlambatan dramatis
     const currentVal = Math.floor(target * progress);
     
     if (isMoney) {
       el.textContent = currentVal > 1000000 
-        ? 'Rp ' + (currentVal / 1000000).toFixed(1) + ' Jt+' 
+        ? 'Rp ' + (currentVal / 1000000).toFixed(1).replace('.', ',') + ' Jt+' 
         : 'Rp ' + currentVal.toLocaleString('id-ID');
     } else {
       el.textContent = currentVal.toLocaleString('id-ID');
@@ -509,7 +554,7 @@ function renderErrorScreen() {
     <div class="error-view">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#b04b4b" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
       <div style="font-size:14px; color:var(--text-mid);">Koneksi terputus. Gagal mengambil arsip data dari server.</div>
-      <button class="filter-btn" style="margin-top:8px; background:var(--green-800); color:#fff;" onclick="fetchCsvData()">Muat Ulang</button>
+      <button class="filter-btn active" style="margin-top:8px;" onclick="fetchCsvData()">Muat Ulang</button>
     </div>`;
 }
 
@@ -527,10 +572,8 @@ async function fetchCsvData() {
   }
 }
 
-// Init Load Data
 fetchCsvData();
 
-// Scroll & Header Sticky Listener
 window.addEventListener('scroll', () => {
   document.querySelector('header').classList.toggle('scrolled', window.scrollY > 15);
   document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 280);
