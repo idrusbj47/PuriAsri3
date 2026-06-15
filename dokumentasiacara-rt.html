@@ -233,30 +233,11 @@
     .pj-text { font-size: 11px; color: var(--text-muted); }
     .pj-text strong { color: var(--text-dark); font-weight: 400; }
 
-    /* PREMIUM ACTION BUTTON & PULSE ANIMATION */
+    /* PREMIUM ACTION BUTTON */
     .btn-lpj {
-      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; 
-      color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); 
-      padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.3s; white-space: nowrap;
-      animation: lpjPulse 2.2s infinite ease-in-out;
+      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.3s; white-space: nowrap;
     }
-    .btn-lpj:hover { 
-      background: var(--green-800); color: #fff; border-color: var(--green-800); 
-      box-shadow: 0 4px 12px rgba(30,66,37,0.2); transform: translateX(2px);
-      animation-play-state: paused; /* Pause pulse on hover for focus */
-    }
-
-    @keyframes lpjPulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(196, 154, 60, 0.5);
-      }
-      65% {
-        box-shadow: 0 0 0 7px rgba(196, 154, 60, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(196, 154, 60, 0);
-      }
-    }
+    .btn-lpj:hover { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 4px 12px rgba(30,66,37,0.2); transform: translateX(2px); }
 
     /* CATEGORY LUXURY STYLES */
     .cat-sosial::before { background: var(--green-500); }
@@ -473,25 +454,25 @@ function buildDocumentationUI(data) {
     </div>
 
     <div class="stats-row fade-up" style="animation-delay:.12s">
-      <div class="stat-chip"><div class="stat-num" data-target="\${totalActivities}">0</div><div class="stat-label">Total Kegiatan</div></div>
-      <div class="stat-chip"><div class="stat-num" data-target="\${totalFundsManaged}" is-money="true">0</div><div class="stat-label">Dana Terkelola</div></div>
-      <div class="stat-chip"><div class="stat-num" data-target="\${totalParticipantsCount}">0</div><div class="stat-label">Partisipasi Warga</div></div>
-      <div class="stat-chip"><div class="stat-num" data-target="\${rawCategories.length}">0</div><div class="stat-label">Sektor Kategori</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${totalActivities}">0</div><div class="stat-label">Total Kegiatan</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${totalFundsManaged}" is-money="true">0</div><div class="stat-label">Dana Terkelola</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${totalParticipantsCount}">0</div><div class="stat-label">Partisipasi Warga</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${rawCategories.length}">0</div><div class="stat-label">Sektor Kategori</div></div>
     </div>
 
     <div class="filter-row fade-up" style="animation-delay:.15s">
   `;
   
   categoriesList.forEach(cat => {
-    innerHTML += `<button class="filter-chip \${cat==='Semua'?'active':''}" data-category="\${cat}">\${cat}</button>`;
+    innerHTML += `<button class="filter-chip ${cat==='Semua'?'active':''}" data-category="${cat}">${cat}</button>`;
   });
   innerHTML += `</div><div id="cardsMasterContainer">`;
 
   sortedYears.forEach(year => {
     innerHTML += `
-      <div class="year-section fade-up" style="animation-delay:.18s" data-year="\${year}">
+      <div class="year-section fade-up" style="animation-delay:.18s" data-year="${year}">
         <div class="year-banner">
-          <div class="year-badge">✦ 	ext{\${year}}</div>
+          <div class="year-badge">✦ ${year}</div>
           <div class="year-line"></div>
         </div>
         <div class="doc-grid">
@@ -506,43 +487,43 @@ function buildDocumentationUI(data) {
       const formattedOut = formatRupiahDisplay(cleanCurrencyToNumber(item['dana keluar']));
       
       innerHTML += `
-        <div class="doc-card \${catClass}" data-cat-filter="\${item['kategori'] || ''}">
+        <div class="doc-card ${catClass}" data-cat-filter="${item['kategori'] || ''}">
           <div class="card-top">
-            <span class="cat-badge">\${item['kategori'] || 'Umum'}</span>
-            <span class="status-badge">\${item['status'] || 'Selesai'}</span>
+            <span class="cat-badge">${item['kategori'] || 'Umum'}</span>
+            <span class="status-badge">${item['status'] || 'Selesai'}</span>
           </div>
-          <h3 class="card-title">\${item['nama_kegiatan'] || 'Nama Kegiatan'}</h3>
+          <h3 class="card-title">${item['nama_kegiatan'] || 'Nama Kegiatan'}</h3>
           
           <div class="meta-item" style="margin-top: 8px;">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-            <span>\${parseAndFormatIndoDate(item['tanggal'])}</span>
+            <span>${parseAndFormatIndoDate(item['tanggal'])}</span>
           </div>
           <div class="meta-item">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-            <span>\${item['lokasi'] || 'Fasum Puri Asri 3'}</span>
+            <span>${item['lokasi'] || 'Fasum Puri Asri 3'}</span>
           </div>
           <div class="meta-item">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-            <span>Partisipasi: <strong>\${item['peserta'] || '0'} Jiwa</strong></span>
+            <span>Partisipasi: <strong>${item['peserta'] || '0'} Jiwa</strong></span>
           </div>
 
           <div class="finance-panel">
             <div class="fin-box">
               <span class="fin-label">Dana Masuk</span>
-              <span class="fin-amount in">\${formattedIn}</span>
+              <span class="fin-amount in">${formattedIn}</span>
             </div>
             <div class="fin-box" style="padding-left: 4px;">
               <span class="fin-label">Dana Keluar</span>
-              <span class="fin-amount out">\${formattedOut}</span>
+              <span class="fin-amount out">${formattedOut}</span>
             </div>
           </div>
 
-          \${item['Ket'] ? `<div class="card-ket">Nota: "\${item['Ket']}"</div>` : '<div style="margin-bottom:12px;"></div>'}
+          ${item['Ket'] ? `<div class="card-ket">Nota: "${item['Ket']}"</div>` : '<div style="margin-bottom:12px;"></div>'}
 
           <div class="card-footer">
-            <div class="pj-text">PJ: <strong>\${item['pj'] || '-'}</strong></div>
-            \${item['Link LPJ'] ? `
-              <a href="\${item['Link LPJ']}" target="_blank" rel="noopener" class="btn-lpj">
+            <div class="pj-text">PJ: <strong>${item['pj'] || '-'}</strong></div>
+            ${item['Link LPJ'] ? `
+              <a href="${item['Link LPJ']}" target="_blank" rel="noopener" class="btn-lpj">
                 <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 Berkas LPJ
               </a>
@@ -662,14 +643,14 @@ function renderErrorScreen() {
     <div class="error-wrap">
       <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#b04b4b" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
       <div style="font-size:14px; color:var(--text-mid);">Koneksi terputus. Gagal mengambil arsip data dari server.</div>
-      <button class="btn-retry" style="margin-top:8px;" onclick="fetchCsvData()">Muat Wlang</button>
+      <button class="btn-retry" style="margin-top:8px;" onclick="fetchCsvData()">Muat Ulang</button>
     </div>`;
 }
 
 async function fetchCsvData() {
   try {
     const cacheBuster = Date.now();
-    const response = await fetch(`\${DOK_CSV_URL}&t=\${cacheBuster}`);
+    const response = await fetch(`${DOK_CSV_URL}&t=${cacheBuster}`);
     if (!response.ok) throw new Error('Network error');
     const rawText = await response.text();
     const parsedRows = parseCsvData(rawText);
