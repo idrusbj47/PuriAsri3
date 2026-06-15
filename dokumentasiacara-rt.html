@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dokumentasi & LPJ Kegiatan — Puri Asri 3</title>
+  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
+      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
+      --green-400: #56a660; --green-300: #80c489; --green-200: #b3ddb9;
+      --green-100: #ddf0e0; --green-50: #f2fbf4;
+      --gold-700: #7a5c1e; --gold-600: #9a7226; --gold-500: #c49a3c;
+      --gold-400: #d4af5a; --gold-300: #e3c97e; --gold-200: #f0dfa8; --gold-100: #f8f0da;
+      --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c; --text-mid: #3a5040; --text-muted: #6b8570;
+      --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px;
+      --shadow-card: 0 2px 14px rgba(30,66,37,0.06), 0 1px 3px rgba(30,66,37,0.04);
+      --shadow-hover: 0 16px 44px rgba(30,66,37,0.14), 0 4px 12px rgba(30,66,37,0.06);
+      --shadow-gold: 0 4px 20px rgba(196,154,60,0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg); color: var(--text-dark);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    /* BACKGROUND DECORATIONS */
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(196,154,60,0.03) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.05); pointer-events: none; z-index: 0; }
+
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green-800); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    header.scrolled {
+      background: rgba(30,66,37,0.85);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13,31,16,0.25);
+    }
+    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-mark {
+      width: 40px; height: 40px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
+    }
+    .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 1px; }
+    .btn-back {
+      display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--green-200); text-decoration: none;
+      padding: 6px 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; transition: all 0.2s;
+    }
+    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
+
+    /* MAIN CONTAINER */
+    main { position: relative; z-index: 1; flex: 1; max-width: 1040px; margin: 0 auto; width: 100%; padding: 52px 24px 96px; }
+
+    /* HERO */
+    .hero { text-align: center; margin-bottom: 48px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-600); font-weight: 500; margin-bottom: 16px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; display: block; width: 36px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400), transparent); }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4.5vw, 44px); font-weight: 500; color: var(--green-900); line-height: 1.2; margin-bottom: 16px; }
+    .hero-title em { font-style: italic; color: var(--green-600); }
+    .hero-desc { font-size: 14.5px; color: var(--text-muted); font-weight: 300; max-width: 540px; margin: 0 auto; line-height: 1.7; }
+    
+    .ornament-divider { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 24px 0; }
+    .ornament-line { width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-400)); }
+    .ornament-line:last-child { background: linear-gradient(90deg, var(--gold-400), transparent); }
+    .ornament-diamond { width: 6px; height: 6px; background: var(--gold-400); transform: rotate(45deg); box-shadow: 0 0 6px rgba(196,154,60,0.4); }
+
+    /* STATS CHIPS */
+    .stats-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 52px; }
+    .stat-box {
+      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 18px 14px; text-align: center; box-shadow: var(--shadow-card); position: relative; overflow: hidden; transition: all 0.25s ease;
+    }
+    .stat-box::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold-300), var(--green-400)); opacity: 0; transition: opacity 0.3s; }
+    .stat-box:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .stat-box:hover::after { opacity: 1; }
+    .stat-value { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; color: var(--green-700); line-height: 1.2; }
+    .stat-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
+
+    /* FILTER BUTTONS */
+    .filter-wrapper { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .filter-btn {
+      font-family: inherit; font-size: 11.5px; font-weight: 500; padding: 6px 14px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border-mid); color: var(--text-mid); background: var(--cream-card); transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--green-400); color: var(--green-700); }
+    .filter-btn.active { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 3px 12px rgba(30,66,37,0.15); }
+
+    /* YEAR GROUP BANNER */
+    .year-group { margin-bottom: 48px; }
+    .year-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+    .year-title-badge { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25); padding: 4px 14px; border-radius: 20px; box-shadow: var(--shadow-gold); }
+    .year-hr { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(196,154,60,0.3), transparent); }
+
+    /* DOCUMENTATION GRID */
+    .doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    
+    /* DOCUMENTATION CARD */
+    .doc-card {
+      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; display: flex; flex-direction: column; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: translateY(16px);
+    }
+    .doc-card.visible { opacity: 1; transform: translateY(0); }
+    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; opacity: 0.7; transition: width 0.2s ease; }
+    .doc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
+    .doc-card:hover::before { width: 6px; }
+
+    /* CARD COMPONENTS */
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .cat-badge { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+    .status-badge { font-size: 9px; font-weight: 500; padding: 2px 8px; border-radius: 12px; background: var(--green-50); color: var(--green-600); border: 1px solid rgba(46,112,56,0.15); }
+    
+    .card-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-dark); line-height: 1.4; margin-bottom: 8px; }
+    
+    .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .meta-item svg { color: var(--text-muted); opacity: 0.7; flex-shrink: 0; }
+
+    /* FINANCIAL PANEL (PREMIUM LEDGER LOOK) */
+    .finance-panel {
+      background: #fcfbfa; border: 1px dashed var(--border-mid); border-radius: 8px; padding: 10px 12px; margin: 12px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative;
+    }
+    .fin-box { display: flex; flex-direction: column; }
+    .fin-box:first-child { border-right: 1px solid rgba(46,112,56,0.1); padding-right: 8px; }
+    .fin-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+    .fin-amount { font-size: 12px; font-weight: 500; margin-top: 2px; }
+    .fin-amount.in { color: var(--green-700); }
+    .fin-amount.out { color: #a64b4b; }
+
+    .card-ket { font-size: 11.5px; color: var(--text-mid); line-height: 1.5; font-style: italic; margin-bottom: 16px; font-weight: 300; background: rgba(0,0,0,0.01); padding: 6px 0; }
+    .card-footer { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; }
+    
+    .pj-text { font-size: 11px; color: var(--text-muted); }
+    .pj-text strong { color: var(--text-dark); font-weight: 400; }
+
+    /* PREMIUM ACTION BUTTON */
+    .btn-lpj {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.2s; white-space: nowrap;
+    }
+    .btn-lpj:hover { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 2px 8px rgba(30,66,37,0.15); }
+
+    /* CATEGORY LUXURY STYLES */
+    .cat-sosial::before { background: var(--green-500); }
+    .cat-sosial .cat-badge { background: var(--green-50); color: var(--green-700); border: 1px solid rgba(46,112,56,0.15); }
+    
+    .cat-pembangunan::before { background: #5b5bb5; }
+    .cat-pembangunan .cat-badge { background: #f0f0fc; color: #4b4ba5; border: 1px solid rgba(75,75,165,0.15); }
+    
+    .cat-keagamaan::before { background: #2c90a0; }
+    .cat-keagamaan .cat-badge { background: #e6f5f7; color: #1c7080; border: 1px solid rgba(28,112,128,0.15); }
+    
+    .cat-keamanan::before { background: #c25252; }
+    .cat-keamanan .cat-badge { background: #fdf0f0; color: #a23232; border: 1px solid rgba(162,50,50,0.15); }
+
+    /* SCREEN INFOS */
+    .loading-view, .error-view { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 24px; text-align: center; gap: 12px; }
+    .spinner { width: 32px; height: 32px; border: 3px solid var(--border-mid); border-top-color: var(--green-600); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 32px 24px; border-top: 1px solid var(--border-light); font-size: 11.5px; color: var(--text-muted); line-height: 1.6; }
+    footer strong { color: var(--green-700); font-weight: 500; }
+
+    .scroll-top {
+      position: fixed; right: 24px; bottom: 24px; z-index: 150; width: 38px; height: 38px; border-radius: 50%; background: var(--green-800); color: #fff; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transform: translateY(8px); transition: all 0.3s; pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+
+    /* RESPONSIVE */
+    @media (max-width: 820px) {
+      .doc-grid { grid-template-columns: 1fr; }
+      .stats-container { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    }
+    @media (max-width: 480px) {
+      main { padding: 32px 16px 64px; }
+      .hero-title { font-size: 24px; }
+      .stats-container { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deco-ring" style="width:600px;height:600px;top:-250px;right:-200px;"></div>
+  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
+
+  <header>
+    <a href="index.html" class="header-brand">
+      <div class="logo-mark">
+        <img src="Logo RT11.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div style="display:none;font-size:11px;font-weight:600;color:var(--green-700)">PA</div>
+      </div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; Dokumentasi</div>
+      </div>
+    </a>
+    <a href="timeline-pa3.html" class="btn-back">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Timeline Rapat</span>
+    </a>
+  </header>
+
+  <main id="mainContainer">
+    <div class="loading-view">
+      <div class="spinner"></div>
+      <div style="font-size:13px; color:var(--text-muted);">Menyelaraskan data arsip dokumentasi...</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="ornament-divider" style="margin: 0 auto 12px;">
+      <div class="ornament-line" style="max-width:30px;"></div>
+      <div class="ornament-diamond" style="width:4px;height:4px;"></div>
+      <div class="ornament-line" style="max-width:30px;"></div>
+    </div>
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12<br>
+    <span style="opacity: 0.75; display:block; margin-top:3px;">Sistem Transparansi Kegiatan & Pengelolaan Kas Anggaran Warga</span>
+  </footer>
+
+  <button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+<script>
+// URL Google Sheet CSV Laporan Acara/Dokumentasi Anda
+const DOK_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1804471725&single=true&output=csv';
+
+// Helper pemisah baris CSV standard
+function splitCsvLine(line) {
+  const result = []; let current = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; } 
+      else { inQuotes = !inQuotes; }
+    } 
+    else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; } 
+    else { current += char; }
+  }
+  result.push(current.trim());
+  return result;
+}
+
+function parseCsvData(text) {
+  const lines = text.split(/\r?\n/).filter(line => line.trim());
+  if (lines.length < 2) return [];
+  const headers = splitCsvLine(lines[0]).map(h => h.replace(/"/g,'').trim());
+  const list = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitCsvLine(lines[i]);
+    if (!cols[0]) continue;
+    const item = {};
+    headers.forEach((h, idx) => { item[h] = (cols[idx] || '').replace(/"/g,'').trim(); });
+    list.push(item);
+  }
+  return list;
+}
+
+// Format Tanggal Indonesia Formal (Contoh: 2024-08-17 -> 17 Agustus 2024)
+function parseAndFormatIndoDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    const y = parts[0];
+    const m = parseInt(parts[1], 10);
+    const d = parseInt(parts[2], 10);
+    const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return `${d} ${months[m-1]} ${y}`;
+  }
+  return dateStr;
+}
+
+// Pembersih angka nominal uang kas untuk kalkulasi statistik
+function cleanCurrencyToNumber(val) {
+  if (!val) return 0;
+  return Number(val.replace(/[^0-9]/g, '')) || 0;
+}
+
+function formatRupiahDisplay(num) {
+  if (!num) return 'Rp 0';
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+let loadedData = [];
+
+function buildDocumentationUI(data) {
+  loadedData = data;
+  
+  // Ambil list kategori unik untuk tombol filter chip
+  const rawCategories = [...new Set(data.map(d => d['kategori']).filter(Boolean))];
+  const categoriesList = ['Semua', ...rawCategories];
+
+  // Hitung akumulasi statistik riil dari file CSV
+  const totalActivities = data.length;
+  let totalFundsManaged = 0;
+  let totalParticipantsCount = 0;
+  
+  data.forEach(row => {
+    totalFundsManaged += cleanCurrencyToNumber(row['dana terkumpul']);
+    totalParticipantsCount += (parseInt(row['peserta'], 10) || 0);
+  });
+
+  // Susun pengelompokan data berdasarkan Tahun secara terbalik (Terbaru di atas)
+  const groupYearMap = new Map();
+  data.forEach(row => {
+    const year = (row['tanggal'] || 'Lainnya').split('-')[0] || 'Lainnya';
+    if (!groupYearMap.has(year)) groupYearMap.set(year, []);
+    groupYearMap.get(year).push(row);
+  });
+  const sortedYears = [...groupYearMap.keys()].sort((a,b) => b - a);
+
+  // Buat susunan kerangka komponen HTML inti
+  let innerHTML = `
+    <div class="hero">
+      <div class="hero-eyebrow">Arsip Transparansi Publik</div>
+      <h1 class="hero-title">Dokumentasi & <em>LPJ Kegiatan</em></h1>
+      <div class="ornament-divider">
+        <div class="ornament-line"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-line"></div>
+      </div>
+      <p class="hero-desc">Laporan komparasi dana, jumlah partisipan, berkas pertanggungjawaban, serta rekaman hasil berjalannya program kerja warga Puri Asri 3.</p>
+    </div>
+
+    <div class="stats-container">
+      <div class="stat-box"><div class="stat-value" data-target="${totalActivities}">0</div><div class="stat-label">Total Kegiatan</div></div>
+      <div class="stat-box"><div class="stat-value" data-target="${totalFundsManaged}" is-money="true">0</div><div class="stat-label">Dana Terkelola</div></div>
+      <div class="stat-box"><div class="stat-value" data-target="${totalParticipantsCount}">0</div><div class="stat-label">Partisipasi Warga</div></div>
+      <div class="stat-box"><div class="stat-value" data-target="${rawCategories.length}">0</div><div class="stat-label">Sektor Kategori</div></div>
+    </div>
+
+    <div class="filter-wrapper">
+  `;
+  
+  categoriesList.forEach(cat => {
+    innerHTML += `<button class="filter-btn ${cat==='Semua'?'active':''}" data-category="${cat}">${cat}</button>`;
+  });
+  innerHTML += `</div><div id="cardsMasterContainer">`;
+
+  // Bangun struktur kartu per tahun kelompok
+  sortedYears.forEach(year => {
+    innerHTML += `
+      <div class="year-group" data-year="${year}">
+        <div class="year-header">
+          <div class="year-title-badge">✦ Tahun ${year}</div>
+          <div class="year-hr"></div>
+        </div>
+        <div class="doc-grid">
+    `;
+
+    const rowItems = groupYearMap.get(year);
+    // Urutkan berdasarkan tanggal terbaru di atas
+    rowItems.sort((a,b) => new Date(b['tanggal']) - new Date(a['tanggal']));
+
+    rowItems.forEach(item => {
+      const catClass = 'cat-' + (item['kategori'] || 'sosial').toLowerCase().replace(/\s+/g, '-');
+      const formattedIn = formatRupiahDisplay(cleanCurrencyToNumber(item['dana terkumpul']));
+      const formattedOut = formatRupiahDisplay(cleanCurrencyToNumber(item['dana keluar']));
+      
+      innerHTML += `
+        <div class="doc-card ${catClass}" data-cat-filter="${item['kategori'] || ''}">
+          <div class="card-top">
+            <span class="cat-badge">${item['kategori'] || 'Umum'}</span>
+            <span class="status-badge">${item['status'] || 'Selesai'}</span>
+          </div>
+          <h3 class="card-title">${item['nama_kegiatan'] || 'Nama Kegiatan'}</h3>
+          
+          <div class="meta-item" style="margin-top: 8px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>${parseAndFormatIndoDate(item['tanggal'])}</span>
+          </div>
+          <div class="meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>${item['lokasi'] || 'Fasum Puri Asri 3'}</span>
+          </div>
+          <div class="meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Partisipasi: <strong>${item['peserta'] || '0'} Jiwa</strong></span>
+          </div>
+
+          <div class="finance-panel">
+            <div class="fin-box">
+              <span class="fin-label">Dana Masuk</span>
+              <span class="fin-amount in">${formattedIn}</span>
+            </div>
+            <div class="fin-box" style="padding-left: 4px;">
+              <span class="fin-label">Dana Keluar</span>
+              <span class="fin-amount out">${formattedOut}</span>
+            </div>
+          </div>
+
+          ${item['Ket'] ? `<div class="card-ket">Nota: "${item['Ket']}"</div>` : '<div style="margin-bottom:12px;"></div>'}
+
+          <div class="card-footer">
+            <div class="pj-text">PJ: <strong>${item['pj'] || '-'}</strong></div>
+            ${item['Link LPJ'] ? `
+              <a href="${item['Link LPJ']}" target="_blank" rel="noopener" class="btn-lpj">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Berkas LPJ
+              </a>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    });
+
+    innerHTML += `</div></div>`;
+  });
+
+  innerHTML += `</div>`;
+  document.getElementById('mainContainer').innerHTML = innerHTML;
+
+  // Triger Animasi counter angka stat berurutan
+  setTimeout(() => {
+    document.querySelectorAll('.stat-value').forEach((el, index) => {
+      const target = Number(el.dataset.target);
+      const isMoney = el.getAttribute('is-money') === 'true';
+      setTimeout(() => animateStatsCounter(el, target, 1000, isMoney), index * 120);
+    });
+  }, 100);
+
+  // Intersection Observer untuk memunculkan efek kartu naik halus
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.doc-card').forEach(card => observer.observe(card));
+
+  // Logic Event Listener Filter Kategori
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      executeFilterAction(btn.dataset.category);
+    });
+  });
+}
+
+function executeFilterAction(selectedCat) {
+  document.querySelectorAll('.doc-card').forEach(card => {
+    if (selectedCat === 'Semua') {
+      card.style.display = '';
+    } else {
+      const cardCat = card.dataset.catFilter;
+      card.style.display = (cardCat === selectedCat) ? '' : 'none';
+    }
+  });
+
+  // Sembunyikan judul tahun jika di dalamnya tidak ada kartu yang lolos filter
+  document.querySelectorAll('.year-group').forEach(group => {
+    const hasVisibleCard = [...group.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
+    group.style.display = hasVisibleCard ? '' : 'none';
+  });
+}
+
+function animateStatsCounter(el, target, duration, isMoney) {
+  const startTimestamp = performance.now();
+  function step(now) {
+    const elapsed = Math.min(now - startTimestamp, duration);
+    const progress = 1 - Math.pow(1 - elapsed / duration, 3); // Cubic ease-out
+    const currentVal = Math.floor(target * progress);
+    
+    if (isMoney) {
+      el.textContent = currentVal > 1000000 
+        ? 'Rp ' + (currentVal / 1000000).toFixed(1) + ' Jt+' 
+        : 'Rp ' + currentVal.toLocaleString('id-ID');
+    } else {
+      el.textContent = currentVal.toLocaleString('id-ID');
+    }
+
+    if (elapsed < duration) { requestAnimationFrame(step); } 
+    else {
+      el.textContent = isMoney ? formatRupiahDisplay(target) : target.toLocaleString('id-ID');
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function renderErrorScreen() {
+  document.getElementById('mainContainer').innerHTML = `
+    <div class="error-view">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#b04b4b" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <div style="font-size:14px; color:var(--text-mid);">Koneksi terputus. Gagal mengambil arsip data dari server.</div>
+      <button class="filter-btn" style="margin-top:8px; background:var(--green-800); color:#fff;" onclick="fetchCsvData()">Muat Ulang</button>
+    </div>`;
+}
+
+async function fetchCsvData() {
+  try {
+    const cacheBuster = Date.now();
+    const response = await fetch(`${DOK_CSV_URL}&t=${cacheBuster}`);
+    if (!response.ok) throw new Error('Network error');
+    const rawText = await response.text();
+    const parsedRows = parseCsvData(rawText);
+    buildDocumentationUI(parsedRows);
+  } catch (error) {
+    console.error(error);
+    renderErrorScreen();
+  }
+}
+
+// Init Load Data
+fetchCsvData();
+
+// Scroll & Header Sticky Listener
+window.addEventListener('scroll', () => {
+  document.querySelector('header').classList.toggle('scrolled', window.scrollY > 15);
+  document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 280);
+}, { passive: true });
+</script>
+</body>
+</html>
