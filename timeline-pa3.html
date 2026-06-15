@@ -396,7 +396,7 @@
   <main id="mainContent">
     <div class="loading-wrap">
       <div class="spinner"></div>
-      <div class="loading-text">Memuat data timeline …</div>
+      <div class="loading-text">Memuat data. Tarik layar atau tekan refresh untuk mempercepat …</div>
     </div>
   </main>
 
@@ -662,7 +662,7 @@ function showError() {
 
 async function loadData() {
   document.getElementById('mainContent').innerHTML = `
-    <div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Memuat data timeline …</div></div>`;
+    <div class="loading-wrap"><div class="spinner"></div><div class="loading-text">Memuat data. Tarik layar atau tekan refresh untuk mempercepat …</div></div>`;
   try {
     const t = Date.now();
     const res = await fetch(`${CSV_URL}&t=${t}`);
