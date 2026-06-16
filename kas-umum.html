@@ -245,16 +245,18 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <!-- Overlay -->
 <div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
 
-<!-- Navigation Drawer -->
+<!-- Navigation Drawer dengan fitur Scroll -->
 <nav class="nav-drawer" id="nav-drawer">
   <div class="nav-header">
     <h2>Puri Asri 3</h2>
     <p>RT 01 / RW 012 · TH. 2026</p>
   </div>
+
   <div class="nav-section">Menu Utama</div>
   <a class="nav-item" href="index.html">
     <span class="nav-icon">🏠</span> Beranda
   </a>
+
   <div class="nav-section">Keuangan</div>
   <a class="nav-item active" href="kas-umum.html">
     <span class="nav-icon">💰</span> Laporan Kas Umum
@@ -268,26 +270,51 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   <a class="nav-item" href="pengeluaran-kematian.html">
     <span class="nav-icon">📄</span> Pengeluaran Dana Kematian
   </a>
+
   <div class="nav-section">Informasi & Dokumentasi</div>
   <a class="nav-item" href="program-rt.html">
     <span class="nav-icon">📅</span> Program & Kegiatan Warga
   </a>
   <a class="nav-item" href="timeline-pa3.html">
-    <span class="nav-icon">✹</span> Timeline Rapat Warga
+    <span class="nav-icon">⏳</span> Timeline Rapat Warga
   </a>
   <a class="nav-item" href="dokumentasiacara-rt.html">
-    <span class="nav-icon">🖼️</span> Dokeumentasi Acara
+    <span class="nav-icon">🖼️</span> Dokumentasi Acara
   </a>
   <a class="nav-item" href="inventaris-rt.html">
     <span class="nav-icon">🧰</span> Daftar Inventaris RT
   </a>
-   <a class="nav-item" href="adart.html">
-    <span class="nav-icon">📖</span> AD/ART
+  <a class="nav-item" href="adart.html">
+    <span class="nav-icon">📜</span> AD/ART
   </a>
   <a class="nav-item" href="peta-lokasi.html">
     <span class="nav-icon">🗺️</span> Peta Lokasi
   </a>
 </nav>
+
+<style>
+  .nav-drawer {
+    height: 100vh;
+    overflow-y: auto; /* Fitur scroll */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.2) transparent;
+  }
+
+  /* Custom scrollbar untuk Chrome/Safari */
+  .nav-drawer::-webkit-scrollbar {
+    width: 6px;
+  }
+  .nav-drawer::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  .nav-drawer::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+</style>
 
 <div class="container">
   <div id="err-box" class="err-box" style="display:none"></div>
