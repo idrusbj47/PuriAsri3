@@ -228,21 +228,80 @@ tr.row-bansos td:first-child{
 </div>
 
 <div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
+<!-- Navigation Drawer dengan fitur Scroll -->
 <nav class="nav-drawer" id="nav-drawer">
   <div class="nav-header">
     <h2>Puri Asri 3</h2>
     <p>RT 01 / RW 012 · TH. 2026</p>
   </div>
+
   <div class="nav-section">Menu Utama</div>
-  <a class="nav-item" href="index.html"><span class="nav-icon">🏠</span> Beranda</a>
+  <a class="nav-item" href="index.html">
+    <span class="nav-icon">🏠</span> Beranda
+  </a>
+
   <div class="nav-section">Keuangan</div>
-  <a class="nav-item" href="kas-umum.html"><span class="nav-icon">💰</span> Laporan Kas Umum</a>
-  <a class="nav-item" href="Kematian.html"><span class="nav-icon">🏡</span> Laporan Dana Kematian</a>
-  <a class="nav-item active" href="pengeluaran-kas.html"><span class="nav-icon">📋</span> Pengeluaran Kas</a>
-  <a class="nav-item" href="pengeluaran-kematian.html"><span class="nav-icon">📄</span> Pengeluaran Dana Kematian</a>
-  <div class="nav-section">Segera Hadir</div>
-  <a class="nav-item" style="opacity:.4;pointer-events:none" href="#"><span class="nav-icon">🖼️</span> Dokumentasi Acara</a>
+  <a class="nav-item" href="kas-umum.html">
+    <span class="nav-icon">💰</span> Laporan Kas Umum
+  </a>
+  <a class="nav-item" href="Kematian.html">
+    <span class="nav-icon">🏡</span> Laporan Dana Kematian
+  </a>
+  <a class="nav-item active" href="pengeluaran-kas.html">
+    <span class="nav-icon">📋</span> Pengeluaran Kas
+  </a>
+  <a class="nav-item" href="pengeluaran-kematian.html">
+    <span class="nav-icon">📄</span> Pengeluaran Dana Kematian
+  </a>
+
+  <div class="nav-section">Informasi & Dokumentasi</div>
+  <a class="nav-item" href="program-rt.html">
+    <span class="nav-icon">📅</span> Program & Kegiatan Warga
+  </a>
+  <a class="nav-item" href="timeline-pa3.html">
+    <span class="nav-icon">⏳</span> Timeline Rapat Warga
+  </a>
+  <a class="nav-item" href="dokumentasiacara-rt.html">
+    <span class="nav-icon">🖼️</span> Dokumentasi Acara
+  </a>
+  <a class="nav-item" href="inventaris-rt.html">
+    <span class="nav-icon">🧰</span> Daftar Inventaris RT
+  </a>
+  <a class="nav-item" href="adart.html">
+    <span class="nav-icon">📜</span> AD/ART
+  </a>
+  <a class="nav-item" href="peta-lokasi.html">
+    <span class="nav-icon">🗺️</span> Peta Lokasi
+  </a>
 </nav>
+
+<style>
+  .nav-drawer {
+    /* Efek Frosted Glass */
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    
+    /* Layout & Scroll */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    
+    /* Scrollbar Tipis */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,0.1) transparent;
+  }
+
+  /* Custom scrollbar untuk Chrome/Safari */
+  .nav-drawer::-webkit-scrollbar { width: 6px; }
+  .nav-drawer::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+</style>
 
 <div class="container">
   <div id="err-box" class="err-box" style="display:none"></div>
