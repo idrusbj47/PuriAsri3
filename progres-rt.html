@@ -186,13 +186,35 @@
     }
     .tanggal-mulai { font-size: 11px; color: var(--text-muted); }
     
-    /* STATUS BADGES */
+    /* STATUS BADGES & ANIMASI PULSE */
     .status-badge {
       font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
       letter-spacing: 0.04em; text-transform: uppercase;
+      position: relative;
     }
-    .status-proses { background: #fef3c7; color: #d97706; border: 1px solid #fcd34d; }
-    .status-selesai { background: #d1fae5; color: #059669; border: 1px solid #6ee7b7; }
+    
+    /* 1. Efek Pulse Oranye untuk Status PROSES (Konstan) */
+    .status-proses { 
+      background: #fef3c7; color: #d97706; border: 1px solid #fcd34d; 
+      animation: pulse-proses 2s infinite ease-in-out;
+    }
+    @keyframes pulse-proses {
+      0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.2); }
+      70% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+    }
+
+    /* 2. Efek Pulse Hijau untuk Status SELESAI (Hanya 3 kali saat muncul agar tetap elegan) */
+    .status-selesai { 
+      background: #d1fae5; color: #059669; border: 1px solid #6ee7b7; 
+      animation: pulse-selesai 2s 3 ease-in-out;
+    }
+    @keyframes pulse-selesai {
+      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.3); }
+      70% { box-shadow: 0 0 0 8px rgba(5, 150, 105, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+    }
+
     .status-tertunda { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
 
     .card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--green-900); line-height: 1.4; margin-bottom: 16px; }
@@ -253,14 +275,12 @@
     /* RESPONSIVE REVISIONS */
     @media (max-width: 768px) {
       .progres-grid { grid-template-columns: 1fr; }
-      /* Susunan card 2x2 grid untuk statistik sesuai gambar revisi mobile */
       .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-      .stats-row .stat-chip:first-child { grid-column: span 2; } /* Biar total urusan simetris di atas, sisanya berdampingan */
+      .stats-row .stat-chip:first-child { grid-column: span 2; }
     }
     
     @media (max-width: 640px) {
       header { padding: 0 1rem; }
-      /* Tombol kembali diubah menjadi hanya berupa simbol lingkaran panah saja di mobile */
       .btn-back {
         width: 36px; height: 36px; padding: 0; border-radius: 50%;
         background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15);
@@ -502,6 +522,13 @@
             card.style.display = 'none';
           }
         }
+      });
+      
+      // Me-reset animasi pulse untuk badge selesai ketika filter diganti
+      document.querySelectorAll('.status-selesai').forEach(badge => {
+        badge.style.animation = 'none';
+        badge.offsetHeight; /* memicu reflow */
+        badge.style.animation = 'pulse-selesai 2s 3 ease-in-out';
       });
     }
 
