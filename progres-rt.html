@@ -1,373 +1,32 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Progres Urusan & Advokasi — Puri Asri 3</title>
-  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
-      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
-      --green-400: #56a660; --green-300: #80c489; --green-200: #b3ddb9;
-      --green-100: #ddf0e0; --green-50: #f2fbf4;
-      --gold-700: #7a5c1e; --gold-600: #9a7226; --gold-500: #c49a3c;
-      --gold-400: #d4af5a; --gold-300: #e3c97e; --gold-200: #f0dfa8; --gold-100: #f8f0da;
-      --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
-      --text-dark: #1a2b1c; --text-mid: #3a5040; --text-muted: #6b8570;
-      --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
-      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px; --radius-xl: 28px;
-      --shadow-card: 0 2px 12px rgba(30,66,37,0.08), 0 1px 3px rgba(30,66,37,0.06);
-      --shadow-hover: 0 12px 40px rgba(30,66,37,0.16), 0 2px 8px rgba(30,66,37,0.08);
-      --shadow-gold: 0 4px 20px rgba(196,154,60,0.18);
-    }
-
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream-bg); color: var(--text-dark);
-      min-height: 100vh; overflow-x: hidden;
-      display: flex; flex-direction: column;
-    }
-
-    /* BACKGROUND TEXTURE */
-    body::before {
-      content: ''; position: fixed; inset: 0;
-      background-image:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.07) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(196,154,60,0.04) 0%, transparent 60%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
-    }
-
-    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.06); pointer-events: none; z-index: 0; }
-
-    /* ─── HEADER ─── */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--green-800); padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
-      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
-    }
-    header.scrolled {
-      background: rgba(30,66,37,0.82);
-      backdrop-filter: blur(14px) saturate(1.4);
-      -webkit-backdrop-filter: blur(14px) saturate(1.4);
-      box-shadow: 0 2px 24px rgba(13,31,16,0.28), 0 1px 0 rgba(255,255,255,0.06);
-    }
-    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: opacity 0.2s; }
-    .header-brand:hover { opacity: 0.85; }
-    .logo-mark {
-      width: 40px; height: 40px; background: #fff; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
-    }
-    .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
-    .logo-mark-fallback {
-      width: 24px; height: 24px; background: var(--green-600); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600;
-    }
-    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
-    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-top: 1px; }
-    .btn-back {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--green-200); text-decoration: none;
-      letter-spacing: 0.04em; padding: 6px 12px;
-      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
-      transition: all 0.2s ease; white-space: nowrap;
-    }
-    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
-
-    /* ─── MAIN ─── */
-    main { position: relative; z-index: 1; flex: 1; max-width: 1000px; margin: 0 auto; width: 100%; padding: 52px 24px 96px; }
-
-    /* ─── HERO ─── */
-    .hero { text-align: center; margin-bottom: 40px; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--gold-600); font-weight: 500; margin-bottom: 20px;
-    }
-    .hero-eyebrow::before, .hero-eyebrow::after {
-      content: ''; display: block; width: 36px; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
-    }
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(30px,5vw,44px); font-weight: 500; color: var(--green-900);
-      line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 18px;
-    }
-    .hero-title em { font-style: italic; color: var(--green-600); }
-    .hero-desc { font-size: 14.5px; color: var(--text-muted); font-weight: 300; line-height: 1.75; max-width: 540px; margin: 0 auto 20px; }
-    
-    .hero-ornament {
-      display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;
-    }
-    .hero-ornament-line { flex: 1; max-width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300)); }
-    .hero-ornament-line:last-child { background: linear-gradient(90deg, var(--gold-300), transparent); }
-    .hero-ornament-diamond { width: 6px; height: 6px; background: var(--gold-400); transform: rotate(45deg); border-radius: 1px; }
-
-    /* ─── STATS ─── */
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 44px; }
-    .stat-chip {
-      background: var(--cream-card); border: 1px solid var(--border-light);
-      border-radius: var(--radius-md); padding: 18px 14px;
-      text-align: center; box-shadow: var(--shadow-card);
-    }
-    .stat-num { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--green-700); line-height: 1; }
-    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 6px; }
-
-    /* ─── FILTER ROW ─── */
-    .filter-container {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 16px; flex-wrap: wrap; margin-bottom: 32px;
-      padding-bottom: 16px; border-b: 1px solid var(--border-light);
-    }
-    .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-chip {
-      font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
-      padding: 6px 16px; border-radius: 20px; cursor: pointer;
-      border: 1px solid var(--border-mid); color: var(--text-mid);
-      background: var(--cream-card); transition: all 0.2s ease;
-    }
-    .filter-chip:hover { border-color: var(--green-400); color: var(--green-700); }
-    .filter-chip.active {
-      background: var(--green-800); color: #fff; border-color: var(--green-800);
-      box-shadow: 0 2px 10px rgba(30,66,37,0.2);
-    }
-
-    /* ─── CARD GRID ─── */
-    .progres-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .progres-card {
-      background: var(--cream-card); border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg); padding: 24px;
-      box-shadow: var(--shadow-card); display: flex; flex-direction: column;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      position: relative; overflow: hidden;
-    }
-    .progres-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
-    
-    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
-    .card-meta { display: flex; flex-direction: column; gap: 4px; }
-    .kategori-badge {
-      font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-      color: var(--gold-700); background: var(--gold-100);
-      padding: 3px 10px; border-radius: 12px; width: fit-content;
-    }
-    .tanggal-mulai { font-size: 11px; color: var(--text-muted); }
-    
-    /* STATUS BADGES */
-    .status-badge {
-      font-size: 10px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
-      letter-spacing: 0.04em; text-transform: uppercase;
-    }
-    .status-proses { background: #fef3c7; color: #d97706; border: 1px solid #fcd34d; }
-    .status-selesai { background: #d1fae5; color: #059669; border: 1px solid #6ee7b7; }
-    .status-tertunda { background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; }
-
-    .card-title { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--green-900); line-height: 1.4; margin-bottom: 16px; }
-    
-    .section-box { background: rgba(46,112,56,0.03); border: 1px solid rgba(46,112,56,0.06); border-radius: var(--radius-md); padding: 12px 14px; margin-bottom: 12px; }
-    .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .section-text { font-size: 12px; color: var(--text-dark); line-height: 1.6; }
-
-    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(46,112,56,0.08); }
-    .rapat-info { font-size: 11px; color: var(--text-muted); font-weight: 500; display: flex; align-items: center; gap: 4px; }
-    
-    .btn-link-dokumen {
-      display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 500;
-      color: var(--gold-700); text-decoration: none; background: var(--gold-100);
-      padding: 5px 12px; border-radius: 20px; transition: all 0.2s;
-    }
-    .btn-link-dokumen:hover { background: var(--gold-200); color: var(--gold-700); }
-
-    /* LOADING / ERROR */
-    .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 24px; text-align: center; }
-    .spinner { width: 36px; height: 36px; border: 3px solid var(--border-mid); border-top-color: var(--green-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { font-size: 13px; color: var(--text-muted); }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .progres-grid { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: 1fr 1fr 1fr; }
-    }
-    @media (max-width: 480px) {
-      main { padding: 32px 14px 70px; }
-      .hero-title { font-size: 26px; }
-      .stats-row { grid-template-columns: 1fr; gap: 8px; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="deco-ring" style="width:700px;height:700px;top:-300px;right:-250px;"></div>
-  <div class="deco-ring" style="width:500px;height:500px;bottom:-150px;left:-200px;"></div>
-
-  <header>
-    <a href="index.html" class="header-brand">
-      <div class="logo-mark">
-        <img src="Logo RT11.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="logo-mark-fallback" style="display:none">PA</div>
-      </div>
-      <div>
-        <div class="header-title">Puri Asri 3</div>
-        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; Progres Kerja</div>
-      </div>
-    </a>
-    <a href="index.html" class="btn-back">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      <span>Kembali</span>
-    </a>
-  </header>
-
-  <main id="mainContent">
-    <div class="loading-wrap">
-      <div class="spinner"></div>
-      <div class="loading-text">Memuat data perkembangan urusan warga RT...</div>
-    </div>
-  </main>
-
-  <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=523161085&single=true&output=csv';
-
-    function splitLine(line) {
-      const r = []; let cur = '', inQ = false;
-      for (let i = 0; i < line.length; i++) {
-        const c = line[i];
-        if (c === '"') { if (inQ && line[i+1] === '"') { cur += '"'; i++; } else inQ = !inQ; }
-        else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
-        else cur += c;
-      }
-      r.push(cur.trim()); return r;
-    }
-
-    function parseCSV(text) {
-      const lines = text.trim().split('\n').filter(l => l.trim());
-      if (lines.length < 2) return [];
-      const headers = splitLine(lines[0]).map(h => h.replace(/"/g,'').trim());
-      const rows = [];
-      for (let i = 1; i < lines.length; i++) {
-        const cols = splitLine(lines[i]);
-        if (!cols[0]) continue;
-        const row = {};
-        headers.forEach((h, idx) => { row[h] = (cols[idx]||'').replace(/"/g,'').trim(); });
-        rows.push(row);
-      }
-      return rows;
-    }
-
-    function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-    function fmtDate(d) {
-      if (!d) return '';
-      const monthsMap = {'Jan':'Jan', 'Feb':'Feb', 'Mar':'Mar', 'Apr':'Apr', 'May':'Mei', 'Jun':'Jun', 'Jul':'Jul', 'Aug':'Agu', 'Sep':'Sep', 'Oct':'Okt', 'Nov':'Nov', 'Dec':'Des'};
-      const parts = d.split('-');
-      if (parts.length === 3) {
-        const day = parseInt(parts[0], 10);
-        const mon = monthsMap[parts[1]] || parts[1];
-        const yr = parts[2].length === 2 ? '20' + parts[2] : parts[2];
-        return `${day} ${mon} ${yr}`;
-      }
-      return d;
-    }
-
-    let allRows = [];
-
-    async function loadData() {
-      try {
-        const t = Date.now();
-        const res = await fetch(`${CSV_URL}&t=${t}`);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const text = await res.text();
-        allRows = parseCSV(text);
-        buildUI(allRows);
-      } catch(e) {
-        console.error(e);
-        document.getElementById('mainContent').innerHTML = '<div class="loading-text" style="color:red">❌ Gagal memuat database progres kerja RT. Pastikan Google Sheets sudah dipublikasikan ke web.</div>';
-      }
-    }
-
-    function buildUI(rows) {
-      const totalUrusan = rows.length;
-      const totalSelesai = rows.filter(r => (r['status']||'').toLowerCase() === 'selesai').length;
-      const totalProses = rows.filter(r => (r['status']||'').toLowerCase() === 'proses').length;
-
-      let html = `
-      <div class="hero">
-        <div class="hero-eyebrow">Transparansi & Akuntabilitas</div>
-        <h1 class="hero-title">Progres Urusan<br><em>& Advokasi Warga</em></h1>
-        <div class="hero-ornament">
-          <div class="hero-ornament-line"></div>
-          <div class="hero-ornament-diamond"></div>
-          <div class="hero-ornament-line"></div>
-        </div>
-        <p class="hero-desc">Daftar pelacakan aksi nyata, pengelolaan fasilitas, dan penyelesaian masalah di lingkungan RT 01 / RW 12 Puri Asri 3.</p>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-chip"><div class="stat-num">${totalUrusan}</div><div class="stat-label">Total Urusan</div></div>
-        <div class="stat-chip"><div class="stat-num" style="color:#059669">${totalSelesai}</div><div class="stat-label">Selesai</div></div>
-        <div class="stat-chip"><div class="stat-num" style="color:#d97706">${totalProses}</div><div class="stat-label">Dalam Proses</div></div>
-      </div>
-
-      <div class="filter-container">
-        <div class="filter-group">
-          <button class="filter-chip active" onclick="filterStatus('Semua', this)">Semua</button>
-          <button class="filter-chip" onclick="filterStatus('Proses', this)">🔄 Proses</button>
-          <button class="filter-chip" onclick="filterStatus('Selesai', this)">✅ Selesai</button>
-        </div>
-      </div>
-
-      <div class="progres-grid" id="gridContent">`;
-
-      rows.forEach(r => {
-        const statusLower = (r['status'] || '').toLowerCase();
-        let statusCls = 'status-proses';
-        let statusLabel = '🔄 Proses';
-        
-        if (statusLower === 'selesai') {
-          statusCls = 'status-selesai';
-          statusLabel = '✅ Selesai';
-        } else if (statusLower === 'tertunda') {
-          statusCls = 'status-tertunda';
-          statusLabel = '❌ Tertunda';
-        }
 
         html += `
         <div class="progres-card" data-status="${esc(r['status'])}">
           <div class="card-top">
             <div class="card-meta">
-              <span class="kategori-badge">${esc(r['kategori'])}</span>
-              <span class="tanggal-mulai">Dimulai: ${fmtDate(r['tanggal_mulai'])}</span>
+              <span class="kategori-badge">${esc(r['kategori'] || r['kategori urusan'])}</span>
+              <span class="tanggal-mulai">Dimulai: ${fmtDate(r['tanggal_mulai'] || r['tanggal mulai'])}</span>
             </div>
             <span class="status-badge ${statusCls}">${statusLabel}</span>
           </div>
           
-          <h3 class="card-title">${esc(r['nama_urusan'])}</h3>
+          <h3 class="card-title">${esc(r['nama_urusan'] || r['nama urusan'])}</h3>
           
           <div class="section-box">
             <div class="section-label">Progres Terakhir</div>
-            <div class="section-text">${esc(r['progres_terakhir'])}</div>
+            <div class="section-text">${esc(r['progres_terakhir'] || r['progres terakhir'])}</div>
           </div>
           
           <div class="section-box" style="margin-bottom:0;">
             <div class="section-label" style="color:var(--gold-700)">Rencana Lanjutan</div>
-            <div class="section-text">${esc(r['rencana_lanjutan'])}</div>
+            <div class="section-text">${esc(r['rencana_lanjutan'] || r['rencana lanjutan'])}</div>
           </div>
           
           <div class="card-footer">
             <span class="rapat-info">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              ${esc(r['rapat_terkait'])}
+              ${esc(r['rapat_terkait'] || r['rapat terkait'])}
             </span>
-            ${r['link_dokumen'] ? `<a href="${esc(r['link_dokumen'])}" target="_blank" rel="noopener" class="btn-link-dokumen">
+            ${(linkDokumen && linkDokumen.startsWith('http')) ? `<a href="${esc(linkDokumen)}" target="_blank" rel="noopener" class="btn-link-dokumen">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               Berkas
             </a>` : ''}
@@ -388,7 +47,7 @@
           card.style.display = 'flex';
         } else {
           const cardStatus = card.dataset.status;
-          if (cardStatus.toLowerCase() === status.toLowerCase()) {
+          if (cardStatus && cardStatus.toLowerCase() === status.toLowerCase()) {
             card.style.display = 'flex';
           } else {
             card.style.display = 'none';
