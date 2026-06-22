@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Puri Asri 3 — RT 01 / RW 12</title>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -16,570 +17,1109 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet\">\n  <style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
+
     :root {
-      --bg-color: #FBFBFA;
-      --text-main: #1C241E;
-      --text-muted: #5A655E;
-      --accent-green: #2E4A3E;
-      --accent-light: #EBF0ED;
-      --card-bg: #FFFFFF;
-      --border-color: #E2E8E4;
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-sans: 'DM Sans', sans-serif;
+      --green-950: #0d1f10;
+      --green-900: #132b17;
+      --green-800: #1e4225;
+      --green-700: #265930;
+      --green-600: #2e7038;
+      --green-500: #3a8c45;
+      --green-400: #56a660;
+      --green-300: #80c489;
+      --green-200: #b3ddb9;
+      --green-100: #ddf0e0;
+      --green-50:  #f2fbf4;
+
+      --gold-700: #7a5c1e;
+      --gold-500: #c49a3c;
+      --gold-400: #d4af5a;
+      --gold-300: #e3c97e;
+      --gold-100: #f8f0da;
+
+      --cream-bg: #f7f5f0;
+      --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c;
+      --text-mid:  #3a5040;
+      --text-muted: #6b8570;
+      --border-light: rgba(46, 112, 56, 0.12);
+      --border-mid:   rgba(46, 112, 56, 0.22);
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 32px;
+
+      --shadow-card: 0 2px 12px rgba(30, 66, 37, 0.08), 0 1px 3px rgba(30, 66, 37, 0.06);
+      --shadow-hover: 0 8px 32px rgba(30, 66, 37, 0.14), 0 2px 8px rgba(30, 66, 37, 0.08);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-sans);
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg);
+      color: var(--text-dark);
       min-height: 100vh;
-      display: flex;
-      flex-content: column;
-      line-height: 1.5;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* BACKGROUND ORNAMENT - ARTISTIC & ABSTRACT */
-    .bg-ornament {
+    body::before {
+      content: '';
       position: fixed;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(46,74,62,0.03) 0%, rgba(251,251,250,0) 70%);
-      top: -200px;
-      right: -200px;
-      z-index: -1;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46, 112, 56, 0.07) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       pointer-events: none;
-    }
-    .bg-ornament-2 {
-      position: fixed;
-      width: 500px;
-      height: 500px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(46,74,62,0.02) 0%, rgba(251,251,250,0) 70%);
-      bottom: -150px;
-      left: -150px;
-      z-index: -1;
-      pointer-events: none;
+      z-index: 0;
     }
 
-    /* HEADER / STICKY NAVIGATION */
+    /* ── HEADER DESKTOP — sticky + frosted glass ── */
     header {
-      position: fixed;
+      position: sticky;
       top: 0;
-      left: 0;
-      width: 100%;
       z-index: 100;
-      padding: 24px 40px;
+      background: var(--green-800);
+      padding: 0 2rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      justify-content: space-between;
+      height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      will-change: background, box-shadow;
     }
-    
-    /* Desktop Scrolled: Premium Frosted Dark Green Blur */
+
     header.scrolled {
-      padding: 14px 40px;
-      background: rgba(46, 74, 62, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    header.scrolled .logo-text h1 { color: #FFFFFF; }
-    header.scrolled .logo-text p { color: rgba(255, 255, 255, 0.6); }
-    header.scrolled .clock-widget { 
-      background: rgba(255, 255, 255, 0.08); 
-      border-color: rgba(255, 255, 255, 0.15);
-      color: #EBF0ED;
+      background: rgba(30, 66, 37, 0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13, 31, 16, 0.28), 0 1px 0 rgba(255,255,255,0.06);
+      border-bottom-color: rgba(255,255,255,0.06);
     }
 
-    /* Mobile Scrolled: Minimal Clear Solid White */
-    header.scrolled-mobile {
-      padding: 12px 20px;
-      background: #FFFFFF;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.04);
-      border-bottom: 1px solid var(--border-color);
-    }
-    header.scrolled-mobile .logo-text h1 { color: var(--text-main); }
-    header.scrolled-mobile .logo-text p { color: var(--text-muted); }
-    header.scrolled-mobile .clock-widget {
-      background: var(--accent-light);
-      border-color: var(--border-color);
-      color: var(--accent-green);
-    }
-
-    .brand-area {
+    .header-brand {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-    .logo-container {
-      width: 42px;
-      height: 42px;
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: #fff !important;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.3s ease;
+      border: 2px solid var(--gold-400);
+      flex-shrink: 0;
+      overflow: hidden;
     }
-    .logo-container img {
-      width: 100%;
-      height: 100%;
+
+    .logo-mark img {
+      width: 26px !important;
+      height: 26px !important;
       object-fit: contain;
+      border-radius: 50%;
     }
-    .logo-text h1 {
-      font-family: var(--font-serif);
-      font-size: 19px;
-      font-weight: 500;
-      color: var(--text-main);
-      letter-spacing: -0.3px;
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.01em;
       line-height: 1.2;
-      transition: color 0.3s ease;
     }
-    .logo-text p {
+
+    .header-sub {
       font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
+      color: var(--green-200);
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       font-weight: 400;
       margin-top: 1px;
-      transition: color 0.3s ease;
     }
 
-    /* DIGITAL LIVE CLOCK WIDGET */
-    .clock-widget {
-      display: flex;
+    .header-badge {
+      font-size: 11px;
+      color: var(--gold-300);
+      background: rgba(196, 154, 60, 0.15);
+      border: 1px solid rgba(196, 154, 60, 0.25);
+      border-radius: 20px;
+      padding: 3px 12px;
+      letter-spacing: 0.04em;
+      font-weight: 500;
+    }
+
+    .header-divider { display: none; }
+    .logo-ring-outer { display: none; }
+    .header-brand .header-badge { display: none; }
+
+    /* ── REVISI TAMPILAN MOBILE HP ── */
+    @media (max-width: 600px) {
+      /* ── STATE DEFAULT: transparan, kolom, logo besar ── */
+      header {
+        position: sticky;
+        top: 0;
+        background: transparent;
+        border-bottom: none;
+        height: auto;
+        padding: 24px 24px 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        /* transisi semua properti agar smooth */
+        transition:
+          background     0.32s ease,
+          height         0.32s ease,
+          padding        0.32s ease,
+          box-shadow     0.32s ease,
+          backdrop-filter 0.32s ease;
+        will-change: background, height, box-shadow;
+        overflow: hidden;
+      }
+
+      /* ── STATE SCROLLED-MOBILE: mini bar cream frosted ── */
+      header.scrolled-mobile {
+        height: 52px;
+        padding: 0 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        background: rgba(247, 245, 240, 0.88);
+        backdrop-filter: blur(16px) saturate(1.3);
+        -webkit-backdrop-filter: blur(16px) saturate(1.3);
+        border-bottom: 1px solid rgba(46, 112, 56, 0.10);
+        box-shadow: 0 1px 12px rgba(46, 112, 56, 0.07);
+      }
+
+      /* override desktop .scrolled agar tidak tercampur di mobile */
+      header.scrolled { background: transparent; backdrop-filter: none; box-shadow: none; border-bottom: none; }
+      header.scrolled-mobile.scrolled { background: rgba(247, 245, 240, 0.88); }
+
+      /* ── BRAND WRAPPER ── */
+      .header-brand {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: 100%;
+        transition: flex-direction 0.32s ease, gap 0.32s ease;
+      }
+      header.scrolled-mobile .header-brand {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        width: auto;
+      }
+
+      /* ── LOGO MARK default: besar 120px ── */
+      .logo-mark {
+        width: 120px;
+        height: 120px;
+        background: #fff !important;
+        border: 3px solid var(--gold-400);
+        box-shadow: 0 6px 28px rgba(46,112,56,0.14);
+        position: relative;
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: width 0.32s ease, height 0.32s ease, border-width 0.32s ease, box-shadow 0.32s ease;
+      }
+      /* ── LOGO MARK scrolled: kecil 34px ── */
+      header.scrolled-mobile .logo-mark {
+        width: 34px;
+        height: 34px;
+        border-width: 2px;
+        box-shadow: none;
+        overflow: hidden;
+      }
+
+      /* ── LOGO IMG default ── */
+      .logo-mark img {
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: contain;
+        position: relative;
+        z-index: 2;
+        border-radius: 50%;
+        transition: width 0.32s ease, height 0.32s ease;
+      }
+      header.scrolled-mobile .logo-mark img {
+        width: 26px !important;
+        height: 26px !important;
+      }
+
+      /* ── CINCIN ANIMASI — sembunyikan saat scrolled ── */
+      .logo-mark::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 1.5px dashed rgba(46, 112, 56, 0.28);
+        animation: spin-slow 14s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-mark::before {
+        opacity: 0;
+        animation: none;
+      }
+
+      .logo-mark::after {
+        content: '';
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        border: 1.5px solid transparent;
+        border-top-color: rgba(196, 154, 60, 0.55);
+        border-bottom-color: rgba(196, 154, 60, 0.55);
+        animation: spin-reverse 9s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-mark::after {
+        opacity: 0;
+        animation: none;
+      }
+
+      .logo-ring-outer {
+        display: block;
+        position: absolute;
+        inset: -24px;
+        border-radius: 50%;
+        border: 1px dashed rgba(196, 154, 60, 0.18);
+        animation: spin-slow 22s linear infinite reverse;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-ring-outer {
+        opacity: 0;
+        animation: none;
+      }
+
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+      @keyframes spin-reverse {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(-360deg); }
+      }
+
+      /* ── JUDUL default: besar, centered ── */
+      .header-title {
+        font-size: 24px;
+        color: var(--green-900);
+        text-align: center;
+        margin-top: 34px;
+        transition: font-size 0.32s ease, color 0.32s ease, margin-top 0.32s ease, text-align 0.32s ease;
+      }
+      header.scrolled-mobile .header-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--green-800);
+        margin-top: 0;
+        text-align: left;
+      }
+
+      .header-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 6px;
+        letter-spacing: 0.08em;
+        transition: font-size 0.32s ease, opacity 0.25s ease, margin-top 0.32s ease, text-align 0.32s ease;
+      }
+      header.scrolled-mobile .header-sub {
+        font-size: 10px;
+        margin-top: 1px;
+        text-align: left;
+        color: var(--text-muted);
+        opacity: 0.8;
+        letter-spacing: 0.05em;
+      }
+
+      /* badge & divider: sembunyikan saat scrolled ── */
+      .header-badge {
+        display: inline-block !important;
+        margin-top: 10px;
+        color: var(--gold-700);
+        background: var(--gold-100);
+        border-color: rgba(196, 154, 60, 0.35);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 4px 16px;
+        transition: opacity 0.2s ease, max-height 0.32s ease;
+      }
+      header.scrolled-mobile .header-badge { opacity: 0; pointer-events: none; max-height: 0; margin: 0; padding: 0; overflow: hidden; }
+
+      header > .header-badge { display: none !important; }
+
+      .header-divider {
+        display: block;
+        width: 44px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+        margin: 14px auto 0;
+        border-radius: 2px;
+        transition: opacity 0.2s ease, max-height 0.32s ease;
+      }
+      header.scrolled-mobile .header-divider { opacity: 0; max-height: 0; margin: 0; overflow: hidden; }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 14px;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--text-main);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.01);
-      transition: all 0.4s ease;
-    }
-    .clock-dot {
-      width: 6px;
-      height: 6px;
-      background-color: #C084FC; /* Elegant Violet Pulse */
-      border-radius: 50%;
-      animation: clockPulse 2s infinite;
-    }
-
-    @keyframes clockPulse {
-      0% { opacity: 0.4; transform: scale(0.9); }
-      50% { opacity: 1; transform: scale(1.1); }
-      100% { opacity: 0.4; transform: scale(0.9); }
-    }
-
-    /* MAIN CONTAINER INTERFACE */
-    main {
-      flex: 1;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 130px 40px 60px 40px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* SECTION LABELS */
-    .section-label {
       font-size: 11px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--text-muted);
-      margin-bottom: 20px;
+      color: var(--green-600);
       font-weight: 500;
+      margin-bottom: 18px;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--green-400);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 500;
+      color: var(--green-900);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--green-600);
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .section-label {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 20px;
     }
+
+    .section-label span {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
     .section-label::after {
       content: '';
       flex: 1;
       height: 1px;
-      background-color: var(--border-color);
+      background: var(--border-light);
     }
 
-    /* PRIMARY INTEGRATED SELECTION GRID (4 COLUMNS) */
-    .primary-grid {
+    .menu-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      margin-bottom: 35px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
-    .nav-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 24px;
+    .menu-card {
+      position: relative;
+      background: var(--cream-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 28px 26px 24px;
       text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      min-height: 150px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.01);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      position: relative;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
       overflow: hidden;
+      cursor: pointer;
     }
 
-    .nav-card::before {
+    .menu-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
+      top: 0; left: 0; right: 0;
       height: 3px;
-      background-color: var(--accent-green);
+      background: linear-gradient(90deg, var(--green-400), var(--green-300));
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.22s ease;
     }
 
-    .nav-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(46,74,62,0.05);
-      border-color: rgba(46,74,62,0.15);
+    .menu-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-mid);
     }
 
-    .nav-card:hover::before {
+    .menu-card:hover::before { opacity: 1; }
+
+    .menu-card.featured {
+      background: var(--green-800);
+      border-color: var(--green-700);
+    }
+
+    .menu-card.featured::before {
+      background: linear-gradient(90deg, var(--gold-400), var(--gold-300));
       opacity: 1;
     }
 
-    .card-icon {
+    .menu-card.featured .card-icon-wrap {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--gold-300);
+    }
+
+    .menu-card.featured .card-title { color: #fff; }
+    .menu-card.featured .card-desc { color: var(--green-200); }
+    .menu-card.featured .card-arrow { color: var(--gold-300); border-color: rgba(196, 154, 60, 0.3); }
+
+    .card-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      background: var(--green-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-600);
+      font-size: 22px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .menu-card:hover:not(.featured) .card-icon-wrap { background: var(--green-100); }
+    .card-body { flex: 1; }
+    .card-tag { display: inline-block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--green-600); margin-bottom: 6px; }
+    .featured .card-tag { color: var(--gold-400); }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--green-900); line-height: 1.25; margin-bottom: 6px; }
+    .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; font-weight: 300; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border-light); margin-top: 4px; }
+    .featured .card-footer { border-color: rgba(255,255,255,0.1); }
+    .card-status { font-size: 11px; font-weight: 500; color: var(--green-500); display: flex; align-items: center; gap: 5px; }
+    .card-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); }
+    .featured .card-status { color: var(--gold-300); }
+    .featured .card-status-dot { background: var(--gold-400); }
+
+    .card-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-600);
+      font-size: 13px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .menu-card:hover .card-arrow { background: var(--green-100); transform: translateX(2px); }
+    .menu-card.featured:hover .card-arrow { background: rgba(196, 154, 60, 0.15); }
+
+    /* ── KEMATIAN CARD ── */
+    .menu-card.kematian {
+      background: linear-gradient(135deg, #1e1e2e 0%, #2a2440 55%, #1e2535 100%);
+      border-color: rgba(124, 111, 160, 0.3);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.2), 0 1px 4px rgba(0,0,0,0.12);
+    }
+    .menu-card.kematian::before { background: linear-gradient(90deg, #7c6fa0, #a898cc, #7c6fa0); opacity: 1; }
+    .menu-card.kematian:hover { box-shadow: 0 10px 36px rgba(0,0,0,0.28), 0 3px 10px rgba(74,63,107,0.25); border-color: rgba(124, 111, 160, 0.5); }
+    .menu-card.kematian .card-icon-wrap { background: rgba(124, 111, 160, 0.15); border-color: rgba(124, 111, 160, 0.25); color: #b8aee0; }
+    .menu-card.kematian:hover .card-icon-wrap { background: rgba(124, 111, 160, 0.25); }
+    .menu-card.kematian .card-tag { color: #a898cc; }
+    .menu-card.kematian .card-title { color: #f0eef8; }
+    .menu-card.kematian .card-desc { color: rgba(200, 195, 220, 0.7); }
+    .menu-card.kematian .card-footer { border-color: rgba(255,255,255,0.08); }
+    .menu-card.kematian .card-status { color: #a898cc; }
+    .menu-card.kematian .card-status-dot { background: #7c6fa0; }
+    .menu-card.kematian .card-arrow { color: #b8aee0; border-color: rgba(124, 111, 160, 0.35); }
+    .menu-card.kematian:hover .card-arrow { background: rgba(124, 111, 160, 0.2); transform: translateX(2px); }
+
+    .secondary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 48px; }
+    .secondary-card {
+      background: var(--cream-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .secondary-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
+    .secondary-card.full-row { grid-column: span 2; }
+    .sec-icon { width: 38px; height: 38px; border-radius: var(--radius-sm); background: var(--gold-100); border: 1px solid rgba(196, 154, 60, 0.2); display: flex; align-items: center; justify-content: center; color: var(--gold-700); flex-shrink: 0; }
+    .sec-body { flex: 1; min-width: 0; }
+    .sec-title { font-size: 13px; font-weight: 500; color: var(--text-dark); margin-bottom: 2px; line-height: 1.35; }
+    .sec-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.4; }
+    .sec-arrow { color: var(--text-muted); font-size: 14px; flex-shrink: 0; }
+
+    footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
+    footer strong { color: var(--green-700); font-weight: 500; }
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46, 112, 56, 0.06); pointer-events: none; z-index: 0; }
+
+    .wa-float-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      animation: floatBounce 3s ease-in-out infinite;
+    }
+
+    .wa-interactive-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(135deg, #1e4225 0%, #2e7038 100%);
+      border: 1px solid var(--gold-400);
+      border-radius: 28px;
+      box-shadow: 0 4px 20px rgba(30, 66, 37, 0.3);
+      color: #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 5px;
+      width: 52px;
+      height: 52px;
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    }
+
+    .wa-icon-circle {
       width: 40px;
       height: 40px;
-      border-radius: 10px;
-      background-color: var(--accent-light);
-      display: flex;
+      background: #25d366;
+      border-radius: 50%;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent-green);
-      font-size: 18px;
-      margin-bottom: 16px;
-      transition: all 0.3s ease;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
     }
 
-    .nav-card:hover .card-icon {
-      background-color: var(--accent-green);
-      color: #FFFFFF;
+    .wa-icon-circle svg {
+      width: 22px;
+      height: 22px;
+      fill: #fff;
     }
 
-    .card-title {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text-main);
-      margin-bottom: 4px;
-    }
-
-    .card-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* SECONDARY SELECTION GRID (3 COLUMNS) */
-    .secondary-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 35px;
-    }
-
-    /* COMING SOON ARCHITECTURE PLATFORM */
-    .coming-soon-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    .disabled-card {
-      background-color: rgba(255, 255, 255, 0.5);
-      border: 1px solid var(--border-color);
-      border-radius: 18px;
-      padding: 24px;
-      min-height: 130px;
-      display: flex;
+    .wa-content-text {
+      display: inline-flex;
       flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      cursor: not-allowed;
+      justify-content: center;
+      padding-left: 12px;
+      padding-right: 16px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(8px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s, visibility 0.25s;
     }
 
-    .disabled-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      width: 100%;
-    }
-
-    .badge-lock {
+    .wa-title-label {
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      background-color: #F1F5F2;
-      color: #7A867F;
-      padding: 4px 10px;
-      border-radius: 12px;
+      letter-spacing: 0.05em;
+      color: var(--gold-300);
       font-weight: 500;
+      line-height: 1.2;
     }
 
-    .disabled-title {
-      font-family: var(--font-serif);
-      font-size: 17px;
+    .wa-name-desc {
+      font-size: 13px;
       font-weight: 500;
-      color: #8C9690;
-      margin-top: 14px;
-      margin-bottom: 3px;
+      letter-spacing: 0.01em;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-top: 2px;
     }
 
-    .disabled-desc {
-      font-size: 11.5px;
-      color: #A3AEA7;
-      line-height: 1.4;
+    .wa-interactive-btn.expanded {
+      width: 245px; 
+      box-shadow: 0 8px 28px rgba(30, 66, 37, 0.45);
     }
 
-    /* MINIMAL ARISTOCRATIC FOOTER */
-    footer {
-      margin-top: auto;
-      padding-top: 30px;
-      border-t: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
+    .wa-interactive-btn.expanded .wa-content-text {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(0);
     }
 
-    .footer-text {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      letter-spacing: 0.2px;
-      text-align: center;
+    .wa-interactive-btn:hover {
+      box-shadow: 0 6px 24px rgba(30, 66, 37, 0.4);
     }
 
-    /* CONTROLLER CONTAINER HITWEBCOUNTER */
-    .counter-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      margin-top: 4px;
-      padding: 4px 14px;
-      background-color: rgba(255, 255, 255, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
+    @keyframes floatBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
-    /* SCROLL REVEAL JAVASCRIPT ANIMATIONS EFFECT */
+    @media (max-width: 600px) {
+      main { padding: 12px 14px 60px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      .secondary-grid { grid-template-columns: 1fr; gap: 10px; }
+      .secondary-card.full-row { grid-column: span 1; }
+      .coming-soon-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 26px; }
+      .hero-desc { font-size: 14px; }
+      .hero { margin-bottom: 28px; }
+      
+      .wa-float-container { 
+        bottom: 20px; 
+        right: 20px; 
+      }
+      .wa-interactive-btn {
+        width: 48px;
+        height: 48px;
+        padding: 4px;
+      }
+      .wa-icon-circle {
+        width: 38px;
+        height: 38px;
+      }
+      .wa-icon-circle svg {
+        width: 20px;
+        height: 20px;
+      }
+      .wa-interactive-btn.expanded { 
+        width: 220px; 
+      }
+      .wa-content-text {
+        padding-left: 10px;
+        padding-right: 12px;
+      }
+      .wa-title-label {
+        font-size: 9px;
+      }
+      .wa-name-desc { 
+        font-size: 12px; 
+      }
+    }
+
+    /* ── FADE UP ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SHIMMER pada featured card ── */
+    @keyframes shimmer-gold {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .menu-card.featured::before {
+      background: linear-gradient(90deg, var(--gold-500) 0%, var(--gold-200,#f0dfa0) 40%, var(--gold-500) 60%, var(--gold-400) 100%);
+      background-size: 200% auto;
+      animation: shimmer-gold 3s linear infinite;
+      opacity: 1;
+    }
+    .menu-card.kematian::before {
+      background: linear-gradient(90deg, #7c6fa0 0%, #c8b8f0 40%, #7c6fa0 60%, #a898cc 100%);
+      background-size: 200% auto;
+      animation: shimmer-gold 3.5s linear infinite;
+      opacity: 1;
+    }
+
+    /* ── PULSE pada status dot ── */
+    @keyframes pulse-status {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(86,166,96,0.5); }
+      50%       { box-shadow: 0 0 0 5px rgba(86,166,96,0); }
+    }
+    .card-status-dot {
+      animation: pulse-status 2.4s ease-in-out infinite;
+    }
+    .featured .card-status-dot {
+      animation: none;
+      box-shadow: 0 0 0 0 rgba(212,175,90,0.5);
+      animation: pulse-gold 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse-gold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,90,0.55); }
+      50%       { box-shadow: 0 0 0 5px rgba(212,175,90,0); }
+    }
+
+    /* ── ARROW hover glide ── */
+    .menu-card:hover .card-arrow {
+      animation: arrowGlide 0.6s ease forwards;
+    }
+    @keyframes arrowGlide {
+      0%   { transform: translateX(0); }
+      40%  { transform: translateX(5px); }
+      70%  { transform: translateX(2px); }
+      100% { transform: translateX(3px); }
+    }
+
+    /* ── SECONDARY CARD icon subtle bounce on hover ── */
+    .secondary-card:hover .sec-icon {
+      animation: iconBounce 0.5s ease;
+    }
+    @keyframes iconBounce {
+      0%   { transform: scale(1); }
+      35%  { transform: scale(1.18) rotate(-4deg); }
+      65%  { transform: scale(0.96) rotate(2deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* ── SCROLL REVEAL — cards muncul saat masuk viewport ── */
     .reveal {
       opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* RESPONSIVE BREAKPOINTS ENGINE */
-    @media (max-width: 1024px) {
-      .primary-grid { grid-template-columns: repeat(2, 1fr); }
-      .secondary-grid { grid-template-columns: repeat(2, 1fr); }
-      .coming-soon-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media (max-width: 600px) {
-      header { padding: 16px 20px; }
-      main { padding: 100px 20px 40px 20px; }
-      .primary-grid { grid-template-columns: 1fr; gap: 14px; }
-      .secondary-grid { grid-template-columns: 1fr; gap: 14px; }
-      .coming-soon-grid { grid-template-columns: 1fr; gap: 14px; }
-      .logo-text h1 { font-size: 17px; }
-      .logo-text p { font-size: 10px; }
-      .clock-widget { padding: 6px 12px; font-size: 11px; }
-      .card-title { font-size: 17px; }
-      footer { flex-direction: column; gap: 10px; text-align: center; }
-    }
+    /* ── INITIAL STAGGER (above the fold) ── */
+    .hero        { animation: fadeUp 0.55s ease both; animation-delay: 0.05s; }
+    .menu-grid   { animation: fadeUp 0.55s ease both; animation-delay: 0.18s; }
   </style>
 </head>
 <body>
 
-  <div class="bg-ornament"></div>
-  <div class="bg-ornament-2"></div>
+  <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+  <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
 
-  <header id="main-header">
-    <div class="brand-area">
-      <div class="logo-container">
-        <img src="Logo RT11-1.png" alt="Logo RT 01" />
+  <header>
+    <div class="header-brand">
+      <div class="logo-mark" style="background:#fff; border-color:#d4af5a;">
+        <div class="logo-ring-outer"></div>
+        <img src="Logo RT11.png" alt="Logo Puri Asri 3">
       </div>
-      <div class="logo-text">
-        <h1>Puri Asri 3</h1>
-        <p>Rukun Tetangga 01 / RW 12</p>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026 | Jonggol</div>
       </div>
     </div>
-    
-    <div class="clock-widget">
-      <div class="clock-dot"></div>
-      <span id="live-clock">00:00:00 WIB</span>
-    </div>
+    <div class="header-badge" style="display:block">Sistem Keuangan</div>
+    <div class="header-divider"></div>
   </header>
 
   <main>
-    
-    <div class="section-label">Layanan & Sistem Informasi Warga</div>
-    <section class="primary-grid">
-      
-      <a href="surat-pengantar.html" class="nav-card">
-        <div class="card-icon">✉</div>
-        <div>
-          <h2 class="card-title">Surat Pengantar</h2>
-          <p class="card-desc">Layanan mandiri pembuatan berkas surat pengantar RT secara digital cepat.</p>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Beranda</div>
+      <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
+      <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
+    </div>
+
+    <div class="section-label">
+      <span>Laporan Keuangan</span>
+    </div>
+
+    <div class="menu-grid">
+
+      <a class="menu-card featured" href="kas-umum.html">
+        <div class="card-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
+            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Laporan Utama</div>
+          <div class="card-title">Kas Umum</div>
+          <div class="card-desc">Rekap iuran bulanan warga, status pembayaran, dan total kas terkumpul tahun ini.</div>
+        </div>
+        <div class="card-footer">
+          <div class="card-status">
+            <div class="card-status-dot"></div>
+            Data terkini
+          </div>
+          <div class="card-arrow">→</div>
         </div>
       </a>
 
-      <a href="kas-umum.html" class="nav-card">
-        <div class="card-icon">💵</div>
-        <div>
-          <h2 class="card-title">Kas Umum</h2>
-          <p class="card-desc">Transparansi laporan keuangan bulanan kas warga RT 01 secara realtime.</p>
+      <a class="menu-card kematian" href="Kematian.html">
+        <div class="card-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Dana Sosial</div>
+          <div class="card-title">Dana Kematian</div>
+          <div class="card-desc">Laporan iuran dan penyaluran dana sosial kematian bagi warga yang berduka.</div>
+        </div>
+        <div class="card-footer">
+          <div class="card-status">
+            <div class="card-status-dot"></div>
+            Data terkini
+          </div>
+          <div class="card-arrow">→</div>
         </div>
       </a>
 
-      <a href="data-warga.html" class="nav-card">
-        <div class="card-icon">👥</div>
-        <div>
-          <h2 class="card-title">Data Warga</h2>
-          <p class="card-desc">Portal integrasi sensus database kependudukan klaster lingkungan RT 01.</p>
+    </div>
+
+    <!-- Seksi: Rincian Keuangan -->
+    <div class="secondary-grid">
+
+      <a class="secondary-card" href="pengeluaran-kas.html">
+        <div class="sec-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">Daftar Pengeluaran Kas</div>
+          <div class="sec-desc">Rincian penggunaan dana kas umum</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-      <a href="tata-tertib.html" class="nav-card">
-        <div class="card-icon">📜</div>
-        <div>
-          <h2 class="card-title">Tata Tertib</h2>
-          <p class="card-desc">Regulasi standarisasi hukum sosial aturan lingkungan perumahan Puri Asri 3.</p>
+      <a class="secondary-card" href="pengeluaran-kematian.html">
+        <div class="sec-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">Daftar Pengeluaran Dana Kematian</div>
+          <div class="sec-desc">Rincian penyaluran dana sosial kematian</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-    </section>
+    </div>
 
-    <div class="section-label">Aset, Keamanan & Sosial Lingkungan</div>
-    <section class="secondary-grid">
-      
-      <a href="inventaris.html" class="nav-card">
-        <div class="card-icon">🛠</div>
-        <div>
-          <h2 class="card-title">Arsip Inventaris</h2>
-          <p class="card-desc">Daftar pencatatan aset logistik sarana prasarana perlengkapan milik RT 01.</p>
+    <!-- Seksi: Informasi & Dokumen RT -->
+    <div class="section-label" style="margin-bottom:16px;">
+      <span>Informasi &amp; Dokumen RT</span>
+    </div>
+
+    <div class="secondary-grid">
+
+      <a class="secondary-card full-row" href="program-rt.html">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#eef4ff,#dce8ff);border-color:rgba(74,100,180,0.2);color:#4a64b4;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+            <line x1="8" y1="14" x2="8" y2="14"/>
+            <line x1="12" y1="14" x2="16" y2="14"/>
+            <line x1="8" y1="18" x2="8" y2="18"/>
+            <line x1="12" y1="18" x2="16" y2="18"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">Program &amp; Kegiatan RT</div>
+          <div class="sec-desc">Rangkuman program kerja dan kegiatan warga RT 01 / RW 12</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-      <a href="jadwal-ronda.html" class="nav-card">
-        <div class="card-icon">🛡</div>
-        <div>
-          <h2 class="card-title">Jadwal Ronda</h2>
-          <p class="card-desc">Sistem pembagian klaster malam penanggung jawab pos ronda keamanan warga.</p>
+      <a class="secondary-card full-row" href="timeline-pa3.html">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#fdf6e8,#f5e8c8);border-color:rgba(196,154,60,0.28);color:var(--gold-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="2" x2="12" y2="6"/>
+            <line x1="12" y1="18" x2="12" y2="22"/>
+            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
+            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
+            <line x1="2" y1="12" x2="6" y2="12"/>
+            <line x1="18" y1="12" x2="22" y2="12"/>
+            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
+            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">Timeline Rapat Warga</div>
+          <div class="sec-desc">Rekam jejak hasil musyawarah & keputusan rapat warga Puri Asri 3</div>
+        </div>
+        <div class="sec-arrow">→</div>
+      </a>
+      <a class="secondary-card full-row" href="progres-rt.html">
+  <div class="sec-icon" style="background:linear-gradient(135deg,#e6fffa,#b2f5ea);border-color:rgba(49,151,149,0.28);color:var(--teal-700);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+      <polyline points="17 6 23 6 23 12"/>
+    </svg>
+  </div>
+  <div class="sec-body">
+    <div class="sec-title">Progres Urusan Warga</div>
+    <div class="sec-desc">Transparansi perkembangan dan status urusan warga</div>
+  </div>
+  <div class="sec-arrow">→</div>
+</a>
+      <!-- ── CARD DOKUMENTASI ACARA DITAMBAHKAN DI SINI ── -->
+      <a class="secondary-card full-row" href="dokumentasiacara-rt.html">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#fff1e6,#ffdfc2);border-color:rgba(255,136,0,0.2);color:#ea580c;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title">Dokumentasi Acara</div>
+          <div class="sec-desc">Dokumentasi dan riwayat kegiatan warga beserta LPJ acara</div>
+        </div>
+        <div class="sec-arrow">→</div>
+      </a>
+      <a class="secondary-card full-row" href="inventaris-rt.html">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#fdf6e8,#f5e8c8);border-color:rgba(196,154,60,0.28);color:var(--gold-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/>
+            <line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title">Daftar Inventaris RT</div>
+          <div class="sec-desc">Aset &amp; barang inventaris milik RT untuk keperluan warga dan lingkungan</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-      <a href="agenda-kegiatan.html" class="nav-card">
-        <div class="card-icon">📅</div>
-        <div>
-          <h2 class="card-title">Agenda Kegiatan</h2>
-          <p class="card-desc">Informasi jadwal gotong royong, rapat pleno warga, dan event sosial terdekat.</p>
+      <a class="secondary-card full-row" href="adart.html">
+        <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">AD/ART — Anggaran Dasar &amp; Anggaran Rumah Tangga</div>
+          <div class="sec-desc">Dokumen resmi peraturan &amp; tata kelola warga RT 01 / RW 12</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-    </section>
-
-    <div class="section-label">Dokumentasi Hukum & Kelembagaan</div>
-    <section class="coming-soon-grid">
-      
-      <a href="adart.html" class="nav-card">
-        <div class="card-icon">🏛</div>
-        <div>
-          <h2 class="card-title">AD / ART</h2>
-          <p class="card-desc">Anggaran Dasar & Anggaran Rumah Tangga pedoman organisasi internal RT 01.</p>
+      <a class="secondary-card full-row" href="peta-lokasi.html">
+        <div class="sec-icon" style="background:linear-gradient(135deg,#e8f5ea,#d0ecda);border-color:rgba(46,112,56,0.28);color:var(--green-600);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+            <line x1="9" y1="3" x2="9" y2="18"/>
+            <line x1="15" y1="6" x2="15" y2="21"/>
+          </svg>
         </div>
+        <div class="sec-body">
+          <div class="sec-title">Peta Lokasi — Perumahan Puri Asri 3</div>
+          <div class="sec-desc">Peta &amp; denah lokasi resmi kawasan RT 01 / RW 12</div>
+        </div>
+        <div class="sec-arrow">→</div>
       </a>
 
-      <div class="disabled-card">
-        <div class="disabled-header">
-          <div class="card-icon" style="background-color:#F5F7F6; color:#B0BAB4; margin-bottom:0;">🍂</div>
-          <span class="badge-lock">Maintenance</span>
-        </div>
-        <div>
-          <h2 class="disabled-title">Data Kematian</h2>
-          <p class="disabled-desc">Sistem database pelaporan mutasi data warga wafat lingkungan RT 01.</p>
-        </div>
-      </div>
-
-      <div class="disabled-card">
-        <div class="disabled-header">
-          <div class="card-icon" style="background-color:#F5F7F6; color:#B0BAB4; margin-bottom:0;">🏗</div>
-          <span class="badge-lock">Development</span>
-        </div>
-        <div>
-          <h2 class="disabled-title">Pembangunan</h2>
-          <p class="disabled-desc">Rencana Anggaran Biaya (RAB) program fisik infrastruktur pos ronda & jalan.</p>
-        </div>
-      </div>
-
-    </section>
-
-    <footer>
-      <div class="footer-text">
-        © 2026 Rukun Tetangga 01 – Perumahan Puri Asri 3. Hak Cipta Dilindungi.
-      </div>
-
-      <div class="counter-wrapper">
-        <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener" title="Stylish Counter">
-          <img src="https://www.hitwebcounter.com/counter/counter.php?page=21505338&amp;style=0001&amp;nbdigits=5&amp;type=page" alt="Stylish Counter" decoding="async" style="border:0;max-width:100%;height:auto;" />
-        </a>
-      </div>
-      </footer>
+    </div>
 
   </main>
 
-  <script>
-    // ── DIGITAL LIVE SYSTEM TIME CLOCK ──
-    function updateLiveClock() {
-      const clockEl = document.getElementById('live-clock');
-      if (!clockEl) return;
-      
-      const now = new Date();
-      const hours = String(now.getHours()).padStart(2, '0');
-      const minutes = String(now.getMinutes()).padStart(2, '0');
-      const seconds = String(now.getSeconds()).padStart(2, '0');
-      
-      clockEl.innerText = `${hours}:${minutes}:${seconds} WIB`;
-    }
-    setInterval(updateLiveClock, 1000);
-    updateLiveClock();
+  <footer>
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026 | Jonggol<br>
+    <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
+  </footer>
 
-    // ── STICKY NAVIGATION CONTROLLER ENGINE ──
-    const header = document.getElementById('main-header');
-    
+  <div class="wa-float-container">
+    <div class="wa-interactive-btn" id="waBtn" onclick="handleWaClick()">
+      <div class="wa-icon-circle">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.454 5.709 1.455h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </div>
+      <div class="wa-content-text">
+        <span class="wa-title-label">Bayar Iuran / Kas</span>
+        <span class="wa-name-desc">Hub. Pak RT Rahman disini !</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleWaClick() {
+      var btn = document.getElementById('waBtn');
+      
+      if (!btn.classList.contains('expanded')) {
+        btn.classList.add('expanded');
+      } else {
+        var url = "https://wa.me/6281283876869?text=Halo%20Pak%20RT%20Rahman,%20saya%20mau%20konfirmasi%20pembayaran%20kas%20warga.";
+        window.open(url, '_blank');
+      }
+    }
+
+    document.addEventListener('click', function(event) {
+      var btn = document.getElementById('waBtn');
+      var container = document.querySelector('.wa-float-container');
+      if (!container.contains(event.target)) {
+        btn.classList.remove('expanded');
+      }
+    });
+
+    // ── STICKY HEADER — frosted glass saat scroll ──
+    const header = document.querySelector('header');
     function isMobile() { return window.innerWidth <= 600; }
 
     function onScroll() {
       const y = window.scrollY;
       if (isMobile()) {
+        // Mobile: scrolled-mobile aktif > 60px, bersihkan desktop class
         header.classList.remove('scrolled');
         if (y > 60) {
           header.classList.add('scrolled-mobile');
@@ -587,6 +1127,7 @@
           header.classList.remove('scrolled-mobile');
         }
       } else {
+        // Desktop: pakai frosted green seperti semula
         header.classList.remove('scrolled-mobile');
         if (y > 10) {
           header.classList.add('scrolled');
@@ -600,7 +1141,7 @@
     window.addEventListener('resize', onScroll, { passive: true });
     onScroll();
 
-    // ── SCROLL REVEAL ──
+    // ── SCROLL REVEAL — elemen muncul saat masuk viewport ──
     const revealEls = document.querySelectorAll('.secondary-grid, .section-label, .coming-soon-grid');
     revealEls.forEach((el, i) => {
       el.classList.add('reveal');
@@ -614,9 +1155,10 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+    }, { threshold: 0.1 });
 
-    revealEls.forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
+
 </body>
 </html>
