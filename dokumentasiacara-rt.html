@@ -136,28 +136,47 @@
     }
 
     /* ─── STATS ─── */
-    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 60px; }
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1.45fr 1fr 1fr;
+      gap: 14px; margin-bottom: 60px;
+    }
     .stat-chip {
       background: var(--cream-card); border: 1px solid var(--border-light);
-      border-radius: var(--radius-md); padding: 20px 14px;
+      border-radius: var(--radius-md); padding: 24px 16px 20px;
       text-align: center; box-shadow: var(--shadow-card);
       transition: transform 0.25s ease, box-shadow 0.25s ease;
-      position: relative; overflow: hidden;
+      position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
+    /* Colored accent top bar per card */
+    .stat-chip:nth-child(1)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--green-400), var(--green-600)); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(2)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--gold-300), var(--gold-500)); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(3)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #60a5b5, #2c90a0); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(4)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #a0859a, #7a5570); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+
     .stat-chip::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--gold-300), var(--green-400), var(--gold-300));
-      opacity: 0; transition: opacity 0.3s;
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 65%);
+      pointer-events: none;
     }
-    .stat-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
-    .stat-chip:hover::after { opacity: 1; }
+    .stat-chip:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
     .stat-num {
-      font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 600;
-      color: var(--green-700); line-height: 1; transition: color 0.3s;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.8vw, 34px);
+      font-weight: 600;
+      line-height: 1.1; transition: color 0.3s;
+      word-break: break-word; overflow-wrap: anywhere; width: 100%;
     }
-    @keyframes numPop { 0% { transform: scale(1); } 45% { transform: scale(1.2); color: var(--green-500); } 100% { transform: scale(1); } }
+    /* Individual number colors */
+    .stat-chip:nth-child(1) .stat-num { color: var(--green-700); }
+    .stat-chip:nth-child(2) .stat-num { color: var(--gold-600); }
+    .stat-chip:nth-child(3) .stat-num { color: #1c7080; }
+    .stat-chip:nth-child(4) .stat-num { color: #7a5570; }
+
+    @keyframes numPop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
     .stat-num.popped { animation: numPop 0.4s ease; }
-    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 6px; }
+    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 8px; line-height: 1.4; }
 
     /* ─── FILTER CHIPS ─── */
     .filter-row {
@@ -319,12 +338,16 @@
     @media (max-width: 820px) {
       .doc-grid { grid-template-columns: 1fr; }
       .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-num { font-size: clamp(18px, 4.5vw, 28px); }
     }
     @media (max-width: 640px) {
       header { padding: 0 1rem; }
       .btn-back span { display: none; }
       main { padding: 32px 14px 70px; }
       .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 40px; }
+      .stat-chip { padding: 18px 10px 14px; }
+      .stat-num { font-size: clamp(16px, 5vw, 26px); line-height: 1.2; }
+      .stat-label { font-size: 9px; margin-top: 6px; }
       .doc-grid { grid-template-columns: 1fr; }
       .hero-title { font-size: 26px; }
       .filter-row { gap: 6px; }
@@ -429,6 +452,8 @@ function cleanCurrencyToNumber(val) {
 
 function formatRupiahDisplay(num) {
   if (!num) return 'Rp 0';
+  if (num >= 1000000000) return 'Rp ' + (num / 1000000000).toFixed(2).replace('.', ',') + ' M';
+  if (num >= 1000000) return 'Rp ' + (num / 1000000).toFixed(3).replace('.', ',').replace(/\.?0+$/, '') + ' Jt';
   return 'Rp ' + num.toLocaleString('id-ID');
 }
 
@@ -637,9 +662,12 @@ function animateStatsCounter(el, target, duration, isMoney) {
     const currentVal = Math.floor(target * progress);
     
     if (isMoney) {
-      el.textContent = currentVal > 1000000 
-        ? 'Rp ' + (currentVal / 1000000).toFixed(1).replace('.', ',') + ' Jt+' 
-        : 'Rp ' + currentVal.toLocaleString('id-ID');
+      if (currentVal >= 1000000) {
+        const jt = (currentVal / 1000000).toFixed(1).replace('.', ',');
+        el.textContent = 'Rp ' + jt + ' Jt';
+      } else {
+        el.textContent = 'Rp ' + currentVal.toLocaleString('id-ID');
+      }
     } else {
       el.textContent = currentVal.toLocaleString('id-ID');
     }
