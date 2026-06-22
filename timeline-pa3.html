@@ -673,17 +673,24 @@ function buildUI(rows) {
 
 function applyFilter(cat) {
   document.querySelectorAll('.rapat-group').forEach(group => {
-    if (cat === 'Semua') { group.style.display = ''; return; }
+    // Reset semua card dulu agar tidak ada yang tertinggal tersembunyi
+    group.querySelectorAll('.event-card').forEach(card => { card.style.display = ''; });
+
+    if (cat === 'Semua') {
+      group.style.display = '';
+      return;
+    }
+
     const evs = group.dataset.events || '';
     const hasMatch = evs.split('|').some(e => e === cat);
     group.style.display = hasMatch ? '' : 'none';
 
-    group.querySelectorAll('.event-card').forEach(card => {
-      if (cat === 'Semua') { card.style.display = ''; return; }
-      const cls = card.className;
+    if (hasMatch) {
       const catCls = 'cat-' + cat.toLowerCase();
-      card.style.display = cls.includes(catCls) ? '' : 'none';
-    });
+      group.querySelectorAll('.event-card').forEach(card => {
+        card.style.display = card.className.includes(catCls) ? '' : 'none';
+      });
+    }
   });
 
   document.querySelectorAll('.year-section').forEach(sec => {
