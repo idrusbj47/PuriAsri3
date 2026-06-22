@@ -457,6 +457,11 @@ function formatRupiahDisplay(num) {
   return 'Rp ' + num.toLocaleString('id-ID');
 }
 
+function formatRupiahFull(num) {
+  if (!num) return 'Rp 0';
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
 let loadedData = [];
 
 function buildDocumentationUI(data) {
@@ -524,8 +529,8 @@ function buildDocumentationUI(data) {
 
     rowItems.forEach(item => {
       const catClass = 'cat-' + (item['kategori'] || 'sosial').toLowerCase().replace(/\s+/g, '-');
-      const formattedIn = formatRupiahDisplay(cleanCurrencyToNumber(item['dana terkumpul']));
-      const formattedOut = formatRupiahDisplay(cleanCurrencyToNumber(item['dana keluar']));
+      const formattedIn = formatRupiahFull(cleanCurrencyToNumber(item['dana terkumpul']));
+      const formattedOut = formatRupiahFull(cleanCurrencyToNumber(item['dana keluar']));
       
       innerHTML += `
         <div class="doc-card ${catClass}" data-cat-filter="${item['kategori'] || ''}">
