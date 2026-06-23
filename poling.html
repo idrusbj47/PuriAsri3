@@ -79,6 +79,7 @@
       transition: box-shadow 0.2s;
     }
     .header-brand:hover .logo-mark { box-shadow: 0 0 0 3px rgba(212,175,90,0.35); }
+    .logo-mark img { width: 100%; height: 100%; object-fit: cover; object-position: center; border-radius: 50%; display: block; }
     .logo-mark-fallback {
       width: 36px; height: 36px; background: var(--green-600); border-radius: 50%;
       display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700;
@@ -254,11 +255,30 @@
     .response-opsi-badge.yellow { background: var(--yellow-100); color: #7a6010; border: 1px solid #e8d080; }
     .response-opsi-badge.blue { background: var(--blue-100); color: var(--blue-700); border: 1px solid #b0ccee; }
 
-    .response-comment {
-      font-size: 12.5px; color: var(--text-muted); font-weight: 300; line-height: 1.65;
-      border-left: 2px solid var(--border-mid); padding-left: 12px; margin-top: 6px;
-      font-style: italic;
+    .response-comment-wrap { margin-top: 8px; max-width: 100%; }
+    .response-comment-label {
+      font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+      color: var(--text-muted); opacity: 0.7; margin-bottom: 3px;
     }
+    .response-comment {
+      font-size: 11.5px; color: var(--text-muted); font-weight: 300; line-height: 1.6;
+      border-left: 2px solid var(--border-mid); padding-left: 10px;
+      font-style: italic; white-space: pre-wrap; word-break: break-word;
+    }
+    .response-comment.clamp {
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .response-comment.clamp.expanded {
+      display: block; -webkit-line-clamp: unset; overflow: visible;
+    }
+    .comment-toggle {
+      display: inline-block; margin-top: 4px; margin-left: 12px;
+      font-size: 10px; color: var(--green-600); background: none; border: none;
+      cursor: pointer; font-family: inherit; text-decoration: underline;
+      padding: 0; letter-spacing: 0.02em;
+    }
+    .comment-toggle:hover { color: var(--green-700); }
 
     /* ─── NO RESULTS ─── */
     .no-results { text-align: center; padding: 40px 24px; color: var(--text-muted); font-size: 13px; }
@@ -492,40 +512,67 @@ const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGd
 let allRows = [];
 let activeFilter = 'Semua';
 
-/* ── CSV parser — baris ke-1 = header, data mulai baris ke-2 ── */
+/* ── CSV parser — quote-aware, tahan terhadap komentar multi-baris ── */
+/* baris ke-1 = header, data mulai baris ke-2 */
 function parseCSV(text) {
-  const lines = text.split(/\r?\n/).filter(l => l.trim());
-  if (lines.length < 2) return [];           // tidak ada data sama sekali
-  const headers = splitCSVLine(lines[0]);    // baris 0 = header
+  const table = [];
+  let row = [];
+  let field = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (text[i + 1] === '"') { field += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        field += ch;
+      }
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      row.push(field); field = '';
+    } else if (ch === '\r') {
+      // skip, ditangani oleh \n
+    } else if (ch === '\n') {
+      row.push(field); field = '';
+      table.push(row); row = [];
+    } else {
+      field += ch;
+    }
+  }
+  // dorong field/baris terakhir kalau masih ada sisa
+  if (field.length || row.length) { row.push(field); table.push(row); }
+
+  // buang baris yang seluruh selnya kosong (baris kosong sisa di sheet)
+  const cleanTable = table.filter(r => r.some(v => v && v.trim()));
+  if (cleanTable.length < 2) return [];
+
+  const headers = cleanTable[0].map(h => h.trim());
   const rows = [];
-  for (let i = 1; i < lines.length; i++) {  // baris 1 dst = data (row ke-2 di GSheet)
-    const vals = splitCSVLine(lines[i]);
+  for (let i = 1; i < cleanTable.length; i++) {
+    const vals = cleanTable[i];
     if (!vals.length || vals.every(v => !v.trim())) continue;
     const obj = {};
-    headers.forEach((h, idx) => { obj[h.trim()] = (vals[idx] || '').trim(); });
+    headers.forEach((h, idx) => { obj[h] = (vals[idx] || '').trim(); });
     rows.push(obj);
   }
   return rows;
 }
 
-function splitCSVLine(line) {
-  const result = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') {
-      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
-      else { inQuotes = !inQuotes; }
-    } else if (ch === ',' && !inQuotes) {
-      result.push(current); current = '';
-    } else { current += ch; }
-  }
-  result.push(current);
-  return result;
+/* ── deteksi kolom dari header sheet ── */
+function getKeys(rows) {
+  const keys = Object.keys(rows[0] || {});
+  const find = (...words) => keys.find(k => words.some(w => k.toLowerCase().includes(w)));
+  return {
+    voteKey: find('bagaimana', 'sikap') || keys[3],
+    commentKey: find('komentar', 'catatan', 'saran', 'pesan', 'masukan', 'alasan', 'tanggapan'),
+    namaKey: find('nama') || 'Nama Lengkap',
+    rumahKey: find('rumah', 'blok') || keys[2],
+    tsKey: keys[0]
+  };
 }
-
-/* ── classify vote ── */
 function classifyVote(val) {
   const v = val || '';
   if (v.includes('🟢') || v.toLowerCase().includes('opsi 1')) return 'green';
@@ -559,6 +606,13 @@ function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function toggleComment(btn, id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const expanded = el.classList.toggle('expanded');
+  btn.textContent = expanded ? 'Sembunyikan' : 'Baca selengkapnya';
+}
+
 /* ── count up animation ── */
 function countUp(el, target, dur) {
   const start = performance.now();
@@ -576,11 +630,7 @@ function countUp(el, target, dur) {
 function renderPage(rows) {
   allRows = rows;
 
-  const voteKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0] || {})[3];
-  const commentKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0] || {})[4];
-  const namaKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
-  const rumahKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0] || {})[2];
-  const tsKey = Object.keys(rows[0] || {})[0];
+  const { voteKey, commentKey, namaKey, rumahKey, tsKey } = getKeys(rows);
 
   let c1=0,c2=0,c3=0;
   rows.forEach(r => {
@@ -647,6 +697,8 @@ function renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey) {
     const rumah = r[rumahKey] || '—';
     const comment = r[commentKey] || '';
     const ts = r[tsKey] || '';
+    const cid = `cmt-${idx}-${Math.random().toString(36).slice(2,7)}`;
+    const isLong = comment.length > 120 || comment.split('\n').length > 2;
     return `<div class="response-card ${cls}" style="transition-delay:${Math.min(idx,15)*30}ms">
       <div class="response-top">
         <span class="response-name">${esc(nama)}</span>
@@ -654,7 +706,11 @@ function renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey) {
         <span class="response-time">${esc(fmtDate(ts))}</span>
       </div>
       <div class="response-opsi-badge ${cls}">${opsiLabel(cls)}</div>
-      ${comment ? `<div class="response-comment">${esc(comment)}</div>` : ''}
+      ${comment ? `<div class="response-comment-wrap">
+        <div class="response-comment-label">💬 Komentar</div>
+        <div class="response-comment${isLong ? ' clamp' : ''}" id="${cid}">${esc(comment)}</div>
+        ${isLong ? `<button class="comment-toggle" onclick="toggleComment(this,'${cid}')">Baca selengkapnya</button>` : ''}
+      </div>` : ''}
     </div>`;
   }).join('');
 
@@ -703,11 +759,7 @@ function refreshData() {
     // re-render filtered with latest rows
     const rows = allRows;
     if (!rows.length) return;
-    const voteKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0])[3];
-    const commentKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0])[4];
-    const namaKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
-    const rumahKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0])[2];
-    const tsKey = Object.keys(rows[0])[0];
+    const { voteKey, commentKey, namaKey, rumahKey, tsKey } = getKeys(rows);
     renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey);
   });
 }
@@ -721,11 +773,7 @@ document.getElementById('filterRow').addEventListener('click', e => {
   activeFilter = btn.dataset.filter;
   if (!allRows.length) return;
   const rows = allRows;
-  const voteKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0])[3];
-  const commentKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0])[4];
-  const namaKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
-  const rumahKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0])[2];
-  const tsKey = Object.keys(rows[0])[0];
+  const { voteKey, commentKey, namaKey, rumahKey, tsKey } = getKeys(rows);
   renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey);
 });
 
