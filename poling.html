@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polling Warga — Posyandu & Kas RT · Puri Asri 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
+      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
+      --green-400: #56a660; --green-300: #80c489; --green-200: #b3ddb9;
+      --green-100: #ddf0e0; --green-50: #f2fbf4;
+      --gold-700: #7a5c1e; --gold-600: #9a7226; --gold-500: #c49a3c;
+      --gold-400: #d4af5a; --gold-300: #e3c97e; --gold-200: #f0dfa8; --gold-100: #f8f0da;
+      --blue-700: #1a4a7a; --blue-500: #2e6aaa; --blue-100: #e8f2ff; --blue-50: #f0f6ff;
+      --yellow-700: #7a6010; --yellow-500: #c4a020; --yellow-100: #fdf5d8; --yellow-50: #fffbee;
+      --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c; --text-mid: #3a5040; --text-muted: #6b8570;
+      --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px; --radius-xl: 28px;
+      --shadow-card: 0 2px 12px rgba(30,66,37,0.08), 0 1px 3px rgba(30,66,37,0.06);
+      --shadow-hover: 0 12px 40px rgba(30,66,37,0.16), 0 2px 8px rgba(30,66,37,0.08);
+      --shadow-gold: 0 4px 20px rgba(196,154,60,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg); color: var(--text-dark);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(196,154,60,0.04) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.06); pointer-events: none; z-index: 0; }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green-800); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    header.scrolled {
+      background: rgba(30,66,37,0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13,31,16,0.28), 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: opacity 0.2s; }
+    .header-brand:hover { opacity: 0.85; }
+    .logo-mark {
+      width: 40px; height: 40px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .header-brand:hover .logo-mark { box-shadow: 0 0 0 3px rgba(212,175,90,0.35); }
+    .logo-mark-fallback {
+      width: 36px; height: 36px; background: var(--green-600); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 700;
+    }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-top: 1px; }
+    .btn-refresh {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--green-200); text-decoration: none;
+      letter-spacing: 0.04em; padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      transition: all 0.2s ease; cursor: pointer; background: transparent; font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-refresh:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
+    .btn-refresh svg { transition: transform 0.5s ease; }
+    .btn-refresh.spinning svg { animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── MAIN ─── */
+    main { position: relative; z-index: 1; flex: 1; max-width: 900px; margin: 0 auto; width: 100%; padding: 52px 24px 96px; }
+
+    /* ─── LOADING / ERROR ─── */
+    .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 24px; text-align: center; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border-mid); border-top-color: var(--green-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .loading-text { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+    .error-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 60px 24px; text-align: center; }
+    .error-wrap p { font-size: 13px; color: var(--text-muted); }
+    .btn-retry {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 20px; font-size: 12px;
+      background: var(--green-700); color: #fff; border: none; cursor: pointer;
+      font-family: inherit; transition: background 0.2s;
+    }
+    .btn-retry:hover { background: var(--green-600); }
+
+    /* ─── HERO ─── */
+    .hero { text-align: center; margin-bottom: 48px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold-600); font-weight: 500; margin-bottom: 20px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(26px, 5vw, 44px); font-weight: 500; color: var(--green-900);
+      line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 16px;
+    }
+    .hero-title em { font-style: italic; color: var(--green-600); }
+    .hero-desc { font-size: 14px; color: var(--text-muted); font-weight: 300; line-height: 1.75; max-width: 520px; margin: 0 auto 20px; }
+    .hero-ornament { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
+    .hero-ornament-line { flex: 1; max-width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300)); }
+    .hero-ornament-line:last-child { background: linear-gradient(90deg, var(--gold-300), transparent); }
+    .hero-ornament-diamond { width: 6px; height: 6px; background: var(--gold-400); transform: rotate(45deg); border-radius: 1px; box-shadow: 0 0 8px rgba(196,154,60,0.4); }
+
+    /* ─── STAT CARDS ─── */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 48px; }
+    .stat-chip {
+      background: var(--cream-card); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 20px 14px;
+      text-align: center; box-shadow: var(--shadow-card);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative; overflow: hidden;
+    }
+    .stat-chip::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold-300), var(--green-400), var(--gold-300));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .stat-chip:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .stat-chip:hover::after { opacity: 1; }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 600;
+      color: var(--green-700); line-height: 1;
+    }
+    .stat-num.green { color: #2a8a30; }
+    .stat-num.yellow { color: #c4a020; }
+    .stat-num.blue { color: #2e6aaa; }
+    @keyframes numPop { 0% { transform: scale(1); } 45% { transform: scale(1.18); } 100% { transform: scale(1); } }
+    .stat-num.popped { animation: numPop 0.4s ease; }
+    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 6px; line-height: 1.4; }
+
+    /* ─── VOTE BAR SECTION ─── */
+    .vote-section { margin-bottom: 48px; }
+    .section-eyebrow {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .section-eyebrow-line { flex: 1; height: 1px; background: var(--border-mid); }
+    .section-eyebrow-text {
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 500; white-space: nowrap;
+    }
+
+    .vote-bars { display: flex; flex-direction: column; gap: 16px; }
+    .vote-bar-item { background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px 22px; box-shadow: var(--shadow-card); transition: transform 0.22s, box-shadow 0.22s; }
+    .vote-bar-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .vote-bar-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+    .vote-bar-emoji { font-size: 22px; flex-shrink: 0; line-height: 1.2; }
+    .vote-bar-label { flex: 1; }
+    .vote-bar-opsi { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+    .vote-bar-opsi.green { color: #2a8a30; }
+    .vote-bar-opsi.yellow { color: #b09010; }
+    .vote-bar-opsi.blue { color: #2e6aaa; }
+    .vote-bar-text { font-size: 12.5px; color: var(--text-mid); line-height: 1.55; font-weight: 300; }
+    .vote-bar-count { text-align: right; flex-shrink: 0; }
+    .vote-bar-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; line-height: 1; }
+    .vote-bar-num.green { color: #2a8a30; }
+    .vote-bar-num.yellow { color: #c4a020; }
+    .vote-bar-num.blue { color: #2e6aaa; }
+    .vote-bar-pct { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+
+    .bar-track { height: 8px; background: rgba(0,0,0,0.06); border-radius: 8px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 8px; width: 0%; transition: width 1.2s cubic-bezier(.22,1,.36,1); }
+    .bar-fill.green { background: linear-gradient(90deg, #2a8a30, #56c460); }
+    .bar-fill.yellow { background: linear-gradient(90deg, #b09010, #e3c030); }
+    .bar-fill.blue { background: linear-gradient(90deg, #2e6aaa, #5a9ada); }
+
+    /* ─── LAST UPDATED ─── */
+    .last-updated { text-align: center; font-size: 11px; color: var(--text-muted); margin-bottom: 40px; letter-spacing: 0.03em; }
+    .last-updated span { color: var(--green-600); font-weight: 500; }
+
+    /* ─── RESPONSES TABLE ─── */
+    .responses-section { margin-bottom: 48px; }
+    .responses-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+    .responses-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--green-900); }
+
+    .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-chip {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+      padding: 5px 14px; border-radius: 20px; cursor: pointer;
+      border: 1px solid var(--border-mid); color: var(--text-mid);
+      background: var(--cream-card); transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .filter-chip:hover { border-color: var(--green-400); color: var(--green-700); }
+    .filter-chip.active { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 2px 10px rgba(30,66,37,0.2); }
+
+    /* Response Cards */
+    .response-list { display: flex; flex-direction: column; gap: 10px; }
+    .response-card {
+      background: var(--cream-card); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 16px 20px;
+      box-shadow: var(--shadow-card); position: relative; overflow: hidden;
+      transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
+    }
+    .response-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+      border-radius: 0 2px 2px 0;
+    }
+    .response-card.green::before { background: #2a8a30; }
+    .response-card.yellow::before { background: #c4a020; }
+    .response-card.blue::before { background: #2e6aaa; }
+    .response-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
+
+    .response-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+    .response-name { font-size: 14px; font-weight: 500; color: var(--text-dark); }
+    .response-rumah { 
+      font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600;
+      padding: 2px 9px; border-radius: 20px; border: 1px solid var(--border-mid); color: var(--text-mid);
+      background: var(--green-50);
+    }
+    .response-time { font-size: 10px; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+    .response-opsi-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
+    }
+    .response-opsi-badge.green { background: #eaf6eb; color: #1e6e24; border: 1px solid #b3ddb9; }
+    .response-opsi-badge.yellow { background: var(--yellow-100); color: #7a6010; border: 1px solid #e8d080; }
+    .response-opsi-badge.blue { background: var(--blue-100); color: var(--blue-700); border: 1px solid #b0ccee; }
+
+    .response-comment {
+      font-size: 12.5px; color: var(--text-muted); font-weight: 300; line-height: 1.65;
+      border-left: 2px solid var(--border-mid); padding-left: 12px; margin-top: 6px;
+      font-style: italic;
+    }
+
+    /* ─── NO RESULTS ─── */
+    .no-results { text-align: center; padding: 40px 24px; color: var(--text-muted); font-size: 13px; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 28px 24px; border-top: 1px solid var(--border-light);
+      font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em;
+    }
+    footer strong { color: var(--green-700); font-weight: 500; }
+    .footer-ornament { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
+    .footer-line { width: 40px; height: 1px; background: var(--border-mid); }
+    .footer-diamond { width: 5px; height: 5px; background: var(--gold-400); transform: rotate(45deg); border-radius: 1px; }
+
+    /* ─── SCROLL TOP ─── */
+    .scroll-top {
+      position: fixed; right: 24px; bottom: 28px; z-index: 200;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--green-800); color: #fff; border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(13,31,16,0.25);
+      opacity: 0; transform: translateY(12px) scale(0.9);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .scroll-top:hover { background: var(--green-700); }
+
+    /* ─── PARTICLES ─── */
+    .sparkle-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .sparkle {
+      position: absolute; width: 3px; height: 3px; border-radius: 50%;
+      background: var(--gold-400); opacity: 0;
+      animation: sparkleFly var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+    }
+    @keyframes sparkleFly {
+      0%   { opacity: 0; transform: translateY(0) scale(0); }
+      10%  { opacity: 0.6; transform: translateY(-20px) scale(1); }
+      80%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.4); }
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+    .response-card { opacity: 0; transform: translateY(10px); transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.22s, border-color 0.22s; }
+    .response-card.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      header { padding: 0 1rem; }
+      main { padding: 32px 14px 70px; }
+      .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 36px; }
+      .hero-title { font-size: 24px; }
+      .vote-bar-header { flex-wrap: wrap; }
+      .vote-bar-count { width: 100%; text-align: left; }
+      .response-time { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deco-ring" style="width:700px;height:700px;top:-300px;right:-250px;"></div>
+  <div class="deco-ring" style="width:500px;height:500px;bottom:-150px;left:-200px;"></div>
+  <div class="sparkle-container" id="sparkleContainer"></div>
+
+  <header id="mainHeader">
+    <a href="index.html" class="header-brand">
+      <div class="logo-mark">
+        <img src="Logo RT11.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-mark-fallback" style="display:none">PA3</div>
+      </div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; Polling Warga</div>
+      </div>
+    </a>
+    <button class="btn-refresh" id="btnRefresh" onclick="refreshData()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
+      Perbarui Data
+    </button>
+  </header>
+
+  <main>
+    <div id="loadingWrap" class="loading-wrap">
+      <div class="spinner"></div>
+      <div class="loading-text">Memuat data polling …</div>
+    </div>
+    <div id="pageContent" style="display:none">
+      <!-- Hero -->
+      <div class="hero fade-up">
+        <div class="hero-eyebrow">Hasil Suara Warga</div>
+        <h1 class="hero-title">Polling <em>Posyandu</em> &amp; Kas RT</h1>
+        <div class="hero-ornament">
+          <div class="hero-ornament-line"></div>
+          <div class="hero-ornament-diamond"></div>
+          <div class="hero-ornament-line"></div>
+        </div>
+        <p class="hero-desc">Transparansi hasil polling mengenai penggunaan kas RT untuk modal awal dan operasional Posyandu di lingkungan Puri Asri 3.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row fade-up" id="statsRow">
+        <div class="stat-chip">
+          <div class="stat-num" id="statTotal" data-target="0">0</div>
+          <div class="stat-label">Total Suara</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-num green" id="statOpsi1" data-target="0">0</div>
+          <div class="stat-label">🟢 Opsi 1 · Setuju</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-num yellow" id="statOpsi2" data-target="0">0</div>
+          <div class="stat-label">🟡 Opsi 2 · Tidak Setuju</div>
+        </div>
+        <div class="stat-chip">
+          <div class="stat-num blue" id="statOpsi3" data-target="0">0</div>
+          <div class="stat-label">🔵 Opsi 3 · Jalan Tengah</div>
+        </div>
+      </div>
+
+      <!-- Vote Bars -->
+      <div class="vote-section fade-up">
+        <div class="section-eyebrow">
+          <div class="section-eyebrow-line"></div>
+          <div class="section-eyebrow-text">Distribusi Suara</div>
+          <div class="section-eyebrow-line"></div>
+        </div>
+        <div class="vote-bars">
+
+          <div class="vote-bar-item">
+            <div class="vote-bar-header">
+              <div class="vote-bar-emoji">🟢</div>
+              <div class="vote-bar-label">
+                <div class="vote-bar-opsi green">Opsi 1 · Setuju</div>
+                <div class="vote-bar-text">Biaya kemarin dianggap sah sebagai pengeluaran sosial RT, dan ke depannya kas RT boleh digunakan kembali untuk menyokong operasional Posyandu.</div>
+              </div>
+              <div class="vote-bar-count">
+                <div class="vote-bar-num green" id="barNum1">0</div>
+                <div class="vote-bar-pct" id="barPct1">0%</div>
+              </div>
+            </div>
+            <div class="bar-track"><div class="bar-fill green" id="barFill1"></div></div>
+          </div>
+
+          <div class="vote-bar-item">
+            <div class="vote-bar-header">
+              <div class="vote-bar-emoji">🟡</div>
+              <div class="vote-bar-label">
+                <div class="vote-bar-opsi yellow">Opsi 2 · Tidak Setuju</div>
+                <div class="vote-bar-text">Dana yang sudah terpakai kemarin wajib diganti/dikembalikan utuh ke kas RT, dan ke depannya Posyandu tidak boleh menggunakan kas RT sama sekali.</div>
+              </div>
+              <div class="vote-bar-count">
+                <div class="vote-bar-num yellow" id="barNum2">0</div>
+                <div class="vote-bar-pct" id="barPct2">0%</div>
+              </div>
+            </div>
+            <div class="bar-track"><div class="bar-fill yellow" id="barFill2"></div></div>
+          </div>
+
+          <div class="vote-bar-item">
+            <div class="vote-bar-header">
+              <div class="vote-bar-emoji">🔵</div>
+              <div class="vote-bar-label">
+                <div class="vote-bar-opsi blue">Opsi 3 · Jalan Tengah</div>
+                <div class="vote-bar-text">Dana yang sudah terlanjur terpakai kemarin dianggap diputihkan/tidak usah dikembalikan, namun untuk ke depannya Posyandu TIDAK BOLEH menggunakan kas RT lagi dan harus mandiri.</div>
+              </div>
+              <div class="vote-bar-count">
+                <div class="vote-bar-num blue" id="barNum3">0</div>
+                <div class="vote-bar-pct" id="barPct3">0%</div>
+              </div>
+            </div>
+            <div class="bar-track"><div class="bar-fill blue" id="barFill3"></div></div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="last-updated" id="lastUpdated"></div>
+
+      <!-- Responses -->
+      <div class="responses-section fade-up">
+        <div class="responses-header">
+          <div class="responses-title">Suara Warga</div>
+          <div class="filter-row" id="filterRow">
+            <button class="filter-chip active" data-filter="Semua">Semua</button>
+            <button class="filter-chip" data-filter="green">🟢 Setuju</button>
+            <button class="filter-chip" data-filter="yellow">🟡 Tidak Setuju</button>
+            <button class="filter-chip" data-filter="blue">🔵 Jalan Tengah</button>
+          </div>
+        </div>
+        <div class="response-list" id="responseList"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-ornament">
+      <div class="footer-line"></div>
+      <div class="footer-diamond"></div>
+      <div class="footer-line"></div>
+    </div>
+    <strong>RT 01 · RW 12 · Puri Asri 3</strong> &nbsp;·&nbsp; Data diambil langsung dari Google Sheets &nbsp;·&nbsp; Dibuat dengan ❤️ untuk warga
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+<script>
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=805070618&single=true&output=csv';
+
+let allRows = [];
+let activeFilter = 'Semua';
+
+/* ── CSV parser ── */
+function parseCSV(text) {
+  const lines = text.split(/\r?\n/).filter(l => l.trim());
+  const headers = splitCSVLine(lines[0]);
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    const vals = splitCSVLine(lines[i]);
+    if (!vals.length || vals.every(v => !v.trim())) continue;
+    const obj = {};
+    headers.forEach((h, idx) => { obj[h.trim()] = (vals[idx] || '').trim(); });
+    rows.push(obj);
+  }
+  return rows;
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; }
+      else { inQuotes = !inQuotes; }
+    } else if (ch === ',' && !inQuotes) {
+      result.push(current); current = '';
+    } else { current += ch; }
+  }
+  result.push(current);
+  return result;
+}
+
+/* ── classify vote ── */
+function classifyVote(val) {
+  const v = val || '';
+  if (v.includes('🟢') || v.toLowerCase().includes('opsi 1')) return 'green';
+  if (v.includes('🟡') || v.toLowerCase().includes('opsi 2')) return 'yellow';
+  if (v.includes('🔵') || v.toLowerCase().includes('opsi 3')) return 'blue';
+  return 'green'; // fallback
+}
+
+function opsiLabel(cls) {
+  if (cls === 'green') return '🟢 Opsi 1 · Setuju';
+  if (cls === 'yellow') return '🟡 Opsi 2 · Tidak Setuju';
+  if (cls === 'blue') return '🔵 Opsi 3 · Jalan Tengah';
+  return '';
+}
+
+/* ── format date ── */
+function fmtDate(ts) {
+  if (!ts) return '';
+  try {
+    const d = new Date(ts);
+    return d.toLocaleDateString('id-ID', { day:'2-digit', month:'long', year:'numeric' })
+      + ' · ' + d.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+  } catch { return ts; }
+}
+
+function fmtNow() {
+  return new Date().toLocaleString('id-ID', { day:'2-digit', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── count up animation ── */
+function countUp(el, target, dur) {
+  const start = performance.now();
+  function step(now) {
+    const elapsed = Math.min(now - start, dur);
+    const ease = 1 - Math.pow(1 - elapsed/dur, 3);
+    el.textContent = Math.floor(target * ease);
+    if (elapsed < dur) requestAnimationFrame(step);
+    else { el.textContent = target; el.classList.add('popped'); setTimeout(() => el.classList.remove('popped'), 450); }
+  }
+  requestAnimationFrame(step);
+}
+
+/* ── render ── */
+function renderPage(rows) {
+  allRows = rows;
+
+  const voteKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0] || {})[3];
+  const commentKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0] || {})[4];
+  const namaKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
+  const rumahKey = Object.keys(rows[0] || {}).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0] || {})[2];
+  const tsKey = Object.keys(rows[0] || {})[0];
+
+  let c1=0,c2=0,c3=0;
+  rows.forEach(r => {
+    const cls = classifyVote(r[voteKey]);
+    if (cls==='green') c1++;
+    else if (cls==='yellow') c2++;
+    else c3++;
+  });
+  const total = rows.length;
+
+  // Stats count-up
+  setTimeout(() => {
+    [['statTotal',total],['statOpsi1',c1],['statOpsi2',c2],['statOpsi3',c3]].forEach(([id,val],i) => {
+      setTimeout(() => countUp(document.getElementById(id), val, 900), i * 120);
+    });
+  }, 80);
+
+  // Vote bars
+  setTimeout(() => {
+    function setBar(num, pct, fill, count) {
+      document.getElementById(num).textContent = count;
+      const p = total ? Math.round(count/total*100) : 0;
+      document.getElementById(pct).textContent = p + '%';
+      setTimeout(() => { document.getElementById(fill).style.width = p + '%'; }, 100);
+    }
+    setBar('barNum1','barPct1','barFill1', c1);
+    setBar('barNum2','barPct2','barFill2', c2);
+    setBar('barNum3','barPct3','barFill3', c3);
+  }, 300);
+
+  // Last updated
+  document.getElementById('lastUpdated').innerHTML = `Terakhir diperbarui: <span>${fmtNow()}</span> &nbsp;·&nbsp; <span>${total} responden</span>`;
+
+  // Responses
+  renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey);
+
+  document.getElementById('loadingWrap').style.display = 'none';
+  document.getElementById('pageContent').style.display = '';
+
+  // Intersection observer for cards
+  setTimeout(() => {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.response-card').forEach(c => io.observe(c));
+  }, 100);
+}
+
+function renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey) {
+  const list = document.getElementById('responseList');
+  const filtered = activeFilter === 'Semua' ? rows : rows.filter(r => classifyVote(r[voteKey]) === activeFilter);
+
+  if (!filtered.length) {
+    list.innerHTML = '<div class="no-results">Belum ada suara untuk opsi ini.</div>';
+    return;
+  }
+
+  // sort newest first
+  const sorted = [...filtered].sort((a,b) => new Date(b[tsKey]||0) - new Date(a[tsKey]||0));
+
+  list.innerHTML = sorted.map((r, idx) => {
+    const cls = classifyVote(r[voteKey]);
+    const nama = r[namaKey] || 'Anonim';
+    const rumah = r[rumahKey] || '—';
+    const comment = r[commentKey] || '';
+    const ts = r[tsKey] || '';
+    return `<div class="response-card ${cls}" style="transition-delay:${Math.min(idx,15)*30}ms">
+      <div class="response-top">
+        <span class="response-name">${esc(nama)}</span>
+        <span class="response-rumah">${esc(rumah)}</span>
+        <span class="response-time">${esc(fmtDate(ts))}</span>
+      </div>
+      <div class="response-opsi-badge ${cls}">${opsiLabel(cls)}</div>
+      ${comment ? `<div class="response-comment">${esc(comment)}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // re-trigger observer
+  setTimeout(() => {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.03 });
+    document.querySelectorAll('.response-card').forEach(c => io.observe(c));
+  }, 50);
+}
+
+/* ── load data ── */
+async function loadData(showLoader = true) {
+  if (showLoader) {
+    document.getElementById('loadingWrap').style.display = '';
+    document.getElementById('pageContent').style.display = 'none';
+  }
+  try {
+    const t = Date.now();
+    const res = await fetch(`${CSV_URL}&t=${t}`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    if (!rows.length) throw new Error('Kosong');
+    renderPage(rows);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('loadingWrap').innerHTML = `
+      <div class="error-wrap">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>Gagal memuat data. Periksa koneksi internet.</p>
+        <button class="btn-retry" onclick="loadData()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
+          Coba lagi
+        </button>
+      </div>`;
+  }
+}
+
+function refreshData() {
+  const btn = document.getElementById('btnRefresh');
+  btn.classList.add('spinning');
+  setTimeout(() => btn.classList.remove('spinning'), 1200);
+  loadData(false).then(() => {
+    // re-render filtered with latest rows
+    const rows = allRows;
+    if (!rows.length) return;
+    const voteKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0])[3];
+    const commentKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0])[4];
+    const namaKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
+    const rumahKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0])[2];
+    const tsKey = Object.keys(rows[0])[0];
+    renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey);
+  });
+}
+
+/* ── filter chips ── */
+document.getElementById('filterRow').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-chip');
+  if (!btn) return;
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  if (!allRows.length) return;
+  const rows = allRows;
+  const voteKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('bagaimana') || k.toLowerCase().includes('sikap')) || Object.keys(rows[0])[3];
+  const commentKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('komentar')) || Object.keys(rows[0])[4];
+  const namaKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('nama')) || 'Nama Lengkap';
+  const rumahKey = Object.keys(rows[0]).find(k => k.toLowerCase().includes('rumah') || k.toLowerCase().includes('blok')) || Object.keys(rows[0])[2];
+  const tsKey = Object.keys(rows[0])[0];
+  renderResponses(rows, voteKey, commentKey, namaKey, rumahKey, tsKey);
+});
+
+/* ── scroll & sparkles ── */
+(function(){
+  const hdr = document.getElementById('mainHeader');
+  const btn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 10);
+    btn.classList.toggle('visible', window.scrollY > 320);
+  }, { passive: true });
+})();
+
+(function(){
+  const c = document.getElementById('sparkleContainer');
+  const W = window.innerWidth, H = window.innerHeight;
+  for (let i=0;i<18;i++){
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.style.left   = (Math.random()*W) + 'px';
+    sp.style.top    = (Math.random()*H*0.8+H*0.2) + 'px';
+    sp.style.setProperty('--dur',   (5+Math.random()*7)+'s');
+    sp.style.setProperty('--delay', (Math.random()*8)+'s');
+    sp.style.width  = sp.style.height = (1.5+Math.random()*2.5)+'px';
+    sp.style.opacity = (0.2+Math.random()*0.5).toFixed(2);
+    c.appendChild(sp);
+  }
+})();
+
+/* ── init ── */
+loadData();
+
+/* ── auto-refresh setiap 60 detik ── */
+setInterval(() => refreshData(), 60000);
+</script>
+</body>
+</html>
