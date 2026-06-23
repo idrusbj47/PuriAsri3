@@ -1544,6 +1544,38 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+    // ── parser CSV quote-aware — tahan terhadap komentar multi-baris ──
+    function parsePollCSV(text) {
+      const table = [];
+      let row = [];
+      let field = '';
+      let inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (inQuotes) {
+          if (ch === '"') {
+            if (text[i + 1] === '"') { field += '"'; i++; }
+            else { inQuotes = false; }
+          } else { field += ch; }
+        } else if (ch === '"') {
+          inQuotes = true;
+        } else if (ch === ',') {
+          row.push(field); field = '';
+        } else if (ch === '\r') {
+          // skip, ditangani oleh \n
+        } else if (ch === '\n') {
+          row.push(field); field = '';
+          table.push(row); row = [];
+        } else {
+          field += ch;
+        }
+      }
+      if (field.length || row.length) { row.push(field); table.push(row); }
+      // buang baris yang seluruh selnya kosong
+      const cleanTable = table.filter(r => r.some(v => v && v.trim()));
+      return cleanTable.length ? cleanTable.length - 1 : 0; // minus 1 baris header
+    }
+
     // ── POLLING COUNT — ambil dari Google Sheets CSV ──
     (async function fetchPollingCount() {
       const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=805070618&single=true&output=csv';
@@ -1551,9 +1583,8 @@
       try {
         const res = await fetch(CSV_URL + '&t=' + Date.now());
         const text = await res.text();
-        // hitung baris data (semua minus header)
-        const lines = text.split(/\r?\n/).filter(l => l.trim()).length - 1;
-        const count = Math.max(0, lines);
+        // hitung baris data (quote-aware, anti komentar multi-baris)
+        const count = Math.max(0, parsePollCSV(text));
         // animasi count-up
         let start = 0;
         const dur = 900;
