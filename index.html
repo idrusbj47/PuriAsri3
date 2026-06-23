@@ -1051,6 +1051,135 @@
         display: block;
       }
     }
+
+    /* ── POLLING CARD ── */
+    @keyframes pollingPulse {
+      0%, 100% { box-shadow: 0 2px 12px rgba(196,154,60,0.18), 0 0 0 0 rgba(196,154,60,0.35); }
+      50%       { box-shadow: 0 8px 32px rgba(196,154,60,0.32), 0 0 0 8px rgba(196,154,60,0); }
+    }
+    @keyframes shimmerPolling {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    @keyframes badgePop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+    @keyframes attentionWave {
+      0%, 90%, 100% { transform: translateX(0); }
+      92%           { transform: translateX(-3px); }
+      94%           { transform: translateX(3px); }
+      96%           { transform: translateX(-2px); }
+      98%           { transform: translateX(2px); }
+    }
+
+    .polling-banner {
+      position: relative;
+      background: linear-gradient(135deg, #7a5c1e 0%, #9a7226 30%, #c49a3c 60%, #7a5c1e 100%);
+      background-size: 200% auto;
+      animation: shimmerPolling 4s linear infinite, pollingPulse 2.8s ease-in-out infinite;
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      margin-bottom: 24px;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid rgba(196,154,60,0.5);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.22s ease;
+      animation: shimmerPolling 4s linear infinite, pollingPulse 2.8s ease-in-out infinite, attentionWave 6s ease-in-out 2s infinite;
+    }
+    .polling-banner:hover { transform: translateY(-2px); }
+
+    .polling-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M20 20h20v20H20zM0 0h20v20H0z'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .polling-banner-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; backdrop-filter: blur(4px);
+    }
+
+    .polling-banner-body { flex: 1; min-width: 0; }
+    .polling-banner-eyebrow {
+      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(255,255,255,0.65); font-weight: 500; margin-bottom: 4px;
+    }
+    .polling-banner-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; font-weight: 600; color: #fff;
+      line-height: 1.25; margin-bottom: 4px;
+    }
+    .polling-banner-desc {
+      font-size: 11.5px; color: rgba(255,255,255,0.72); font-weight: 300; line-height: 1.5;
+    }
+
+    .polling-banner-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+
+    .polling-count-badge {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 12px; padding: 8px 14px; backdrop-filter: blur(8px);
+      animation: badgePop 3s ease-in-out 1.5s infinite;
+      min-width: 64px;
+    }
+    .polling-count-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 600; color: #fff; line-height: 1;
+    }
+    .polling-count-label {
+      font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.7); margin-top: 2px; white-space: nowrap;
+    }
+
+    .polling-banner-arrow {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.8); font-size: 14px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .polling-banner:hover .polling-banner-arrow { background: rgba(255,255,255,0.18); transform: translateX(3px); }
+
+    /* LIVE DOT on polling */
+    .polling-live-dot {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); font-weight: 500;
+    }
+    .polling-live-dot::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #7aff88;
+      box-shadow: 0 0 0 0 rgba(122,255,136,0.7);
+      animation: liveDotPulse 1.6s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes liveDotPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(122,255,136,0.7); }
+      70%  { box-shadow: 0 0 0 6px rgba(122,255,136,0); }
+      100% { box-shadow: 0 0 0 0 rgba(122,255,136,0); }
+    }
+
+    @media (max-width: 600px) {
+      .polling-banner { padding: 16px; gap: 12px; }
+      .polling-banner-icon { width: 44px; height: 44px; font-size: 22px; }
+      .polling-banner-title { font-size: 15px; }
+      .polling-banner-desc { display: none; }
+      .polling-count-num { font-size: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -1080,6 +1209,24 @@
       <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
       <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
     </div>
+
+    <!-- ── POLLING BANNER ── -->
+    <a class="polling-banner" href="poling.html" id="pollingBanner">
+      <div class="polling-banner-icon">🗳️</div>
+      <div class="polling-banner-body">
+        <div class="polling-banner-eyebrow">⚡ Perlu Suara Anda · Segera Diputuskan</div>
+        <div class="polling-banner-title">Polling Posyandu &amp; Kas RT</div>
+        <div class="polling-banner-desc">Sampaikan pendapat Anda mengenai penggunaan kas RT untuk operasional Posyandu</div>
+        <div class="polling-live-dot" style="margin-top:8px;">Live · Hasil realtime</div>
+      </div>
+      <div class="polling-banner-right">
+        <div class="polling-count-badge">
+          <div class="polling-count-num" id="pollingCountNum">—</div>
+          <div class="polling-count-label">Suara Masuk</div>
+        </div>
+        <div class="polling-banner-arrow">→</div>
+      </div>
+    </a>
 
     <div class="section-label">
       <span>Laporan Keuangan</span>
@@ -1396,6 +1543,33 @@
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ── POLLING COUNT — ambil dari Google Sheets CSV ──
+    (async function fetchPollingCount() {
+      const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=805070618&single=true&output=csv';
+      const el = document.getElementById('pollingCountNum');
+      try {
+        const res = await fetch(CSV_URL + '&t=' + Date.now());
+        const text = await res.text();
+        // hitung baris data (semua minus header)
+        const lines = text.split(/\r?\n/).filter(l => l.trim()).length - 1;
+        const count = Math.max(0, lines);
+        // animasi count-up
+        let start = 0;
+        const dur = 900;
+        const t0 = performance.now();
+        function step(now) {
+          const p = Math.min((now - t0) / dur, 1);
+          const ease = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.floor(count * ease);
+          if (p < 1) requestAnimationFrame(step);
+          else el.textContent = count;
+        }
+        requestAnimationFrame(step);
+      } catch(e) {
+        el.textContent = '?';
+      }
+    })();
   </script>
 
 </body>
