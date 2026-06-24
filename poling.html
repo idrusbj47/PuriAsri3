@@ -337,6 +337,18 @@
     }
     .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
 
+    .btn-print {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--green-950); text-decoration: none;
+      letter-spacing: 0.04em; padding: 6px 12px;
+      border: 1px solid var(--gold-400); border-radius: 20px;
+      background: linear-gradient(135deg, var(--gold-300), var(--gold-400));
+      transition: all 0.2s ease; cursor: pointer; font-family: inherit;
+      white-space: nowrap; box-shadow: 0 1px 6px rgba(196,154,60,0.25);
+    }
+    .btn-print:hover { background: linear-gradient(135deg, var(--gold-200), var(--gold-300)); box-shadow: 0 2px 10px rgba(196,154,60,0.4); }
+    .btn-print svg { display: block; }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 640px) {
       header { padding: 0 1rem; }
@@ -348,6 +360,35 @@
       .response-time { margin-left: 0; }
       .btn-refresh-label { display: none; }
       .btn-back span { display: none; }
+      .btn-print-label { display: none; }
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      body { background: #fff; }
+      body::before, .deco-ring, .sparkle-container { display: none !important; }
+      header, .scroll-top, .filter-row, .btn-refresh, .btn-back { display: none !important; }
+
+      main { max-width: 100%; padding: 0 8px; }
+      .hero { margin-bottom: 24px; }
+
+      .stat-chip, .vote-bar-item, .response-card {
+        box-shadow: none !important; border: 1px solid #ddd !important;
+        break-inside: avoid; page-break-inside: avoid;
+      }
+      .response-card { transform: none !important; opacity: 1 !important; }
+
+      /* Buka semua komentar panjang secara penuh saat dicetak */
+      .response-comment.clamp {
+        display: block !important; -webkit-line-clamp: unset !important; overflow: visible !important;
+      }
+      .comment-toggle { display: none !important; }
+
+      .bar-fill { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .response-card::before { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .response-opsi-badge { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+
+      .responses-section, .vote-section { break-inside: auto; }
     }
   </style>
 </head>
@@ -372,6 +413,10 @@
       <button class="btn-refresh" id="btnRefresh" onclick="refreshData()" title="Perbarui data">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-5"/></svg>
         <span class="btn-refresh-label">Perbarui</span>
+      </button>
+      <button class="btn-print" id="btnPrint" onclick="window.print()" title="Cetak hasil polling">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="0.5"/></svg>
+        <span class="btn-print-label">Cetak</span>
       </button>
       <a href="index.html" class="btn-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
