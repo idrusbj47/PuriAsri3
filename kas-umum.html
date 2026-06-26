@@ -245,16 +245,15 @@ html{scroll-behavior:smooth}
   .nama-cell{font-size:12px}
   .dot{width:16px;height:16px;font-size:7.5px}
 
-  /* Susunan header mobile: hamburger → refresh → print → cutoff, rapi kiri-kanan */
-  .header-right{width:100%;justify-content:space-between;flex-wrap:wrap;row-gap:10px;column-gap:8px}
+  /* Susunan header mobile: hamburger → refresh → print → cutoff, sejajar satu baris */
+  .header-right{width:100%;justify-content:flex-start;flex-wrap:nowrap;column-gap:8px}
   .ham-btn{order:1}
   .btn-refresh{order:2}
   .btn-print{order:3}
-  .cutoff-badge{order:4;margin-left:auto}
-}
-@media(max-width:420px){
-  .header-right{justify-content:flex-start}
-  .cutoff-badge{flex:1 1 100%;justify-content:center;margin-left:0}
+  .cutoff-badge{order:4;margin-left:6px;flex:0 1 auto;min-width:0;padding:5px 10px 5px 8px;gap:5px}
+  .cutoff-badge .cutoff-label{display:none}
+  .cutoff-badge br{display:none}
+  .cutoff-badge #cutoff-value{font-size:11px}
 }
 @media(max-width:480px){
   .stats-grid{grid-template-columns:1fr 1fr}
