@@ -225,6 +225,7 @@ html{scroll-behavior:smooth}
 .tgl-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);white-space:nowrap}
 .uraian-cell{font-size:12.5px}
 .uraian-cell.sosial{color:#4a3060;font-weight:600}
+[data-theme="dark"] .uraian-cell.sosial{color:#cdbdf2}
 .uraian-cell.iuran{color:var(--green);font-weight:500}
 
 /* KEMATIAN ROW HIGHLIGHT */
@@ -236,6 +237,8 @@ tr.row-kematian:hover td{background:#ece7f5!important}
 tr.row-kematian td:first-child{
   border-left:4px solid #7c6fa0;
 }
+[data-theme="dark"] tr.row-kematian td{background:rgba(124,111,160,0.16);border-bottom:1px solid rgba(124,111,160,0.35)}
+[data-theme="dark"] tr.row-kematian:hover td{background:rgba(124,111,160,0.26)!important}
 .badge-kematian{
   display:inline-flex;align-items:center;gap:4px;
   font-size:10px;font-weight:600;letter-spacing:.02em;
@@ -251,7 +254,8 @@ tr.row-kematian td:first-child{
 .amount-cell.sisa{color:var(--text2)}
 .amount-cell.empty{color:var(--text3)}
 .bulan-tag{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;font-weight:600;background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:6px;color:var(--text2)}
-.bulan-tag.header-row{background:linear-gradient(135deg,var(--green-bg),#d0f0e4);border-color:var(--green-mid);color:var(--green)}
+.bulan-tag.header-row{background:rgba(29,168,118,0.14);border-color:var(--green-mid);color:var(--green)}
+[data-theme="dark"] .bulan-tag.header-row{background:rgba(34,196,126,0.18);color:#5fe3a0}
 .tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg);flex-wrap:wrap;gap:6px}
 .tfoot-totals{display:flex;gap:16px;font-family:'DM Mono',monospace;font-size:11px}
 .tfoot-totals span{display:flex;align-items:center;gap:4px}
