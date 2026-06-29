@@ -1,98 +1,609 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Laporan Kas DKM — Puri Asri 3</title>
-  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    :root{
-      --green-900:#132b17;--green-800:#1e4225;--green-700:#265930;--green-600:#2e7038;--green-500:#3a8c45;--green-100:#ddf0e0;--green-50:#f2fbf4;
-      --gold-700:#7a5c1e;--gold-500:#c49a3c;--gold-400:#d4af5a;--gold-100:#f8f0da;
-      --cream-bg:#f7f5f0;--cream-card:#fdfcfa;--text-dark:#1a2b1c;--text-muted:#6b8570;
-      --border-light:rgba(46,112,56,0.12);--border-mid:rgba(46,112,56,0.22);
-      --radius-md:12px;--radius-lg:20px;
-      --shadow-card:0 2px 12px rgba(30,66,37,0.08),0 1px 3px rgba(30,66,37,0.06);
-    }
-    html{scroll-behavior:smooth;}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream-bg);color:var(--text-dark);min-height:100vh;}
-    header{position:sticky;top:0;z-index:100;background:var(--green-800);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
-    .header-brand{display:flex;align-items:center;gap:14px;}
-    .logo-mark{width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold-400);overflow:hidden;flex-shrink:0;}
-    .logo-mark img{width:26px;height:26px;object-fit:contain;border-radius:50%;}
-    .header-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#fff;}
-    .header-sub{font-size:11px;color:var(--green-100);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px;}
-    .header-badge{font-size:11px;color:#e3c97e;background:rgba(196,154,60,0.15);border:1px solid rgba(196,154,60,0.25);border-radius:20px;padding:3px 12px;}
-    main{max-width:760px;margin:0 auto;padding:40px 24px 80px;}
-    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--green-600);text-decoration:none;font-weight:500;margin-bottom:28px;}
-    .back-link:hover{gap:10px;color:var(--green-700);}
-    .hero{text-align:center;margin-bottom:36px;}
-    .hero-eyebrow{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-600);font-weight:500;margin-bottom:14px;}
-    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:500;color:var(--green-900);margin-bottom:12px;}
-    .hero-desc{font-size:14px;color:var(--text-muted);line-height:1.7;max-width:520px;margin:0 auto;}
-    .placeholder-card{background:var(--cream-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:36px 28px;text-align:center;margin-bottom:28px;}
-    .placeholder-icon{width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:var(--gold-100);border:1px solid rgba(196,154,60,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold-700);}
-    .placeholder-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--green-900);margin-bottom:8px;}
-    .placeholder-desc{font-size:13.5px;color:var(--text-muted);line-height:1.65;max-width:420px;margin:0 auto;}
-    table{width:100%;border-collapse:collapse;background:var(--cream-card);border:1px solid var(--border-light);border-radius:var(--radius-md);overflow:hidden;}
-    th,td{padding:12px 14px;font-size:12.5px;text-align:left;border-bottom:1px solid var(--border-light);}
-    th{background:var(--green-50);color:var(--green-700);font-weight:600;letter-spacing:0.03em;text-transform:uppercase;font-size:10.5px;}
-    td{color:var(--text-muted);}
-    td.empty-row{text-align:center;padding:22px;font-style:italic;}
-    footer{text-align:center;padding:24px;border-top:1px solid var(--border-light);font-size:12px;color:var(--text-muted);}
-    footer strong{color:var(--green-700);font-weight:500;}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Laporan Kas DKM — Puri Asri 3</title>
+<link rel="icon" type="image/png" href="Logo Dkm.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0a7c52;--green-bg:#e6f5ee;--green-mid:#1da876;
+  --red:#b5341a;--red-bg:#fdeee9;
+  --amber:#8a5c00;--amber-bg:#fef3d8;
+  --text:#1a1a18;--text2:#5c5c58;--text3:#9a9a94;
+  --bg:#f7f6f2;--surface:#ffffff;--border:#e8e6df;--border2:#d4d1c8;
+  --radius:10px;--radius-lg:14px;
+}
+[data-theme="dark"]{
+  --green:#22c47e;--green-bg:#0d3327;--green-mid:#22c47e;
+  --red:#f07a63;--red-bg:#3b1a14;
+  --amber:#f0c060;--amber-bg:#3a2a00;
+  --text:#e8e6df;--text2:#b0aea6;--text3:#6a6a64;
+  --bg:#111110;--surface:#1e1e1c;--border:#2e2e2a;--border2:#3e3e38;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+html{scroll-behavior:smooth}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100;transition:background .35s,box-shadow .35s,backdrop-filter .35s,border-color .35s}
+.header.scrolled{background:rgba(247,246,242,0.68);backdrop-filter:blur(16px) saturate(1.5);-webkit-backdrop-filter:blur(16px) saturate(1.5);box-shadow:0 4px 28px rgba(20,30,25,0.10);border-bottom-color:rgba(232,230,223,0.5)}
+[data-theme="dark"] .header.scrolled{background:rgba(17,17,16,0.62);box-shadow:0 4px 28px rgba(0,0,0,0.45);border-bottom-color:rgba(46,46,42,0.5)}
+.logo-area{display:flex;align-items:center;gap:12px;border-radius:var(--radius-lg);transition:opacity .2s;text-decoration:none;color:inherit}
+.logo-area:hover{opacity:.88}
+.logo-circle{width:42px;height:42px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;border:2.5px solid #d9b65c;padding:3px;overflow:hidden;box-shadow:0 0 0 3px rgba(217,182,92,0.16),0 2px 8px rgba(10,124,82,0.18);transition:box-shadow .25s,transform .25s}
+.logo-area:hover .logo-circle{box-shadow:0 0 0 5px rgba(217,182,92,0.28),0 2px 10px rgba(10,124,82,0.25);transform:scale(1.05)}
+.logo-text h1{font-size:16px;font-weight:600;color:var(--text);line-height:1.2}
+.logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
+.header-right{display:flex;align-items:center;gap:8px}
+
+/* BUTTONS */
+.btn-refresh,.btn-print{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer;letter-spacing:.02em;white-space:nowrap;transition:all .2s ease}
+.btn-refresh{background:var(--surface);color:var(--text2);border:1px solid var(--border2)}
+.btn-refresh:hover{background:var(--bg);border-color:var(--green-mid);color:var(--green)}
+.btn-refresh svg{transition:transform .5s ease;flex-shrink:0}
+.btn-refresh.spinning svg{animation:spin .8s linear infinite}
+.btn-print{background:linear-gradient(135deg,#1fb37e,#0a7c52);color:#fff;border:1px solid #0a7c52;box-shadow:0 2px 10px rgba(10,124,82,0.25)}
+.btn-print:hover{box-shadow:0 4px 16px rgba(10,124,82,0.38);transform:translateY(-1px)}
+@media(max-width:560px){.btn-refresh-label,.btn-print-label{display:none}.btn-refresh,.btn-print{padding:0 10px}}
+
+/* CUTOFF BADGE */
+.cutoff-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:linear-gradient(135deg,#e6f5ee 0%,#f0faf5 100%);border:1px solid #b3e2cc;font-size:11.5px;font-family:'DM Mono',monospace;color:#0a7c52;font-weight:500;white-space:nowrap}
+.cutoff-badge .cutoff-label{font-size:10px;color:#5c5c58;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#1da876;position:relative;flex-shrink:0}
+.pulse-dot::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:#1da876;opacity:.35;animation:pulse-ring 1.8s ease-out infinite}
+.pulse-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;background:#1da876;opacity:.15;animation:pulse-ring 1.8s ease-out infinite .4s}
+@keyframes pulse-ring{0%{transform:scale(.7);opacity:.4}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
+
+/* THEME TOGGLE */
+.theme-toggle{position:fixed;bottom:24px;right:24px;z-index:1000;width:52px;height:52px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);box-shadow:0 2px 16px rgba(0,0,0,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:box-shadow .2s,transform .2s;padding:0;overflow:hidden}
+.theme-toggle:hover{transform:scale(1.08);box-shadow:0 4px 20px rgba(0,0,0,0.22)}
+.theme-toggle:active{transform:scale(0.95)}
+.theme-toggle svg{width:32px;height:32px;overflow:visible}
+@keyframes sun-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes moon-rock{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@keyframes ray-pulse{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.55;transform:scaleY(.65)}}
+@keyframes star-twinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1)}}
+.sun-group{transform-origin:16px 16px;animation:sun-spin 14s linear infinite}
+.sun-ray{transform-origin:16px 16px;animation:ray-pulse 2.4s ease-in-out infinite}
+.sun-ray:nth-child(2){animation-delay:.3s}.sun-ray:nth-child(3){animation-delay:.6s}.sun-ray:nth-child(4){animation-delay:.9s}
+.sun-ray:nth-child(5){animation-delay:1.2s}.sun-ray:nth-child(6){animation-delay:1.5s}.sun-ray:nth-child(7){animation-delay:1.8s}.sun-ray:nth-child(8){animation-delay:2.1s}
+.moon-shape{animation:moon-rock 4s ease-in-out infinite;transform-origin:16px 16px}
+.star1{animation:star-twinkle 2.5s ease-in-out infinite}.star2{animation:star-twinkle 2.5s ease-in-out infinite .8s}.star3{animation:star-twinkle 2.5s ease-in-out infinite 1.6s}
+
+/* SCROLL TOP */
+.scroll-top{position:fixed;right:24px;bottom:90px;z-index:200;width:42px;height:42px;border-radius:50%;background:var(--green);color:#fff;border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(10,124,82,.32);opacity:0;transform:translateY(14px) scale(.88);transition:opacity .3s,transform .3s,background .2s;pointer-events:none}
+.scroll-top.visible{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
+.scroll-top:hover{background:#0a6b46}
+@media(max-width:480px){.scroll-top{right:16px;bottom:80px;width:38px;height:38px}}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:1.5rem}
+
+/* PAGE TITLE */
+.page-title-bar{margin-bottom:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--green);text-decoration:none;font-weight:500;margin-bottom:14px;transition:gap .2s}
+.back-link:hover{gap:10px}
+.page-title-bar h2{font-size:22px;font-weight:600;color:var(--text);line-height:1.2}
+.page-title-bar p{font-size:13px;color:var(--text3);margin-top:4px}
+
+/* FINANCE BAR */
+.finance-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;flex-direction:column;gap:4px}
+.fin-card .fin-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.fin-card .fin-value{font-size:22px;font-weight:600;font-family:'DM Mono',monospace;line-height:1.2}
+.fin-card .fin-sub{font-size:11px;color:var(--text3)}
+.fin-card.masuk{border-top:3px solid var(--green-mid)}
+.fin-card.masuk .fin-value{color:var(--green)}
+.fin-card.keluar{border-top:3px solid #e85d3a}
+.fin-card.keluar .fin-value{color:var(--red)}
+.fin-card.saldo{border-top:3px solid #d4a017;background:var(--amber-bg)}
+.fin-card.saldo .fin-value{color:var(--amber)}
+@media(max-width:600px){.finance-bar{grid-template-columns:1fr}}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
+.stat-card .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
+.stat-card .value{font-size:28px;font-weight:600;color:var(--text);line-height:1;font-family:'DM Mono',monospace}
+.stat-card .sub{font-size:11px;color:var(--text3);margin-top:4px}
+.stat-card.green{border-left:3px solid var(--green-mid)}.stat-card.green .value{color:var(--green)}
+.stat-card.red{border-left:3px solid #e85d3a}.stat-card.red .value{color:var(--red)}
+.stat-card.amber{border-left:3px solid #d4a017}.stat-card.amber .value{color:var(--amber)}
+@media(max-width:600px){.stats-row{grid-template-columns:repeat(2,1fr)}}
+
+/* FILTER ROW */
+.filter-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.filter-row input{flex:1;min-width:200px;height:36px;border:1px solid var(--border2);border-radius:var(--radius);padding:0 12px;font-size:13px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;transition:border .15s}
+.filter-row input:focus{border-color:#1da876}
+.fbtn{padding:0 13px;height:36px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);font-size:12.5px;cursor:pointer;font-family:inherit;color:var(--text2);font-weight:500;transition:all .2s}
+.fbtn:hover{background:var(--bg)}
+.fbtn.on{background:linear-gradient(135deg,rgba(29,168,118,0.20),rgba(10,124,82,0.10));border-color:rgba(29,168,118,0.45);color:var(--green);font-weight:600}
+[data-theme="dark"] .fbtn.on{background:linear-gradient(135deg,rgba(34,196,126,0.22),rgba(34,196,126,0.08));border-color:rgba(34,196,126,0.4);color:#5fe3a0}
+
+/* TABLE */
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap table{width:100%;border-collapse:collapse;font-size:12.5px}
+.table-wrap thead th{background:var(--bg);border-bottom:1px solid var(--border);padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.table-wrap tbody td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
+.table-wrap tbody tr:last-child td{border-bottom:none}
+.table-wrap tbody tr:hover td{background:rgba(29,168,118,0.07)}
+[data-theme="dark"] .table-wrap tbody tr:hover td{background:rgba(34,196,126,0.12)}
+.no-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
+.ket-cell{font-size:12px;color:var(--text2);max-width:220px}
+.date-cell{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap}
+.rp-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.rp-in{color:var(--green)}
+.rp-out{color:var(--red)}
+.rp-saldo{color:var(--amber)}
+.badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 9px;border-radius:999px}
+.badge-infaq{background:var(--green-bg);color:var(--green)}
+.badge-pengeluaran{background:var(--red-bg);color:var(--red)}
+.tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg);flex-wrap:wrap;gap:6px}
+
+/* LOADING / ERROR */
+.state-box{text-align:center;padding:3rem 1rem;color:var(--text3)}
+.spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--green-mid);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err-box{background:var(--red-bg);border:1px solid #f5c0b0;border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:13px;color:var(--red)}
+
+/* FOOTER */
+.page-footer{text-align:center;padding:28px 1rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border);margin-top:2rem}
+.page-footer strong{color:var(--green);font-weight:500}
+
+/* PRINT */
+@media print{
+  @page{margin:10mm}
+  :root,[data-theme="dark"]{
+    --text:#1a1a18!important;--text2:#5c5c58!important;--text3:#9a9a94!important;
+    --bg:#f7f6f2!important;--surface:#ffffff!important;--border:#e8e6df!important;--border2:#d4d1c8!important;
+    --green:#0a7c52!important;--green-bg:#e6f5ee!important;--green-mid:#1da876!important;
+    --red:#b5341a!important;--red-bg:#fdeee9!important;--amber:#8a5c00!important;--amber-bg:#fef3d8!important;
+  }
+  .filter-row,.btn-refresh,.btn-print,.scroll-top,.theme-toggle{display:none!important}
+  body{background:#fff}
+  .header{position:static!important;background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;border-bottom:1.5px solid #ccc!important;padding:0 0 10px 0!important;margin-bottom:14px}
+  .table-wrap{overflow:visible!important;border:1px solid #ccc}
+  .table-wrap table{font-size:9.5px}
+  .table-wrap thead th{padding:5px 6px;font-size:8px}
+  .table-wrap tbody td{padding:3px 6px}
+}
+</style>
 </head>
 <body>
 
-  <header>
-    <div class="header-brand">
-      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo Puri Asri 3"></div>
-      <div>
-        <div class="header-title">Puri Asri 3</div>
-        <div class="header-sub">Menu &middot; Kas Komunitas &middot; TH. 2026</div>
+<!-- HEADER -->
+<header class="header" id="main-header">
+  <a class="logo-area" href="index2.html">
+    <div class="logo-circle">
+      <img src="Logo Dkm.png" alt="Logo DKM Puri Asri 3" style="width:32px;height:32px;object-fit:contain;border-radius:50%;" onerror="this.style.display='none';this.parentNode.innerHTML='🕌'"/>
+    </div>
+    <div class="logo-text">
+      <h1>Puri Asri 3</h1>
+      <p>Kas DKM Al-Barokah · TH. 2026</p>
+    </div>
+  </a>
+  <div class="header-right">
+    <button class="btn-refresh" id="btn-refresh" onclick="refreshKas()" title="Refresh data">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+      <span class="btn-refresh-label">Refresh</span>
+    </button>
+    <button class="btn-print" onclick="window.print()" title="Cetak laporan">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+        <rect x="6" y="14" width="12" height="8"/>
+      </svg>
+      <span class="btn-print-label">Cetak</span>
+    </button>
+    <div class="cutoff-badge" id="cutoff-badge" style="display:none">
+      <div class="pulse-dot"></div>
+      <span class="cutoff-label">Update</span>
+      <span id="cutoff-value">—</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- PAGE TITLE -->
+  <div class="page-title-bar">
+    <a class="back-link" href="index2.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Kembali ke Menu Kas Komunitas
+    </a>
+    <h2>🕌 Laporan Kas DKM Al-Barokah</h2>
+    <p>Rekap pemasukan, pengeluaran, dan saldo kas Dewan Kemakmuran Masjid Al-Barokah Puri Asri 3</p>
+  </div>
+
+  <!-- ERROR BOX -->
+  <div id="err-box" class="err-box" style="display:none"></div>
+
+  <!-- LOADING -->
+  <div id="loading" class="state-box">
+    <div class="spinner"></div>
+    <p>Mengambil data dari Google Sheets…</p>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content" style="display:none">
+
+    <!-- FINANCE BAR -->
+    <div class="finance-bar">
+      <div class="fin-card masuk">
+        <div class="fin-label">💰 Total Pemasukan</div>
+        <div class="fin-value" id="fin-masuk">—</div>
+        <div class="fin-sub">dari infaq & donasi</div>
+      </div>
+      <div class="fin-card keluar">
+        <div class="fin-label">📤 Total Pengeluaran</div>
+        <div class="fin-value" id="fin-keluar">—</div>
+        <div class="fin-sub">operasional masjid</div>
+      </div>
+      <div class="fin-card saldo">
+        <div class="fin-label">🏦 Sisa Saldo</div>
+        <div class="fin-value" id="fin-saldo">—</div>
+        <div class="fin-sub">masuk dikurangi pengeluaran</div>
       </div>
     </div>
-    <div class="header-badge">Kas Komunitas</div>
-  </header>
 
-  <main>
-    <a class="back-link" href="index2.html">← Kembali ke Menu Kas Komunitas</a>
-
-    <div class="hero">
-      <div class="hero-eyebrow">Laporan Kas</div>
-      <h1 class="hero-title">DKM</h1>
-      <p class="hero-desc">Halaman laporan kas DKM ini sedang disiapkan oleh pengurus. Data transaksi akan ditampilkan di sini setelah diperbarui.</p>
-    </div>
-
-    <div class="placeholder-card">
-      <div class="placeholder-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/>
-        </svg>
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card green">
+        <div class="label">Total Transaksi</div>
+        <div class="value" id="s-total">—</div>
+        <div class="sub">baris data</div>
       </div>
-      <div class="placeholder-title">Laporan Belum Tersedia</div>
-      <div class="placeholder-desc">Pengurus kas DKM belum mengisi data transaksi. Hubungi bendahara untuk informasi lebih lanjut.</div>
+      <div class="stat-card amber">
+        <div class="label">Tr. Pemasukan</div>
+        <div class="value" id="s-masuk-count">—</div>
+        <div class="sub">infaq & donasi</div>
+      </div>
+      <div class="stat-card red">
+        <div class="label">Tr. Pengeluaran</div>
+        <div class="value" id="s-keluar-count">—</div>
+        <div class="sub">biaya operasional</div>
+      </div>
     </div>
 
-    <table>
-      <thead>
-        <tr><th>Tanggal</th><th>Keterangan</th><th>Masuk</th><th>Keluar</th><th>Saldo</th></tr>
-      </thead>
-      <tbody>
-        <tr><td colspan="5" class="empty-row">— Belum ada data —</td></tr>
-      </tbody>
-    </table>
-  </main>
+    <!-- FILTER -->
+    <div class="filter-row">
+      <input type="text" id="search" placeholder="🔍  Cari keterangan transaksi…" oninput="render()"/>
+      <button class="fbtn on" id="fb-all" onclick="setFilter('all')">Semua</button>
+      <button class="fbtn" id="fb-masuk" onclick="setFilter('masuk')">Pemasukan</button>
+      <button class="fbtn" id="fb-keluar" onclick="setFilter('keluar')">Pengeluaran</button>
+    </div>
 
-  <footer>
-    <strong>Puri Asri 3</strong> &nbsp;&middot;&nbsp; RT 01 / RW 12 &nbsp;&middot;&nbsp; Tahun 2026 | Jonggol<br>
-    <span style="margin-top:4px;display:block;">Dikelola oleh Pengurus RT &middot; Seluruh data bersifat internal warga</span>
-  </footer>
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:40px">No</th>
+            <th style="width:110px">Tanggal</th>
+            <th>Keterangan</th>
+            <th style="text-align:right;width:130px">Pemasukan</th>
+            <th style="text-align:right;width:130px">Pengeluaran</th>
+            <th style="text-align:right;width:130px">Saldo</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="tfoot">
+        <span id="foot-count"></span>
+        <span id="foot-total" style="font-family:'DM Mono',monospace;font-size:11px"></span>
+      </div>
+    </div>
 
+  </div><!-- /content -->
+</div><!-- /container -->
+
+<!-- Theme Toggle -->
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Ganti Tema" aria-label="Toggle tema">
+  <svg id="icon-sun" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g class="sun-group">
+      <line class="sun-ray" x1="16" y1="2" x2="16" y2="6" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="16" y1="26" x2="16" y2="30" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="2" y1="16" x2="6" y2="16" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="26" y1="16" x2="30" y2="16" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="5.5" y1="5.5" x2="8.4" y2="8.4" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="23.6" y1="23.6" x2="26.5" y2="26.5" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="26.5" y1="5.5" x2="23.6" y2="8.4" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+      <line class="sun-ray" x1="8.4" y1="23.6" x2="5.5" y2="26.5" stroke="#e8a000" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <circle cx="16" cy="16" r="6" fill="#f5b800" stroke="#e8a000" stroke-width="1.2"/>
+  </svg>
+  <svg id="icon-moon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <g class="moon-shape">
+      <path d="M20 9.5C17.5 9.5 14.5 11.2 13.2 14C11.6 17.4 12.8 21.5 15.8 23.6C13.8 24.1 11.5 23.8 9.7 22.5C6.2 20 5.3 15.2 7.8 11.7C10 8.6 14 7.3 17.5 8.5C18.4 8.8 19.3 9.1 20 9.5Z" fill="#a8c0f8" stroke="#7aa0f5" stroke-width="1"/>
+    </g>
+    <circle class="star1" cx="24" cy="8" r="1.5" fill="#c8d8ff"/>
+    <circle class="star2" cx="27" cy="15" r="1" fill="#c8d8ff"/>
+    <circle class="star3" cx="22" cy="20" r="1.2" fill="#c8d8ff"/>
+  </svg>
+</button>
+
+<!-- Scroll to top -->
+<button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Ke atas">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 14.5 12 7.5 19 14.5"/></svg>
+</button>
+
+<footer class="page-footer">
+  <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026 | Jonggol<br>
+  <span style="margin-top:4px;display:block;">Dikelola oleh Pengurus DKM Al-Barokah · Seluruh data bersifat internal warga</span>
+</footer>
+
+<script>
+// ── CONFIG ──
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRq765JFbad6wYpNVNhwLmOb9hdKgQvTgdsknLoL_NJljhKltGj6L69-F_e9r6Q6v9Pdw0YQvQVSBQ/pub?gid=736333875&single=true&output=csv';
+
+// ── STATE ──
+let allRows = [], filterMode = 'all';
+
+// ── HELPERS ──
+function parseRp(v) {
+  if (!v) return 0;
+  v = v.toString().replace(/"/g, '').replace(/Rp/gi, '').replace(/\./g, '').replace(/,/g, '').trim();
+  const n = parseFloat(v);
+  return isNaN(n) ? 0 : n;
+}
+function fmtRp(n) {
+  if (!n || n === 0) return '—';
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+function fmtRpShort(n) {
+  if (!n || n === 0) return '—';
+  if (n >= 1000000) return 'Rp ' + (n / 1000000).toFixed(1).replace('.0', '') + ' Jt';
+  if (n >= 1000) return 'Rp ' + Math.round(n / 1000) + 'K';
+  return 'Rp ' + n;
+}
+
+// Format tanggal: m/d/yyyy → dd/mm/yyyy
+function fmtTgl(raw) {
+  if (!raw || !raw.trim()) return '—';
+  // Coba parse m/d/yyyy atau d/m/yyyy
+  const parts = raw.trim().split('/');
+  if (parts.length === 3) {
+    let [a, b, y] = parts;
+    if (y.length === 2) y = '20' + y;
+    // Google Sheets biasanya export m/d/yyyy
+    const month = a.padStart(2, '0');
+    const day   = b.padStart(2, '0');
+    return `${day}/${month}/${y}`;
+  }
+  return raw.trim();
+}
+
+// ── CSV PARSER ──
+function splitLine(line) {
+  const r = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; }
+    else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
+    else { cur += c; }
+  }
+  r.push(cur.trim());
+  return r;
+}
+
+function parseCSV(text) {
+  allRows = [];
+  const lines = text.split('\n');
+  let headerIdx = -1;
+  let colNo = -1, colTgl = -1, colKet = -1, colMasuk = -1, colKeluar = -1, colSaldo = -1;
+
+  // Cari baris header yang mengandung TANGGAL dan PEMASUKAN
+  for (let i = 0; i < Math.min(20, lines.length); i++) {
+    const up = lines[i].toUpperCase().replace(/"/g, '');
+    if ((up.includes('TANGGAL') || up.includes('TGL')) && (up.includes('PEMASUKAN') || up.includes('MASUK'))) {
+      headerIdx = i;
+      const cols = splitLine(lines[i]);
+      cols.forEach((c, idx) => {
+        const cu = c.toUpperCase().replace(/"/g, '').trim();
+        if (cu === 'NO' || cu === 'NO.') colNo = idx;
+        else if (cu.includes('TANGGAL') || cu.includes('TGL')) colTgl = idx;
+        else if (cu.includes('KETERANGAN') || cu.includes('KET') || cu.includes('URAIAN') || cu === '') {
+          // kolom deskripsi — ambil kolom ke-2 jika ada nama
+          if (colKet < 0) colKet = idx;
+        }
+        else if (cu.includes('PEMASUKAN') || cu === 'MASUK' || cu === 'DEBIT') colMasuk = idx;
+        else if (cu.includes('PENGELUARAN') || cu === 'KELUAR' || cu === 'KREDIT') colKeluar = idx;
+        else if (cu.includes('SALDO')) colSaldo = idx;
+      });
+      // Fallback: kolom ke-2 (index 2) biasanya keterangan di format DKM
+      if (colKet < 0) colKet = 2;
+      break;
+    }
+  }
+
+  if (headerIdx < 0) {
+    throw new Error('Header tabel tidak ditemukan. Pastikan sheet memiliki kolom TANGGAL dan PEMASUKAN.');
+  }
+
+  // Parsing baris data
+  for (let i = headerIdx + 1; i < lines.length; i++) {
+    const raw = lines[i];
+    if (!raw.trim()) continue;
+    const cols = splitLine(raw);
+
+    const rawUp = cols.map(c => c.replace(/"/g,'').trim().toUpperCase());
+
+    // Stop di baris JUMLAH / TOTAL
+    if (rawUp.some(c => c === 'JUMLAH' || c === 'TOTAL')) break;
+
+    const no     = colNo >= 0   ? cols[colNo]?.replace(/"/g,'').trim()  : '';
+    const tgl    = colTgl >= 0  ? cols[colTgl]?.replace(/"/g,'').trim() : '';
+    const ket    = colKet >= 0  ? cols[colKet]?.replace(/"/g,'').trim() : '';
+    const masuk  = colMasuk >= 0  ? parseRp(cols[colMasuk])  : 0;
+    const keluar = colKeluar >= 0 ? parseRp(cols[colKeluar]) : 0;
+    const saldo  = colSaldo >= 0  ? parseRp(cols[colSaldo])  : 0;
+
+    // Skip baris kosong (tidak ada tanggal, keterangan, dan nilai)
+    if (!tgl && !ket && masuk === 0 && keluar === 0) continue;
+
+    // Skip baris yang hanya berisi saldo berulang tanpa transaksi
+    if (!tgl && !ket && masuk === 0 && keluar === 0 && saldo > 0) continue;
+
+    allRows.push({ no, tgl: fmtTgl(tgl), ket, masuk, keluar, saldo });
+  }
+}
+
+// ── RENDER ──
+function render() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  let list = allRows.filter(r => {
+    if (filterMode === 'masuk'  && r.masuk  === 0) return false;
+    if (filterMode === 'keluar' && r.keluar === 0) return false;
+    if (q) {
+      const hay = (r.ket + ' ' + r.tgl).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  document.getElementById('foot-count').textContent =
+    `Menampilkan ${list.length} dari ${allRows.length} transaksi`;
+
+  const totalMasuk  = list.reduce((s, r) => s + r.masuk,  0);
+  const totalKeluar = list.reduce((s, r) => s + r.keluar, 0);
+  if (list.length !== allRows.length) {
+    document.getElementById('foot-total').textContent =
+      `Masuk: ${fmtRp(totalMasuk)} | Keluar: ${fmtRp(totalKeluar)}`;
+  } else {
+    document.getElementById('foot-total').textContent = '';
+  }
+
+  const tbody = document.getElementById('tbody');
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:28px;color:var(--text3);font-style:italic">— Tidak ada data yang cocok —</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = list.map((r, i) => {
+    return `<tr>
+      <td class="no-cell">${i + 1}</td>
+      <td class="date-cell">${r.tgl || '—'}</td>
+      <td class="ket-cell">${r.ket || '<span style="color:var(--text3);font-style:italic">—</span>'}</td>
+      <td class="rp-cell rp-in">${r.masuk  > 0 ? fmtRp(r.masuk)  : ''}</td>
+      <td class="rp-cell rp-out">${r.keluar > 0 ? fmtRp(r.keluar) : ''}</td>
+      <td class="rp-cell rp-saldo">${r.saldo > 0 ? fmtRp(r.saldo) : '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── INIT ──
+async function init() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('content').style.display = 'none';
+  document.getElementById('err-box').style.display = 'none';
+  document.getElementById('cutoff-badge').style.display = 'none';
+  filterMode = 'all';
+
+  try {
+    const t = Date.now();
+    const res = await fetch(`${CSV_URL}&t=${t}`);
+    if (!res.ok) throw new Error('Gagal mengambil data dari Google Sheets.');
+    const text = await res.text();
+
+    parseCSV(text);
+
+    if (allRows.length === 0) {
+      throw new Error('Tidak ada data transaksi yang berhasil diproses.');
+    }
+
+    const totalMasuk  = allRows.reduce((s, r) => s + r.masuk,  0);
+    const totalKeluar = allRows.reduce((s, r) => s + r.keluar, 0);
+    const saldo       = totalMasuk - totalKeluar;
+    const masukCount  = allRows.filter(r => r.masuk  > 0).length;
+    const keluarCount = allRows.filter(r => r.keluar > 0).length;
+
+    document.getElementById('fin-masuk').textContent  = fmtRpShort(totalMasuk);
+    document.getElementById('fin-keluar').textContent = fmtRpShort(totalKeluar);
+    document.getElementById('fin-saldo').textContent  = fmtRpShort(saldo);
+    document.getElementById('s-total').textContent       = allRows.length;
+    document.getElementById('s-masuk-count').textContent = masukCount;
+    document.getElementById('s-keluar-count').textContent= keluarCount;
+
+    // Cutoff: tanggal terbaru
+    const tglList = allRows
+      .map(r => r.tgl)
+      .filter(t => t && t.trim() && t !== '—')
+      .map(t => {
+        const parts = t.split('/');
+        if (parts.length === 3) {
+          let [d, m, y] = parts;
+          if (y.length === 2) y = '20' + y;
+          return { raw: t, date: new Date(+y, +m - 1, +d) };
+        }
+        return { raw: t, date: new Date(0) };
+      });
+    const latestTgl = tglList.length
+      ? tglList.reduce((a, b) => b.date > a.date ? b : a).raw
+      : '—';
+    document.getElementById('cutoff-value').textContent = latestTgl;
+    document.getElementById('cutoff-badge').style.display = 'inline-flex';
+
+    render();
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('content').style.display = 'block';
+
+  } catch (e) {
+    console.error(e);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('err-box').style.display = 'block';
+    document.getElementById('err-box').innerHTML =
+      `⚠️ <strong>Error Pengambilan Data:</strong> ${e.message}`;
+  }
+}
+
+function refreshKas() {
+  const btn = document.getElementById('btn-refresh');
+  btn.classList.add('spinning');
+  setTimeout(() => btn.classList.remove('spinning'), 1000);
+  init();
+}
+
+function setFilter(f) {
+  filterMode = f;
+  ['all','masuk','keluar'].forEach(x =>
+    document.getElementById('fb-' + x).classList.toggle('on', x === f)
+  );
+  render();
+}
+
+// ── SCROLL & HEADER ──
+(function() {
+  const hdr = document.querySelector('.header');
+  const topBtn = document.getElementById('scroll-top');
+  window.addEventListener('scroll', () => {
+    hdr.classList.toggle('scrolled', window.scrollY > 10);
+    topBtn.classList.toggle('visible', window.scrollY > 320);
+  }, { passive: true });
+})();
+
+// ── DARK MODE ──
+function toggleTheme() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  document.getElementById('icon-sun').style.display  = newTheme === 'dark' ? 'none' : 'block';
+  document.getElementById('icon-moon').style.display = newTheme === 'dark' ? 'block' : 'none';
+  localStorage.setItem('theme', newTheme);
+}
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    document.getElementById('icon-sun').style.display  = 'none';
+    document.getElementById('icon-moon').style.display = 'block';
+  }
+})();
+
+// ── START ──
+init();
+</script>
 </body>
 </html>
