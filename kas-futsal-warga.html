@@ -181,7 +181,7 @@ html{scroll-behavior:smooth}
 <header class="header" id="main-header">
   <a class="logo-area" href="index2.html">
     <div class="logo-circle">
-      <img src="Logo RT11.png" alt="Logo Puri Asri 3" style="width:32px;height:32px;object-fit:contain;border-radius:50%;" onerror="this.style.display='none';this.parentNode.innerHTML='⚽'"/>
+      <img src="Logo Futsal.png" alt="Logo Futsal Puri Asri 3" style="width:32px;height:32px;object-fit:contain;border-radius:50%;" onerror="this.style.display='none';this.parentNode.innerHTML='⚽'"/>
     </div>
     <div class="logo-text">
       <h1>Puri Asri 3</h1>
@@ -422,10 +422,17 @@ function parseCSV(text) {
     const saldo = colSaldo >= 0 ? parseRp(cols[colSaldo])  : 0;
     const ket   = colKet >= 0   ? cols[colKet]?.replace(/"/g, '').trim()   : '';
 
-    // Lewati baris kosong / baris yang hanya berisi saldo berulang tanpa data baru
+    // Skip baris benar-benar kosong
     if (!nama && !blok && masuk === 0 && keluar === 0) continue;
-    // Lewati baris keterangan besar (pembayaran awal, dll) yang bukan transaksi individu — hanya skip kalau tanpa nama dan tanpa blok tapi ada keterangan
-    // Kita tetap masukkan agar laporan lengkap
+
+    // Skip baris JUMLAH (baris rekapitulasi total di sheet)
+    const namaUp = nama.toUpperCase();
+    if (namaUp === 'JUMLAH' || namaUp.startsWith('JUMLAH')) continue;
+
+    // Skip baris ringkasan "Penerimaan / Pengeluaran" di bawah baris JUMLAH
+    // Baris ini biasanya muncul sebagai teks di kolom NAMA atau kolom lain
+    const rawUp = raw.toUpperCase();
+    if (rawUp.includes('PENERIMAAN') || rawUp.includes('PENGELUARAN') && !rawUp.includes('BLOK')) continue;
 
     allRows.push({ blok, tgl, nama, masuk, keluar, saldo, ket });
   }
@@ -465,19 +472,24 @@ function render() {
   }
 
   tbody.innerHTML = list.map((r, i) => {
-    const ketUp = r.ket.toUpperCase();
+    const ketUp = r.ket.toUpperCase().trim();
     let badge = '';
+    // Badge hanya untuk MEMBER dan NON-MEMBER, tidak untuk kosong/pengeluaran biasa
     if (ketUp.includes('NON MEMBER') || ketUp.includes('NON-MEMBER')) {
       badge = `<span class="badge badge-nonmember">Non-Member</span>`;
-    } else if (ketUp.includes('MEMBER')) {
+    } else if (ketUp === 'MEMBER') {
       badge = `<span class="badge badge-member">Member</span>`;
-    } else if (r.keluar > 0) {
-      badge = `<span class="badge badge-keluar">Keluar</span>`;
     }
 
-    const ketText = r.ket && !['MEMBER','NON MEMBER','NON-MEMBER'].includes(ketUp.trim())
-      ? `<span class="ket-cell">${r.ket}</span>`
-      : badge;
+    // Kolom keterangan: tampilkan badge kalau ada, atau teks ket, atau '—'
+    let ketDisplay;
+    if (badge) {
+      ketDisplay = badge;
+    } else if (r.ket && r.ket.trim()) {
+      ketDisplay = `<span class="ket-cell">${r.ket}</span>`;
+    } else {
+      ketDisplay = '<span style="color:var(--text3)">—</span>';
+    }
 
     return `<tr>
       <td class="no-cell">${i + 1}</td>
@@ -487,7 +499,7 @@ function render() {
       <td class="rp-cell rp-in">${r.masuk > 0 ? fmtRp(r.masuk) : ''}</td>
       <td class="rp-cell rp-out">${r.keluar > 0 ? fmtRp(r.keluar) : ''}</td>
       <td class="rp-cell rp-saldo">${r.saldo > 0 ? fmtRp(r.saldo) : '—'}</td>
-      <td>${badge || `<span class="ket-cell">${r.ket || '—'}</span>`}</td>
+      <td>${ketDisplay}</td>
     </tr>`;
   }).join('');
 }
