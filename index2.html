@@ -947,14 +947,9 @@
        Jika PASSCODE kosong / "Umum" → akses bebas, tanpa gerbang.
        ========================================================= */
 
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRq765JFbad6wYpNVNhwLmOb9hdKgQvTgdsknLoL_NJljhKltGj6L69-F_e9r6Q6v9Pdw0YQvQVSBQ/pub?gid=0&single=true&output=csv';
-
-    // Fallback dipakai hanya jika sheet gagal diakses (offline/error)
-    const FALLBACK_DATA = [
-      { name: 'Gg. Flamingo', passcode: '19561', wa: '85719687821' },
-      { name: 'Futsal Warga', passcode: '19215', wa: '85719687821' },
-      { name: 'DKM',          passcode: 'Umum',  wa: '' }
-    ];
+    // URL sumber data disamarkan (base64) agar tidak langsung terbaca di view-source.
+    const _SRC = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlJScTc2NUpGYmFkNndZcE5WTmh3TG1PYjloZEtnUXZUZ2Rza25Mb0xfTkpsamhLbHRHajZMNjktRl9lOXI2UTZ2OVBkdzBZUXZRVlNCUS9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==';
+    const CSV_URL = atob(_SRC);
 
     const RT_DEFAULT_WA = '6281283876869'; // fallback kontak pengurus RT bila WA kas tidak diisi
     const MAX_ATTEMPTS = 3;
@@ -1131,23 +1126,26 @@
       });
     }
 
+    function showLoadError() {
+      const grid = document.getElementById('kasMenuGrid');
+      grid.innerHTML = '<div class="kas-loading">Gagal memuat menu kas. Periksa koneksi internet Anda, lalu muat ulang halaman.</div>';
+    }
+
     async function loadKasMenu() {
-      let rows = FALLBACK_DATA;
       try {
         const sep = CSV_URL.includes('?') ? '&' : '?';
         const res = await fetch(CSV_URL + sep + 't=' + Date.now());
+        if (!res.ok) { showLoadError(); return; }
         const text = await res.text();
         const table = parseCSVTable(text);
-        if (table.length > 1) {
-          const parsed = table.slice(1)
-            .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
-            .filter(r => r.name);
-          if (parsed.length) rows = parsed;
-        }
+        if (table.length <= 1) { showLoadError(); return; }
+        const rows = table.slice(1)
+          .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
+          .filter(r => r.name);
+        renderKasMenu(rows);
       } catch (e) {
-        // pakai FALLBACK_DATA bila sheet gagal diakses
+        showLoadError();
       }
-      renderKasMenu(rows);
     }
 
     loadKasMenu();
