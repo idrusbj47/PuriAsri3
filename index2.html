@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kas Komunitas &amp; Lingkungan — Puri Asri 3</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-0ZQVRYH8VK');
+  </script>
+  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-950: #0d1f10;
+      --green-900: #132b17;
+      --green-800: #1e4225;
+      --green-700: #265930;
+      --green-600: #2e7038;
+      --green-500: #3a8c45;
+      --green-400: #56a660;
+      --green-300: #80c489;
+      --green-200: #b3ddb9;
+      --green-100: #ddf0e0;
+      --green-50:  #f2fbf4;
+
+      --gold-700: #7a5c1e;
+      --gold-500: #c49a3c;
+      --gold-400: #d4af5a;
+      --gold-300: #e3c97e;
+      --gold-100: #f8f0da;
+
+      --cream-bg: #f7f5f0;
+      --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c;
+      --text-mid:  #3a5040;
+      --text-muted: #6b8570;
+      --border-light: rgba(46, 112, 56, 0.12);
+      --border-mid:   rgba(46, 112, 56, 0.22);
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 32px;
+
+      --shadow-card: 0 2px 12px rgba(30, 66, 37, 0.08), 0 1px 3px rgba(30, 66, 37, 0.06);
+      --shadow-hover: 0 8px 32px rgba(30, 66, 37, 0.14), 0 2px 8px rgba(30, 66, 37, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46, 112, 56, 0.07) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER DESKTOP — sticky + frosted glass ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--green-800);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+      will-change: background, box-shadow;
+    }
+
+    header.scrolled {
+      background: rgba(30, 66, 37, 0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13, 31, 16, 0.28), 0 1px 0 rgba(255,255,255,0.06);
+      border-bottom-color: rgba(255,255,255,0.06);
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: #fff !important;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--gold-400);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .logo-mark img {
+      width: 26px !important;
+      height: 26px !important;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .header-sub {
+      font-size: 11px;
+      color: var(--green-200);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 400;
+      margin-top: 1px;
+    }
+
+    .header-badge {
+      font-size: 11px;
+      color: var(--gold-300);
+      background: rgba(196, 154, 60, 0.15);
+      border: 1px solid rgba(196, 154, 60, 0.25);
+      border-radius: 20px;
+      padding: 3px 12px;
+      letter-spacing: 0.04em;
+      font-weight: 500;
+    }
+
+    .header-divider { display: none; }
+    .logo-ring-outer { display: none; }
+    .header-brand .header-badge { display: none; }
+
+    /* ── REVISI TAMPILAN MOBILE HP ── */
+    @media (max-width: 600px) {
+      header {
+        position: sticky;
+        top: 0;
+        background: transparent;
+        border-bottom: none;
+        height: auto;
+        padding: 24px 24px 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        box-shadow: none;
+        transition:
+          background     0.32s ease,
+          height         0.32s ease,
+          padding        0.32s ease,
+          box-shadow     0.32s ease,
+          backdrop-filter 0.32s ease;
+        will-change: background, height, box-shadow;
+        overflow: hidden;
+      }
+
+      header.scrolled-mobile {
+        height: 52px;
+        padding: 0 16px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        background: rgba(247, 245, 240, 0.88);
+        backdrop-filter: blur(16px) saturate(1.3);
+        -webkit-backdrop-filter: blur(16px) saturate(1.3);
+        border-bottom: 1px solid rgba(46, 112, 56, 0.10);
+        box-shadow: 0 1px 12px rgba(46, 112, 56, 0.07);
+      }
+
+      header.scrolled { background: transparent; backdrop-filter: none; box-shadow: none; border-bottom: none; }
+      header.scrolled-mobile.scrolled { background: rgba(247, 245, 240, 0.88); }
+
+      .header-brand {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        width: 100%;
+        transition: flex-direction 0.32s ease, gap 0.32s ease;
+      }
+      header.scrolled-mobile .header-brand {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        width: auto;
+      }
+
+      .logo-mark {
+        width: 120px;
+        height: 120px;
+        background: #fff !important;
+        border: 3px solid var(--gold-400);
+        box-shadow: 0 6px 28px rgba(46,112,56,0.14);
+        position: relative;
+        overflow: visible;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: width 0.32s ease, height 0.32s ease, border-width 0.32s ease, box-shadow 0.32s ease;
+      }
+      header.scrolled-mobile .logo-mark {
+        width: 34px;
+        height: 34px;
+        border-width: 2px;
+        box-shadow: none;
+        overflow: hidden;
+      }
+
+      .logo-mark img {
+        width: 100px !important;
+        height: 100px !important;
+        object-fit: contain;
+        position: relative;
+        z-index: 2;
+        border-radius: 50%;
+        transition: width 0.32s ease, height 0.32s ease;
+      }
+      header.scrolled-mobile .logo-mark img {
+        width: 26px !important;
+        height: 26px !important;
+      }
+
+      .logo-mark::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 1.5px dashed rgba(46, 112, 56, 0.28);
+        animation: spin-slow 14s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-mark::before {
+        opacity: 0;
+        animation: none;
+      }
+
+      .logo-mark::after {
+        content: '';
+        position: absolute;
+        inset: -16px;
+        border-radius: 50%;
+        border: 1.5px solid transparent;
+        border-top-color: rgba(196, 154, 60, 0.55);
+        border-bottom-color: rgba(196, 154, 60, 0.55);
+        animation: spin-reverse 9s linear infinite;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-mark::after {
+        opacity: 0;
+        animation: none;
+      }
+
+      .logo-ring-outer {
+        display: block;
+        position: absolute;
+        inset: -24px;
+        border-radius: 50%;
+        border: 1px dashed rgba(196, 154, 60, 0.18);
+        animation: spin-slow 22s linear infinite reverse;
+        pointer-events: none;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+      header.scrolled-mobile .logo-ring-outer {
+        opacity: 0;
+        animation: none;
+      }
+
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+      @keyframes spin-reverse {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(-360deg); }
+      }
+
+      .header-title {
+        font-size: 24px;
+        color: var(--green-900);
+        text-align: center;
+        margin-top: 34px;
+        transition: font-size 0.32s ease, color 0.32s ease, margin-top 0.32s ease, text-align 0.32s ease;
+      }
+      header.scrolled-mobile .header-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--green-800);
+        margin-top: 0;
+        text-align: left;
+      }
+
+      .header-sub {
+        font-size: 12px;
+        color: var(--text-muted);
+        text-align: center;
+        margin-top: 6px;
+        letter-spacing: 0.08em;
+        transition: font-size 0.32s ease, opacity 0.25s ease, margin-top 0.32s ease, text-align 0.32s ease;
+      }
+      header.scrolled-mobile .header-sub {
+        font-size: 10px;
+        margin-top: 1px;
+        text-align: left;
+        color: var(--text-muted);
+        opacity: 0.8;
+        letter-spacing: 0.05em;
+      }
+
+      .header-badge {
+        display: inline-block !important;
+        margin-top: 10px;
+        color: var(--gold-700);
+        background: var(--gold-100);
+        border-color: rgba(196, 154, 60, 0.35);
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 4px 16px;
+        transition: opacity 0.2s ease, max-height 0.32s ease;
+      }
+      header.scrolled-mobile .header-badge { opacity: 0; pointer-events: none; max-height: 0; margin: 0; padding: 0; overflow: hidden; }
+
+      header > .header-badge { display: none !important; }
+
+      .header-divider {
+        display: block;
+        width: 44px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+        margin: 14px auto 0;
+        border-radius: 2px;
+        transition: opacity 0.2s ease, max-height 0.32s ease;
+      }
+      header.scrolled-mobile .header-divider { opacity: 0; max-height: 0; margin: 0; overflow: hidden; }
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--green-600);
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 28px;
+      transition: gap 0.2s ease, color 0.2s ease;
+    }
+    .back-link:hover { gap: 10px; color: var(--green-700); }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-600);
+      font-weight: 500;
+      margin-bottom: 18px;
+    }
+
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--green-400);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 500;
+      color: var(--green-900);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--green-600);
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-label span {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kas-loading {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 36px 20px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .menu-card {
+      position: relative;
+      background: var(--cream-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 26px 24px 22px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .menu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green-400), var(--green-300));
+      opacity: 0;
+      transition: opacity 0.22s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-mid);
+    }
+
+    .menu-card:hover::before { opacity: 1; }
+
+    .card-icon-wrap {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      background: var(--green-50);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-600);
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .menu-card:hover .card-icon-wrap { background: var(--green-100); }
+    .card-body { flex: 1; }
+    .card-tag { display: inline-block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--green-600); margin-bottom: 6px; }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--green-900); line-height: 1.25; margin-bottom: 6px; }
+    .card-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.55; font-weight: 300; }
+    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border-light); margin-top: 4px; }
+    .card-status { font-size: 11px; font-weight: 500; color: var(--green-500); display: flex; align-items: center; gap: 5px; }
+    .card-status.locked { color: var(--gold-700); }
+    .card-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); }
+    .card-status.locked .card-status-dot { background: var(--gold-500); animation: none !important; }
+
+    .card-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border-mid);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--green-600);
+      font-size: 13px;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .menu-card:hover .card-arrow { background: var(--green-100); transform: translateX(2px); }
+
+    .info-note {
+      margin-top: 8px;
+      background: var(--cream-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .info-note strong { color: var(--text-dark); }
+
+    footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
+    footer strong { color: var(--green-700); font-weight: 500; }
+
+    /* ── PASSCODE MODAL ── */
+    .passcode-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      background: rgba(13, 31, 16, 0.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .passcode-overlay.active { opacity: 1; visibility: visible; }
+
+    .passcode-modal {
+      position: relative;
+      background: var(--cream-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-hover);
+      max-width: 360px;
+      width: 100%;
+      padding: 32px 28px 28px;
+      text-align: center;
+      transform: translateY(10px) scale(0.98);
+      transition: transform 0.25s ease;
+    }
+    .passcode-overlay.active .passcode-modal { transform: translateY(0) scale(1); }
+
+    .passcode-close {
+      position: absolute;
+      top: 12px; right: 14px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      line-height: 1;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .passcode-close:hover { color: var(--text-dark); }
+
+    .passcode-icon-wrap {
+      width: 52px; height: 52px;
+      margin: 0 auto 14px;
+      border-radius: 50%;
+      background: var(--gold-100);
+      border: 1px solid rgba(196,154,60,0.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gold-700);
+    }
+    .passcode-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; color: var(--green-900); margin-bottom: 4px; }
+    .passcode-subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
+
+    .passcode-input {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.14em;
+      text-align: center;
+      padding: 13px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border-mid);
+      background: #fff;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .passcode-input:focus { border-color: var(--green-500); }
+    .passcode-input.shake { animation: shakeX 0.35s ease; border-color: #c0392b; }
+
+    @keyframes shakeX {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    .passcode-error { min-height: 18px; font-size: 12px; color: #c0392b; margin-top: 8px; }
+
+    .passcode-submit {
+      margin-top: 14px;
+      width: 100%;
+      padding: 13px;
+      border-radius: 999px;
+      border: none;
+      background: var(--green-600);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .passcode-submit:hover { background: var(--green-700); transform: translateY(-1px); }
+
+    .passcode-contact-text {
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+    .passcode-wa-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      width: 100%;
+      background: #25d366;
+      color: #fff;
+      text-decoration: none;
+      padding: 13px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .passcode-wa-btn:hover { background: #1ebe5b; transform: translateY(-1px); }
+    .passcode-wa-btn svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+
+    .wa-float-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: inline-block;
+      font-family: 'DM Sans', sans-serif;
+      animation: floatBounce 3s ease-in-out infinite;
+    }
+
+    .wa-interactive-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(135deg, #1e4225 0%, #2e7038 100%);
+      border: 1px solid var(--gold-400);
+      border-radius: 28px;
+      box-shadow: 0 4px 20px rgba(30, 66, 37, 0.3);
+      color: #ffffff;
+      cursor: pointer;
+      overflow: hidden;
+      padding: 5px;
+      width: 52px;
+      height: 52px;
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    }
+
+    .wa-icon-circle {
+      width: 40px;
+      height: 40px;
+      background: #25d366;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+    }
+
+    .wa-icon-circle svg { width: 22px; height: 22px; fill: #fff; }
+
+    .wa-content-text {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 12px;
+      padding-right: 16px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(8px);
+      transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s, visibility 0.25s;
+    }
+
+    .wa-title-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold-300); font-weight: 500; line-height: 1.2; }
+    .wa-name-desc { font-size: 13px; font-weight: 500; letter-spacing: 0.01em; color: #ffffff; line-height: 1.3; margin-top: 2px; }
+
+    .wa-interactive-btn.expanded { width: 245px; box-shadow: 0 8px 28px rgba(30, 66, 37, 0.45); }
+    .wa-interactive-btn.expanded .wa-content-text { opacity: 1; visibility: visible; transform: translateX(0); }
+    .wa-interactive-btn:hover { box-shadow: 0 6px 24px rgba(30, 66, 37, 0.4); }
+
+    @keyframes floatBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-status {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(86,166,96,0.5); }
+      50%       { box-shadow: 0 0 0 5px rgba(86,166,96,0); }
+    }
+    .card-status:not(.locked) .card-status-dot { animation: pulse-status 2.4s ease-in-out infinite; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .hero      { animation: fadeUp 0.55s ease both; animation-delay: 0.05s; }
+    .menu-grid { animation: fadeUp 0.55s ease both; animation-delay: 0.18s; }
+
+    @media (max-width: 600px) {
+      main { padding: 16px 14px 60px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 12px; }
+      .hero-title { font-size: 24px; }
+      .hero-desc { font-size: 13.5px; }
+      .hero { margin-bottom: 28px; }
+
+      .wa-float-container { bottom: 20px; right: 20px; }
+      .wa-interactive-btn { width: 48px; height: 48px; padding: 4px; }
+      .wa-icon-circle { width: 38px; height: 38px; }
+      .wa-icon-circle svg { width: 20px; height: 20px; }
+      .wa-interactive-btn.expanded { width: 220px; }
+      .wa-content-text { padding-left: 10px; padding-right: 12px; }
+      .wa-title-label { font-size: 9px; }
+      .wa-name-desc { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-brand">
+      <div class="logo-mark" style="background:#fff; border-color:#d4af5a;">
+        <div class="logo-ring-outer"></div>
+        <img src="Logo RT11.png" alt="Logo Puri Asri 3">
+      </div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; TH. 2026 | Jonggol</div>
+      </div>
+    </div>
+    <div class="header-badge" style="display:block">Kas Komunitas</div>
+    <div class="header-divider"></div>
+  </header>
+
+  <main>
+
+    <a class="back-link" href="index.html">← Kembali ke Beranda</a>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Kas Komunitas &amp; Lingkungan</div>
+      <h1 class="hero-title">Laporan Kas Gang, Futsal,<br>Posyandu &amp; <em>DKM</em></h1>
+      <p class="hero-desc">Kas yang dikelola mandiri oleh warga &amp; pengurus lingkungan, di luar Kas Umum RT. Sebagian kas memerlukan passcode dari bendahara masing-masing untuk menjaga privasi anggotanya.</p>
+    </div>
+
+    <div class="section-label">
+      <span>Pilih Kas</span>
+    </div>
+
+    <div class="menu-grid" id="kasMenuGrid">
+      <div class="kas-loading">Memuat menu kas…</div>
+    </div>
+
+    <div class="info-note">
+      <strong>Catatan:</strong> Passcode hanya diketahui oleh bendahara &amp; anggota kas terkait. Jika passcode Anda salah/lupa setelah beberapa kali percobaan, sistem akan otomatis menampilkan tombol untuk menghubungi bendahara kas tersebut via WhatsApp.
+    </div>
+
+  </main>
+
+  <!-- ── PASSCODE MODAL ── -->
+  <div class="passcode-overlay" id="passcodeOverlay">
+    <div class="passcode-modal">
+      <button class="passcode-close" id="passcodeClose" aria-label="Tutup" type="button">&times;</button>
+
+      <div id="passcodeFormWrap">
+        <div class="passcode-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="11" width="14" height="9" rx="2"/>
+            <path d="M8 11V8a4 4 0 0 1 8 0v3"/>
+          </svg>
+        </div>
+        <div class="passcode-title">Masukkan Passcode</div>
+        <div class="passcode-subtitle" id="passcodeSubtitle">Kas —</div>
+
+        <input type="text" inputmode="numeric" autocomplete="off" id="passcodeInput" class="passcode-input" placeholder="Kode akses">
+        <div class="passcode-error" id="passcodeError"></div>
+        <button class="passcode-submit" id="passcodeSubmit" type="button">Buka Laporan</button>
+      </div>
+
+      <div id="passcodeContactWrap" style="display:none;">
+        <div class="passcode-icon-wrap" style="background:#fdecea;border-color:rgba(192,57,43,0.25);color:#c0392b;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="13"/>
+            <line x1="12" y1="16" x2="12" y2="16.01"/>
+          </svg>
+        </div>
+        <div class="passcode-title">Passcode Tidak Sesuai</div>
+        <div class="passcode-contact-text">Anda sudah beberapa kali salah memasukkan passcode untuk <strong id="passcodeContactName">kas ini</strong>. Silakan hubungi bendahara untuk verifikasi atau menanyakan passcode terbaru.</div>
+        <a id="passcodeWaBtn" class="passcode-wa-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.454 5.709 1.455h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Hubungi Bendahara via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12 &nbsp;·&nbsp; Tahun 2026 | Jonggol<br>
+    <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
+  </footer>
+
+  <div class="wa-float-container">
+    <div class="wa-interactive-btn" id="waBtn" onclick="handleWaClick()">
+      <div class="wa-icon-circle">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.454 5.709 1.455h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </div>
+      <div class="wa-content-text">
+        <span class="wa-title-label">Bayar Iuran / Kas</span>
+        <span class="wa-name-desc">Hub. Pak RT Rahman disini !</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function handleWaClick() {
+      var btn = document.getElementById('waBtn');
+      if (!btn.classList.contains('expanded')) {
+        btn.classList.add('expanded');
+      } else {
+        var url = "https://wa.me/6281283876869?text=Halo%20Pak%20RT%20Rahman,%20saya%20mau%20konfirmasi%20pembayaran%20kas%20warga.";
+        window.open(url, '_blank');
+      }
+    }
+    document.addEventListener('click', function(event) {
+      var btn = document.getElementById('waBtn');
+      var container = document.querySelector('.wa-float-container');
+      if (!container.contains(event.target)) {
+        btn.classList.remove('expanded');
+      }
+    });
+
+    // ── STICKY HEADER ──
+    const header = document.querySelector('header');
+    function isMobile() { return window.innerWidth <= 600; }
+    function onScroll() {
+      const y = window.scrollY;
+      if (isMobile()) {
+        header.classList.remove('scrolled');
+        if (y > 60) header.classList.add('scrolled-mobile');
+        else header.classList.remove('scrolled-mobile');
+      } else {
+        header.classList.remove('scrolled-mobile');
+        if (y > 10) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    onScroll();
+
+    // ── SCROLL REVEAL ──
+    document.querySelectorAll('.section-label, .info-note').forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i * 0.07) + 's';
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    /* =========================================================
+       MENU KAS — diambil dari Google Sheets (CSV) secara live
+       Kolom: No, Menu Kas, PASSCODE, NO WA PENGURUS
+       Jika PASSCODE kosong / "Umum" → akses bebas, tanpa gerbang.
+       ========================================================= */
+
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRq765JFbad6wYpNVNhwLmOb9hdKgQvTgdsknLoL_NJljhKltGj6L69-F_e9r6Q6v9Pdw0YQvQVSBQ/pub?gid=0&single=true&output=csv';
+
+    // Fallback dipakai hanya jika sheet gagal diakses (offline/error)
+    const FALLBACK_DATA = [
+      { name: 'Gg. Flamingo', passcode: '19561', wa: '85719687821' },
+      { name: 'Futsal Warga', passcode: '19215', wa: '85719687821' },
+      { name: 'DKM',          passcode: 'Umum',  wa: '' }
+    ];
+
+    const RT_DEFAULT_WA = '6281283876869'; // fallback kontak pengurus RT bila WA kas tidak diisi
+    const MAX_ATTEMPTS = 3;
+
+    function parseCSVTable(text) {
+      const table = [];
+      let row = [], field = '', inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+        const ch = text[i];
+        if (inQuotes) {
+          if (ch === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+          else { field += ch; }
+        } else if (ch === '"') { inQuotes = true; }
+        else if (ch === ',') { row.push(field); field = ''; }
+        else if (ch === '\r') { /* skip */ }
+        else if (ch === '\n') { row.push(field); field = ''; table.push(row); row = []; }
+        else { field += ch; }
+      }
+      if (field.length || row.length) { row.push(field); table.push(row); }
+      return table.filter(r => r.some(v => v && v.trim()));
+    }
+
+    function slugify(name) {
+      return String(name).trim().toLowerCase()
+        .replace(/[.]/g, '')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+    }
+
+    function normalizeWa(num) {
+      let d = String(num || '').replace(/\D/g, '');
+      if (!d) return RT_DEFAULT_WA;
+      if (d.startsWith('0')) d = '62' + d.slice(1);
+      else if (!d.startsWith('62')) d = '62' + d;
+      return d;
+    }
+
+    const ICONS = {
+      wallet: '<path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>',
+      pin: '<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/>',
+      ball: '<circle cx="12" cy="12" r="9"/><path d="M12 3v6m0 6v6M4.2 7.5l6.8 3.9M19.8 7.5l-6.8 3.9M4.2 16.5l6.8-3.9M19.8 16.5l-6.8-3.9"/>',
+      dome: '<path d="M4 21h16"/><path d="M6 21V10a6 6 0 0 1 12 0v11"/><path d="M12 4v3"/>',
+      heart: '<path d="M12 21C9 18.5 3 13.7 3 8.5 3 5.8 5.1 4 7.5 4c1.7 0 3.2 1 3.9 2.4C12.1 5 13.6 4 15.3 4 17.7 4 19.8 5.8 19.8 8.5c0 5.2-6 10-7.8 12.5z"/>'
+    };
+
+    function pickIcon(rawName) {
+      const n = String(rawName).toLowerCase();
+      if (n.includes('futsal') || n.includes('olahraga') || n.includes('bola')) return ICONS.ball;
+      if (n.includes('dkm') || n.includes('masjid') || n.includes('musholla') || n.includes('musola')) return ICONS.dome;
+      if (n.includes('posyandu') || n.includes('kesehatan') || n.includes('balita')) return ICONS.heart;
+      if (n.includes('gg') || n.includes('gang') || n.includes('lingkungan') || n.includes('blok')) return ICONS.pin;
+      return ICONS.wallet;
+    }
+
+    function pickDesc(rawName) {
+      const n = String(rawName).toLowerCase();
+      if (n.includes('futsal') || n.includes('olahraga')) return 'Iuran &amp; pengeluaran kas futsal warga.';
+      if (n.includes('dkm') || n.includes('masjid') || n.includes('musholla')) return 'Kas operasional masjid/musholla &amp; kegiatan keagamaan.';
+      if (n.includes('posyandu')) return 'Kas kegiatan &amp; operasional posyandu warga.';
+      if (n.includes('gg') || n.includes('gang') || n.includes('lingkungan')) return 'Kas kebersihan &amp; kegiatan lingkungan setempat.';
+      return 'Laporan kas dikelola mandiri oleh pengurus &amp; warga setempat.';
+    }
+
+    function iconSvg(pathInner) {
+      return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + pathInner + '</svg>';
+    }
+
+    let currentItem = null;
+    let attempts = 0;
+
+    function handleKasClick(item) {
+      const requiresPasscode = item.passcode && item.passcode.trim() !== '' && item.passcode.trim().toLowerCase() !== 'umum';
+      if (!requiresPasscode) { window.location.href = item.href; return; }
+
+      let unlocked = false;
+      try { unlocked = sessionStorage.getItem('kasUnlocked:' + item.slug) === '1'; } catch (e) {}
+      if (unlocked) { window.location.href = item.href; return; }
+
+      openPasscodeModal(item);
+    }
+
+    function openPasscodeModal(item) {
+      currentItem = item;
+      attempts = 0;
+      document.getElementById('passcodeSubtitle').textContent = 'Kas: ' + item.name;
+      const input = document.getElementById('passcodeInput');
+      input.value = '';
+      document.getElementById('passcodeError').textContent = '';
+      document.getElementById('passcodeFormWrap').style.display = '';
+      document.getElementById('passcodeContactWrap').style.display = 'none';
+      document.getElementById('passcodeOverlay').classList.add('active');
+      setTimeout(() => input.focus(), 250);
+    }
+
+    function closePasscodeModal() {
+      document.getElementById('passcodeOverlay').classList.remove('active');
+      currentItem = null;
+    }
+
+    function checkPasscode() {
+      if (!currentItem) return;
+      const input = document.getElementById('passcodeInput');
+      const val = input.value.trim();
+
+      if (val !== '' && val === String(currentItem.passcode).trim()) {
+        try { sessionStorage.setItem('kasUnlocked:' + currentItem.slug, '1'); } catch (e) {}
+        window.location.href = currentItem.href;
+        return;
+      }
+
+      attempts++;
+      input.classList.remove('shake');
+      requestAnimationFrame(() => input.classList.add('shake'));
+      setTimeout(() => input.classList.remove('shake'), 400);
+
+      if (attempts >= MAX_ATTEMPTS) {
+        document.getElementById('passcodeFormWrap').style.display = 'none';
+        document.getElementById('passcodeContactName').textContent = currentItem.name;
+        const waDigits = normalizeWa(currentItem.wa);
+        const msg = encodeURIComponent('Halo, saya warga ingin verifikasi passcode kas "' + currentItem.name + '". Mohon info passcode terbaru. Terima kasih.');
+        document.getElementById('passcodeWaBtn').href = 'https://wa.me/' + waDigits + '?text=' + msg;
+        document.getElementById('passcodeContactWrap').style.display = '';
+      } else {
+        document.getElementById('passcodeError').textContent = 'Passcode salah. Sisa percobaan: ' + (MAX_ATTEMPTS - attempts) + '.';
+        input.value = '';
+        input.focus();
+      }
+    }
+
+    document.getElementById('passcodeSubmit').addEventListener('click', checkPasscode);
+    document.getElementById('passcodeInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') checkPasscode(); });
+    document.getElementById('passcodeClose').addEventListener('click', closePasscodeModal);
+    document.getElementById('passcodeOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'passcodeOverlay') closePasscodeModal();
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePasscodeModal(); });
+
+    function renderKasMenu(rows) {
+      const grid = document.getElementById('kasMenuGrid');
+      grid.innerHTML = '';
+
+      if (!rows.length) {
+        grid.innerHTML = '<div class="kas-loading">Belum ada menu kas yang ditambahkan.</div>';
+        return;
+      }
+
+      rows.forEach((row) => {
+        const slug = slugify(row.name);
+        const item = { name: row.name, passcode: row.passcode, wa: row.wa, slug: slug, href: 'kas-' + slug + '.html' };
+        const requiresPasscode = item.passcode && item.passcode.trim() !== '' && item.passcode.trim().toLowerCase() !== 'umum';
+
+        const card = document.createElement('div');
+        card.className = 'menu-card';
+        card.innerHTML =
+          '<div class="card-icon-wrap">' + iconSvg(pickIcon(row.name)) + '</div>' +
+          '<div class="card-body">' +
+            '<div class="card-tag">Kas Mandiri</div>' +
+            '<div class="card-title">' + escapeHtml(row.name) + '</div>' +
+            '<div class="card-desc">' + pickDesc(row.name) + '</div>' +
+          '</div>' +
+          '<div class="card-footer">' +
+            '<div class="card-status' + (requiresPasscode ? ' locked' : '') + '">' +
+              '<div class="card-status-dot"></div>' +
+              (requiresPasscode ? 'Perlu Passcode' : 'Akses Bebas') +
+            '</div>' +
+            '<div class="card-arrow">→</div>' +
+          '</div>';
+        card.addEventListener('click', () => handleKasClick(item));
+        grid.appendChild(card);
+      });
+    }
+
+    async function loadKasMenu() {
+      let rows = FALLBACK_DATA;
+      try {
+        const sep = CSV_URL.includes('?') ? '&' : '?';
+        const res = await fetch(CSV_URL + sep + 't=' + Date.now());
+        const text = await res.text();
+        const table = parseCSVTable(text);
+        if (table.length > 1) {
+          const parsed = table.slice(1)
+            .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
+            .filter(r => r.name);
+          if (parsed.length) rows = parsed;
+        }
+      } catch (e) {
+        // pakai FALLBACK_DATA bila sheet gagal diakses
+      }
+      renderKasMenu(rows);
+    }
+
+    loadKasMenu();
+  </script>
+
+</body>
+</html>
