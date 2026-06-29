@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laporan Kas Futsal Warga — Puri Asri 3</title>
+  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --green-900:#132b17;--green-800:#1e4225;--green-700:#265930;--green-600:#2e7038;--green-500:#3a8c45;--green-100:#ddf0e0;--green-50:#f2fbf4;
+      --gold-700:#7a5c1e;--gold-500:#c49a3c;--gold-400:#d4af5a;--gold-100:#f8f0da;
+      --cream-bg:#f7f5f0;--cream-card:#fdfcfa;--text-dark:#1a2b1c;--text-muted:#6b8570;
+      --border-light:rgba(46,112,56,0.12);--border-mid:rgba(46,112,56,0.22);
+      --radius-md:12px;--radius-lg:20px;
+      --shadow-card:0 2px 12px rgba(30,66,37,0.08),0 1px 3px rgba(30,66,37,0.06);
+    }
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream-bg);color:var(--text-dark);min-height:100vh;}
+    header{position:sticky;top:0;z-index:100;background:var(--green-800);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;}
+    .header-brand{display:flex;align-items:center;gap:14px;}
+    .logo-mark{width:40px;height:40px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold-400);overflow:hidden;flex-shrink:0;}
+    .logo-mark img{width:26px;height:26px;object-fit:contain;border-radius:50%;}
+    .header-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#fff;}
+    .header-sub{font-size:11px;color:var(--green-100);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px;}
+    .header-badge{font-size:11px;color:#e3c97e;background:rgba(196,154,60,0.15);border:1px solid rgba(196,154,60,0.25);border-radius:20px;padding:3px 12px;}
+    main{max-width:760px;margin:0 auto;padding:40px 24px 80px;}
+    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--green-600);text-decoration:none;font-weight:500;margin-bottom:28px;}
+    .back-link:hover{gap:10px;color:var(--green-700);}
+    .hero{text-align:center;margin-bottom:36px;}
+    .hero-eyebrow{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-600);font-weight:500;margin-bottom:14px;}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:500;color:var(--green-900);margin-bottom:12px;}
+    .hero-desc{font-size:14px;color:var(--text-muted);line-height:1.7;max-width:520px;margin:0 auto;}
+    .placeholder-card{background:var(--cream-card);border:1px solid var(--border-light);border-radius:var(--radius-lg);box-shadow:var(--shadow-card);padding:36px 28px;text-align:center;margin-bottom:28px;}
+    .placeholder-icon{width:56px;height:56px;margin:0 auto 16px;border-radius:50%;background:var(--gold-100);border:1px solid rgba(196,154,60,0.3);display:flex;align-items:center;justify-content:center;color:var(--gold-700);}
+    .placeholder-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--green-900);margin-bottom:8px;}
+    .placeholder-desc{font-size:13.5px;color:var(--text-muted);line-height:1.65;max-width:420px;margin:0 auto;}
+    table{width:100%;border-collapse:collapse;background:var(--cream-card);border:1px solid var(--border-light);border-radius:var(--radius-md);overflow:hidden;}
+    th,td{padding:12px 14px;font-size:12.5px;text-align:left;border-bottom:1px solid var(--border-light);}
+    th{background:var(--green-50);color:var(--green-700);font-weight:600;letter-spacing:0.03em;text-transform:uppercase;font-size:10.5px;}
+    td{color:var(--text-muted);}
+    td.empty-row{text-align:center;padding:22px;font-style:italic;}
+    footer{text-align:center;padding:24px;border-top:1px solid var(--border-light);font-size:12px;color:var(--text-muted);}
+    footer strong{color:var(--green-700);font-weight:500;}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-brand">
+      <div class="logo-mark"><img src="Logo RT11.png" alt="Logo Puri Asri 3"></div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &middot; RW 12 &middot; TH. 2026</div>
+      </div>
+    </div>
+    <div class="header-badge">Kas Komunitas</div>
+  </header>
+
+  <main>
+    <a class="back-link" href="index2.html">← Kembali ke Menu Kas Komunitas</a>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Laporan Kas</div>
+      <h1 class="hero-title">Futsal Warga</h1>
+      <p class="hero-desc">Halaman laporan kas Futsal Warga ini sedang disiapkan oleh pengurus. Data transaksi akan ditampilkan di sini setelah diperbarui.</p>
+    </div>
+
+    <div class="placeholder-card">
+      <div class="placeholder-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 2"/>
+        </svg>
+      </div>
+      <div class="placeholder-title">Laporan Belum Tersedia</div>
+      <div class="placeholder-desc">Pengurus kas Futsal Warga belum mengisi data transaksi. Hubungi bendahara untuk informasi lebih lanjut.</div>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Tanggal</th><th>Keterangan</th><th>Masuk</th><th>Keluar</th><th>Saldo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="5" class="empty-row">— Belum ada data —</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <strong>Puri Asri 3</strong> &nbsp;&middot;&nbsp; RT 01 / RW 12 &nbsp;&middot;&nbsp; Tahun 2026 | Jonggol<br>
+    <span style="margin-top:4px;display:block;">Dikelola oleh Pengurus RT &middot; Seluruh data bersifat internal warga</span>
+  </footer>
+
+</body>
+</html>
