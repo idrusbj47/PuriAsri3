@@ -425,14 +425,16 @@ function parseCSV(text) {
     // Skip baris benar-benar kosong
     if (!nama && !blok && masuk === 0 && keluar === 0) continue;
 
-    // Skip baris JUMLAH (baris rekapitulasi total di sheet)
-    const namaUp = nama.toUpperCase();
-    if (namaUp === 'JUMLAH' || namaUp.startsWith('JUMLAH')) continue;
+    // Setelah menemukan baris JUMLAH (di kolom manapun), STOP — tidak ada data valid lagi setelah itu
+    // JUMLAH bisa ada di kolom BLOK atau NAMA tergantung format sheet
+    const rowRawUp = raw.toUpperCase().replace(/"/g, '');
+    const colsRaw = splitLine(raw).map(c => c.replace(/"/g,'').trim().toUpperCase());
+    if (colsRaw.some(c => c === 'JUMLAH')) {
+      break; // hentikan parsing — semua baris setelah JUMLAH adalah ringkasan, bukan transaksi
+    }
 
-    // Skip baris ringkasan "Penerimaan / Pengeluaran" di bawah baris JUMLAH
-    // Baris ini biasanya muncul sebagai teks di kolom NAMA atau kolom lain
-    const rawUp = raw.toUpperCase();
-    if (rawUp.includes('PENERIMAAN') || rawUp.includes('PENGELUARAN') && !rawUp.includes('BLOK')) continue;
+    // Skip baris yang hanya berisi saldo berulang (semua kolom selain saldo kosong / nol)
+    if (!nama && !blok && !tgl && masuk === 0 && keluar === 0) continue;
 
     allRows.push({ blok, tgl, nama, masuk, keluar, saldo, ket });
   }
