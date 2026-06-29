@@ -540,9 +540,24 @@ async function init() {
     document.getElementById('s-member').textContent   = memberCount;
     document.getElementById('s-nonmember').textContent= nonMember;
 
-    // Cutoff: ambil tanggal transaksi terakhir
-    const lastTgl = allRows.filter(r => r.tgl).map(r => r.tgl).pop() || '—';
-    document.getElementById('cutoff-value').textContent = lastTgl;
+    // Cutoff: cari tanggal TERBARU dari semua baris (bukan sekadar yang terakhir di array)
+    const tglList = allRows
+      .map(r => r.tgl)
+      .filter(t => t && t.trim() && t !== '—')
+      .map(t => {
+        // Format dd/mm/yy atau dd/mm/yyyy → Date untuk perbandingan
+        const parts = t.split('/');
+        if (parts.length === 3) {
+          let [d, m, y] = parts;
+          if (y.length === 2) y = '20' + y;
+          return { raw: t, date: new Date(+y, +m - 1, +d) };
+        }
+        return { raw: t, date: new Date(0) };
+      });
+    const latestTgl = tglList.length
+      ? tglList.reduce((a, b) => b.date > a.date ? b : a).raw
+      : '—';
+    document.getElementById('cutoff-value').textContent = latestTgl;
     document.getElementById('cutoff-badge').style.display = 'inline-flex';
 
     render();
