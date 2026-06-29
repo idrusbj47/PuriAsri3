@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kas Komunitas &amp; Lingkungan — Puri Asri 3</title>
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -835,7 +834,6 @@
 
   </main>
 
-  <!-- ── PASSCODE MODAL ── -->
   <div class="passcode-overlay" id="passcodeOverlay">
     <div class="passcode-modal">
       <button class="passcode-close" id="passcodeClose" aria-label="Tutup" type="button">&times;</button>
@@ -947,9 +945,16 @@
        Jika PASSCODE kosong / "Umum" → akses bebas, tanpa gerbang.
        ========================================================= */
 
-    // URL sumber data disamarkan (base64) agar tidak langsung terbaca di view-source.
-    const _SRC = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlJScTc2NUpGYmFkNndZcE5WTmh3TG1PYjloZEtnUXZUZ2Rza25Mb0xfTkpsamhLbHRHajZMNjktRl9lOXI2UTZ2OVBkdzBZUXZRVlNCUS9wdWI/Z2lkPTAmc2luZ2xlPXRydWUmb3V0cHV0PWNzdg==';
-    const CSV_URL = atob(_SRC);
+    // URL di-encode menggunakan Base64 agar tidak langsung terbaca di Inspect Element
+    const ENCODED_CSV_URL = 'aHR0cHM6Ly9kb2NzLmdvb2dsZS5jb20vc3ByZWFkc2hlZXRzL2QvZS8yUEFDWC0xdlJScTc2NUpGYmFkNndZcE5WaHdMbU9iOWhkS2dRdlRnZHNrbkxvTF9OSmxqaEtsdEdqNkw2OS1GX2U5cjZRNnY5UGR3MFlRdlFWU0JRL3B1Yj9naWQ9MCZzaW5nbGU9dHJ1ZSZvdXRwdXQ9Y3N2';
+
+    // PENTING: Jangan tulis passcode asli di fallback ini, karena akan terbaca saat di-inspect.
+    // Fallback ini hanya dipakai jika CSV gagal dimuat (misal tidak ada internet).
+    const FALLBACK_DATA = [
+      { name: 'Gg. Flamingo', passcode: 'Error', wa: '85719687821' },
+      { name: 'Futsal Warga', passcode: 'Error', wa: '85719687821' },
+      { name: 'DKM',          passcode: 'Umum',  wa: '' }
+    ];
 
     const RT_DEFAULT_WA = '6281283876869'; // fallback kontak pengurus RT bila WA kas tidak diisi
     const MAX_ATTEMPTS = 3;
@@ -1126,26 +1131,27 @@
       });
     }
 
-    function showLoadError() {
-      const grid = document.getElementById('kasMenuGrid');
-      grid.innerHTML = '<div class="kas-loading">Gagal memuat menu kas. Periksa koneksi internet Anda, lalu muat ulang halaman.</div>';
-    }
-
     async function loadKasMenu() {
+      let rows = FALLBACK_DATA;
       try {
-        const sep = CSV_URL.includes('?') ? '&' : '?';
-        const res = await fetch(CSV_URL + sep + 't=' + Date.now());
-        if (!res.ok) { showLoadError(); return; }
+        // Decode URL kembali ke bentuk aslinya
+        const decodedUrl = atob(ENCODED_CSV_URL);
+        const sep = decodedUrl.includes('?') ? '&' : '?';
+        const res = await fetch(decodedUrl + sep + 't=' + Date.now());
         const text = await res.text();
         const table = parseCSVTable(text);
-        if (table.length <= 1) { showLoadError(); return; }
-        const rows = table.slice(1)
-          .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
-          .filter(r => r.name);
-        renderKasMenu(rows);
+        
+        if (table.length > 1) {
+          const parsed = table.slice(1)
+            .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
+            .filter(r => r.name);
+          if (parsed.length) rows = parsed;
+        }
       } catch (e) {
-        showLoadError();
+        // pakai FALLBACK_DATA bila sheet gagal diakses
+        console.error("Gagal memuat data kas");
       }
+      renderKasMenu(rows);
     }
 
     loadKasMenu();
