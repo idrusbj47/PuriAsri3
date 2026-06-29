@@ -1138,7 +1138,18 @@
         const decodedUrl = atob(ENCODED_CSV_URL);
         const sep = decodedUrl.includes('?') ? '&' : '?';
         const res = await fetch(decodedUrl + sep + 't=' + Date.now());
+        
+        // Pengecekan status fetch
+        if (!res.ok) throw new Error("Gagal mengambil data (HTTP Error " + res.status + ")");
+        
         const text = await res.text();
+
+        // [PERBAIKAN] Validasi konten agar memastikan response adalah CSV murni
+        // Jika response memuat tag HTML atau function JavaScript, kita reject
+        if (text.trim().startsWith('<') || text.includes('<html') || text.includes('function(')) {
+            throw new Error("Data yang diterima bukan format CSV valid. Kemungkinan tautan Google Sheets belum dipublish dengan benar.");
+        }
+
         const table = parseCSVTable(text);
         
         if (table.length > 1) {
@@ -1148,8 +1159,8 @@
           if (parsed.length) rows = parsed;
         }
       } catch (e) {
-        // pakai FALLBACK_DATA bila sheet gagal diakses
-        console.error("Gagal memuat data kas");
+        // Otomatis jatuh ke FALLBACK_DATA bila CSV gagal diakses / tidak valid
+        console.warn("Gagal memuat data kas, menggunakan data fallback. Detail:", e.message);
       }
       renderKasMenu(rows);
     }
