@@ -530,6 +530,14 @@
     }
 
     .menu-card:hover .card-icon-wrap { background: var(--green-100); }
+
+    .card-icon-wrap img {
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
+      display: block;
+    }
+
     .card-body { flex: 1; }
     .card-tag { display: inline-block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--green-600); margin-bottom: 6px; }
     .card-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 500; color: var(--green-900); line-height: 1.25; margin-bottom: 6px; }
@@ -1102,25 +1110,47 @@
 
       rows.forEach((row) => {
         const slug = slugify(row.name);
-        const item = { name: row.name, passcode: row.passcode, wa: row.wa, slug: slug, href: 'kas-' + slug + '.html' };
+        const item = { name: row.name, passcode: row.passcode, wa: row.wa, logo: row.logo, slug: slug, href: 'kas-' + slug + '.html' };
         const requiresPasscode = item.passcode && item.passcode.trim() !== '' && item.passcode.trim().toLowerCase() !== 'umum';
 
         const card = document.createElement('div');
         card.className = 'menu-card';
-        card.innerHTML =
-          '<div class="card-icon-wrap">' + iconSvg(pickIcon(row.name)) + '</div>' +
-          '<div class="card-body">' +
-            '<div class="card-tag">Kas Mandiri</div>' +
-            '<div class="card-title">' + escapeHtml(row.name) + '</div>' +
-            '<div class="card-desc">' + pickDesc(row.name) + '</div>' +
+
+        // Icon / Logo
+        const iconWrap = document.createElement('div');
+        iconWrap.className = 'card-icon-wrap';
+        if (item.logo) {
+          const img = document.createElement('img');
+          img.src = item.logo;
+          img.alt = row.name;
+          img.loading = 'lazy';
+          img.addEventListener('error', () => {
+            iconWrap.innerHTML = iconSvg(pickIcon(row.name));
+          });
+          iconWrap.appendChild(img);
+        } else {
+          iconWrap.innerHTML = iconSvg(pickIcon(row.name));
+        }
+
+        const body = document.createElement('div');
+        body.className = 'card-body';
+        body.innerHTML =
+          '<div class="card-tag">Kas Mandiri</div>' +
+          '<div class="card-title">' + escapeHtml(row.name) + '</div>' +
+          '<div class="card-desc">' + pickDesc(row.name) + '</div>';
+
+        const footer = document.createElement('div');
+        footer.className = 'card-footer';
+        footer.innerHTML =
+          '<div class="card-status' + (requiresPasscode ? ' locked' : '') + '">' +
+            '<div class="card-status-dot"></div>' +
+            (requiresPasscode ? 'Perlu Passcode' : 'Akses Bebas') +
           '</div>' +
-          '<div class="card-footer">' +
-            '<div class="card-status' + (requiresPasscode ? ' locked' : '') + '">' +
-              '<div class="card-status-dot"></div>' +
-              (requiresPasscode ? 'Perlu Passcode' : 'Akses Bebas') +
-            '</div>' +
-            '<div class="card-arrow">→</div>' +
-          '</div>';
+          '<div class="card-arrow">→</div>';
+
+        card.appendChild(iconWrap);
+        card.appendChild(body);
+        card.appendChild(footer);
         card.addEventListener('click', () => handleKasClick(item));
         grid.appendChild(card);
       });
@@ -1140,7 +1170,7 @@
         const table = parseCSVTable(text);
         if (table.length <= 1) { showLoadError(); return; }
         const rows = table.slice(1)
-          .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim() }))
+          .map(r => ({ name: (r[1] || '').trim(), passcode: (r[2] || '').trim(), wa: (r[3] || '').trim(), logo: (r[4] || '').trim() }))
           .filter(r => r.name);
         renderKasMenu(rows);
       } catch (e) {
