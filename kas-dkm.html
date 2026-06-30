@@ -79,6 +79,22 @@ html{scroll-behavior:smooth}
 .scroll-top:hover{background:#0a6b46}
 @media(max-width:480px){.scroll-top{right:16px;bottom:80px;width:38px;height:38px}}
 
+/* WHATSAPP FAB */
+.wa-fab{position:fixed;left:24px;bottom:24px;z-index:1000;display:inline-flex;align-items:center;gap:9px;height:52px;padding:0 18px 0 14px;border-radius:999px;background:linear-gradient(135deg,#22c35e,#0a7c52);color:#fff;text-decoration:none;box-shadow:0 4px 18px rgba(10,124,82,.34),0 0 0 1px rgba(255,255,255,.08) inset;transition:box-shadow .25s,transform .25s,padding .25s;overflow:hidden}
+.wa-fab:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(10,124,82,.44)}
+.wa-fab:active{transform:translateY(0) scale(.97)}
+.wa-fab-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
+.wa-fab-icon::after{content:'';position:absolute;inset:-8px;border-radius:50%;background:#22c35e;opacity:.35;animation:pulse-ring 2.2s ease-out infinite}
+.wa-fab-label{font-size:13px;font-weight:600;white-space:nowrap;letter-spacing:.01em}
+@media(max-width:600px){
+  .wa-fab{left:16px;bottom:16px;height:48px;padding:0 16px 0 12px}
+  .wa-fab-label{font-size:12px}
+}
+@media(max-width:380px){
+  .wa-fab{padding:0;width:48px;justify-content:center}
+  .wa-fab-label{display:none}
+}
+
 /* LAYOUT */
 .container{max-width:1100px;margin:0 auto;padding:1.5rem}
 
@@ -93,7 +109,16 @@ html{scroll-behavior:smooth}
 .finance-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
 .fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;flex-direction:column;gap:4px}
 .fin-card .fin-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
-.fin-card .fin-value{font-size:22px;font-weight:600;font-family:'DM Mono',monospace;line-height:1.2}
+.fin-card .fin-value{font-size:22px;font-weight:600;font-family:'DM Mono',monospace;line-height:1.2;white-space:nowrap;transition:font-size .15s}
+.fin-card .fin-value.fit-sm{font-size:18px}
+.fin-card .fin-value.fit-xs{font-size:15px}
+.fin-card .fin-value.fit-xxs{font-size:12.5px}
+@media(max-width:480px){
+  .fin-card .fin-value{font-size:19px}
+  .fin-card .fin-value.fit-sm{font-size:16px}
+  .fin-card .fin-value.fit-xs{font-size:13.5px}
+  .fin-card .fin-value.fit-xxs{font-size:11.5px}
+}
 .fin-card .fin-sub{font-size:11px;color:var(--text3)}
 .fin-card.masuk{border-top:3px solid var(--green-mid)}
 .fin-card.masuk .fin-value{color:var(--green)}
@@ -133,6 +158,7 @@ html{scroll-behavior:smooth}
 [data-theme="dark"] .table-wrap tbody tr:hover td{background:rgba(34,196,126,0.12)}
 .no-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
 .ket-cell{font-size:12px;color:var(--text2);max-width:220px}
+.ket-note{font-size:10.5px;color:var(--text3);margin-top:2px;font-style:italic}
 .date-cell{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap}
 .rp-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
 .rp-in{color:var(--green)}
@@ -162,7 +188,7 @@ html{scroll-behavior:smooth}
     --green:#0a7c52!important;--green-bg:#e6f5ee!important;--green-mid:#1da876!important;
     --red:#b5341a!important;--red-bg:#fdeee9!important;--amber:#8a5c00!important;--amber-bg:#fef3d8!important;
   }
-  .filter-row,.btn-refresh,.btn-print,.scroll-top,.theme-toggle{display:none!important}
+  .filter-row,.btn-refresh,.btn-print,.scroll-top,.theme-toggle,.wa-fab{display:none!important}
   body{background:#fff}
   .header{position:static!important;background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;border-bottom:1.5px solid #ccc!important;padding:0 0 10px 0!important;margin-bottom:14px}
   .table-wrap{overflow:visible!important;border:1px solid #ccc}
@@ -325,6 +351,14 @@ html{scroll-behavior:smooth}
   </svg>
 </button>
 
+<!-- WhatsApp Pengurus -->
+<a class="wa-fab" href="https://wa.me/6285219072611?text=Assalamu'alaikum%2C%20saya%20ingin%20bertanya%20mengenai%20laporan%20kas%20Masjid%20Al-Barokah" target="_blank" rel="noopener" aria-label="Hubungi Pengurus via WhatsApp">
+  <span class="wa-fab-icon">
+    <svg viewBox="0 0 32 32" width="24" height="24" fill="#fff"><path d="M16.02 3C9.4 3 4 8.39 4 15.02c0 2.5.72 4.81 1.96 6.78L4 29l7.42-1.94a11.93 11.93 0 0 0 4.6.92h.01c6.62 0 12.01-5.39 12.01-12.02C28.04 8.39 22.65 3 16.02 3Zm0 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.85 1.01 1.03-3.76-.24-.39a9.84 9.84 0 0 1-1.51-5.25c0-5.45 4.43-9.89 9.89-9.89 2.64 0 5.13 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.46-4.43 9.98-9.79 9.98Zm5.43-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.19 5.06 4.47.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.28.17-1.41-.07-.12-.27-.2-.57-.35Z"/></svg>
+  </span>
+  <span class="wa-fab-label">Hubungi Pengurus</span>
+</a>
+
 <!-- Scroll to top -->
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Ke atas">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 14.5 12 7.5 19 14.5"/></svg>
@@ -360,6 +394,18 @@ function fmtRpShort(n) {
   return 'Rp ' + n;
 }
 
+// Sesuaikan ukuran font nilai card agar tetap pas di satu baris (mobile & desktop)
+function fitFinValues() {
+  document.querySelectorAll('.fin-value').forEach(el => {
+    const len = el.textContent.replace(/\s/g, '').length;
+    el.classList.remove('fit-sm', 'fit-xs', 'fit-xxs');
+    if (len > 18) el.classList.add('fit-xxs');
+    else if (len > 14) el.classList.add('fit-xs');
+    else if (len > 11) el.classList.add('fit-sm');
+  });
+}
+window.addEventListener('resize', () => { if (allRows.length) fitFinValues(); });
+
 // Format tanggal: m/d/yyyy → dd/mm/yyyy
 function fmtTgl(raw) {
   if (!raw || !raw.trim()) return '—';
@@ -393,7 +439,7 @@ function parseCSV(text) {
   allRows = [];
   const lines = text.split('\n');
   let headerIdx = -1;
-  let colNo = -1, colTgl = -1, colKet = -1, colMasuk = -1, colKeluar = -1, colSaldo = -1;
+  let colNo = -1, colTgl = -1, colKet = -1, colNote = -1, colMasuk = -1, colKeluar = -1, colSaldo = -1;
 
   // Cari baris header yang mengandung TANGGAL dan PEMASUKAN
   for (let i = 0; i < Math.min(20, lines.length); i++) {
@@ -405,15 +451,15 @@ function parseCSV(text) {
         const cu = c.toUpperCase().replace(/"/g, '').trim();
         if (cu === 'NO' || cu === 'NO.') colNo = idx;
         else if (cu.includes('TANGGAL') || cu.includes('TGL')) colTgl = idx;
-        else if (cu.includes('KETERANGAN') || cu.includes('KET') || cu.includes('URAIAN') || cu === '') {
-          // kolom deskripsi — ambil kolom ke-2 jika ada nama
-          if (colKet < 0) colKet = idx;
-        }
+        // Kolom uraian utama: LAPORAN (format DKM ini)
+        else if (cu.includes('LAPORAN') || cu.includes('URAIAN')) colKet = idx;
         else if (cu.includes('PEMASUKAN') || cu === 'MASUK' || cu === 'DEBIT') colMasuk = idx;
         else if (cu.includes('PENGELUARAN') || cu === 'KELUAR' || cu === 'KREDIT') colKeluar = idx;
         else if (cu.includes('SALDO')) colSaldo = idx;
+        // Kolom catatan tambahan: KETERANGAN
+        else if (cu.includes('KETERANGAN') || cu.includes('KET')) colNote = idx;
       });
-      // Fallback: kolom ke-2 (index 2) biasanya keterangan di format DKM
+      // Fallback: kolom ke-2 (index 2) biasanya uraian utama di format DKM
       if (colKet < 0) colKet = 2;
       break;
     }
@@ -437,17 +483,18 @@ function parseCSV(text) {
     const no     = colNo >= 0   ? cols[colNo]?.replace(/"/g,'').trim()  : '';
     const tgl    = colTgl >= 0  ? cols[colTgl]?.replace(/"/g,'').trim() : '';
     const ket    = colKet >= 0  ? cols[colKet]?.replace(/"/g,'').trim() : '';
+    const note   = colNote >= 0 ? cols[colNote]?.replace(/"/g,'').trim() : '';
     const masuk  = colMasuk >= 0  ? parseRp(cols[colMasuk])  : 0;
     const keluar = colKeluar >= 0 ? parseRp(cols[colKeluar]) : 0;
     const saldo  = colSaldo >= 0  ? parseRp(cols[colSaldo])  : 0;
 
     // Skip baris kosong (tidak ada tanggal, keterangan, dan nilai)
-    if (!tgl && !ket && masuk === 0 && keluar === 0) continue;
+    if (!tgl && !ket && !note && masuk === 0 && keluar === 0) continue;
 
     // Skip baris yang hanya berisi saldo berulang tanpa transaksi
     if (!tgl && !ket && masuk === 0 && keluar === 0 && saldo > 0) continue;
 
-    allRows.push({ no, tgl: fmtTgl(tgl), ket, masuk, keluar, saldo });
+    allRows.push({ no, tgl: fmtTgl(tgl), ket, note, masuk, keluar, saldo });
   }
 }
 
@@ -458,7 +505,7 @@ function render() {
     if (filterMode === 'masuk'  && r.masuk  === 0) return false;
     if (filterMode === 'keluar' && r.keluar === 0) return false;
     if (q) {
-      const hay = (r.ket + ' ' + r.tgl).toLowerCase();
+      const hay = (r.ket + ' ' + r.note + ' ' + r.tgl).toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -483,10 +530,12 @@ function render() {
   }
 
   tbody.innerHTML = list.map((r, i) => {
+    const ketMain = r.ket ? r.ket : '<span style="color:var(--text3);font-style:italic">—</span>';
+    const ketNote = r.note ? `<div class="ket-note">${r.note}</div>` : '';
     return `<tr>
       <td class="no-cell">${i + 1}</td>
       <td class="date-cell">${r.tgl || '—'}</td>
-      <td class="ket-cell">${r.ket || '<span style="color:var(--text3);font-style:italic">—</span>'}</td>
+      <td class="ket-cell">${ketMain}${ketNote}</td>
       <td class="rp-cell rp-in">${r.masuk  > 0 ? fmtRp(r.masuk)  : ''}</td>
       <td class="rp-cell rp-out">${r.keluar > 0 ? fmtRp(r.keluar) : ''}</td>
       <td class="rp-cell rp-saldo">${r.saldo > 0 ? fmtRp(r.saldo) : '—'}</td>
@@ -520,9 +569,10 @@ async function init() {
     const masukCount  = allRows.filter(r => r.masuk  > 0).length;
     const keluarCount = allRows.filter(r => r.keluar > 0).length;
 
-    document.getElementById('fin-masuk').textContent  = fmtRpShort(totalMasuk);
-    document.getElementById('fin-keluar').textContent = fmtRpShort(totalKeluar);
-    document.getElementById('fin-saldo').textContent  = fmtRpShort(saldo);
+    document.getElementById('fin-masuk').textContent  = fmtRp(totalMasuk);
+    document.getElementById('fin-keluar').textContent = fmtRp(totalKeluar);
+    document.getElementById('fin-saldo').textContent  = fmtRp(saldo);
+    fitFinValues();
     document.getElementById('s-total').textContent       = allRows.length;
     document.getElementById('s-masuk-count').textContent = masukCount;
     document.getElementById('s-keluar-count').textContent= keluarCount;
