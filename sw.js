@@ -6,8 +6,8 @@ const CACHE_NAME = 'pallet-app-v2';
 const ASSETS = [
   './index.html',
   './manifest.json',
-  './logoandroid-512r1.png',
-  './logop1.png'
+  './logoiosp3.png',
+  './Logo RT11.png'
 ];
 
 // Pemasangan Service Worker
