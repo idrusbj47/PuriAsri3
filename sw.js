@@ -7,7 +7,7 @@ const ASSETS = [
   './index.html',
   './manifest.json',
   './logoiosp3.png',
-  './Logo RT11.png'
+  './Logo RT11-1.png'
 ];
 
 // Pemasangan Service Worker
