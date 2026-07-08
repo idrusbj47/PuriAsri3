@@ -671,16 +671,72 @@
     .modal-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; color: var(--green-900); margin-bottom: 6px; padding-right: 20px; }
     .modal-desc { font-size: 13px; color: var(--text-muted); font-weight: 300; line-height: 1.55; margin-bottom: 18px; }
 
-    .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-    .guide-step { display: flex; gap: 12px; align-items: flex-start; }
-    .guide-step-num { flex-shrink: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--green-700); color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-    .guide-step-body { flex: 1; min-width: 0; }
-    .guide-step-title { font-size: 13.5px; font-weight: 500; color: var(--text-dark); margin-bottom: 2px; }
-    .guide-step-desc { font-size: 12.5px; color: var(--text-muted); font-weight: 300; line-height: 1.5; }
+    /* ── ONBOARDING TOUR: spotlight menyoroti menu utama ── */
+    .tour-blocker {
+      position: fixed; inset: 0;
+      z-index: 2499;
+      background: transparent;
+      display: none;
+    }
+    .tour-blocker.active { display: block; }
+
+    .tour-hole {
+      position: fixed;
+      z-index: 2500;
+      pointer-events: none;
+      border-radius: 16px;
+      box-shadow: 0 0 0 9999px rgba(13, 31, 16, 0.72), 0 0 0 3px var(--gold-400), 0 0 24px rgba(0,0,0,0.25);
+      transition: top 0.4s cubic-bezier(.4,0,.2,1), left 0.4s cubic-bezier(.4,0,.2,1), width 0.4s cubic-bezier(.4,0,.2,1), height 0.4s cubic-bezier(.4,0,.2,1);
+      display: none;
+    }
+    .tour-hole.active { display: block; }
+
+    .tour-tooltip {
+      position: fixed;
+      z-index: 2502;
+      background: var(--cream-card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-hover);
+      padding: 18px 20px 16px;
+      width: min(340px, calc(100vw - 32px));
+      display: none;
+      transition: top 0.35s ease, left 0.35s ease;
+    }
+    .tour-tooltip.active { display: block; }
+
+    .tour-eyebrow {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--gold-700); font-weight: 600; margin-bottom: 10px;
+    }
+    .tour-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: var(--green-900); margin-bottom: 6px; }
+    .tour-desc { font-size: 12.5px; color: var(--text-muted); font-weight: 300; line-height: 1.55; margin-bottom: 16px; }
+    .tour-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .tour-dots { display: flex; gap: 5px; }
+    .tour-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border-mid); transition: background 0.2s, width 0.2s; }
+    .tour-dot.active { background: var(--gold-500); width: 16px; border-radius: 3px; }
+    .tour-actions { display: flex; align-items: center; gap: 14px; }
+    .tour-skip {
+      background: none; border: none; font-size: 12.5px; color: var(--text-muted);
+      cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 4px;
+    }
+    .tour-skip:hover { color: var(--text-dark); }
+    .tour-next {
+      background: var(--gold-500); color: #fff; border: none; border-radius: 20px;
+      padding: 8px 20px; font-size: 12.5px; font-weight: 600; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; box-shadow: 0 2px 8px rgba(196,154,60,0.35);
+      white-space: nowrap;
+    }
+    .tour-next:hover { background: var(--gold-700); }
+
+    @media (max-width: 600px) {
+      .tour-tooltip { padding: 16px 18px 14px; }
+    }
 
     .ios-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-    .ios-steps li { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--text-mid); line-height: 1.4; }
+    .ios-steps li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text-mid); line-height: 1.45; }
     .ios-steps .ios-ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--gold-100); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .ios-steps .ios-step-text { flex: 1; min-width: 0; padding-top: 3px; }
 
     footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
     footer strong { color: var(--green-700); font-weight: 500; }
@@ -1305,7 +1361,7 @@
 
     <div class="secondary-grid" style="margin-bottom:32px;">
 
-      <a class="secondary-card" href="javascript:void(0)" onclick="openModal('guideModal')">
+      <a class="secondary-card" href="javascript:void(0)" onclick="startTour()">
         <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
@@ -1389,7 +1445,7 @@
     </div>
 
     <!-- Seksi: Rincian Keuangan -->
-    <div class="secondary-grid">
+    <div class="secondary-grid" id="tourRincian">
 
       <a class="secondary-card" href="pengeluaran-kas.html">
         <div class="sec-icon">
@@ -1428,7 +1484,7 @@
       <span>Kas Komunitas &amp; Lingkungan</span>
     </div>
 
-    <div class="secondary-grid">
+    <div class="secondary-grid" id="tourKomunitas">
 
       <a class="secondary-card full-row" href="index2.html">
         <div class="sec-icon" style="background:linear-gradient(135deg,#f3eefd,#e0d4fb);border-color:rgba(124,58,237,0.25);color:#7c3aed;">
@@ -1453,7 +1509,7 @@
       <span>Informasi &amp; Dokumen RT</span>
     </div>
 
-    <div class="secondary-grid">
+    <div class="secondary-grid" id="tourDokumen">
 
       <a class="secondary-card full-row" href="program-rt.html">
         <div class="sec-icon" style="background:linear-gradient(135deg,#eef4ff,#dce8ff);border-color:rgba(74,100,180,0.2);color:#4a64b4;">
@@ -1597,59 +1653,6 @@
     <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
   </footer>
 
-  <!-- ── MODAL: PANDUAN PENGGUNAAN ── -->
-  <div class="modal-overlay" id="guideModal">
-    <div class="modal-panel">
-      <button class="modal-close-btn" onclick="closeModal('guideModal')" aria-label="Tutup">✕</button>
-      <div class="modal-icon-wrap">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
-          <line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-      </div>
-      <div class="modal-title">Panduan Penggunaan Website</div>
-      <div class="modal-desc">Ikuti langkah berikut agar lebih mudah menelusuri informasi &amp; laporan keuangan warga Puri Asri 3.</div>
-      <ul class="guide-steps">
-        <li class="guide-step">
-          <div class="guide-step-num">1</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">Cek Laporan Keuangan</div>
-            <div class="guide-step-desc">Buka menu <strong>Kas Umum</strong> untuk melihat rekap iuran bulanan &amp; status pembayaran warga.</div>
-          </div>
-        </li>
-        <li class="guide-step">
-          <div class="guide-step-num">2</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">Rincian Pengeluaran</div>
-            <div class="guide-step-desc">Bagian <strong>Rincian Keuangan</strong> menampilkan detail penggunaan dana kas umum &amp; dana kematian.</div>
-          </div>
-        </li>
-        <li class="guide-step">
-          <div class="guide-step-num">3</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">Dokumen &amp; Peraturan RT</div>
-            <div class="guide-step-desc">AD/ART, Peta Lokasi, &amp; program RT dapat diakses lewat bagian <strong>Informasi &amp; Dokumen RT</strong>.</div>
-          </div>
-        </li>
-        <li class="guide-step">
-          <div class="guide-step-num">4</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">Konfirmasi Pembayaran</div>
-            <div class="guide-step-desc">Tekan tombol hijau melayang di kanan bawah untuk konfirmasi kas langsung ke Pak RT via WhatsApp.</div>
-          </div>
-        </li>
-        <li class="guide-step">
-          <div class="guide-step-num">5</div>
-          <div class="guide-step-body">
-            <div class="guide-step-title">Install Aplikasi</div>
-            <div class="guide-step-desc">Pasang website ini sebagai aplikasi di layar utama HP lewat tombol <strong>Install Aplikasi (PWA)</strong> agar lebih praktis dibuka kembali.</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-
   <!-- ── MODAL: INSTRUKSI MANUAL INSTALL PWA ── -->
   <div class="modal-overlay" id="installHelpModal">
     <div class="modal-panel">
@@ -1666,6 +1669,29 @@
       <ul class="ios-steps" id="installHelpSteps">
         <!-- diisi otomatis oleh JS sesuai perangkat -->
       </ul>
+    </div>
+  </div>
+
+  <!-- ── ONBOARDING TOUR: spotlight menyoroti menu utama ── -->
+  <div class="tour-blocker" id="tourClickBlocker"></div>
+  <div class="tour-hole" id="tourHole"></div>
+  <div class="tour-tooltip" id="tourTooltip">
+    <div class="tour-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Panduan Singkat
+    </div>
+    <div class="tour-title" id="tourTitle">Judul</div>
+    <div class="tour-desc" id="tourDesc">Deskripsi</div>
+    <div class="tour-footer">
+      <div class="tour-dots" id="tourDots"></div>
+      <div class="tour-actions">
+        <button class="tour-skip" onclick="skipTour()">Lewati</button>
+        <button class="tour-next" id="tourNextBtn" onclick="nextTourStep()">Lanjut</button>
+      </div>
     </div>
   </div>
 
@@ -1875,23 +1901,23 @@
       titleEl.textContent = 'Install di iPhone / iPad';
       descEl.textContent = 'Safari tidak menyediakan tombol install otomatis. Ikuti langkah berikut:';
       stepsEl.innerHTML =
-        '<li><span class="ios-ic">⬆️</span> Tekan ikon <strong>Share / Bagikan</strong> di bar bawah Safari</li>' +
-        '<li><span class="ios-ic">➕</span> Pilih <strong>Add to Home Screen / Tambah ke Layar Utama</strong></li>' +
-        '<li><span class="ios-ic">✅</span> Tekan <strong>Add / Tambah</strong> di pojok kanan atas</li>';
+        '<li><span class="ios-ic">⬆️</span><span class="ios-step-text">Tekan ikon <strong>Share / Bagikan</strong> di bar bawah Safari</span></li>' +
+        '<li><span class="ios-ic">➕</span><span class="ios-step-text">Pilih <strong>Add to Home Screen / Tambah ke Layar Utama</strong></span></li>' +
+        '<li><span class="ios-ic">✅</span><span class="ios-step-text">Tekan <strong>Add / Tambah</strong> di pojok kanan atas</span></li>';
     } else if (isAndroid) {
       titleEl.textContent = 'Install di HP Android';
       descEl.textContent = 'Jika tombol install belum muncul otomatis, coba cara berikut:';
       stepsEl.innerHTML =
-        '<li><span class="ios-ic">⋮</span> Tekan ikon <strong>titik tiga</strong> di pojok kanan atas browser</li>' +
-        '<li><span class="ios-ic">📲</span> Pilih <strong>Install app / Tambahkan ke layar utama</strong></li>' +
-        '<li><span class="ios-ic">✅</span> Tekan <strong>Install</strong> untuk memasang</li>';
+        '<li><span class="ios-ic">⋮</span><span class="ios-step-text">Tekan ikon <strong>titik tiga</strong> di pojok kanan atas browser</span></li>' +
+        '<li><span class="ios-ic">📲</span><span class="ios-step-text">Pilih <strong>Install app / Tambahkan ke layar utama</strong></span></li>' +
+        '<li><span class="ios-ic">✅</span><span class="ios-step-text">Tekan <strong>Install</strong> untuk memasang</span></li>';
     } else {
       titleEl.textContent = 'Install di Komputer';
       descEl.textContent = 'Jika tombol install belum muncul otomatis, coba cara berikut:';
       stepsEl.innerHTML =
-        '<li><span class="ios-ic">⬇️</span> Klik ikon <strong>install</strong> di address bar browser (Chrome/Edge)</li>' +
-        '<li><span class="ios-ic">⋮</span> Atau buka menu titik tiga → <strong>Install Puri Asri 3</strong></li>' +
-        '<li><span class="ios-ic">✅</span> Klik <strong>Install</strong> untuk memasang</li>';
+        '<li><span class="ios-ic">⬇️</span><span class="ios-step-text">Klik ikon <strong>install</strong> di address bar browser (Chrome/Edge)</span></li>' +
+        '<li><span class="ios-ic">⋮</span><span class="ios-step-text">Atau buka menu titik tiga → <strong>Install Puri Asri 3</strong></span></li>' +
+        '<li><span class="ios-ic">✅</span><span class="ios-step-text">Klik <strong>Install</strong> untuk memasang</span></li>';
     }
     openModal('installHelpModal');
   }
@@ -1912,6 +1938,136 @@
 
     showManualInstallSteps();
   }
+</script>
+<script>
+  // ── ONBOARDING TOUR: spotlight menyoroti menu utama ──
+  const tourSteps = [
+    { selector: '.polling-banner', title: 'Info & Polling', desc: 'Pantau info penting dan hasil polling warga lewat banner ini.' },
+    { selector: '.menu-grid', title: 'Laporan Keuangan', desc: 'Kas Umum & Dana Kematian — dua laporan utama warga ada di sini.' },
+    { selector: '#tourRincian', title: 'Rincian Keuangan', desc: 'Detail penggunaan dana kas umum & dana kematian per transaksi.' },
+    { selector: '#tourKomunitas', title: 'Kas Komunitas & Lingkungan', desc: 'Kas Gang, Futsal, Posyandu, DKM, & kas warga lainnya di luar Kas RT.' },
+    { selector: '#tourDokumen', title: 'Informasi & Dokumen RT', desc: 'Program kerja, timeline rapat, dokumentasi, inventaris, AD/ART, & peta lokasi.' },
+    { selector: '.wa-float-container', title: 'Bayar Iuran / Kas', desc: 'Konfirmasi pembayaran kas langsung ke Pak RT lewat WhatsApp.' }
+  ];
+
+  let tourIndex = 0;
+  let tourActive = false;
+
+  function startTour() {
+    tourIndex = 0;
+    tourActive = true;
+    document.getElementById('tourClickBlocker').classList.add('active');
+    document.getElementById('tourHole').classList.add('active');
+    document.getElementById('tourTooltip').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    renderTourStep();
+  }
+
+  function renderTourStep() {
+    // lewati step yang elemennya tidak ada di halaman ini
+    while (tourIndex < tourSteps.length && !document.querySelector(tourSteps[tourIndex].selector)) {
+      tourIndex++;
+    }
+
+    if (tourIndex >= tourSteps.length) {
+      endTour();
+      return;
+    }
+
+    const step = tourSteps[tourIndex];
+    const target = document.querySelector(step.selector);
+
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(function () { positionTourHole(target); }, 320);
+
+    document.getElementById('tourTitle').textContent = step.title;
+    document.getElementById('tourDesc').textContent = step.desc;
+
+    const dotsWrap = document.getElementById('tourDots');
+    dotsWrap.innerHTML = '';
+    tourSteps.forEach(function (_, i) {
+      const dot = document.createElement('div');
+      dot.className = 'tour-dot' + (i === tourIndex ? ' active' : '');
+      dotsWrap.appendChild(dot);
+    });
+
+    document.getElementById('tourNextBtn').textContent =
+      (tourIndex === tourSteps.length - 1) ? 'Selesai' : 'Lanjut';
+  }
+
+  function positionTourHole(target) {
+    const rect = target.getBoundingClientRect();
+    const pad = 8;
+    const hole = document.getElementById('tourHole');
+    hole.style.top = (rect.top - pad) + 'px';
+    hole.style.left = (rect.left - pad) + 'px';
+    hole.style.width = (rect.width + pad * 2) + 'px';
+    hole.style.height = (rect.height + pad * 2) + 'px';
+    positionTourTooltip(rect);
+  }
+
+  function positionTourTooltip(rect) {
+    const tooltip = document.getElementById('tourTooltip');
+    const margin = 14;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const tw = tooltip.offsetWidth || 320;
+    const th = tooltip.offsetHeight || 160;
+
+    let top;
+    const spaceBelow = vh - rect.bottom;
+    const spaceAbove = rect.top;
+
+    if (spaceBelow >= th + margin) {
+      top = rect.bottom + margin;
+    } else if (spaceAbove >= th + margin) {
+      top = rect.top - th - margin;
+    } else {
+      top = Math.max(margin, vh - th - margin);
+    }
+
+    let left = rect.left + rect.width / 2 - tw / 2;
+    left = Math.max(margin, Math.min(left, vw - tw - margin));
+
+    tooltip.style.top = top + 'px';
+    tooltip.style.left = left + 'px';
+  }
+
+  function nextTourStep() {
+    tourIndex++;
+    if (tourIndex >= tourSteps.length) {
+      endTour();
+    } else {
+      renderTourStep();
+    }
+  }
+
+  function skipTour() { endTour(); }
+
+  function endTour() {
+    tourActive = false;
+    document.getElementById('tourClickBlocker').classList.remove('active');
+    document.getElementById('tourHole').classList.remove('active');
+    document.getElementById('tourTooltip').classList.remove('active');
+    document.body.style.overflow = '';
+    try { localStorage.setItem('pa3TourSeen', '1'); } catch (e) {}
+  }
+
+  window.addEventListener('resize', function () {
+    if (!tourActive) return;
+    const step = tourSteps[tourIndex];
+    const target = step ? document.querySelector(step.selector) : null;
+    if (target) positionTourHole(target);
+  });
+
+  // jalankan otomatis hanya saat pertama kali website dibuka di perangkat ini
+  window.addEventListener('load', function () {
+    let seen = null;
+    try { seen = localStorage.getItem('pa3TourSeen'); } catch (e) {}
+    if (!seen) {
+      setTimeout(function () { startTour(); }, 900);
+    }
+  });
 </script>
     <script>
   if ('serviceWorker' in navigator) {
