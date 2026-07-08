@@ -617,6 +617,71 @@
     .sec-desc { font-size: 11px; color: var(--text-muted); font-weight: 300; line-height: 1.4; }
     .sec-arrow { color: var(--text-muted); font-size: 14px; flex-shrink: 0; }
 
+    /* ── MODAL: PANDUAN & INSTALL PWA ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(13, 31, 16, 0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-panel {
+      background: var(--cream-card);
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      max-height: 86vh;
+      overflow-y: auto;
+      padding: 28px 24px 26px;
+      box-shadow: var(--shadow-hover);
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.25s ease;
+      position: relative;
+    }
+    .modal-overlay.active .modal-panel { transform: translateY(0) scale(1); }
+    .modal-close-btn {
+      position: absolute; top: 14px; right: 14px;
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1px solid var(--border-mid);
+      background: var(--green-50);
+      color: var(--text-mid);
+      font-size: 15px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .modal-close-btn:hover { background: var(--green-100); }
+    .modal-icon-wrap {
+      width: 50px; height: 50px;
+      border-radius: var(--radius-md);
+      background: var(--green-100);
+      border: 1px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-700);
+      margin-bottom: 14px;
+    }
+    .modal-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 600; color: var(--green-900); margin-bottom: 6px; padding-right: 20px; }
+    .modal-desc { font-size: 13px; color: var(--text-muted); font-weight: 300; line-height: 1.55; margin-bottom: 18px; }
+
+    .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+    .guide-step { display: flex; gap: 12px; align-items: flex-start; }
+    .guide-step-num { flex-shrink: 0; width: 25px; height: 25px; border-radius: 50%; background: var(--green-700); color: #fff; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
+    .guide-step-body { flex: 1; min-width: 0; }
+    .guide-step-title { font-size: 13.5px; font-weight: 500; color: var(--text-dark); margin-bottom: 2px; }
+    .guide-step-desc { font-size: 12.5px; color: var(--text-muted); font-weight: 300; line-height: 1.5; }
+
+    .ios-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .ios-steps li { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--text-mid); line-height: 1.4; }
+    .ios-steps .ios-ic { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; background: var(--gold-100); display: flex; align-items: center; justify-content: center; font-size: 13px; }
+
     footer { position: relative; z-index: 1; text-align: center; padding: 24px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em; }
     footer strong { color: var(--green-700); font-weight: 500; }
     .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46, 112, 56, 0.06); pointer-events: none; z-index: 0; }
@@ -1233,6 +1298,45 @@
       </div>
     </a>
 
+    <!-- ── SEKSI: PANDUAN & INSTALL PWA ── -->
+    <div class="section-label" style="margin-bottom:16px;">
+      <span>Panduan &amp; Aplikasi</span>
+    </div>
+
+    <div class="secondary-grid" style="margin-bottom:32px;">
+
+      <a class="secondary-card" href="javascript:void(0)" onclick="openModal('guideModal')">
+        <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title">Panduan Penggunaan Website</div>
+          <div class="sec-desc">Cara cepat memakai fitur kas, laporan &amp; dokumen RT</div>
+        </div>
+        <div class="sec-arrow">→</div>
+      </a>
+
+      <a class="secondary-card" href="javascript:void(0)" id="installCard" onclick="handleInstallClick()">
+        <div class="sec-icon" style="background:var(--gold-100);border-color:rgba(196,154,60,0.3);color:var(--gold-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title" id="installCardTitle">Install Aplikasi (PWA)</div>
+          <div class="sec-desc" id="installCardDesc">Pasang di layar utama HP, akses lebih cepat tanpa browser</div>
+        </div>
+        <div class="sec-arrow" id="installCardArrow">→</div>
+      </a>
+
+    </div>
+
     <div class="section-label">
       <span>Laporan Keuangan</span>
     </div>
@@ -1493,6 +1597,78 @@
     <span style="margin-top:4px; display:block;">Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</span>
   </footer>
 
+  <!-- ── MODAL: PANDUAN PENGGUNAAN ── -->
+  <div class="modal-overlay" id="guideModal">
+    <div class="modal-panel">
+      <button class="modal-close-btn" onclick="closeModal('guideModal')" aria-label="Tutup">✕</button>
+      <div class="modal-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <div class="modal-title">Panduan Penggunaan Website</div>
+      <div class="modal-desc">Ikuti langkah berikut agar lebih mudah menelusuri informasi &amp; laporan keuangan warga Puri Asri 3.</div>
+      <ul class="guide-steps">
+        <li class="guide-step">
+          <div class="guide-step-num">1</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">Cek Laporan Keuangan</div>
+            <div class="guide-step-desc">Buka menu <strong>Kas Umum</strong> untuk melihat rekap iuran bulanan &amp; status pembayaran warga.</div>
+          </div>
+        </li>
+        <li class="guide-step">
+          <div class="guide-step-num">2</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">Rincian Pengeluaran</div>
+            <div class="guide-step-desc">Bagian <strong>Rincian Keuangan</strong> menampilkan detail penggunaan dana kas umum &amp; dana kematian.</div>
+          </div>
+        </li>
+        <li class="guide-step">
+          <div class="guide-step-num">3</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">Dokumen &amp; Peraturan RT</div>
+            <div class="guide-step-desc">AD/ART, Peta Lokasi, &amp; program RT dapat diakses lewat bagian <strong>Informasi &amp; Dokumen RT</strong>.</div>
+          </div>
+        </li>
+        <li class="guide-step">
+          <div class="guide-step-num">4</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">Konfirmasi Pembayaran</div>
+            <div class="guide-step-desc">Tekan tombol hijau melayang di kanan bawah untuk konfirmasi kas langsung ke Pak RT via WhatsApp.</div>
+          </div>
+        </li>
+        <li class="guide-step">
+          <div class="guide-step-num">5</div>
+          <div class="guide-step-body">
+            <div class="guide-step-title">Install Aplikasi</div>
+            <div class="guide-step-desc">Pasang website ini sebagai aplikasi di layar utama HP lewat tombol <strong>Install Aplikasi (PWA)</strong> agar lebih praktis dibuka kembali.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── MODAL: INSTRUKSI MANUAL INSTALL PWA ── -->
+  <div class="modal-overlay" id="installHelpModal">
+    <div class="modal-panel">
+      <button class="modal-close-btn" onclick="closeModal('installHelpModal')" aria-label="Tutup">✕</button>
+      <div class="modal-icon-wrap" style="background:var(--gold-100);border-color:rgba(196,154,60,0.3);color:var(--gold-700);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </div>
+      <div class="modal-title" id="installHelpTitle">Cara Install Aplikasi</div>
+      <div class="modal-desc" id="installHelpDesc">Ikuti langkah sesuai perangkat yang kamu pakai:</div>
+      <ul class="ios-steps" id="installHelpSteps">
+        <!-- diisi otomatis oleh JS sesuai perangkat -->
+      </ul>
+    </div>
+  </div>
+
   <div class="wa-float-container">
     <div class="wa-interactive-btn" id="waBtn" onclick="handleWaClick()">
       <div class="wa-icon-circle">
@@ -1632,6 +1808,111 @@
       }
     })();
   </script>
+    <script>
+  // ── MODAL HELPERS (Panduan & Install PWA) ──
+  function openModal(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal(overlay.id);
+    });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.active').forEach(function (ov) {
+        closeModal(ov.id);
+      });
+    }
+  });
+
+  // ── INSTALL PWA ──
+  let deferredInstallPrompt = null;
+  const installCardTitle = document.getElementById('installCardTitle');
+  const installCardDesc = document.getElementById('installCardDesc');
+  const installCardArrow = document.getElementById('installCardArrow');
+
+  function isRunningStandalone() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+
+  function markAppAsInstalled() {
+    if (installCardTitle) installCardTitle.textContent = 'Aplikasi Sudah Terpasang';
+    if (installCardDesc) installCardDesc.textContent = 'Kamu sudah membuka website ini sebagai aplikasi';
+    if (installCardArrow) installCardArrow.textContent = '✓';
+  }
+
+  if (isRunningStandalone()) markAppAsInstalled();
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+  });
+
+  window.addEventListener('appinstalled', function () {
+    deferredInstallPrompt = null;
+    markAppAsInstalled();
+  });
+
+  function showManualInstallSteps() {
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const isAndroid = /android/.test(ua);
+    const stepsEl = document.getElementById('installHelpSteps');
+    const titleEl = document.getElementById('installHelpTitle');
+    const descEl = document.getElementById('installHelpDesc');
+
+    if (isIOS) {
+      titleEl.textContent = 'Install di iPhone / iPad';
+      descEl.textContent = 'Safari tidak menyediakan tombol install otomatis. Ikuti langkah berikut:';
+      stepsEl.innerHTML =
+        '<li><span class="ios-ic">⬆️</span> Tekan ikon <strong>Share / Bagikan</strong> di bar bawah Safari</li>' +
+        '<li><span class="ios-ic">➕</span> Pilih <strong>Add to Home Screen / Tambah ke Layar Utama</strong></li>' +
+        '<li><span class="ios-ic">✅</span> Tekan <strong>Add / Tambah</strong> di pojok kanan atas</li>';
+    } else if (isAndroid) {
+      titleEl.textContent = 'Install di HP Android';
+      descEl.textContent = 'Jika tombol install belum muncul otomatis, coba cara berikut:';
+      stepsEl.innerHTML =
+        '<li><span class="ios-ic">⋮</span> Tekan ikon <strong>titik tiga</strong> di pojok kanan atas browser</li>' +
+        '<li><span class="ios-ic">📲</span> Pilih <strong>Install app / Tambahkan ke layar utama</strong></li>' +
+        '<li><span class="ios-ic">✅</span> Tekan <strong>Install</strong> untuk memasang</li>';
+    } else {
+      titleEl.textContent = 'Install di Komputer';
+      descEl.textContent = 'Jika tombol install belum muncul otomatis, coba cara berikut:';
+      stepsEl.innerHTML =
+        '<li><span class="ios-ic">⬇️</span> Klik ikon <strong>install</strong> di address bar browser (Chrome/Edge)</li>' +
+        '<li><span class="ios-ic">⋮</span> Atau buka menu titik tiga → <strong>Install Puri Asri 3</strong></li>' +
+        '<li><span class="ios-ic">✅</span> Klik <strong>Install</strong> untuk memasang</li>';
+    }
+    openModal('installHelpModal');
+  }
+
+  function handleInstallClick() {
+    if (isRunningStandalone()) return;
+
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then(function (choice) {
+        if (choice.outcome === 'accepted') {
+          markAppAsInstalled();
+        }
+        deferredInstallPrompt = null;
+      });
+      return;
+    }
+
+    showManualInstallSteps();
+  }
+</script>
     <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
