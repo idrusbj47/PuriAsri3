@@ -1976,9 +1976,7 @@
 
     const step = tourSteps[tourIndex];
     const target = document.querySelector(step.selector);
-
-    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(function () { positionTourHole(target); }, 320);
+    currentTourTarget = target;
 
     document.getElementById('tourTitle').textContent = step.title;
     document.getElementById('tourDesc').textContent = step.desc;
@@ -1993,10 +1991,52 @@
 
     document.getElementById('tourNextBtn').textContent =
       (tourIndex === tourSteps.length - 1) ? 'Selesai' : 'Lanjut';
+
+    // posisi awal langsung (sebelum scroll) agar sorotan tidak melompat/meleset
+    positionTourHole(target);
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // lacak posisi target secara terus-menerus sampai scroll & animasi
+    // (mis. header yang mengecil saat scroll) benar-benar selesai
+    trackTourTarget(target);
   }
 
-  function positionTourHole(target) {
-    const rect = target.getBoundingClientRect();
+  let currentTourTarget = null;
+  let tourTrackRAF = null;
+
+  function trackTourTarget(target) {
+    if (tourTrackRAF) cancelAnimationFrame(tourTrackRAF);
+    const start = performance.now();
+    const maxDuration = 1100;
+    let lastTop = null;
+    let lastLeft = null;
+    let stableFrames = 0;
+
+    function step(now) {
+      if (!tourActive || currentTourTarget !== target) { tourTrackRAF = null; return; }
+
+      const rect = target.getBoundingClientRect();
+      positionTourHole(target, rect);
+
+      const moved = lastTop === null ||
+        Math.abs(rect.top - lastTop) > 0.5 ||
+        Math.abs(rect.left - lastLeft) > 0.5;
+      lastTop = rect.top;
+      lastLeft = rect.left;
+      stableFrames = moved ? 0 : stableFrames + 1;
+
+      const elapsed = now - start;
+      if (elapsed < maxDuration && stableFrames < 6) {
+        tourTrackRAF = requestAnimationFrame(step);
+      } else {
+        tourTrackRAF = null;
+      }
+    }
+    tourTrackRAF = requestAnimationFrame(step);
+  }
+
+  function positionTourHole(target, rectParam) {
+    const rect = rectParam || target.getBoundingClientRect();
     const pad = 8;
     const hole = document.getElementById('tourHole');
     hole.style.top = (rect.top - pad) + 'px';
@@ -2046,6 +2086,8 @@
 
   function endTour() {
     tourActive = false;
+    currentTourTarget = null;
+    if (tourTrackRAF) { cancelAnimationFrame(tourTrackRAF); tourTrackRAF = null; }
     document.getElementById('tourClickBlocker').classList.remove('active');
     document.getElementById('tourHole').classList.remove('active');
     document.getElementById('tourTooltip').classList.remove('active');
@@ -2054,11 +2096,13 @@
   }
 
   window.addEventListener('resize', function () {
-    if (!tourActive) return;
-    const step = tourSteps[tourIndex];
-    const target = step ? document.querySelector(step.selector) : null;
-    if (target) positionTourHole(target);
+    if (tourActive && currentTourTarget) positionTourHole(currentTourTarget);
   });
+
+  // jika pengguna scroll manual saat tur aktif, ikuti posisi target secara presisi
+  window.addEventListener('scroll', function () {
+    if (tourActive && currentTourTarget) positionTourHole(currentTourTarget);
+  }, { passive: true });
 
   // jalankan otomatis hanya saat pertama kali website dibuka di perangkat ini
   window.addEventListener('load', function () {
