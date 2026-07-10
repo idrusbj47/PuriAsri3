@@ -446,6 +446,69 @@
       margin: 0 auto;
     }
 
+    /* ── HERO SLIDER: banner gambar otomatis di paling atas ── */
+    .hero-slider {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 8.4;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 28px;
+      background: var(--green-800);
+      box-shadow: var(--shadow-card);
+    }
+    .hero-slider-track {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+      will-change: transform;
+    }
+    .hero-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-slider::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 44%;
+      background: linear-gradient(to top, rgba(13,31,16,0.38), transparent);
+      pointer-events: none;
+    }
+    .hero-slider-dots {
+      position: absolute;
+      left: 0; right: 0; bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      z-index: 2;
+    }
+    .hero-slider-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.45);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 0.25s ease, background 0.25s ease, border-radius 0.25s ease;
+    }
+    .hero-slider-dot.active {
+      width: 18px;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .hero-slider { aspect-ratio: 16 / 10; margin-bottom: 20px; border-radius: var(--radius-md); }
+    }
+
     .section-label {
       display: flex;
       align-items: center;
@@ -1231,137 +1294,187 @@
       }
     }
 
-    /* ── POLLING CARD ── */
-    @keyframes pollingPulse {
-      0%, 100% { box-shadow: 0 2px 12px rgba(196,154,60,0.18), 0 0 0 0 rgba(196,154,60,0.35); }
-      50%       { box-shadow: 0 8px 32px rgba(196,154,60,0.32), 0 0 0 8px rgba(196,154,60,0); }
-    }
-    @keyframes shimmerPolling {
-      0%   { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-    @keyframes badgePop {
-      0%   { transform: scale(1); }
-      40%  { transform: scale(1.18); }
-      100% { transform: scale(1); }
-    }
-    @keyframes attentionWave {
-      0%, 90%, 100% { transform: translateX(0); }
-      92%           { transform: translateX(-3px); }
-      94%           { transform: translateX(3px); }
-      96%           { transform: translateX(-2px); }
-      98%           { transform: translateX(2px); }
-    }
-
+    /* ── ARSIP POLLING (sudah selesai, dibuat tenang & kecil) ── */
     .polling-banner {
       position: relative;
-      background: linear-gradient(135deg, #7a5c1e 0%, #9a7226 30%, #c49a3c 60%, #7a5c1e 100%);
-      background-size: 200% auto;
-      animation: shimmerPolling 4s linear infinite, pollingPulse 2.8s ease-in-out infinite;
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      margin-bottom: 24px;
+      background: var(--cream-card);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 0;
       text-decoration: none;
-      color: #fff;
+      color: inherit;
       display: flex;
       align-items: center;
-      gap: 16px;
-      border: 1px solid rgba(196,154,60,0.5);
-      overflow: hidden;
+      gap: 12px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-card);
       cursor: pointer;
-      transition: transform 0.22s ease;
-      animation: shimmerPolling 4s linear infinite, pollingPulse 2.8s ease-in-out infinite, attentionWave 6s ease-in-out 2s infinite;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    .polling-banner:hover { transform: translateY(-2px); }
-
-    .polling-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M20 20h20v20H20zM0 0h20v20H0z'/%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
+    .polling-banner:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); border-color: var(--border-mid); }
 
     .polling-banner-icon {
-      width: 52px; height: 52px; flex-shrink: 0;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: var(--radius-md);
+      width: 38px; height: 38px; flex-shrink: 0;
+      background: var(--gold-100);
+      border: 1px solid rgba(196,154,60,0.25);
+      border-radius: var(--radius-sm);
       display: flex; align-items: center; justify-content: center;
-      font-size: 26px; backdrop-filter: blur(4px);
+      font-size: 17px;
     }
 
     .polling-banner-body { flex: 1; min-width: 0; }
     .polling-banner-eyebrow {
-      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(255,255,255,0.65); font-weight: 500; margin-bottom: 4px;
+      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 500; margin-bottom: 3px;
     }
     .polling-banner-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 17px; font-weight: 600; color: #fff;
-      line-height: 1.25; margin-bottom: 4px;
+      font-size: 13px; font-weight: 500; color: var(--text-dark);
+      line-height: 1.3; margin-bottom: 2px;
     }
-    .polling-banner-desc {
-      font-size: 11.5px; color: rgba(255,255,255,0.72); font-weight: 300; line-height: 1.5;
-    }
+    .polling-banner-desc { display: none; }
 
-    .polling-banner-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+    .polling-banner-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
     .polling-count-badge {
       display: flex; flex-direction: column; align-items: center;
-      background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 12px; padding: 8px 14px; backdrop-filter: blur(8px);
-      animation: badgePop 3s ease-in-out 1.5s infinite;
-      min-width: 64px;
+      background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25);
+      border-radius: 10px; padding: 5px 10px;
+      min-width: 44px;
     }
     .polling-count-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 26px; font-weight: 600; color: #fff; line-height: 1;
+      font-size: 15px; font-weight: 600; color: var(--gold-700); line-height: 1;
     }
     .polling-count-label {
-      font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.7); margin-top: 2px; white-space: nowrap;
+      font-size: 7.5px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--text-muted); margin-top: 2px; white-space: nowrap;
     }
 
     .polling-banner-arrow {
-      width: 30px; height: 30px; border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.25);
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid var(--border-mid);
       display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.8); font-size: 14px;
+      color: var(--green-600); font-size: 12px;
       transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
     }
-    .polling-banner:hover .polling-banner-arrow { background: rgba(255,255,255,0.18); transform: translateX(3px); }
+    .polling-banner:hover .polling-banner-arrow { background: var(--green-100); transform: translateX(2px); }
 
-    /* LIVE DOT on polling */
+    /* status "selesai" — statis, tidak berdenyut */
     .polling-live-dot {
       display: inline-flex; align-items: center; gap: 5px;
-      font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.75); font-weight: 500;
+      font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 500;
     }
     .polling-live-dot::before {
       content: '';
       width: 6px; height: 6px; border-radius: 50%;
-      background: #7aff88;
-      box-shadow: 0 0 0 0 rgba(122,255,136,0.7);
-      animation: liveDotPulse 1.6s ease-in-out infinite;
+      background: var(--green-400);
       flex-shrink: 0;
-    }
-    @keyframes liveDotPulse {
-      0%   { box-shadow: 0 0 0 0 rgba(122,255,136,0.7); }
-      70%  { box-shadow: 0 0 0 6px rgba(122,255,136,0); }
-      100% { box-shadow: 0 0 0 0 rgba(122,255,136,0); }
     }
 
     @media (max-width: 600px) {
-      .polling-banner { padding: 16px; gap: 12px; }
-      .polling-banner-icon { width: 44px; height: 44px; font-size: 22px; }
-      .polling-banner-title { font-size: 15px; }
-      .polling-banner-desc { display: none; }
-      .polling-count-num { font-size: 22px; }
+      .polling-banner { padding: 12px 14px; gap: 10px; }
+      .polling-banner-icon { width: 34px; height: 34px; font-size: 15px; }
+      .polling-banner-title { font-size: 12.5px; }
+      .polling-count-num { font-size: 13px; }
+    }
+
+    /* ── SPLASH SCREEN ── */
+    #splashScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: var(--green-950);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      transition: opacity 0.45s ease;
+    }
+    #splashScreen.splash-hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .splash-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--gold-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+      animation: splashPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .splash-logo img { width: 48px; height: 48px; object-fit: contain; border-radius: 50%; }
+    @keyframes splashPop {
+      0%   { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .splash-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.01em;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+    .splash-sub {
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-200);
+      margin-top: -10px;
+      animation: fadeUp 0.5s ease 0.18s both;
+    }
+    .splash-dots { display: flex; gap: 7px; margin-top: 6px; }
+    .splash-dots span {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold-400);
+      animation: splashDot 1.1s ease-in-out infinite;
+    }
+    .splash-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .splash-dots span:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes splashDot {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+      40%           { transform: translateY(-7px); opacity: 1; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ── SPLASH SCREEN: elemen pertama, tampil instan saat app dibuka ── -->
+  <div id="splashScreen" style="position:fixed;inset:0;z-index:99999;background:#0d1f10;">
+    <div class="splash-logo">
+      <img src="Logo RT11.png" alt="Puri Asri 3">
+    </div>
+    <div class="splash-title">Puri Asri 3</div>
+    <div class="splash-sub">RT 01 &nbsp;·&nbsp; RW 12</div>
+    <div class="splash-dots"><span></span><span></span><span></span></div>
+  </div>
+  <script>
+    // Splash tampil minimal 1.5 detik, lalu memudar dan dihapus dari DOM
+    (function () {
+      var SPLASH_MIN_MS = 1500;
+      var start = performance.now();
+      function hideSplash() {
+        var el = document.getElementById('splashScreen');
+        if (!el) return;
+        el.classList.add('splash-hide');
+        setTimeout(function () { el.remove(); }, 500);
+      }
+      window.addEventListener('load', function () {
+        var elapsed = performance.now() - start;
+        var remaining = Math.max(SPLASH_MIN_MS - elapsed, 0);
+        setTimeout(hideSplash, remaining);
+      });
+      // jaga-jaga kalau event load lama/tidak terpicu
+      setTimeout(hideSplash, 4000);
+    })();
+  </script>
 
   <div class="deco-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
   <div class="deco-ring" style="width:400px;height:400px;bottom:-100px;left:-150px;"></div>
@@ -1383,29 +1496,24 @@
 
   <main>
 
+    <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slider-track" id="heroSliderTrack">
+        <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div>
+        <div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
+      </div>
+      <div class="hero-slider-dots" id="heroSliderDots"></div>
+    </div>
+
     <div class="hero">
       <div class="hero-eyebrow">Beranda</div>
       <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
       <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
     </div>
-
-    <!-- ── POLLING BANNER ── -->
-    <a class="polling-banner" href="poling.html" id="pollingBanner">
-      <div class="polling-banner-icon">🗳️</div>
-      <div class="polling-banner-body">
-        <div class="polling-banner-eyebrow">⚡ Berita acara di Menu Progres urusan Warga, silahkan Cek.</div>
-        <div class="polling-banner-title">Polling Posyandu &amp; Kas RT</div>
-        <div class="polling-banner-desc">Terimakasih Kepada seluruh wargi.</div>
-        <div class="polling-live-dot" style="margin-top:8px;">Finish · Hasil Polling</div>
-      </div>
-      <div class="polling-banner-right">
-        <div class="polling-count-badge">
-          <div class="polling-count-num" id="pollingCountNum">—</div>
-          <div class="polling-count-label">Suara Masuk</div>
-        </div>
-        <div class="polling-banner-arrow">→</div>
-      </div>
-    </a>
 
     <!-- ── SEKSI: PANDUAN & INSTALL PWA ── -->
     <div class="section-label" style="margin-bottom:16px;">
@@ -1641,6 +1749,27 @@
       </a>
 
     </div>
+
+    <!-- ── ARSIP: POLLING SUDAH SELESAI ── -->
+    <div class="section-label" style="margin-bottom:16px;">
+      <span>Arsip</span>
+    </div>
+
+    <a class="polling-banner" href="poling.html" id="pollingBanner">
+      <div class="polling-banner-icon">🗳️</div>
+      <div class="polling-banner-body">
+        <div class="polling-banner-eyebrow">Berita acara ada di menu Progres Urusan Warga</div>
+        <div class="polling-banner-title">Polling Posyandu &amp; Kas RT</div>
+        <div class="polling-live-dot">Selesai · Lihat hasil polling</div>
+      </div>
+      <div class="polling-banner-right">
+        <div class="polling-count-badge">
+          <div class="polling-count-num" id="pollingCountNum">—</div>
+          <div class="polling-count-label">Suara</div>
+        </div>
+        <div class="polling-banner-arrow">→</div>
+      </div>
+    </a>
 
   </main>
 
@@ -1956,13 +2085,75 @@
   }
 </script>
 <script>
+  // ── HERO SLIDER: auto-geser tiap 4.5 detik + dukungan swipe ──
+  (function () {
+    const track = document.getElementById('heroSliderTrack');
+    const dotsWrap = document.getElementById('heroSliderDots');
+    if (!track || !dotsWrap) return;
+
+    const slides = Array.prototype.slice.call(track.children);
+    const total = slides.length;
+    let idx = 0;
+    let timer = null;
+
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'hero-slider-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+      dot.addEventListener('click', function () { goTo(i); });
+      dotsWrap.appendChild(dot);
+    }
+
+    function render() {
+      track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+      const dots = dotsWrap.children;
+      for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.toggle('active', i === idx);
+      }
+    }
+
+    function next() {
+      idx = (idx + 1) % total;
+      render();
+    }
+
+    function goTo(i) {
+      idx = i;
+      render();
+      restart();
+    }
+
+    function restart() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(next, 4500);
+    }
+
+    // swipe (sentuh) untuk mobile
+    let touchStartX = 0;
+    track.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 40) {
+        idx = dx < 0 ? (idx + 1) % total : (idx - 1 + total) % total;
+        render();
+        restart();
+      }
+    }, { passive: true });
+
+    render();
+    restart();
+  })();
+</script>
+<script>
   // ── ONBOARDING TOUR: spotlight menyoroti menu utama ──
   const tourSteps = [
-    { selector: '.polling-banner', title: 'Info & Polling', desc: 'Pantau info penting dan hasil polling warga lewat banner ini.' },
     { selector: '.menu-grid', title: 'Laporan Keuangan', desc: 'Kas Umum & Dana Kematian — dua laporan utama warga ada di sini.' },
     { selector: '#tourRincian', title: 'Rincian Keuangan', desc: 'Detail penggunaan dana kas umum & dana kematian per transaksi.' },
     { selector: '#tourKomunitas', title: 'Kas Komunitas & Lingkungan', desc: 'Kas Gang, Futsal, Posyandu, DKM, & kas warga lainnya di luar Kas RT.' },
     { selector: '#tourDokumen', title: 'Informasi & Dokumen RT', desc: 'Program kerja, timeline rapat, dokumentasi, inventaris, AD/ART, & peta lokasi.' },
+    { selector: '.polling-banner', title: 'Arsip Polling', desc: 'Hasil polling yang sudah selesai tetap bisa dilihat di sini.' },
     { selector: '.wa-float-container', title: 'Bayar Iuran / Kas', desc: 'Konfirmasi pembayaran kas langsung ke Pak RT lewat WhatsApp.' }
   ];
 
