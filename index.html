@@ -450,11 +450,11 @@
     .hero-slider {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 8.4;
+      height: 190px;
       border-radius: var(--radius-lg);
       overflow: hidden;
       margin-bottom: 28px;
-      background: var(--green-800);
+      background: linear-gradient(135deg, var(--green-900), var(--green-800));
       box-shadow: var(--shadow-card);
     }
     .hero-slider-track {
@@ -468,24 +468,28 @@
       flex: 0 0 100%;
       width: 100%;
       height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .hero-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      object-position: center;
       display: block;
     }
     .hero-slider::after {
       content: '';
       position: absolute;
       left: 0; right: 0; bottom: 0;
-      height: 44%;
-      background: linear-gradient(to top, rgba(13,31,16,0.38), transparent);
+      height: 30%;
+      background: linear-gradient(to top, rgba(13,31,16,0.32), transparent);
       pointer-events: none;
     }
     .hero-slider-dots {
       position: absolute;
-      left: 0; right: 0; bottom: 12px;
+      left: 0; right: 0; bottom: 10px;
       display: flex;
       justify-content: center;
       gap: 6px;
@@ -506,7 +510,7 @@
     }
 
     @media (max-width: 600px) {
-      .hero-slider { aspect-ratio: 16 / 10; margin-bottom: 20px; border-radius: var(--radius-md); }
+      .hero-slider { height: 168px; margin-bottom: 20px; border-radius: var(--radius-md); }
     }
 
     .section-label {
@@ -543,13 +547,13 @@
       position: relative;
       background: var(--cream-card);
       border: 1px solid var(--border-light);
-      border-radius: var(--radius-lg);
-      padding: 28px 26px 24px;
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
       text-decoration: none;
       color: inherit;
       display: flex;
-      flex-direction: column;
-      gap: 12px;
+      align-items: center;
+      gap: 14px;
       box-shadow: var(--shadow-card);
       transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
       overflow: hidden;
@@ -567,7 +571,7 @@
     }
 
     .menu-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       box-shadow: var(--shadow-hover);
       border-color: var(--border-mid);
     }
@@ -595,48 +599,55 @@
     .menu-card.featured .card-arrow { color: var(--gold-300); border-color: rgba(196, 154, 60, 0.3); }
 
     .card-icon-wrap {
-      width: 48px;
-      height: 48px;
-      border-radius: var(--radius-md);
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border-light);
       background: var(--green-50);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--green-600);
-      font-size: 22px;
+      font-size: 20px;
       flex-shrink: 0;
       transition: background 0.2s;
     }
 
     .menu-card:hover:not(.featured) .card-icon-wrap { background: var(--green-100); }
-    .card-body { flex: 1; }
-    .card-tag { display: inline-block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; color: var(--green-600); margin-bottom: 6px; }
+    .card-body { flex: 1; min-width: 0; }
+    .card-tag { display: inline-block; font-size: 9px; letter-spacing: 0.09em; text-transform: uppercase; font-weight: 500; color: var(--green-600); margin-bottom: 3px; }
     .featured .card-tag { color: var(--gold-400); }
-    .card-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 500; color: var(--green-900); line-height: 1.25; margin-bottom: 6px; }
-    .card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; font-weight: 300; }
-    .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border-light); margin-top: 4px; }
-    .featured .card-footer { border-color: rgba(255,255,255,0.1); }
-    .card-status { font-size: 11px; font-weight: 500; color: var(--green-500); display: flex; align-items: center; gap: 5px; }
-    .card-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); }
+    .card-title { font-family: 'Playfair Display', serif; font-size: 16.5px; font-weight: 500; color: var(--green-900); line-height: 1.2; margin-bottom: 3px; }
+    .card-desc {
+      font-size: 11px; color: var(--text-muted); line-height: 1.4; font-weight: 300;
+      display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card-footer { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .card-status { font-size: 10px; font-weight: 500; color: var(--green-500); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .card-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); flex-shrink: 0; }
     .featured .card-status { color: var(--gold-300); }
     .featured .card-status-dot { background: var(--gold-400); }
 
     .card-arrow {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       border: 1px solid var(--border-mid);
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--green-600);
-      font-size: 13px;
+      font-size: 12px;
+      flex-shrink: 0;
       transition: background 0.2s, transform 0.2s;
     }
 
     .menu-card:hover .card-arrow { background: var(--green-100); transform: translateX(2px); }
     .menu-card.featured:hover .card-arrow { background: rgba(196, 154, 60, 0.15); }
+
+    @media (max-width: 600px) {
+      .card-status span:not(.card-status-dot) { display: none; }
+    }
 
     /* ── KEMATIAN CARD ── */
     .menu-card.kematian {
@@ -651,7 +662,6 @@
     .menu-card.kematian .card-tag { color: #a898cc; }
     .menu-card.kematian .card-title { color: #f0eef8; }
     .menu-card.kematian .card-desc { color: rgba(200, 195, 220, 0.7); }
-    .menu-card.kematian .card-footer { border-color: rgba(255,255,255,0.08); }
     .menu-card.kematian .card-status { color: #a898cc; }
     .menu-card.kematian .card-status-dot { background: #7c6fa0; }
     .menu-card.kematian .card-arrow { color: #b8aee0; border-color: rgba(124, 111, 160, 0.35); }
@@ -1562,7 +1572,7 @@
 
       <a class="menu-card featured" href="kas-umum.html">
         <div class="card-icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
             <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/>
             <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
@@ -1571,12 +1581,12 @@
         <div class="card-body">
           <div class="card-tag">Laporan Utama</div>
           <div class="card-title">Kas Umum</div>
-          <div class="card-desc">Rekap iuran bulanan warga, status pembayaran, dan total kas terkumpul tahun ini.</div>
+          <div class="card-desc">Rekap iuran, status bayar & total kas warga</div>
         </div>
         <div class="card-footer">
           <div class="card-status">
             <div class="card-status-dot"></div>
-            Data terkini
+            <span>Terkini</span>
           </div>
           <div class="card-arrow">→</div>
         </div>
@@ -1584,7 +1594,7 @@
 
       <a class="menu-card kematian" href="Kematian.html">
         <div class="card-icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
             <polyline points="9 22 9 12 15 12 15 22"/>
           </svg>
@@ -1592,12 +1602,12 @@
         <div class="card-body">
           <div class="card-tag">Dana Sosial</div>
           <div class="card-title">Dana Kematian</div>
-          <div class="card-desc">Laporan iuran dan penyaluran dana sosial kematian bagi warga yang berduka.</div>
+          <div class="card-desc">Iuran & penyaluran dana sosial kematian</div>
         </div>
         <div class="card-footer">
           <div class="card-status">
             <div class="card-status-dot"></div>
-            Data terkini
+            <span>Terkini</span>
           </div>
           <div class="card-arrow">→</div>
         </div>
