@@ -1363,6 +1363,92 @@
       }
     }
 
+    /* ── BANNER HUT RI 17 AGUSTUSAN (topik hangat, tampil paling atas) ── */
+    .hutri-banner {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(135deg, #a3182a 0%, #6f0f19 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin: 0 0 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(111,15,25,0.22), 0 2px 8px rgba(111,15,25,0.14);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .hutri-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(111,15,25,0.28), 0 3px 10px rgba(111,15,25,0.16); }
+    .hutri-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 12% 20%, rgba(255,255,255,0.12) 0%, transparent 45%),
+                         radial-gradient(circle at 90% 85%, rgba(255,255,255,0.08) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .hutri-banner-top {
+      position: relative;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .hutri-banner-flag { font-size: 18px; line-height: 1; }
+    .hutri-banner-eyebrow {
+      font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #f5d98a; font-weight: 600;
+    }
+    .hutri-banner-title {
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: 16.5px; font-weight: 600; color: #fff;
+      line-height: 1.3; margin-bottom: 4px;
+    }
+    .hutri-banner-desc {
+      position: relative;
+      font-size: 11.5px; color: rgba(255,255,255,0.75);
+      margin-bottom: 14px;
+    }
+    .hutri-progress-track {
+      position: relative;
+      width: 100%; height: 10px;
+      background: rgba(255,255,255,0.16);
+      border-radius: 20px; overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .hutri-progress-fill {
+      position: absolute; inset: 0 auto 0 0;
+      width: 0%;
+      background: linear-gradient(90deg, #e3c97e, #fff3c4);
+      border-radius: 20px;
+      transition: width 1.1s cubic-bezier(.22,.9,.32,1);
+    }
+    .hutri-progress-meta {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; color: rgba(255,255,255,0.85);
+    }
+    .hutri-progress-meta strong { color: #fff; font-weight: 700; }
+    .hutri-banner-cta {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.14);
+      font-size: 11.5px; color: #f5d98a; font-weight: 600;
+    }
+    .hutri-banner-arrow {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px; flex-shrink: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hutri-banner:hover .hutri-banner-arrow { background: rgba(255,255,255,0.16); transform: translateX(2px); }
+
+    @media (max-width: 600px) {
+      .hutri-banner { padding: 16px 16px; margin-bottom: 20px; }
+      .hutri-banner-title { font-size: 14.5px; }
+    }
+
     /* ── ARSIP POLLING (sudah selesai, dibuat tenang & kecil) ── */
     .polling-banner {
       position: relative;
@@ -1564,6 +1650,39 @@
   </header>
 
   <main>
+
+    <!-- ── BANNER HUT RI 17 AGUSTUSAN: topik hangat, ditaruh paling atas ── -->
+    <a class="hutri-banner" href="hut-ri-17an.html" id="hutriBanner">
+      <div class="hutri-banner-top">
+        <span class="hutri-banner-flag">🇮🇩</span>
+        <span class="hutri-banner-eyebrow">Sedang Berjalan · Iuran Warga</span>
+      </div>
+      <div class="hutri-banner-title">Donasi Acara 17 Agustusan HUT RI ke-81</div>
+      <div class="hutri-banner-desc">Yuk sukseskan acara 17 Agustusan warga Puri Asri 3. Cek progres dana & daftar donatur.</div>
+
+      <div class="hutri-progress-track">
+        <div class="hutri-progress-fill" id="hutriProgressFill"></div>
+      </div>
+      <div class="hutri-progress-meta">
+        <span>Terkumpul <strong>Rp 940.000</strong> dari Rp 16.500.000</span>
+        <span><strong id="hutriProgressPercent">5,7%</strong></span>
+      </div>
+
+      <div class="hutri-banner-cta">
+        <span>Lihat detail & cara donasi</span>
+        <div class="hutri-banner-arrow">→</div>
+      </div>
+    </a>
+    <script>
+      (function () {
+        var rab = 16500000, terkumpul = 940000;
+        var persen = (terkumpul / rab) * 100;
+        var fill = document.getElementById('hutriProgressFill');
+        requestAnimationFrame(function () {
+          setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 200);
+        });
+      })();
+    </script>
 
     <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
     <div class="hero-slider" id="heroSlider">
@@ -2236,6 +2355,7 @@
 <script>
   // ── ONBOARDING TOUR: spotlight menyoroti menu utama ──
   const tourSteps = [
+    { selector: '.hutri-banner', title: 'Donasi 17 Agustusan', desc: 'Progres dana & daftar donatur acara HUT RI bisa dicek di banner ini.' },
     { selector: '.menu-grid', title: 'Laporan Keuangan', desc: 'Kas Umum & Dana Kematian — dua laporan utama warga ada di sini.' },
     { selector: '#tourRincian', title: 'Rincian Keuangan', desc: 'Detail penggunaan dana kas umum & dana kematian per transaksi.' },
     { selector: '#tourKomunitas', title: 'Kas Komunitas & Lingkungan', desc: 'Kas Gang, Futsal, Posyandu, DKM, & kas warga lainnya di luar Kas RT.' },
