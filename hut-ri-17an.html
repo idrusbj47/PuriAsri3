@@ -369,9 +369,9 @@
     <div class="progress-top">
       <div class="progress-amount">
         <small>Dana Terkumpul</small>
-        Rp 940.000
+        <span id="jmlTerkumpul">memuat...</span>
       </div>
-      <div class="progress-target">Target RAB<br><strong>Rp 16.500.000</strong></div>
+      <div class="progress-target">Target RAB<br><strong id="jmlRab">–</strong></div>
     </div>
 
     <div class="progress-bar-track">
@@ -379,22 +379,22 @@
     </div>
     <div class="progress-meta">
       <span>Menuju target RAB acara</span>
-      <span class="progress-percent" id="progressPercent">5,7%</span>
+      <span class="progress-percent" id="progressPercent">–</span>
     </div>
 
     <div class="progress-stats-row">
       <div class="stat-box">
-        <div class="num">15</div>
+        <div class="num" id="jmlDonatur">–</div>
         <div class="lbl">Donatur</div>
       </div>
       <div class="stat-box">
-        <div class="num">Rp 15,56 Jt</div>
+        <div class="num" id="jmlKekurangan">–</div>
         <div class="lbl">Kekurangan</div>
       </div>
     </div>
 
     <div class="cta-row">
-      <a class="cta-btn wa" href="https://wa.me/6281222025651" target="_blank" rel="noopener">
+      <a class="cta-btn wa" href="https://wa.me/6281222025651" id="ctaWaBtn" target="_blank" rel="noopener">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.36c1.36.72 2.9 1.12 4.62 1.12 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.86 14.11c-.24.68-1.42 1.32-1.96 1.4-.5.08-1.14.11-1.84-.12-.42-.14-.97-.32-1.66-.63-2.93-1.27-4.84-4.24-4.99-4.44-.14-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.29.6-.37.8-.37.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.09.93 2.24.08.15.13.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13 1.01 2.08 1.32 2.37 1.47.29.15.46.13.63-.08.17-.2.72-.83.91-1.12.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.94.29.15.48.22.55.34.07.13.07.71-.17 1.4z"/></svg>
         Konfirmasi via WA
       </a>
@@ -408,7 +408,7 @@
   <!-- ── DOKUMEN PANITIA ── -->
   <div class="section-label"><span>Dokumen Panitia</span></div>
 
-  <a class="doc-link" href="https://drive.google.com/file/d/1kUJ-Mo-YhZ7kMcsn6L2MdUIGjTNkvE62/view?usp=sharing" target="_blank" rel="noopener">
+  <a class="doc-link" href="https://drive.google.com/file/d/1kUJ-Mo-YhZ7kMcsn6L2MdUIGjTNkvE62/view?usp=sharing" id="docLinkBtn" target="_blank" rel="noopener">
     <div class="doc-icon">📄</div>
     <div class="doc-body">
       <div class="doc-title">RAB &amp; Dokumen Acara 17 Agustusan</div>
@@ -421,116 +421,179 @@
   <div class="section-label"><span>Daftar Donatur</span></div>
 
   <div class="donor-list" id="rekening">
-    <div class="donor-item">
-      <div class="donor-num">1</div>
-      <div class="donor-info"><div class="donor-name">Bp Surahman</div><div class="donor-blok">Blok B2/10</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">2</div>
-      <div class="donor-info"><div class="donor-name">Bp Agus</div><div class="donor-blok">Blok C1/23</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">3</div>
-      <div class="donor-info"><div class="donor-name">Bp Enjang Rohimat</div><div class="donor-blok">Blok H3/2</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">4</div>
-      <div class="donor-info"><div class="donor-name">Sandra</div><div class="donor-blok">Blok A3/8</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">5</div>
-      <div class="donor-info"><div class="donor-name">Sulistyawan</div><div class="donor-blok">Blok H4/14</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">6</div>
-      <div class="donor-info"><div class="donor-name">Eko Satria</div><div class="donor-blok">Blok A3/29</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">7</div>
-      <div class="donor-info"><div class="donor-name">Sahabat Zai</div><div class="donor-blok">Blok H5/6</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">8</div>
-      <div class="donor-info"><div class="donor-name">Bp. Pras</div><div class="donor-blok">Blok H6/14</div></div>
-      <div class="donor-amount">Rp 100.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">9</div>
-      <div class="donor-info"><div class="donor-name">Ikhwan</div><div class="donor-blok">Blok H4/10</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">10</div>
-      <div class="donor-info"><div class="donor-name">Mm Citra</div><div class="donor-blok">Blok E4/4</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">11</div>
-      <div class="donor-info"><div class="donor-name">Bu Ella</div><div class="donor-blok">Blok H5/2</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">12</div>
-      <div class="donor-info"><div class="donor-name">Bp Yulianto</div><div class="donor-blok">Blok A3/4</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">13</div>
-      <div class="donor-info"><div class="donor-name">Bu Estiana</div><div class="donor-blok">Blok A3/17</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">14</div>
-      <div class="donor-info"><div class="donor-name">Zo</div><div class="donor-blok">Blok E6/3</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-    <div class="donor-item">
-      <div class="donor-num">15</div>
-      <div class="donor-info"><div class="donor-name">Ichsan</div><div class="donor-blok">Blok F5/8</div></div>
-      <div class="donor-amount">Rp 60.000</div>
-    </div>
-
-    <div class="donor-empty-note">Daftar diperbarui berkala oleh panitia. Nama Bapak/Ibu belum tercantum? Konfirmasi lewat WhatsApp di bawah.</div>
+    <div class="donor-empty-note" id="donorLoading">Memuat daftar donatur...</div>
   </div>
 
   <!-- ── CARA DONASI ── -->
   <div class="section-label"><span>Cara Berdonasi</span></div>
 
   <div class="progress-card" style="padding:18px 20px;">
-    <div style="font-size:12.5px; color:var(--text-mid); line-height:1.9;">
-      Bagi Bapak/Ibu yang berkenan berdonasi, dapat menghubungi:<br>
-      <strong style="color:var(--text-dark);">Bu Elis (C1/23)</strong> — 0812 2202 5651<br>
-      <strong style="color:var(--text-dark);">BCA 2810244979</strong> a/n Elis Sopiah
+    <div style="font-size:12.5px; color:var(--text-mid); line-height:1.9;" id="kontakDonasi">
+      Memuat info kontak donasi...
     </div>
   </div>
 
-  <div class="thanks-note">
+  <div class="thanks-note" id="thanksNote">
     🙏 Terima kasih atas kepedulian dan kebersamaannya. Bersama kita sukseskan HUT RI ke-81 di lingkungan Puri Asri 3.
   </div>
 
   <div class="foot-space"></div>
 </main>
 
+<!-- ── DATA HUT RI: ambil live dari Google Sheets (CSV publikasi panitia) ── -->
 <script>
   (function () {
-    var rab = 16500000;
-    var terkumpul = 940000;
-    var persen = (terkumpul / rab) * 100;
-    var persenStr = persen.toFixed(1).replace('.', ',') + '%';
+    var HUTRI_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1228186543&single=true&output=csv';
 
-    document.getElementById('progressPercent').textContent = persenStr;
-    requestAnimationFrame(function () {
-      setTimeout(function () {
-        document.getElementById('progressFill').style.width = Math.max(persen, 2) + '%';
-      }, 150);
-    });
+    function parseCSV(text) {
+      var rows = [], row = [], field = '', inQuotes = false;
+      for (var i = 0; i < text.length; i++) {
+        var c = text[i];
+        if (inQuotes) {
+          if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+          else { field += c; }
+        } else {
+          if (c === '"') inQuotes = true;
+          else if (c === ',') { row.push(field); field = ''; }
+          else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+          else if (c === '\r') { /* skip */ }
+          else field += c;
+        }
+      }
+      if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+      return rows;
+    }
+
+    function parseRupiahLoose(str) {
+      if (!str) return 0;
+      var s = ('' + str).trim();
+      if (/^[\d,]+\.\d{2}$/.test(s)) return Math.round(parseFloat(s.replace(/,/g, '')));
+      var n = parseInt(s.replace(/[^\d]/g, ''), 10);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function formatRupiah(n) {
+      return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+    }
+
+    var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/\d+)\.Rp\.?\s*([\d.,]+)\s*$/;
+
+    function parseHutriData(csvText) {
+      var rows = parseCSV(csvText);
+      var rab = 0, docLink = '', donatur = [], footerLines = [], sawDonor = false;
+
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var col0 = (row[0] || '').trim();
+        var col3 = (row[3] || '').trim();
+        var col4 = (row[4] || '').trim();
+
+        if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(col4);
+        if (col3.toLowerCase().indexOf('link dok') !== -1) docLink = col4;
+
+        var m = col0.match(DONOR_RE);
+        if (m) {
+          sawDonor = true;
+          donatur.push({
+            nomor: m[1],
+            nama: m[2].replace(/\./g, ' ').replace(/\s+/g, ' ').trim(),
+            blok: m[3],
+            amount: parseRupiahLoose(m[4])
+          });
+        } else if (col0 && sawDonor) {
+          footerLines.push(col0);
+        }
+      }
+
+      var terkumpul = donatur.reduce(function (sum, d) { return sum + d.amount; }, 0);
+      var dashLines = footerLines.filter(function (l) { return l.trim().charAt(0) === '-'; });
+      var paraLines = footerLines.filter(function (l) { return l.trim().charAt(0) !== '-'; });
+
+      return {
+        rab: rab, terkumpul: terkumpul, donatur: donatur, docLink: docLink,
+        instruksi: paraLines[0] || '',
+        kontakList: dashLines.map(function (l) { return l.replace(/^-\s*/, ''); }),
+        thanks: paraLines.length > 1 ? paraLines[paraLines.length - 1] : ''
+      };
+    }
+
+    function escapeHtml(s) {
+      return ('' + s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function renderDonorList(donatur) {
+      var wrap = document.getElementById('rekening');
+      if (!donatur.length) {
+        wrap.innerHTML = '<div class="donor-empty-note">Belum ada data donatur.</div>';
+        return;
+      }
+      var html = donatur.map(function (d) {
+        return '<div class="donor-item">' +
+          '<div class="donor-num">' + escapeHtml(d.nomor) + '</div>' +
+          '<div class="donor-info"><div class="donor-name">' + escapeHtml(d.nama) + '</div>' +
+          '<div class="donor-blok">Blok ' + escapeHtml(d.blok) + '</div></div>' +
+          '<div class="donor-amount">' + formatRupiah(d.amount) + '</div>' +
+        '</div>';
+      }).join('');
+      html += '<div class="donor-empty-note">Daftar diperbarui berkala oleh panitia. Nama Bapak/Ibu belum tercantum? Konfirmasi lewat WhatsApp di atas.</div>';
+      wrap.innerHTML = html;
+    }
+
+    function renderPage(data) {
+      var persen = data.rab > 0 ? (data.terkumpul / data.rab) * 100 : 0;
+      var kekurangan = Math.max(data.rab - data.terkumpul, 0);
+
+      document.getElementById('jmlTerkumpul').textContent = formatRupiah(data.terkumpul);
+      document.getElementById('jmlRab').textContent = formatRupiah(data.rab);
+      document.getElementById('progressPercent').textContent = persen.toFixed(1).replace('.', ',') + '%';
+      document.getElementById('jmlDonatur').textContent = data.donatur.length;
+      document.getElementById('jmlKekurangan').textContent = formatRupiah(kekurangan);
+
+      var fill = document.getElementById('progressFill');
+      requestAnimationFrame(function () {
+        setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 150);
+      });
+
+      if (data.docLink) document.getElementById('docLinkBtn').setAttribute('href', data.docLink);
+
+      renderDonorList(data.donatur);
+
+      var kontakEl = document.getElementById('kontakDonasi');
+      if (data.kontakList.length) {
+        var lines = [];
+        if (data.instruksi) lines.push(escapeHtml(data.instruksi));
+        data.kontakList.forEach(function (l) { lines.push('<strong style="color:var(--text-dark);">' + escapeHtml(l) + '</strong>'); });
+        kontakEl.innerHTML = lines.join('<br>');
+
+        var waMatch = data.kontakList.join(' ').match(/(\d{4}[\s.-]?\d{4}[\s.-]?\d{4})/);
+        if (waMatch) {
+          var digits = waMatch[1].replace(/[^\d]/g, '');
+          if (digits.charAt(0) === '0') digits = '62' + digits.slice(1);
+          document.getElementById('ctaWaBtn').setAttribute('href', 'https://wa.me/' + digits);
+        }
+      } else {
+        kontakEl.textContent = 'Info kontak donasi belum tersedia.';
+      }
+
+      if (data.thanks) document.getElementById('thanksNote').textContent = '🙏 ' + data.thanks;
+
+      try { sessionStorage.setItem('hutriDataCache', JSON.stringify(data)); } catch (e) {}
+    }
+
+    fetch(HUTRI_CSV_URL + '&cb=' + Date.now())
+      .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
+      .then(function (csvText) { renderPage(parseHutriData(csvText)); })
+      .catch(function () {
+        var cached = null;
+        try { cached = JSON.parse(sessionStorage.getItem('hutriDataCache')); } catch (e) {}
+        if (cached) { renderPage(cached); }
+        else {
+          document.getElementById('donorLoading').textContent = 'Gagal memuat data. Cek koneksi internet lalu muat ulang halaman.';
+          document.getElementById('kontakDonasi').textContent = 'Gagal memuat info kontak.';
+        }
+      });
   })();
 </script>
 
