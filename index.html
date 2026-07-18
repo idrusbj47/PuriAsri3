@@ -1664,8 +1664,8 @@
         <div class="hutri-progress-fill" id="hutriProgressFill"></div>
       </div>
       <div class="hutri-progress-meta">
-        <span>Terkumpul <strong>Rp 940.000</strong> dari Rp 16.500.000</span>
-        <span><strong id="hutriProgressPercent">5,7%</strong></span>
+        <span>Terkumpul <strong id="hutriTerkumpul">memuat...</strong> dari <span id="hutriTarget">–</span></span>
+        <span><strong id="hutriProgressPercent">–</strong></span>
       </div>
 
       <div class="hutri-banner-cta">
@@ -1673,14 +1673,92 @@
         <div class="hutri-banner-arrow">→</div>
       </div>
     </a>
+
+    <!-- ── DATA HUT RI: ambil live dari Google Sheets (CSV publikasi panitia) ── -->
     <script>
       (function () {
-        var rab = 16500000, terkumpul = 940000;
-        var persen = (terkumpul / rab) * 100;
-        var fill = document.getElementById('hutriProgressFill');
-        requestAnimationFrame(function () {
-          setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 200);
-        });
+        var HUTRI_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1228186543&single=true&output=csv';
+
+        function parseCSV(text) {
+          var rows = [], row = [], field = '', inQuotes = false;
+          for (var i = 0; i < text.length; i++) {
+            var c = text[i];
+            if (inQuotes) {
+              if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+              else { field += c; }
+            } else {
+              if (c === '"') inQuotes = true;
+              else if (c === ',') { row.push(field); field = ''; }
+              else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+              else if (c === '\r') { /* skip */ }
+              else field += c;
+            }
+          }
+          if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+          return rows;
+        }
+
+        function parseRupiahLoose(str) {
+          if (!str) return 0;
+          var s = ('' + str).trim();
+          if (/^[\d,]+\.\d{2}$/.test(s)) return Math.round(parseFloat(s.replace(/,/g, '')));
+          var n = parseInt(s.replace(/[^\d]/g, ''), 10);
+          return isNaN(n) ? 0 : n;
+        }
+
+        function formatRupiah(n) {
+          return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+        }
+
+        var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/\d+)\.Rp\.?\s*([\d.,]+)\s*$/;
+
+        function parseHutriData(csvText) {
+          var rows = parseCSV(csvText);
+          var rab = 0, donatur = [];
+          for (var i = 0; i < rows.length; i++) {
+            var row = rows[i];
+            var col0 = (row[0] || '').trim();
+            var col3 = (row[3] || '').trim();
+            if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(row[4]);
+            var m = col0.match(DONOR_RE);
+            if (m) {
+              donatur.push({
+                nomor: m[1],
+                nama: m[2].replace(/\./g, ' ').replace(/\s+/g, ' ').trim(),
+                blok: m[3],
+                amount: parseRupiahLoose(m[4])
+              });
+            }
+          }
+          var terkumpul = donatur.reduce(function (sum, d) { return sum + d.amount; }, 0);
+          return { rab: rab, terkumpul: terkumpul, donatur: donatur };
+        }
+
+        function renderBanner(data) {
+          var persen = data.rab > 0 ? (data.terkumpul / data.rab) * 100 : 0;
+          document.getElementById('hutriTerkumpul').textContent = formatRupiah(data.terkumpul);
+          document.getElementById('hutriTarget').textContent = formatRupiah(data.rab);
+          document.getElementById('hutriProgressPercent').textContent = persen.toFixed(1).replace('.', ',') + '%';
+          var fill = document.getElementById('hutriProgressFill');
+          requestAnimationFrame(function () {
+            setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 200);
+          });
+          try { sessionStorage.setItem('hutriDataCache', JSON.stringify(data)); } catch (e) {}
+        }
+
+        fetch(HUTRI_CSV_URL + '&cb=' + Date.now())
+          .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
+          .then(function (csvText) { renderBanner(parseHutriData(csvText)); })
+          .catch(function () {
+            var cached = null;
+            try { cached = JSON.parse(sessionStorage.getItem('hutriDataCache')); } catch (e) {}
+            if (cached) { renderBanner(cached); }
+            else {
+              document.getElementById('hutriTerkumpul').textContent = '–';
+              document.getElementById('hutriTarget').textContent = '–';
+              document.getElementById('hutriProgressPercent').textContent = '–';
+            }
+          });
       })();
     </script>
 
