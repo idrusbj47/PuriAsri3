@@ -1,7 +1,7 @@
 // NAIKKAN nomor versi ini (v2 -> v3 -> v4, dst) SETIAP KALI Anda update
 // index.html, manifest.json, atau logo. Ini memaksa HP menghapus cache lama
 // dan mengambil versi terbaru dari server.
-const CACHE_NAME = 'pallet-app-v20';
+const CACHE_NAME = 'pallet-app-v21';
 
 const ASSETS = [
   './index.html',
@@ -29,6 +29,29 @@ const ASSETS = [
   './peta-lokasi.html',
   './poling.html',
   './hut-ri-17an.html'
+];
+
+// Halaman-halaman berisi data yang sering berubah (form / sinkron GSheet dll).
+// Untuk file-file ini kita pakai STALE-WHILE-REVALIDATE juga (bukan cache-first
+// murni), supaya begitu ada versi baru di server, halaman langsung ke-update
+// di kunjungan berikutnya tanpa perlu delete cache manual.
+const FRESH_PAGES = [
+  '/index.html',
+  '/manifest.json',
+  '/kas-umum.html',
+  '/Kematian.html',
+  '/pengeluaran-kas.html',
+  '/pengeluaran-kematian.html',
+  '/index2.html',
+  '/program-rt.html',
+  '/timeline-pa3.html',
+  '/progres-rt.html',
+  '/dokumentasiacara-rt.html',
+  '/inventaris-rt.html',
+  '/adart.html',
+  '/peta-lokasi.html',
+  '/poling.html',
+  '/hut-ri-17an.html'
 ];
 
 // Pemasangan Service Worker
@@ -69,20 +92,31 @@ self.addEventListener('activate', (e) => {
 });
 
 // Strategi pengambilan data:
-// - index.html & manifest.json: STALE-WHILE-REVALIDATE (langsung tampilkan versi
-//   di cache dulu biar app kebuka INSTAN, sambil diam-diam ambil versi terbaru
-//   dari server di belakang layar untuk dipakai di buka berikutnya). Ini yang
-//   menghilangkan rasa "lambat di awal buka" dibanding cara lama (network-first)
-//   yang selalu nunggu jaringan dulu baru tampil.
-// - File lain (halaman menu, gambar, dll): CACHE-FIRST, dan kalau ternyata belum
-//   ada di cache, hasil fetch-nya langsung disimpan juga supaya buka berikutnya
-//   sudah instan & bisa offline.
+// - Request BEDA DOMAIN (Google Sheets/docs.google.com, Google Fonts, gtag,
+//   dsb): TIDAK disentuh sama sekali oleh Service Worker, langsung dibiarkan
+//   lewat ke jaringan (browser default). Ini WAJIB supaya data dari Google
+//   Sheet SELALU realtime/terbaru dan tidak pernah ikut ke-cache oleh SW.
+// - index.html, manifest.json, & halaman-halaman di FRESH_PAGES: STALE-WHILE-
+//   REVALIDATE (langsung tampilkan versi di cache dulu biar app kebuka INSTAN,
+//   sambil diam-diam ambil versi terbaru dari server di belakang layar untuk
+//   dipakai saat buka berikutnya).
+// - File lain (gambar, dll): CACHE-FIRST, dan kalau belum ada di cache, hasil
+//   fetch-nya langsung disimpan juga supaya buka berikutnya sudah instan &
+//   bisa offline.
 self.addEventListener('fetch', (e) => {
-  const isCriticalFile = e.request.url.endsWith('index.html') ||
-                         e.request.url.endsWith('manifest.json') ||
-                         e.request.url.endsWith('/');
+  const url = new URL(e.request.url);
 
-  if (isCriticalFile) {
+  // Hanya proses request GET ke domain yang sama (origin sendiri).
+  // Request beda domain (GSheet CSV, Google Fonts, gtag.js, dll) dilewatkan
+  // begitu saja tanpa campur tangan SW, supaya selalu fresh dari server asli.
+  if (e.request.method !== 'GET' || url.origin !== self.location.origin) {
+    return;
+  }
+
+  const isFreshPage = FRESH_PAGES.some((p) => url.pathname.endsWith(p)) ||
+                       url.pathname.endsWith('/');
+
+  if (isFreshPage) {
     e.respondWith(
       caches.open(CACHE_NAME).then((cache) =>
         cache.match(e.request).then((cachedResponse) => {
