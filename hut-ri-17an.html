@@ -80,6 +80,33 @@ header {
   height: 60px;
   border-bottom: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 2px 16px rgba(111,15,25,0.18);
+  transition: height 0.35s cubic-bezier(0.4,0,0.2,1),
+              background 0.35s ease,
+              box-shadow 0.35s ease,
+              backdrop-filter 0.35s ease,
+              border-color 0.35s ease;
+}
+header.is-scrolled {
+  height: 46px;
+  background: linear-gradient(135deg, rgba(163,24,42,0.62), rgba(111,15,25,0.62));
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow: 0 4px 24px rgba(111,15,25,0.20), inset 0 1px 0 rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+}
+header.is-scrolled .back-btn {
+  width: 30px;
+  height: 30px;
+}
+header.is-scrolled .header-title {
+  font-size: 14px;
+}
+header.is-scrolled .header-sub {
+  font-size: 9.5px;
+  opacity: 0.9;
+}
+.back-btn, .header-title, .header-sub {
+  transition: width 0.35s ease, height 0.35s ease, font-size 0.35s ease, opacity 0.35s ease;
 }
 .back-btn {
   width: 36px; height: 36px; flex-shrink: 0;
@@ -742,6 +769,17 @@ Memuat info kontak donasi...
     scrollTopBtn.addEventListener('click', function () {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+  }
+
+  // Header jadi tipis + efek kaca (glassmorphism) saat halaman di-scroll ke bawah
+  var headerEl = document.querySelector('header');
+  if (headerEl) {
+    var toggleHeaderGlass = function () {
+      if (window.scrollY > 12) headerEl.classList.add('is-scrolled');
+      else headerEl.classList.remove('is-scrolled');
+    };
+    window.addEventListener('scroll', toggleHeaderGlass, { passive: true });
+    toggleHeaderGlass();
   }
 
   loadData();
