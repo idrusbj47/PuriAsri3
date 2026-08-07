@@ -1427,6 +1427,17 @@
       font-size: 11px; color: rgba(255,255,255,0.85);
     }
     .hutri-progress-meta strong { color: #fff; font-weight: 700; }
+
+    /* Baris kecil total keseluruhan (iuran warga + pencairan proposal) di banner */
+    .hutri-total-row {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px dashed rgba(255,255,255,0.18);
+      font-size: 10.5px; color: rgba(255,255,255,0.72);
+    }
+    .hutri-total-row strong { color: #f5d98a; font-weight: 700; }
+
     .hutri-banner-cta {
       position: relative;
       display: flex; align-items: center; justify-content: space-between;
@@ -1694,6 +1705,10 @@
         <span>Terkumpul <strong id="hutriTerkumpul">memuat...</strong> dari <span id="hutriTarget">–</span></span>
         <span><strong id="hutriProgressPercent">–</strong></span>
       </div>
+      <div class="hutri-total-row">
+        <span>Total keseluruhan (+ pencairan proposal)</span>
+        <strong id="hutriTotalGabungan">–</strong>
+      </div>
 
       <div class="hutri-banner-cta">
         <span>Lihat detail & cara iuran</span>
@@ -1741,12 +1756,26 @@
         // di kedua halaman (mendukung format blok/rumah dgn huruf & tanda "-", mis. "E1/15").
         var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/[A-Za-z0-9-]+)\.Rp\.?\s*([\d.,]+)\s*$/;
 
+        // Kolom B: daftar "Pencairan Donatur dari proposal yg sudah di serahkan"
+        var PENCAIRAN_HEADER_RE = /pencairan\s+donatur\s+dari\s+proposal/i;
+        var PENCAIRAN_ITEM_RE = /^(\d+)\.\s*(.+)$/;
+
+        function parsePencairanItem(rawText) {
+          var text = rawText.trim();
+          var rpMatch = text.match(/Rp\.?\s*([\d.,]+)\s*$/i);
+          if (!rpMatch) return { amount: 0, isBarang: true };
+          return { amount: parseRupiahLoose(rpMatch[1]), isBarang: false };
+        }
+
         function parseHutriData(csvText) {
           var rows = parseCSV(csvText);
           var rab = 0, donatur = [];
+          var pencairanUangTotal = 0, pencairanItemCount = 0, inPencairan = false, pencairanDone = false;
+
           for (var i = 0; i < rows.length; i++) {
             var row = rows[i];
             var col0 = (row[0] || '').trim();
+            var col1 = (row[1] || '').trim();
             var col3 = (row[3] || '').trim();
             var col4 = (row[4] || '').trim();
             if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(col4);
@@ -1759,16 +1788,35 @@
                 amount: parseRupiahLoose(m[4])
               });
             }
+
+            // Total pencairan donatur dari proposal (kolom B), hanya item berupa uang.
+            if (!pencairanDone) {
+              if (!inPencairan && PENCAIRAN_HEADER_RE.test(col1)) {
+                inPencairan = true;
+              } else if (inPencairan) {
+                var pm = col1.match(PENCAIRAN_ITEM_RE);
+                if (pm) {
+                  pencairanItemCount++;
+                  var item = parsePencairanItem(pm[2]);
+                  if (!item.isBarang) pencairanUangTotal += item.amount;
+                } else if (pencairanItemCount > 0) {
+                  pencairanDone = true;
+                  inPencairan = false;
+                }
+              }
+            }
           }
           var terkumpul = donatur.reduce(function (sum, d) { return sum + d.amount; }, 0);
-          return { rab: rab, terkumpul: terkumpul, donatur: donatur };
+          return { rab: rab, terkumpul: terkumpul, donatur: donatur, pencairanUangTotal: pencairanUangTotal };
         }
 
         function renderBanner(data) {
           var persen = data.rab > 0 ? (data.terkumpul / data.rab) * 100 : 0;
+          var gabungan = data.terkumpul + (data.pencairanUangTotal || 0);
           document.getElementById('hutriTerkumpul').textContent = formatRupiah(data.terkumpul);
           document.getElementById('hutriTarget').textContent = formatRupiah(data.rab);
           document.getElementById('hutriProgressPercent').textContent = persen.toFixed(1).replace('.', ',') + '%';
+          document.getElementById('hutriTotalGabungan').textContent = formatRupiah(gabungan);
           var fill = document.getElementById('hutriProgressFill');
           requestAnimationFrame(function () {
             setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 200);
@@ -1792,6 +1840,7 @@
                 document.getElementById('hutriTerkumpul').textContent = '–';
                 document.getElementById('hutriTarget').textContent = '–';
                 document.getElementById('hutriProgressPercent').textContent = '–';
+                document.getElementById('hutriTotalGabungan').textContent = '–';
               }
             })
             .finally(function () {
