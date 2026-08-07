@@ -240,6 +240,31 @@ main {
 .progress-percent {
   font-weight: 700; color: var(--red-700); font-size: 13px;
 }
+
+/* Baris "Total Keseluruhan" (iuran warga + pencairan proposal) di dalam kartu progres */
+.progress-combined-row {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 10px; margin-top: 16px; padding-top: 14px;
+  border-top: 1px dashed var(--border-light);
+  margin-bottom: 10px;
+}
+.progress-combined-label {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.progress-combined-label span:first-child {
+  font-size: 11px; font-weight: 700; color: var(--green-700);
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.progress-combined-sub { font-size: 10px; color: var(--text-muted); }
+.progress-combined-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px; font-weight: 700; color: var(--green-700);
+  flex-shrink: 0; white-space: nowrap;
+}
+.progress-bar-track-sub { height: 10px; margin-bottom: 8px; }
+.progress-bar-fill-sub { background: linear-gradient(90deg, var(--green-600), var(--gold-400)); }
+.progress-percent-sub { color: var(--green-700); font-size: 12px; }
+
 .progress-stats-row {
   display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
   margin-top: 18px;
@@ -494,6 +519,67 @@ main {
     </div>
   </div>
 
+  <!-- ── PROGRES DANA ── -->
+  <div class="section-label"><span>Progres Dana Terkumpul</span></div>
+  <div class="progress-card">
+    <div class="progress-top">
+      <div class="progress-amount">
+        <small>Dana Terkumpul dari Warga</small>
+        <span id="jmlTerkumpul">memuat...</span>
+      </div>
+      <div class="progress-target">Target RAB<br><strong id="jmlRab">–</strong></div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-meta">
+      <span>Menuju target RAB acara</span>
+      <span class="progress-percent" id="progressPercent">–</span>
+    </div>
+
+    <div class="progress-combined-row">
+      <div class="progress-combined-label">
+        <span>Total Keseluruhan</span>
+        <span class="progress-combined-sub">Iuran warga + pencairan proposal</span>
+      </div>
+      <div class="progress-combined-amount" id="jmlGabungan">–</div>
+    </div>
+    <div class="progress-bar-track progress-bar-track-sub">
+      <div class="progress-bar-fill progress-bar-fill-sub" id="progressFillGabungan"></div>
+    </div>
+    <div class="progress-meta">
+      <span>Termasuk pencairan proposal (uang)</span>
+      <span class="progress-percent progress-percent-sub" id="progressPercentGabungan">–</span>
+    </div>
+
+    <div class="progress-stats-row">
+      <div class="stat-box">
+        <div class="num" id="jmlDonatur">–</div>
+        <div class="lbl">Donatur</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="jmlKekurangan">–</div>
+        <div class="lbl">Kekurangan</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="cta-btn wa" href="https://wa.me/6281222025651" id="ctaWaBtn" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.36c1.36.72 2.9 1.12 4.62 1.12 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.86 14.11c-.24.68-1.42 1.32-1.96 1.4-.5.08-1.14.11-1.84-.12-.42-.14-.97-.32-1.66-.63-2.93-1.27-4.84-4.24-4.99-4.44-.14-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.29.6-.37.8-.37.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.09.93 2.24.08.15.13.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13 1.01 2.08 1.32 2.37 1.47.29.15.46.13.63-.08.17-.2.72-.83.91-1.12.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.94.29.15.48.22.55.34.07.13.07.71-.17 1.4z"/></svg>
+        Konfirmasi via WA
+      </a>
+      <a class="cta-btn bank" href="#caraPartisipasi">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Info Rekening
+      </a>
+    </div>
+  </div>
+
+  <!-- ── PENCAIRAN DONATUR PROPOSAL ── -->
+  <div class="section-label"><span>Pencairan Donatur dari Proposal</span></div>
+  <div class="pencairan-list" id="pencairanList">
+    <div class="donor-empty-note" id="pencairanLoading">Memuat data pencairan donatur proposal...</div>
+  </div>
+
   <!-- ── PARTISIPASI PER BLOK (kolom J-N) ── -->
   <div class="section-label">
     <span>Partisipasi per Blok</span>
@@ -523,45 +609,6 @@ main {
     </div>
   </div>
 
-  <!-- ── PROGRES DANA ── -->
-  <div class="section-label"><span>Progres Dana Terkumpul</span></div>
-  <div class="progress-card">
-    <div class="progress-top">
-      <div class="progress-amount">
-        <small>Dana Terkumpul</small>
-        <span id="jmlTerkumpul">memuat...</span>
-      </div>
-      <div class="progress-target">Target RAB<br><strong id="jmlRab">–</strong></div>
-    </div>
-    <div class="progress-bar-track">
-      <div class="progress-bar-fill" id="progressFill"></div>
-    </div>
-    <div class="progress-meta">
-      <span>Menuju target RAB acara</span>
-      <span class="progress-percent" id="progressPercent">–</span>
-    </div>
-    <div class="progress-stats-row">
-      <div class="stat-box">
-        <div class="num" id="jmlDonatur">–</div>
-        <div class="lbl">Donatur</div>
-      </div>
-      <div class="stat-box">
-        <div class="num" id="jmlKekurangan">–</div>
-        <div class="lbl">Kekurangan</div>
-      </div>
-    </div>
-    <div class="cta-row">
-      <a class="cta-btn wa" href="https://wa.me/6281222025651" id="ctaWaBtn" target="_blank" rel="noopener">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.36c1.36.72 2.9 1.12 4.62 1.12 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.86 14.11c-.24.68-1.42 1.32-1.96 1.4-.5.08-1.14.11-1.84-.12-.42-.14-.97-.32-1.66-.63-2.93-1.27-4.84-4.24-4.99-4.44-.14-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.29.6-.37.8-.37.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.09.93 2.24.08.15.13.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13 1.01 2.08 1.32 2.37 1.47.29.15.46.13.63-.08.17-.2.72-.83.91-1.12.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.94.29.15.48.22.55.34.07.13.07.71-.17 1.4z"/></svg>
-        Konfirmasi via WA
-      </a>
-      <a class="cta-btn bank" href="#caraPartisipasi">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-        Info Rekening
-      </a>
-    </div>
-  </div>
-
   <!-- ── DOKUMEN PANITIA ── -->
   <div class="section-label"><span>Dokumen Panitia</span></div>
   <a class="doc-link" href="https://drive.google.com/file/d/1kUJ-Mo-YhZ7kMcsn6L2MdUIGjTNkvE62/view?usp=sharing" id="docLinkBtn" target="_blank" rel="noopener">
@@ -577,12 +624,6 @@ main {
   <div class="section-label"><span>Daftar Donatur</span></div>
   <div class="donor-list" id="donorList">
     <div class="donor-empty-note" id="donorLoading">Memuat daftar donatur...</div>
-  </div>
-
-  <!-- ── PENCAIRAN DONATUR PROPOSAL ── -->
-  <div class="section-label"><span>Pencairan Donatur dari Proposal</span></div>
-  <div class="pencairan-list" id="pencairanList">
-    <div class="donor-empty-note" id="pencairanLoading">Memuat data pencairan donatur proposal...</div>
   </div>
 
   <!-- ── CARA BERPARTISIPASI ── -->
@@ -882,21 +923,33 @@ main {
     var persen = data.rab > 0 ? (data.terkumpul / data.rab) * 100 : 0;
     var kekurangan = Math.max(data.rab - data.terkumpul, 0);
 
+    var pencairanData = (data.pencairan && data.pencairan.length) ? data.pencairan : FALLBACK_PENCAIRAN_DATA;
+    var pencairanUangTotal = pencairanData.reduce(function (sum, p) {
+      return sum + (!p.isBarang && p.amount ? p.amount : 0);
+    }, 0);
+    var gabungan = data.terkumpul + pencairanUangTotal;
+    var persenGabungan = data.rab > 0 ? (gabungan / data.rab) * 100 : 0;
+
     document.getElementById('jmlTerkumpul').textContent = formatRupiah(data.terkumpul);
     document.getElementById('jmlRab').textContent = formatRupiah(data.rab);
     document.getElementById('progressPercent').textContent = persen.toFixed(1).replace('.', ',') + '%';
     document.getElementById('jmlDonatur').textContent = data.donatur.length;
     document.getElementById('jmlKekurangan').textContent = formatRupiah(kekurangan);
+    document.getElementById('jmlGabungan').textContent = formatRupiah(gabungan);
+    document.getElementById('progressPercentGabungan').textContent = persenGabungan.toFixed(1).replace('.', ',') + '%';
 
     var fill = document.getElementById('progressFill');
+    var fillGabungan = document.getElementById('progressFillGabungan');
     requestAnimationFrame(function () {
-      setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 150);
+      setTimeout(function () {
+        fill.style.width = Math.max(persen, 2) + '%';
+        fillGabungan.style.width = Math.max(persenGabungan, 2) + '%';
+      }, 150);
     });
 
     if (data.docLink) document.getElementById('docLinkBtn').setAttribute('href', data.docLink);
 
     renderDonorList(data.donatur);
-    var pencairanData = (data.pencairan && data.pencairan.length) ? data.pencairan : FALLBACK_PENCAIRAN_DATA;
     renderPencairanList(pencairanData);
 
     var blokData = (data.blokData && data.blokData.length) ? data.blokData : FALLBACK_BLOK_DATA;
