@@ -395,6 +395,37 @@ main {
   text-align: center; padding: 18px 16px; font-size: 12px; color: var(--text-muted);
   border-top: 1px dashed var(--border-light);
 }
+
+/* ── PENCAIRAN DONATUR PROPOSAL ── */
+.pencairan-list {
+  background: var(--cream-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.pencairan-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+.pencairan-item:last-child { border-bottom: none; }
+.pencairan-num {
+  width: 26px; height: 26px; flex-shrink: 0;
+  background: var(--green-100); color: var(--green-700);
+  border-radius: 50%; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.pencairan-info { flex: 1; min-width: 0; }
+.pencairan-name { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+.pencairan-amount { font-size: 13px; font-weight: 700; color: var(--green-700); flex-shrink: 0; white-space: nowrap; text-align: right; }
+.pencairan-amount.is-barang { color: var(--amber-700); font-size: 11.5px; font-weight: 600; }
+.pencairan-total-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--green-100);
+  font-size: 12.5px; font-weight: 700; color: var(--green-700);
+}
 /* ── FOOTER NOTE ── */
 .thanks-note {
   margin-top: 24px;
@@ -548,6 +579,12 @@ main {
     <div class="donor-empty-note" id="donorLoading">Memuat daftar donatur...</div>
   </div>
 
+  <!-- ── PENCAIRAN DONATUR PROPOSAL ── -->
+  <div class="section-label"><span>Pencairan Donatur dari Proposal</span></div>
+  <div class="pencairan-list" id="pencairanList">
+    <div class="donor-empty-note" id="pencairanLoading">Memuat data pencairan donatur proposal...</div>
+  </div>
+
   <!-- ── CARA BERPARTISIPASI ── -->
   <div class="section-label"><span>Cara Berpartisipasi</span></div>
   <div class="progress-card" style="padding:18px 20px;" id="caraPartisipasi">
@@ -595,6 +632,15 @@ main {
     { blok: 'J', masuk: 0,  belum: 0  }
   ];
 
+  // Cadangan offline daftar "Pencairan Donatur dari proposal yg sudah di serahkan"
+  var FALLBACK_PENCAIRAN_DATA = [
+    { nomor: '1', keterangan: 'provider AV.net', amount: 500000, isBarang: false },
+    { nomor: '2', keterangan: 'Alfamart-5 Dus Gelas mineral', amount: null, isBarang: true },
+    { nomor: '3', keterangan: 'TBGS Cipeucang', amount: 100000, isBarang: false },
+    { nomor: '4', keterangan: 'TB Putra Maju', amount: 3000000, isBarang: false },
+    { nomor: '5', keterangan: 'Warga PA3 -Mm Jayden.E1/15', amount: 300000, isBarang: false }
+  ];
+
   function parseCSV(text) {
     var rows = [], row = [], field = '', inQuotes = false;
     for (var i = 0; i < text.length; i++) {
@@ -628,14 +674,38 @@ main {
 
   var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/[A-Za-z0-9-]+)\.Rp\.?\s*([\d.,]+)\s*$/;
 
+  // Baris pembuka daftar "Pencairan Donatur dari proposal yg sudah di serahkan" (kolom B)
+  var PENCAIRAN_HEADER_RE = /pencairan\s+donatur\s+dari\s+proposal/i;
+  // Item pencairan, contoh: "1.provider AV.net.Rp.500.000" atau "2.Alfamart-5 Dus Gelas mineral"
+  var PENCAIRAN_ITEM_RE = /^(\d+)\.\s*(.+)$/;
+
+  function parsePencairanItem(nomor, rawText) {
+    var text = rawText.trim();
+    var rpMatch = text.match(/Rp\.?\s*([\d.,]+)\s*$/i);
+    var amount = null, keterangan = text, isBarang = true;
+    if (rpMatch) {
+      amount = parseRupiahLoose(rpMatch[1]);
+      isBarang = false;
+      keterangan = text.slice(0, rpMatch.index).replace(/[\s.\-]+$/, '').trim();
+    }
+    return {
+      nomor: nomor,
+      keterangan: keterangan.replace(/\.+$/, '').trim(),
+      amount: amount,
+      isBarang: isBarang
+    };
+  }
+
   function parseHutriData(csvText) {
     var rows = parseCSV(csvText);
     var rab = 0, docLink = '', donatur = [], footerLines = [], sawDonor = false;
     var blokData = [];
+    var pencairan = [], inPencairan = false, pencairanDone = false;
 
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       var col0 = (row[0] || '').trim();
+      var col1 = (row[1] || '').trim();
       var col3 = (row[3] || '').trim();
       var col4 = (row[4] || '').trim();
       if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(col4);
@@ -652,6 +722,21 @@ main {
         });
       } else if (col0 && sawDonor) {
         footerLines.push(col0);
+      }
+
+      // Kolom B: daftar "Pencairan Donatur dari proposal yg sudah di serahkan"
+      if (!pencairanDone) {
+        if (!inPencairan && PENCAIRAN_HEADER_RE.test(col1)) {
+          inPencairan = true;
+        } else if (inPencairan) {
+          var pm = col1.match(PENCAIRAN_ITEM_RE);
+          if (pm) {
+            pencairan.push(parsePencairanItem(pm[1], pm[2]));
+          } else if (pencairan.length > 0) {
+            pencairanDone = true;
+            inPencairan = false;
+          }
+        }
       }
 
       // Kolom J–N (index 9–13): Blok | Data Kas s/d Jun | Donatur masuk | Belum donasi | Partisipasi
@@ -674,7 +759,8 @@ main {
       instruksi: paraLines[0] || '',
       kontakList: dashLines.map(function (l) { return l.replace(/^-\s*/, ''); }),
       thanks: paraLines.length > 1 ? paraLines[paraLines.length - 1] : '',
-      blokData: blokData
+      blokData: blokData,
+      pencairan: pencairan
     };
   }
 
@@ -699,6 +785,28 @@ main {
         '</div>';
     }).join('');
     html += '<div class="donor-empty-note">Daftar diperbarui berkala oleh panitia. Nama Bapak/Ibu belum tercantum? Konfirmasi lewat WhatsApp di atas.</div>';
+    wrap.innerHTML = html;
+  }
+
+  function renderPencairanList(pencairan) {
+    var wrap = document.getElementById('pencairanList');
+    if (!pencairan || !pencairan.length) {
+      wrap.innerHTML = '<div class="donor-empty-note">Belum ada pencairan donatur dari proposal yang dilaporkan.</div>';
+      return;
+    }
+    var totalUang = 0;
+    var html = pencairan.map(function (p) {
+      var amountHtml = p.isBarang
+        ? '<div class="pencairan-amount is-barang">Barang/Jasa</div>'
+        : '<div class="pencairan-amount">' + formatRupiah(p.amount) + '</div>';
+      if (!p.isBarang) totalUang += p.amount;
+      return '<div class="pencairan-item">' +
+        '<div class="pencairan-num">' + escapeHtml(p.nomor) + '</div>' +
+        '<div class="pencairan-info"><div class="pencairan-name">' + escapeHtml(p.keterangan) + '</div></div>' +
+        amountHtml +
+        '</div>';
+    }).join('');
+    html += '<div class="pencairan-total-row"><span>Total Pencairan (uang)</span><span>' + formatRupiah(totalUang) + '</span></div>';
     wrap.innerHTML = html;
   }
 
@@ -788,6 +896,8 @@ main {
     if (data.docLink) document.getElementById('docLinkBtn').setAttribute('href', data.docLink);
 
     renderDonorList(data.donatur);
+    var pencairanData = (data.pencairan && data.pencairan.length) ? data.pencairan : FALLBACK_PENCAIRAN_DATA;
+    renderPencairanList(pencairanData);
 
     var blokData = (data.blokData && data.blokData.length) ? data.blokData : FALLBACK_BLOK_DATA;
     var blokIsFallback = !(data.blokData && data.blokData.length) || !!opts.forceFallback;
