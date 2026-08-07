@@ -1444,6 +1444,27 @@
     }
     .hutri-banner:hover .hutri-banner-arrow { background: rgba(255,255,255,0.16); transform: translateX(2px); }
 
+    /* Tombol refresh kecil di banner iuran 17an — tidak mengganggu desain */
+    .hutri-refresh-btn {
+      position: relative;
+      margin-left: auto;
+      width: 24px; height: 24px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .hutri-refresh-btn:hover { background: rgba(255,255,255,0.22); }
+    .hutri-refresh-btn:active { transform: scale(0.92); }
+    .hutri-refresh-btn svg { display: block; transition: transform 0.6s ease; }
+    .hutri-refresh-btn.is-loading svg { animation: hutri-refresh-spin 0.8s linear infinite; }
+    .hutri-refresh-btn:disabled { opacity: 0.55; cursor: default; }
+    @keyframes hutri-refresh-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
     @media (max-width: 600px) {
       .hutri-banner { padding: 16px 16px; margin-bottom: 20px; }
       .hutri-banner-title { font-size: 14.5px; }
@@ -1656,6 +1677,12 @@
       <div class="hutri-banner-top">
         <span class="hutri-banner-flag">🇮🇩</span>
         <span class="hutri-banner-eyebrow">Sedang Berjalan · Iuran Warga</span>
+        <button type="button" class="hutri-refresh-btn" id="hutriRefreshBtn" aria-label="Muat ulang total iuran" title="Muat ulang total iuran">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
       </div>
       <div class="hutri-banner-title">Iuran Acara 17 Agustusan HUT RI ke-81</div>
       <div class="hutri-banner-desc">Yuk sukseskan acara 17 Agustusan warga Puri Asri 3. Cek progres dana & daftar donatur.</div>
@@ -1710,7 +1737,9 @@
           return 'Rp ' + Math.round(n).toLocaleString('id-ID');
         }
 
-        var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/\d+)\.Rp\.?\s*([\d.,]+)\s*$/;
+        // Regex donatur disamakan dengan hut-ri-17an.html agar hasil total selalu konsisten
+        // di kedua halaman (mendukung format blok/rumah dgn huruf & tanda "-", mis. "E1/15").
+        var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/[A-Za-z0-9-]+)\.Rp\.?\s*([\d.,]+)\s*$/;
 
         function parseHutriData(csvText) {
           var rows = parseCSV(csvText);
@@ -1719,7 +1748,8 @@
             var row = rows[i];
             var col0 = (row[0] || '').trim();
             var col3 = (row[3] || '').trim();
-            if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(row[4]);
+            var col4 = (row[4] || '').trim();
+            if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(col4);
             var m = col0.match(DONOR_RE);
             if (m) {
               donatur.push({
@@ -1746,19 +1776,39 @@
           try { sessionStorage.setItem('hutriDataCache', JSON.stringify(data)); } catch (e) {}
         }
 
-        fetch(HUTRI_CSV_URL + '&cb=' + Date.now())
-          .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
-          .then(function (csvText) { renderBanner(parseHutriData(csvText)); })
-          .catch(function () {
-            var cached = null;
-            try { cached = JSON.parse(sessionStorage.getItem('hutriDataCache')); } catch (e) {}
-            if (cached) { renderBanner(cached); }
-            else {
-              document.getElementById('hutriTerkumpul').textContent = '–';
-              document.getElementById('hutriTarget').textContent = '–';
-              document.getElementById('hutriProgressPercent').textContent = '–';
-            }
+        var refreshBtn = document.getElementById('hutriRefreshBtn');
+
+        function loadHutriBanner() {
+          if (refreshBtn) { refreshBtn.classList.add('is-loading'); refreshBtn.disabled = true; }
+          // cache: 'no-store' + cache-bust param memastikan data terbaru diambil, bukan versi cache browser.
+          return fetch(HUTRI_CSV_URL + '&cb=' + Date.now(), { cache: 'no-store' })
+            .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
+            .then(function (csvText) { renderBanner(parseHutriData(csvText)); })
+            .catch(function () {
+              var cached = null;
+              try { cached = JSON.parse(sessionStorage.getItem('hutriDataCache')); } catch (e) {}
+              if (cached) { renderBanner(cached); }
+              else {
+                document.getElementById('hutriTerkumpul').textContent = '–';
+                document.getElementById('hutriTarget').textContent = '–';
+                document.getElementById('hutriProgressPercent').textContent = '–';
+              }
+            })
+            .finally(function () {
+              if (refreshBtn) { refreshBtn.classList.remove('is-loading'); refreshBtn.disabled = false; }
+            });
+        }
+
+        if (refreshBtn) {
+          refreshBtn.addEventListener('click', function (ev) {
+            // Cegah klik tombol ikut membuka link banner (banner adalah elemen <a>)
+            ev.preventDefault();
+            ev.stopPropagation();
+            loadHutriBanner();
           });
+        }
+
+        loadHutriBanner();
       })();
     </script>
 
