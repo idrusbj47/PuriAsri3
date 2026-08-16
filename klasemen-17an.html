@@ -191,6 +191,34 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
 .tag.regu { background: var(--amber-100); color: var(--amber-700); }
 .klasemen-detail-empty { padding: 10px 16px 16px 58px; font-size: 11.5px; color: var(--text-muted); }
 
+/* ── PEROLEHAN MEDALI ── */
+.medali-intro { font-size: 12px; color: var(--text-muted); line-height: 1.65; margin: -6px 0 14px; }
+.medali-card { background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; }
+.medali-row {
+  display: grid; grid-template-columns: 1fr 54px 54px 54px; align-items: center;
+  padding: 11px 16px; border-bottom: 1px solid var(--border-light); gap: 6px;
+}
+.medali-row:last-child { border-bottom: none; }
+.medali-row.head {
+  padding: 10px 16px; background: linear-gradient(90deg, var(--red-50), transparent);
+  border-bottom: 1px solid var(--border-mid);
+}
+.medali-row.head .medali-th {
+  font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; color: var(--text-muted); text-align: center;
+}
+.medali-row.head .medali-th.blok-th { text-align: left; }
+.medali-row.head .medali-th .medal-emoji { display: block; font-size: 14px; margin-bottom: 2px; }
+.medali-blok-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.medali-blok-cell .klasemen-blok-badge { width: 26px; height: 26px; }
+.medali-blok-cell .medali-blok-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
+.medali-count { text-align: center; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-dark); }
+.medali-count.zero { color: var(--text-muted); font-weight: 400; opacity: 0.45; }
+.medali-count.emas { color: var(--gold-600); }
+.medali-count.perak { color: var(--silver-600); }
+.medali-count.perunggu { color: var(--bronze-600); }
+.medali-row.top-blok { background: linear-gradient(90deg, var(--gold-100), transparent); }
+.medali-empty { padding: 20px 16px; text-align: center; font-size: 12px; color: var(--text-muted); }
+
 /* ── KATEGORI ── */
 .kategori-header { display: flex; align-items: center; gap: 10px; margin: 30px 0 4px; }
 .kategori-icon {
@@ -310,6 +338,15 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
     <div class="loading-note" id="klasemenLoading">Memuat klasemen...</div>
   </div>
   <div class="source-note" id="sourceNote">Data diambil otomatis dari rekap panitia (kolom R) secara live.</div>
+
+  <!-- ── PEROLEHAN MEDALI PER BLOK ── -->
+  <div class="section-label">
+    <span>Perolehan Medali</span>
+  </div>
+  <p class="medali-intro">Selain poin Piala Bergilir (hanya dari Juara 1), berikut rekap total medali tiap blok dari semua lomba. Tabel ini tidak harus sama dengan klasemen poin — jadi pengunjung bisa melihat prestasi blok secara keseluruhan.</p>
+  <div class="medali-card" id="medaliCard">
+    <div class="medali-empty">Memuat rekap medali...</div>
+  </div>
 
   <!-- ── KATEGORI JUARA (diisi otomatis oleh script) ── -->
   <div id="kategoriWrap">
@@ -547,6 +584,61 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
     wrap.innerHTML = html;
   }
 
+  function computeMedals(categories) {
+    var medalMap = {};
+    categories.forEach(function (cat) {
+      cat.lombas.forEach(function (lomba) {
+        lomba.entries.forEach(function (entry) {
+          if (!entry.blok || (entry.rank !== 1 && entry.rank !== 2 && entry.rank !== 3)) return;
+          if (!medalMap[entry.blok]) medalMap[entry.blok] = { emas: 0, perak: 0, perunggu: 0 };
+          if (entry.rank === 1) medalMap[entry.blok].emas++;
+          else if (entry.rank === 2) medalMap[entry.blok].perak++;
+          else medalMap[entry.blok].perunggu++;
+        });
+      });
+    });
+    return medalMap;
+  }
+
+  function renderMedali(medalMap) {
+    var wrap = document.getElementById('medaliCard');
+    var bloks = Object.keys(medalMap).filter(function (b) {
+      var m = medalMap[b];
+      return (m.emas + m.perak + m.perunggu) > 0;
+    });
+
+    if (!bloks.length) {
+      wrap.innerHTML = '<div class="medali-empty">Belum ada medali tercatat.</div>';
+      return;
+    }
+
+    bloks.sort(function (a, b) {
+      var ma = medalMap[a], mb = medalMap[b];
+      return (mb.emas - ma.emas) || (mb.perak - ma.perak) || (mb.perunggu - ma.perunggu) || a.localeCompare(b);
+    });
+
+    var html = '<div class="medali-row head">' +
+      '<div class="medali-th blok-th">Blok</div>' +
+      '<div class="medali-th"><span class="medal-emoji">🥇</span></div>' +
+      '<div class="medali-th"><span class="medal-emoji">🥈</span></div>' +
+      '<div class="medali-th"><span class="medal-emoji">🥉</span></div>' +
+      '</div>';
+
+    html += bloks.map(function (b, idx) {
+      var m = medalMap[b];
+      var cellHtml = function (n, cls) {
+        return '<div class="medali-count ' + cls + (n === 0 ? ' zero' : '') + '">' + n + '</div>';
+      };
+      return '<div class="medali-row' + (idx === 0 ? ' top-blok' : '') + '">' +
+        '<div class="medali-blok-cell"><div class="klasemen-blok-badge">' + escapeHtml(b) + '</div>' +
+        '<div class="medali-blok-name">Blok ' + escapeHtml(b) + '</div></div>' +
+        cellHtml(m.emas, 'emas') + cellHtml(m.perak, 'perak') + cellHtml(m.perunggu, 'perunggu') +
+        '</div>';
+    }).join('');
+
+    wrap.innerHTML = html;
+  }
+
   function renderKategori(categories) {
     var wrap = document.getElementById('kategoriWrap');
     var html = '';
@@ -594,6 +686,7 @@ main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding
   function renderAll(data, isFallback) {
     var pointsMap = computePoin(data.categories);
     renderKlasemen(pointsMap);
+    renderMedali(computeMedals(data.categories));
     renderKategori(data.categories);
 
     var noteEl = document.getElementById('sourceNote');
