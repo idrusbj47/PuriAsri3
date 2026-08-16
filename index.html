@@ -1481,6 +1481,72 @@
       .hutri-banner-title { font-size: 14.5px; }
     }
 
+    /* ── BANNER KLASEMEN ACARA 17 AGUSTUSAN (banner utama paling atas) ── */
+    .klasemen-banner {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(135deg, var(--gold-700) 0%, #4a3410 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin: 0 0 28px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(122, 92, 30, 0.25), 0 2px 8px rgba(122, 92, 30, 0.15);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .klasemen-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(122,92,30,0.3), 0 3px 10px rgba(122,92,30,0.18); }
+    .klasemen-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 12% 20%, rgba(255,255,255,0.14) 0%, transparent 45%),
+                         radial-gradient(circle at 90% 85%, rgba(255,255,255,0.1) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .klasemen-banner-top {
+      position: relative;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .klasemen-banner-flag { font-size: 18px; line-height: 1; }
+    .klasemen-banner-eyebrow {
+      font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold-300); font-weight: 600;
+    }
+    .klasemen-banner-title {
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: 16.5px; font-weight: 600; color: #fff;
+      line-height: 1.3; margin-bottom: 4px;
+    }
+    .klasemen-banner-desc {
+      position: relative;
+      font-size: 11.5px; color: rgba(255,255,255,0.78);
+      margin-bottom: 0;
+    }
+    .klasemen-banner-cta {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.16);
+      font-size: 11.5px; color: var(--gold-300); font-weight: 600;
+    }
+    .klasemen-banner-arrow {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.28);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px; flex-shrink: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .klasemen-banner:hover .klasemen-banner-arrow { background: rgba(255,255,255,0.18); transform: translateX(2px); }
+
+    @media (max-width: 600px) {
+      .klasemen-banner { padding: 16px 16px; margin-bottom: 20px; }
+      .klasemen-banner-title { font-size: 14.5px; }
+    }
+
     /* ── ARSIP POLLING (sudah selesai, dibuat tenang & kecil) ── */
     .polling-banner {
       position: relative;
@@ -1683,7 +1749,136 @@
 
   <main>
 
-    <!-- ── BANNER HUT RI 17 AGUSTUSAN: topik hangat, ditaruh paling atas ── -->
+    <!-- ── BANNER KLASEMEN ACARA 17 AGUSTUSAN: topik hangat, ditaruh paling atas ── -->
+    <a class="klasemen-banner" href="klasemen-17an.html" id="klasemenBanner">
+      <div class="klasemen-banner-top">
+        <span class="klasemen-banner-flag">🏆</span>
+        <span class="klasemen-banner-eyebrow">Sedang Berjalan · Lomba 17 Agustusan</span>
+      </div>
+      <div class="klasemen-banner-title">Klasemen Acara 17 Agustusan HUT RI ke-81</div>
+      <div class="klasemen-banner-desc">Pantau perolehan poin & peringkat sementara tiap blok/regu dalam rangkaian lomba warga Puri Asri 3.</div>
+
+      <div class="klasemen-banner-cta">
+        <span>Lihat klasemen lengkap</span>
+        <div class="klasemen-banner-arrow">→</div>
+      </div>
+    </a>
+
+
+    <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
+    <div class="hero-slider" id="heroSlider">
+      <div class="hero-slider-track" id="heroSliderTrack">
+        <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div>
+        <div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div>
+        <div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
+      </div>
+      <div class="hero-slider-dots" id="heroSliderDots"></div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-eyebrow">Beranda</div>
+      <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
+      <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
+    </div>
+
+    <!-- ── SEKSI: PANDUAN & INSTALL PWA ── -->
+    <div class="section-label" style="margin-bottom:16px;">
+      <span>Panduan &amp; Aplikasi</span>
+    </div>
+
+    <div class="secondary-grid" style="margin-bottom:32px;">
+
+      <a class="secondary-card" href="javascript:void(0)" onclick="startTour()">
+        <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title">Panduan Penggunaan Website</div>
+          <div class="sec-desc">Cara cepat memakai fitur kas, laporan &amp; dokumen RT</div>
+        </div>
+        <div class="sec-arrow">→</div>
+      </a>
+
+      <a class="secondary-card" href="javascript:void(0)" id="installCard" onclick="handleInstallClick()">
+        <div class="sec-icon" style="background:var(--gold-100);border-color:rgba(196,154,60,0.3);color:var(--gold-700);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <div class="sec-body">
+          <div class="sec-title" id="installCardTitle">Install Aplikasi (PWA)</div>
+          <div class="sec-desc" id="installCardDesc">Pasang di layar utama HP, akses lebih cepat tanpa browser</div>
+        </div>
+        <div class="sec-arrow" id="installCardArrow">→</div>
+      </a>
+
+    </div>
+
+    <div class="section-label">
+      <span>Laporan Keuangan</span>
+    </div>
+
+    <div class="menu-grid">
+
+      <a class="menu-card featured" href="kas-umum.html">
+        <div class="card-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
+            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/>
+            <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Laporan Utama</div>
+          <div class="card-title">Kas Umum</div>
+          <div class="card-desc">Rekap iuran bulanan warga, status pembayaran, dan total kas terkumpul tahun ini.</div>
+        </div>
+        <div class="card-footer">
+          <div class="card-status">
+            <div class="card-status-dot"></div>
+            <span>Terkini</span>
+          </div>
+          <div class="card-arrow">→</div>
+        </div>
+      </a>
+
+      <a class="menu-card kematian" href="Kematian.html">
+        <div class="card-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Dana Sosial</div>
+          <div class="card-title">Dana Kematian</div>
+          <div class="card-desc">Laporan iuran dan penyaluran dana sosial kematian bagi warga yang berduka.</div>
+        </div>
+        <div class="card-footer">
+          <div class="card-status">
+            <div class="card-status-dot"></div>
+            <span>Terkini</span>
+          </div>
+          <div class="card-arrow">→</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="section-label" style="margin-top:8px;">
+      <span>Acara 17 Agustusan</span>
+    </div>
+
+    <!-- ── BANNER IURAN HUT RI 17 AGUSTUSAN: masih berjalan, ditaruh di bawah Laporan Keuangan ── -->
     <a class="hutri-banner" href="hut-ri-17an.html" id="hutriBanner">
       <div class="hutri-banner-top">
         <span class="hutri-banner-flag">🇮🇩</span>
@@ -1861,114 +2056,6 @@
       })();
     </script>
 
-    <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
-    <div class="hero-slider" id="heroSlider">
-      <div class="hero-slider-track" id="heroSliderTrack">
-        <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div>
-        <div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div>
-        <div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div>
-        <div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div>
-        <div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div>
-        <div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
-      </div>
-      <div class="hero-slider-dots" id="heroSliderDots"></div>
-    </div>
-
-    <div class="hero">
-      <div class="hero-eyebrow">Beranda</div>
-      <h1 class="hero-title">Portal Informasi & Laporan <em>Keuangan</em><br>Warga Puri Asri 3</h1>
-      <p class="hero-desc">Transparansi dan kemudahan akses informasi & Lap. keuangan untuk seluruh warga RT 01 / RW 12.</p>
-    </div>
-
-    <!-- ── SEKSI: PANDUAN & INSTALL PWA ── -->
-    <div class="section-label" style="margin-bottom:16px;">
-      <span>Panduan &amp; Aplikasi</span>
-    </div>
-
-    <div class="secondary-grid" style="margin-bottom:32px;">
-
-      <a class="secondary-card" href="javascript:void(0)" onclick="startTour()">
-        <div class="sec-icon" style="background:var(--green-100);border-color:var(--border-mid);color:var(--green-700);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <div class="sec-body">
-          <div class="sec-title">Panduan Penggunaan Website</div>
-          <div class="sec-desc">Cara cepat memakai fitur kas, laporan &amp; dokumen RT</div>
-        </div>
-        <div class="sec-arrow">→</div>
-      </a>
-
-      <a class="secondary-card" href="javascript:void(0)" id="installCard" onclick="handleInstallClick()">
-        <div class="sec-icon" style="background:var(--gold-100);border-color:rgba(196,154,60,0.3);color:var(--gold-700);">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-        </div>
-        <div class="sec-body">
-          <div class="sec-title" id="installCardTitle">Install Aplikasi (PWA)</div>
-          <div class="sec-desc" id="installCardDesc">Pasang di layar utama HP, akses lebih cepat tanpa browser</div>
-        </div>
-        <div class="sec-arrow" id="installCardArrow">→</div>
-      </a>
-
-    </div>
-
-    <div class="section-label">
-      <span>Laporan Keuangan</span>
-    </div>
-
-    <div class="menu-grid">
-
-      <a class="menu-card featured" href="kas-umum.html">
-        <div class="card-icon-wrap">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/>
-            <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/>
-            <path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">Laporan Utama</div>
-          <div class="card-title">Kas Umum</div>
-          <div class="card-desc">Rekap iuran bulanan warga, status pembayaran, dan total kas terkumpul tahun ini.</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-status">
-            <div class="card-status-dot"></div>
-            <span>Terkini</span>
-          </div>
-          <div class="card-arrow">→</div>
-        </div>
-      </a>
-
-      <a class="menu-card kematian" href="Kematian.html">
-        <div class="card-icon-wrap">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-            <polyline points="9 22 9 12 15 12 15 22"/>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">Dana Sosial</div>
-          <div class="card-title">Dana Kematian</div>
-          <div class="card-desc">Laporan iuran dan penyaluran dana sosial kematian bagi warga yang berduka.</div>
-        </div>
-        <div class="card-footer">
-          <div class="card-status">
-            <div class="card-status-dot"></div>
-            <span>Terkini</span>
-          </div>
-          <div class="card-arrow">→</div>
-        </div>
-      </a>
-
-    </div>
 
     <!-- Seksi: Rincian Keuangan -->
     <div class="app-menu-grid" id="tourRincian">
@@ -2532,8 +2619,9 @@
 <script>
   // ── ONBOARDING TOUR: spotlight menyoroti menu utama ──
   const tourSteps = [
-    { selector: '.hutri-banner', title: 'Donasi 17 Agustusan', desc: 'Progres dana & daftar donatur acara HUT RI bisa dicek di banner ini.' },
+    { selector: '.klasemen-banner', title: 'Klasemen 17 Agustusan', desc: 'Peringkat sementara lomba 17 Agustusan bisa dicek di banner ini.' },
     { selector: '.menu-grid', title: 'Laporan Keuangan', desc: 'Kas Umum & Dana Kematian — dua laporan utama warga ada di sini.' },
+    { selector: '.hutri-banner', title: 'Donasi 17 Agustusan', desc: 'Progres dana & daftar donatur acara HUT RI bisa dicek di banner ini.' },
     { selector: '#tourRincian', title: 'Rincian Keuangan', desc: 'Detail penggunaan dana kas umum & dana kematian per transaksi.' },
     { selector: '#tourKomunitas', title: 'Kas Komunitas & Lingkungan', desc: 'Kas Gang, Futsal, Posyandu, DKM, & kas warga lainnya di luar Kas RT.' },
     { selector: '#tourDokumen', title: 'Informasi & Dokumen RT', desc: 'Program kerja, timeline rapat, dokumentasi, inventaris, AD/ART, & peta lokasi.' },
