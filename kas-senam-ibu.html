@@ -52,9 +52,11 @@ html{scroll-behavior:smooth}
 .btn-ss:hover{box-shadow:0 4px 16px rgba(194,24,91,0.38);transform:translateY(-1px)}
 .btn-ss:disabled{opacity:.65;cursor:wait;transform:none}
 @media(max-width:560px){.btn-refresh-label,.btn-print-label,.btn-ss-label{display:none}.btn-refresh,.btn-print,.btn-ss{padding:0 10px}}
-/* SS CAPTURE MODE */
-body.capturing .filter-row,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .scroll-top,body.capturing .theme-toggle,body.capturing .cutoff-badge{display:none!important}
-body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important}
+/* SS CAPTURE MODE — meniru tampilan Cetak (semua konten kelihatan, bukan cuma layar) */
+body.capturing{max-width:1100px;margin:0 auto!important;background:var(--surface)}
+body.capturing .filter-row,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .scroll-top,body.capturing .theme-toggle{display:none!important}
+body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important;background:var(--surface)!important}
+body.capturing .table-wrap{overflow:visible!important}
 #capture-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--text);color:var(--bg);font-size:12.5px;font-weight:500;padding:9px 16px;border-radius:999px;z-index:2000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 #capture-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 /* CUTOFF BADGE */
@@ -679,8 +681,7 @@ function showToast(msg, ms) {
 async function shareAsImage() {
   const btn = document.getElementById('btn-ss');
   const label = document.getElementById('btn-ss-label');
-  const target = document.getElementById('capture-area');
-  if (!target || typeof html2canvas === 'undefined') {
+  if (typeof html2canvas === 'undefined') {
     showToast('Gagal memuat alat screenshot.', 2500);
     return;
   }
@@ -688,23 +689,37 @@ async function shareAsImage() {
   btn.disabled = true;
   const oldLabel = label.textContent;
   label.textContent = '...';
+
+  // Simpan posisi scroll semula, lalu naikkan ke atas supaya capture tidak bergeser
+  const prevScrollX = window.scrollX, prevScrollY = window.scrollY;
+  window.scrollTo(0, 0);
+
   document.body.classList.add('capturing');
   showToast('Menyiapkan gambar…');
 
-  // beri browser waktu untuk re-render sebelum capture
-  await new Promise(r => setTimeout(r, 60));
+  // beri browser waktu untuk re-render (layout print-mode) sebelum capture
+  await new Promise(r => setTimeout(r, 120));
 
   try {
-    const canvas = await html2canvas(target, {
+    // Capture SELURUH halaman (header, isi laporan, tanda tangan, footer)
+    // seperti tampilan Cetak — bukan hanya bagian yang kelihatan di layar.
+    const canvas = await html2canvas(document.body, {
       backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg') || '#f7f6f2',
       scale: Math.min(2.5, window.devicePixelRatio * 1.5 || 2),
-      useCORS: true
+      useCORS: true,
+      scrollX: 0,
+      scrollY: 0,
+      windowWidth: document.documentElement.scrollWidth,
+      windowHeight: document.documentElement.scrollHeight,
+      height: document.body.scrollHeight,
+      width: document.body.scrollWidth
     });
 
     const fileName = `Kas-Senam-Ibu-Ibu-${new Date().toISOString().slice(0,10)}.png`;
 
     canvas.toBlob(async (blob) => {
       document.body.classList.remove('capturing');
+      window.scrollTo(prevScrollX, prevScrollY);
       btn.disabled = false;
       label.textContent = oldLabel;
 
@@ -744,6 +759,7 @@ async function shareAsImage() {
   } catch (e) {
     console.error(e);
     document.body.classList.remove('capturing');
+    window.scrollTo(prevScrollX, prevScrollY);
     btn.disabled = false;
     label.textContent = oldLabel;
     showToast('Gagal mengambil screenshot.', 2500);
