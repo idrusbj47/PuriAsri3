@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="Logo Snm.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -40,14 +41,22 @@ html{scroll-behavior:smooth}
 .logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
 .header-right{display:flex;align-items:center;gap:8px}
 /* BUTTONS */
-.btn-refresh,.btn-print{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer;letter-spacing:.02em;white-space:nowrap;transition:all .2s ease}
+.btn-refresh,.btn-print,.btn-ss{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer;letter-spacing:.02em;white-space:nowrap;transition:all .2s ease}
 .btn-refresh{background:var(--surface);color:var(--text2);border:1px solid var(--border2)}
 .btn-refresh:hover{background:var(--bg);border-color:var(--pink);color:var(--pink)}
 .btn-refresh svg{transition:transform .5s ease;flex-shrink:0}
 .btn-refresh.spinning svg{animation:spin .8s linear infinite}
 .btn-print{background:linear-gradient(135deg,#e0559a,#c2185b);color:#fff;border:1px solid #c2185b;box-shadow:0 2px 10px rgba(194,24,91,0.25)}
 .btn-print:hover{box-shadow:0 4px 16px rgba(194,24,91,0.38);transform:translateY(-1px)}
-@media(max-width:560px){.btn-refresh-label,.btn-print-label{display:none}.btn-refresh,.btn-print{padding:0 10px}}
+.btn-ss{background:linear-gradient(135deg,#e0559a,#c2185b);color:#fff;border:1px solid #c2185b;box-shadow:0 2px 10px rgba(194,24,91,0.25)}
+.btn-ss:hover{box-shadow:0 4px 16px rgba(194,24,91,0.38);transform:translateY(-1px)}
+.btn-ss:disabled{opacity:.65;cursor:wait;transform:none}
+@media(max-width:560px){.btn-refresh-label,.btn-print-label,.btn-ss-label{display:none}.btn-refresh,.btn-print,.btn-ss{padding:0 10px}}
+/* SS CAPTURE MODE */
+body.capturing .filter-row,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .scroll-top,body.capturing .theme-toggle,body.capturing .cutoff-badge{display:none!important}
+body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important}
+#capture-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--text);color:var(--bg);font-size:12.5px;font-weight:500;padding:9px 16px;border-radius:999px;z-index:2000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+#capture-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 /* CUTOFF BADGE */
 .cutoff-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:linear-gradient(135deg,#fde6ef 0%,#fdf0f5 100%);border:1px solid #f3b3d0;font-size:11.5px;font-family:'DM Mono',monospace;color:#c2185b;font-weight:500;white-space:nowrap}
 .cutoff-badge .cutoff-label{font-size:10px;color:#5c5c58;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
@@ -195,6 +204,13 @@ body{background:#fff}
 </svg>
 <span class="btn-print-label">Cetak</span>
 </button>
+<button class="btn-ss" id="btn-ss" onclick="shareAsImage()" title="Simpan/bagikan sebagai gambar">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+<circle cx="12" cy="13" r="4"/>
+</svg>
+<span class="btn-ss-label" id="btn-ss-label">SS</span>
+</button>
 <div class="cutoff-badge" id="cutoff-badge" style="display:none">
 <div class="pulse-dot"></div>
 <span class="cutoff-label">Update</span>
@@ -203,7 +219,7 @@ body{background:#fff}
 </div>
 </header>
 
-<div class="container">
+<div class="container" id="capture-area">
 <!-- PAGE TITLE -->
 <div class="page-title-bar">
 <a class="back-link" href="index2.html">
@@ -335,6 +351,9 @@ Kembali ke Menu Kas Komunitas
 <circle class="star3" cx="22" cy="20" r="1.2" fill="#c8d8ff"/>
 </svg>
 </button>
+
+<!-- SS Toast -->
+<div id="capture-toast">Menyiapkan gambar…</div>
 
 <!-- Scroll to top -->
 <button class="scroll-top" id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Ke atas">
@@ -557,6 +576,89 @@ async function init() {
     document.getElementById('err-box').style.display = 'block';
     document.getElementById('err-box').innerHTML =
       `⚠️ <strong>Error Pengambilan Data:</strong> ${e.message}`;
+  }
+}
+
+// ── SCREENSHOT / SHARE TO WA ──
+function showToast(msg, ms) {
+  const t = document.getElementById('capture-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (ms) setTimeout(() => t.classList.remove('show'), ms);
+  return t;
+}
+
+async function shareAsImage() {
+  const btn = document.getElementById('btn-ss');
+  const label = document.getElementById('btn-ss-label');
+  const target = document.getElementById('capture-area');
+  if (!target || typeof html2canvas === 'undefined') {
+    showToast('Gagal memuat alat screenshot.', 2500);
+    return;
+  }
+
+  btn.disabled = true;
+  const oldLabel = label.textContent;
+  label.textContent = '...';
+  document.body.classList.add('capturing');
+  showToast('Menyiapkan gambar…');
+
+  // beri browser waktu untuk re-render sebelum capture
+  await new Promise(r => setTimeout(r, 60));
+
+  try {
+    const canvas = await html2canvas(target, {
+      backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg') || '#f7f6f2',
+      scale: Math.min(2.5, window.devicePixelRatio * 1.5 || 2),
+      useCORS: true
+    });
+
+    const fileName = `Kas-Senam-Ibu-Ibu-${new Date().toISOString().slice(0,10)}.png`;
+
+    canvas.toBlob(async (blob) => {
+      document.body.classList.remove('capturing');
+      btn.disabled = false;
+      label.textContent = oldLabel;
+
+      if (!blob) {
+        showToast('Gagal membuat gambar.', 2500);
+        return;
+      }
+
+      const file = new File([blob], fileName, { type: 'image/png' });
+
+      // Coba pakai Web Share API (langsung bisa pilih WhatsApp di HP)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: 'Laporan Kas Senam Ibu-Ibu',
+            text: 'Laporan Kas Senam Ibu-Ibu Puri Asri 3'
+          });
+          showToast('Berhasil dibagikan ✅', 1800);
+          return;
+        } catch (err) {
+          // user membatalkan share sheet — lanjut fallback download
+        }
+      }
+
+      // Fallback: unduh gambar, lalu user tinggal share manual ke WA
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('Gambar tersimpan, tinggal share ke WA 📲', 2800);
+    }, 'image/png');
+  } catch (e) {
+    console.error(e);
+    document.body.classList.remove('capturing');
+    btn.disabled = false;
+    label.textContent = oldLabel;
+    showToast('Gagal mengambil screenshot.', 2500);
   }
 }
 
