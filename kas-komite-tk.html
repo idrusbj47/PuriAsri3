@@ -38,6 +38,8 @@ html{scroll-behavior:smooth}
 .logo-text p{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 /* BUTTONS */
+.btn-back{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--surface);color:var(--text2);border:1px solid var(--border2);text-decoration:none;flex-shrink:0;transition:all .2s ease}
+.btn-back:hover{background:var(--bg);border-color:var(--green);color:var(--green);transform:translateX(-1px)}
 .btn-refresh,.btn-print,.btn-ss{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:999px;font-size:12.5px;font-weight:500;font-family:inherit;cursor:pointer;letter-spacing:.02em;white-space:nowrap;transition:all .2s ease}
 .btn-refresh{background:var(--surface);color:var(--text2);border:1px solid var(--border2)}
 .btn-refresh:hover{background:var(--bg);border-color:var(--green);color:var(--green)}
@@ -50,9 +52,10 @@ html{scroll-behavior:smooth}
 .btn-ss:disabled{opacity:.65;cursor:wait;transform:none}
 @media(max-width:560px){.btn-refresh-label,.btn-print-label,.btn-ss-label{display:none}.btn-refresh,.btn-print,.btn-ss{padding:0 10px}}
 body.capturing{max-width:1100px;margin:0 auto!important;background:var(--surface)}
-body.capturing .tabs,body.capturing .searchbar,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .scroll-top,body.capturing .theme-toggle{display:none!important}
-body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important;background:var(--surface)!important}
-body.capturing .card{overflow:visible!important}
+body.capturing .tabs,body.capturing .searchbar,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .btn-back,body.capturing .scroll-top,body.capturing .theme-toggle{display:none!important}
+body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important;background:var(--surface)!important;border-bottom-color:var(--border)!important}
+body.capturing .card{overflow:visible!important;box-shadow:none!important}
+body.capturing .sum-card{box-shadow:none!important}
 #capture-toast{position:fixed;top:16px;left:50%;transform:translateX(-50%) translateY(-12px);background:var(--text);color:var(--bg);font-size:12.5px;font-weight:500;padding:9px 16px;border-radius:999px;z-index:2000;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 #capture-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .cutoff-badge{display:inline-flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:linear-gradient(135deg,#e6f5ee 0%,#f0faf4 100%);border:1px solid #a8ddc3;font-size:11.5px;font-family:'DM Mono',monospace;color:#0a7c52;font-weight:500;white-space:nowrap}
@@ -146,9 +149,11 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 .err-box{background:var(--red-bg);border:1px solid #f5c0b0;border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:13px;color:var(--red)}
 .page-footer{text-align:center;padding:28px 1rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border);margin-top:2rem}
 .page-footer strong{color:var(--green);font-weight:500}
+.sum-card .val.money{font-size:16px;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:400px){.sum-card .val.money{font-size:13.5px}}
 @media print{
   @page{margin:10mm}
-  .tabs,.searchbar,.btn-refresh,.btn-print,.btn-ss,.scroll-top,.theme-toggle{display:none!important}
+  .tabs,.searchbar,.btn-refresh,.btn-print,.btn-ss,.btn-back,.scroll-top,.theme-toggle{display:none!important}
   body{background:#fff}
   .header{position:static!important;background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;border-bottom:1.5px solid #ccc!important;padding:0 0 10px 0!important;margin-bottom:14px}
   .card{overflow:visible!important;border:1px solid #ccc}
@@ -162,6 +167,9 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 
 <header class="header" id="main-header">
   <div class="logo-area">
+    <a href="index2.html" class="btn-back" title="Kembali" aria-label="Kembali">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
     <div class="logo-circle">🏫</div>
     <div class="logo-text">
       <h1>Puri Asri 3</h1>
@@ -203,6 +211,12 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
   </div>
 
   <div id="content" style="display:none">
+    <div class="summary-row" id="fin-summary">
+      <div class="sum-card blue"><div class="lbl">Uang Masuk</div><div class="val money" id="fin-masuk">—</div></div>
+      <div class="sum-card red"><div class="lbl">Pengeluaran</div><div class="val money" id="fin-keluar">—</div></div>
+      <div class="sum-card green"><div class="lbl">Sisa Saldo</div><div class="val money" id="fin-saldo">—</div></div>
+    </div>
+    <p style="font-size:11px;color:var(--text3);margin:-6px 0 14px;text-align:center">Setiap bulan yang tercatat lunas dihitung Rp 10.000 iuran</p>
     <div class="tabs">
       <button class="tab" data-tab="A" onclick="setTab('A')">👦 Kelas A</button>
       <button class="tab" data-tab="B" onclick="setTab('B')">👧 Kelas B</button>
@@ -396,6 +410,22 @@ function fmtRp(n) {
   if (!n || n === 0) return '—';
   return 'Rp ' + Math.round(n).toLocaleString('id-ID');
 }
+function fmtRpFull(n) {
+  return 'Rp ' + Math.round(n || 0).toLocaleString('id-ID');
+}
+
+// Rp 10.000 per bulan yang tercatat lunas (tanggal terisi di kolom bulan)
+const IURAN_PER_BULAN = 10000;
+function computeFinance(){
+  let paidMonthCount = 0;
+  [...DATA.A, ...DATA.B].forEach(s => { MONTHS.forEach(m => { if (s.payments[m]) paidMonthCount++; }); });
+  const masuk = paidMonthCount * IURAN_PER_BULAN;
+  const keluar = (DATA.expenses || []).reduce((sum, e) => sum + e.jumlah, 0);
+  const saldo = masuk - keluar;
+  document.getElementById('fin-masuk').textContent = fmtRpFull(masuk);
+  document.getElementById('fin-keluar').textContent = fmtRpFull(keluar);
+  document.getElementById('fin-saldo').textContent = fmtRpFull(saldo);
+}
 
 function parseExpenseSection(grid, startCol, endCol) {
   let headerIdx = -1, colNo = -1, colTgl = -1, colKet = -1, colJml = -1;
@@ -566,6 +596,7 @@ async function init(){
     document.getElementById('cutoff-value').textContent = latest;
     document.getElementById('cutoff-badge').style.display = 'inline-flex';
 
+    computeFinance();
     setTab(currentTab);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('content').style.display = 'block';
@@ -599,12 +630,23 @@ async function shareAsImage(){
   const oldLabel = label.textContent; label.textContent = '...';
   const prevScrollX = window.scrollX, prevScrollY = window.scrollY;
   window.scrollTo(0,0);
+  // Paksa tema terang sementara supaya hasil gambar rapi & konsisten, sama seperti tampilan cetak,
+  // apa pun tema yang sedang aktif di layar.
+  const prevTheme = document.documentElement.getAttribute('data-theme');
+  document.documentElement.removeAttribute('data-theme');
+  document.querySelector('.header').classList.remove('scrolled');
   document.body.classList.add('capturing');
   showToast('Menyiapkan gambar…');
-  await new Promise(r => setTimeout(r,120));
+  await new Promise(r => setTimeout(r,150));
+  const restore = () => {
+    document.body.classList.remove('capturing');
+    if (prevTheme) document.documentElement.setAttribute('data-theme', prevTheme);
+    window.scrollTo(prevScrollX, prevScrollY);
+    btn.disabled = false; label.textContent = oldLabel;
+  };
   try {
     const canvas = await html2canvas(document.body, {
-      backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg') || '#f7f6f2',
+      backgroundColor: '#ffffff',
       scale: Math.min(2.5, window.devicePixelRatio*1.5 || 2),
       useCORS: true, scrollX:0, scrollY:0,
       windowWidth: document.documentElement.scrollWidth,
@@ -613,9 +655,7 @@ async function shareAsImage(){
     });
     const fileName = `Kas-Komite-TK-${new Date().toISOString().slice(0,10)}.png`;
     canvas.toBlob(async (blob) => {
-      document.body.classList.remove('capturing');
-      window.scrollTo(prevScrollX, prevScrollY);
-      btn.disabled = false; label.textContent = oldLabel;
+      restore();
       if (!blob) { showToast('Gagal membuat gambar.', 2500); return; }
       const file = new File([blob], fileName, { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files:[file] })) {
@@ -634,9 +674,7 @@ async function shareAsImage(){
     }, 'image/png');
   } catch(e) {
     console.error(e);
-    document.body.classList.remove('capturing');
-    window.scrollTo(prevScrollX, prevScrollY);
-    btn.disabled = false; label.textContent = oldLabel;
+    restore();
     showToast('Gagal mengambil screenshot.', 2500);
   }
 }
