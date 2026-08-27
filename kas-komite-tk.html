@@ -26,7 +26,8 @@
   --text:#e8e6df;--text2:#b0aea6;--text3:#6a6a64;
   --bg:#111110;--surface:#1e1e1c;--border:#2e2e2a;--border2:#3e3e38;
 }
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Plus Jakarta Sans',sans-serif;background-color:var(--bg);color:var(--text);min-height:100vh;background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27200%27%20height%3D%27200%27%3E%0A%3Cg%20fill%3D%27none%27%20stroke%3D%27%230a7c52%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20opacity%3D%270.10%27%3E%0A%3Cpath%20d%3D%27M28%2020%20L28%2038%20M19%2029%20L37%2029%20M21.7%2022.7%20L34.3%2035.3%20M34.3%2022.7%20L21.7%2035.3%27/%3E%0A%3Ccircle%20cx%3D%27150%27%20cy%3D%2734%27%20r%3D%2711%27/%3E%0A%3Cpath%20d%3D%27M150%2026v16M142%2034h16%27/%3E%0A%3Cpath%20d%3D%27M24%20108%20q9%20-12%2018%200%20t18%200%27/%3E%0A%3Cpath%20d%3D%27M108%20150c-4.5%20-6.5%20-15.5%20-4%20-15.5%204.5c0%208.5%2015.5%2019%2015.5%2019s15.5%20-10.5%2015.5%20-19c0%20-8.5%20-11%20-11%20-15.5%20-4.5z%27/%3E%0A%3Cpath%20d%3D%27M170%20110%20L170%20124%20M163.5%20117%20L176.5%20117%20M165.7%20111.7%20L174.3%20122.3%20M174.3%20111.7%20L165.7%20122.3%27%20transform%3D%27scale%280.72%29%20translate%2860%2C32%29%27/%3E%0A%3Ccircle%20cx%3D%2760%27%20cy%3D%27170%27%20r%3D%273%27/%3E%0A%3Ccircle%20cx%3D%27110%27%20cy%3D%2760%27%20r%3D%272.4%27/%3E%0A%3Ccircle%20cx%3D%27185%27%20cy%3D%27150%27%20r%3D%272.4%27/%3E%0A%3Cpath%20d%3D%27M75%2020%20q6%206%200%2012%27/%3E%0A%3C/g%3E%0A%3C/svg%3E");background-repeat:repeat;background-attachment:fixed}
+[data-theme="dark"] body{background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27200%27%20height%3D%27200%27%3E%0A%3Cg%20fill%3D%27none%27%20stroke%3D%27%2322c47e%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%20opacity%3D%270.09%27%3E%0A%3Cpath%20d%3D%27M28%2020%20L28%2038%20M19%2029%20L37%2029%20M21.7%2022.7%20L34.3%2035.3%20M34.3%2022.7%20L21.7%2035.3%27/%3E%0A%3Ccircle%20cx%3D%27150%27%20cy%3D%2734%27%20r%3D%2711%27/%3E%0A%3Cpath%20d%3D%27M150%2026v16M142%2034h16%27/%3E%0A%3Cpath%20d%3D%27M24%20108%20q9%20-12%2018%200%20t18%200%27/%3E%0A%3Cpath%20d%3D%27M108%20150c-4.5%20-6.5%20-15.5%20-4%20-15.5%204.5c0%208.5%2015.5%2019%2015.5%2019s15.5%20-10.5%2015.5%20-19c0%20-8.5%20-11%20-11%20-15.5%20-4.5z%27/%3E%0A%3Cpath%20d%3D%27M170%20110%20L170%20124%20M163.5%20117%20L176.5%20117%20M165.7%20111.7%20L174.3%20122.3%20M174.3%20111.7%20L165.7%20122.3%27%20transform%3D%27scale%280.72%29%20translate%2860%2C32%29%27/%3E%0A%3Ccircle%20cx%3D%2760%27%20cy%3D%27170%27%20r%3D%273%27/%3E%0A%3Ccircle%20cx%3D%27110%27%20cy%3D%2760%27%20r%3D%272.4%27/%3E%0A%3Ccircle%20cx%3D%27185%27%20cy%3D%27150%27%20r%3D%272.4%27/%3E%0A%3Cpath%20d%3D%27M75%2020%20q6%206%200%2012%27/%3E%0A%3C/g%3E%0A%3C/svg%3E")}
 html{scroll-behavior:smooth}
 /* HEADER */
 .header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:100;transition:background .35s,box-shadow .35s,backdrop-filter .35s,border-color .35s}
@@ -51,7 +52,7 @@ html{scroll-behavior:smooth}
 .btn-ss:hover{box-shadow:0 4px 16px rgba(10,124,82,0.38);transform:translateY(-1px)}
 .btn-ss:disabled{opacity:.65;cursor:wait;transform:none}
 @media(max-width:560px){.btn-refresh-label,.btn-print-label,.btn-ss-label{display:none}.btn-refresh,.btn-print,.btn-ss{padding:0 10px}}
-body.capturing{max-width:1100px;margin:0 auto!important;background:var(--surface)}
+body.capturing{max-width:1100px;margin:0 auto!important;background:var(--surface);background-image:none!important}
 body.capturing .tabs,body.capturing .searchbar,body.capturing .btn-refresh,body.capturing .btn-print,body.capturing .btn-ss,body.capturing .btn-back,body.capturing .scroll-top,body.capturing .theme-toggle{display:none!important}
 body.capturing .header{position:static!important;box-shadow:none!important;backdrop-filter:none!important;background:var(--surface)!important;border-bottom-color:var(--border)!important}
 body.capturing .card{overflow:visible!important;box-shadow:none!important}
@@ -130,16 +131,18 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 /* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(20,20,18,.45);display:none;align-items:flex-end;justify-content:center;z-index:200}
 .overlay.show{display:flex}
-.modal{background:var(--surface);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:1.25rem;animation:slideup .22s ease}
+.modal{background:var(--surface);width:100%;max-width:560px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;border-radius:18px 18px 0 0;animation:slideup .22s ease}
 @media(min-width:600px){.overlay{align-items:center}.modal{border-radius:var(--radius-lg)}}
 @keyframes slideup{from{transform:translateY(24px);opacity:0}to{transform:translateY(0);opacity:1}}
-.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.modal-head{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.25rem 1rem;flex-shrink:0;border-bottom:1px solid var(--border)}
 .modal-head h3{font-size:17px;font-weight:700}
 .modal-head .close{width:30px;height:30px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;font-size:16px;color:var(--text2)}
+.modal-body{overflow-y:auto;padding:1.25rem}
 .month-grid{display:flex;flex-direction:column;gap:6px}
 .month-row{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;background:var(--bg)}
 .month-row .m-label{width:64px;font-weight:700;font-size:12.5px;color:var(--text)}
-.month-row .m-val{flex:1;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2)}
+.month-row .m-val{flex:1;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text3)}
+.month-row .m-val.paid{color:var(--green);font-weight:600}
 .status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .status-dot.paid{background:var(--green-mid)}
 .status-dot.unpaid{background:var(--border2)}
@@ -158,7 +161,7 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 @media print{
   @page{margin:10mm}
   .tabs,.searchbar,.btn-refresh,.btn-print,.btn-ss,.btn-back,.scroll-top,.theme-toggle{display:none!important}
-  body{background:#fff}
+  body{background:#fff;background-image:none}
   .header{position:static!important;background:#fff!important;box-shadow:none!important;backdrop-filter:none!important;border-bottom:1.5px solid #ccc!important;padding:0 0 10px 0!important;margin-bottom:14px}
   .card{overflow:visible!important;border:1px solid #ccc}
   table{font-size:9.5px}
@@ -269,9 +272,11 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
       <h3 id="modal-nama">Nama Siswa</h3>
       <button class="close" onclick="closeModal()">✕</button>
     </div>
-    <div class="month-grid" id="month-grid"></div>
-    <div class="paid-list" id="paid-summary"></div>
-    <div class="hint-edit">✏️ Untuk mengubah tanggal pelunasan, edit langsung di Google Sheets (tab Kelas A/B, kolom sesuai nama bulan) — laporan ini akan otomatis terupdate setelah refresh.</div>
+    <div class="modal-body">
+      <div class="month-grid" id="month-grid"></div>
+      <div class="paid-list" id="paid-summary"></div>
+      <div class="hint-edit">✏️ Untuk mengubah tanggal pelunasan, edit langsung di Google Sheets (tab Kelas A/B, kolom sesuai nama bulan) — laporan ini akan otomatis terupdate setelah refresh.</div>
+    </div>
   </div>
 </div>
 
@@ -587,7 +592,7 @@ function openModal(nama, payments){
     return `<div class="month-row">
       <span class="status-dot ${val?'paid':'unpaid'}"></span>
       <span class="m-label">${monthLabel(m)}</span>
-      <span class="m-val">${val || 'Belum bayar'}</span>
+      <span class="m-val ${val?'paid':'unpaid'}">${val || 'Belum bayar'}</span>
     </div>`;
   }).join('');
   const paid = MONTHS.filter(m => payments[m]);
