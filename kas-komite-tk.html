@@ -119,8 +119,12 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 .badge.lunas{background:var(--green-bg);color:var(--green)}
 .badge.sebagian{background:var(--amber-bg);color:var(--amber)}
 .badge.belum{background:var(--red-bg);color:var(--red)}
+.badge.masuk{background:var(--blue-bg);color:var(--blue)}
+.badge.keluar{background:var(--red-bg);color:var(--red)}
 .chev{color:var(--text3);text-align:right}
 .rp-cell{font-family:'DM Mono',monospace;font-weight:600;text-align:right;white-space:nowrap;color:var(--red)}
+.rp-cell.masuk{color:var(--blue)}
+.rp-cell.keluar{color:var(--red)}
 .date-cell{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--text2);white-space:nowrap}
 .tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg);flex-wrap:wrap;gap:6px}
 /* MODAL */
@@ -134,7 +138,7 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
 .modal-head .close{width:30px;height:30px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;font-size:16px;color:var(--text2)}
 .month-grid{display:flex;flex-direction:column;gap:6px}
 .month-row{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;background:var(--bg)}
-.month-row .m-label{width:52px;font-weight:700;font-size:12.5px;color:var(--text)}
+.month-row .m-label{width:64px;font-weight:700;font-size:12.5px;color:var(--text)}
 .month-row .m-val{flex:1;font-family:'DM Mono',monospace;font-size:12.5px;color:var(--text2)}
 .status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .status-dot.paid{background:var(--green-mid)}
@@ -216,11 +220,11 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
       <div class="sum-card red"><div class="lbl">Pengeluaran</div><div class="val money" id="fin-keluar">—</div></div>
       <div class="sum-card green"><div class="lbl">Sisa Saldo</div><div class="val money" id="fin-saldo">—</div></div>
     </div>
-    <p style="font-size:11px;color:var(--text3);margin:-6px 0 14px;text-align:center">Setiap bulan yang tercatat lunas dihitung Rp 10.000 iuran</p>
+    <p style="font-size:11px;color:var(--text3);margin:-6px 0 14px;text-align:center">Setiap bulan yang tercatat lunas dihitung Rp 10.000 iuran, ditambah pemasukan lain dari tabel In-Out</p>
     <div class="tabs">
       <button class="tab" data-tab="A" onclick="setTab('A')">👦 Kelas A</button>
       <button class="tab" data-tab="B" onclick="setTab('B')">👧 Kelas B</button>
-      <button class="tab" data-tab="EXP" onclick="setTab('EXP')">📤 Pengeluaran</button>
+      <button class="tab" data-tab="EXP" onclick="setTab('EXP')">💱 In-Out</button>
     </div>
 
     <!-- KELAS VIEW -->
@@ -241,14 +245,15 @@ tbody tr.clickable:hover td{background:rgba(29,168,118,.07)}
       </div>
     </div>
 
-    <!-- EXPENSE VIEW -->
+    <!-- IN-OUT VIEW -->
     <div id="view-exp" style="display:none">
-      <div class="summary-row" style="grid-template-columns:1fr">
-        <div class="sum-card red"><div class="lbl">Total Pengeluaran</div><div class="val" id="exp-total">—</div></div>
+      <div class="summary-row" style="grid-template-columns:1fr 1fr">
+        <div class="sum-card blue"><div class="lbl">Total Masuk</div><div class="val" id="exp-masuk">—</div></div>
+        <div class="sum-card red"><div class="lbl">Total Keluar</div><div class="val" id="exp-keluar">—</div></div>
       </div>
       <div class="card">
         <table>
-          <thead><tr><th style="width:36px">No</th><th style="width:100px">Tanggal</th><th>Keterangan</th><th style="text-align:right;width:120px">Jumlah</th></tr></thead>
+          <thead><tr><th style="width:36px">No</th><th style="width:100px">Tanggal</th><th>Keterangan</th><th style="width:90px">Tipe</th><th style="text-align:right;width:120px">Jumlah</th></tr></thead>
           <tbody id="tbody-exp"></tbody>
         </table>
         <div class="tfoot"><span id="exp-count"></span></div>
@@ -314,8 +319,47 @@ const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRq765JFbad6wY
 
 const MONTHS = ['Jul','Ags','Sep','Okt','Nov','Des','Jan','Feb','Mar','Apr','Mei','Jun'];
 const MONTH_FULL = {Jul:'Juli',Ags:'Agustus',Sep:'September',Okt:'Oktober',Nov:'November',Des:'Desember',Jan:'Januari',Feb:'Februari',Mar:'Maret',Apr:'April',Mei:'Mei',Jun:'Juni'};
+// Alias huruf yang mungkin muncul di judul kolom bulan, sebab Google Sheets kadang otomatis
+// mengubah teks seperti "Jul26" jadi format tanggal ("26-Jul") saat diekspor ke CSV, dan sheet
+// bisa memakai singkatan Indonesia atau Inggris. Kita cocokkan berdasarkan huruf yang tersisa
+// setelah angka dibuang, bukan berdasarkan teks persis, supaya tahan terhadap perubahan format.
+const MONTH_ALIASES = {
+  Jul:['JUL'], Ags:['AGS','AGU','AUG'], Sep:['SEP'], Okt:['OKT','OCT'], Nov:['NOV'], Des:['DES','DEC'],
+  Jan:['JAN'], Feb:['FEB'], Mar:['MAR','MRT'], Apr:['APR'], Mei:['MEI','MAY'], Jun:['JUN']
+};
+function matchMonthKey(cellUpper){
+  const letters = (cellUpper || '').replace(/[^A-Z]/g,'');
+  if (!letters) return null;
+  for (const key of MONTHS) { if (MONTH_ALIASES[key].some(a => letters.includes(a))) return key; }
+  return null;
+}
+// Simpan 2 digit tahun per kunci bulan (mis. Jul -> "26", Jan -> "27") supaya judul bulan di
+// tampilan selalu ikut menampilkan tahunnya (Jul26, Ags26, ... Jun27), bukan cuma nama bulan.
+let YEAR_MAP = {};
+function fiscalYearStart(){
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = now.getMonth(); // 0-based; Juli = 6, jadi tahun ajaran mulai Juli
+  return (m >= 6) ? y : y - 1;
+}
+function recordMonthYear(key, rawCellText){
+  if (YEAR_MAP[key]) return; // sudah ada, tak perlu ditimpa
+  const digits = (rawCellText.match(/\d+/g) || []).join('');
+  if (digits.length >= 2) YEAR_MAP[key] = digits.slice(-2);
+}
+function finalizeYearMap(){
+  const fy = fiscalYearStart();
+  const y1 = String(fy).slice(-2), y2 = String(fy + 1).slice(-2);
+  const firstHalf = ['Jul','Ags','Sep','Okt','Nov','Des'], secondHalf = ['Jan','Feb','Mar','Apr','Mei','Jun'];
+  const firstYear = firstHalf.map(k => YEAR_MAP[k]).find(Boolean) || y1;
+  const secondYear = secondHalf.map(k => YEAR_MAP[k]).find(Boolean) || y2;
+  firstHalf.forEach(k => { if (!YEAR_MAP[k]) YEAR_MAP[k] = firstYear; });
+  secondHalf.forEach(k => { if (!YEAR_MAP[k]) YEAR_MAP[k] = secondYear; });
+}
+function monthLabel(key){ return key + (YEAR_MAP[key] || ''); } // "Jul26"
+function monthFullWithYear(key){ const yy = YEAR_MAP[key]; return MONTH_FULL[key] + (yy ? ' 20' + yy : ''); } // "Juli 2026"
 
-let DATA = { A: [], B: [], expenses: [] };
+let DATA = { A: [], B: [], ledger: [] };
 let currentTab = 'A';
 
 // ── CSV PARSER ──
@@ -343,16 +387,23 @@ function parseCSVGrid(text) {
 }
 const cell = (grid, r, c) => ((grid[r] && grid[r][c]) || '').trim();
 
-// Cari lokasi judul tabel ('KELAS A' / 'KELAS B' / 'PENGELUARAN') di beberapa baris pertama,
-// lalu urutkan berdasarkan kolom supaya batas kanan tiap tabel = kolom judul berikutnya.
+// Cari lokasi judul tabel ('KELAS A' / 'KELAS B' / 'IN-OUT' atau nama lama 'PENGELUARAN') di
+// beberapa baris pertama, lalu urutkan berdasarkan kolom supaya batas kanan tiap tabel = kolom
+// judul berikutnya.
 function findSections(grid) {
-  const names = ['KELAS A', 'KELAS B', 'PENGELUARAN'];
+  const names = ['KELAS A', 'KELAS B', 'PENGELUARAN', 'IN-OUT'];
   const found = [];
   for (let r = 0; r < Math.min(6, grid.length); r++) {
     const row = grid[r] || [];
     row.forEach((c, idx) => {
       const v = (c || '').toUpperCase().trim();
-      if (names.includes(v) && !found.some(f => f.name === v)) found.push({ name: v, row: r, col: idx });
+      if (!names.includes(v) || found.some(f => f.name === v)) return;
+      // Kolom header tabel In-Out ("No, Tanggal, Keterangan, Pemasukan, Pengeluaran") memuat kata
+      // "PENGELUARAN" sebagai nama kolom, persis sama dengan nama judul section lama — kenali ini
+      // lewat kolom sebelumnya yang berisi "PEMASUKAN", supaya tidak salah dikira judul tabel baru
+      // dan memotong section In-Out.
+      if (v === 'PENGELUARAN' && (row[idx-1] || '').toUpperCase().trim() === 'PEMASUKAN') return;
+      found.push({ name: v, row: r, col: idx });
     });
   }
   found.sort((a, b) => a.col - b.col);
@@ -366,13 +417,16 @@ function parseClassSection(grid, startCol, endCol) {
   const colMonth = {};
   for (let r = 0; r < Math.min(10, grid.length); r++) {
     const cells = (grid[r] || []).slice(startCol, endCol).map(c => (c || '').toUpperCase().trim());
-    if (cells.some(c => c === 'NAMA') && MONTHS.some(m => cells.includes(m.toUpperCase()))) {
+    if (cells.some(c => c === 'NAMA') && cells.some(c => matchMonthKey(c))) {
       headerIdx = r;
       cells.forEach((cu, idx) => {
         if (cu === 'NO') colNo = idx;
         else if (cu === 'NAMA') colNama = idx;
         else if (cu.startsWith('KET')) colKet = idx;
-        else { const found = MONTHS.find(m => m.toUpperCase() === cu); if (found) colMonth[found] = idx; }
+        else {
+          const found = matchMonthKey(cu);
+          if (found) { colMonth[found] = idx; recordMonthYear(found, cu); }
+        }
       });
       break;
     }
@@ -419,16 +473,22 @@ const IURAN_PER_BULAN = 10000;
 function computeFinance(){
   let paidMonthCount = 0;
   [...DATA.A, ...DATA.B].forEach(s => { MONTHS.forEach(m => { if (s.payments[m]) paidMonthCount++; }); });
-  const masuk = paidMonthCount * IURAN_PER_BULAN;
-  const keluar = (DATA.expenses || []).reduce((sum, e) => sum + e.jumlah, 0);
+  const iuran = paidMonthCount * IURAN_PER_BULAN;
+  const ledgerMasuk = (DATA.ledger || []).reduce((sum, e) => sum + e.masuk, 0);
+  const ledgerKeluar = (DATA.ledger || []).reduce((sum, e) => sum + e.keluar, 0);
+  const masuk = iuran + ledgerMasuk;
+  const keluar = ledgerKeluar;
   const saldo = masuk - keluar;
   document.getElementById('fin-masuk').textContent = fmtRpFull(masuk);
   document.getElementById('fin-keluar').textContent = fmtRpFull(keluar);
   document.getElementById('fin-saldo').textContent = fmtRpFull(saldo);
 }
 
-function parseExpenseSection(grid, startCol, endCol) {
-  let headerIdx = -1, colNo = -1, colTgl = -1, colKet = -1, colJml = -1;
+// Tabel In-Out berisi baris pemasukan & pengeluaran berdampingan (kolom Pemasukan & Pengeluaran
+// terpisah, satu baris hanya salah satu yang terisi). Kompatibel juga dengan sheet lama yang cuma
+// punya satu kolom "Jumlah" (dianggap sebagai pengeluaran).
+function parseLedgerSection(grid, startCol, endCol) {
+  let headerIdx = -1, colNo = -1, colTgl = -1, colKet = -1, colMasuk = -1, colKeluar = -1, colJmlLegacy = -1;
   for (let r = 0; r < Math.min(10, grid.length); r++) {
     const cells = (grid[r] || []).slice(startCol, endCol).map(c => (c || '').toUpperCase().trim());
     if (cells.includes('TANGGAL') && cells.some(c => c.startsWith('KETERANGAN'))) {
@@ -437,22 +497,26 @@ function parseExpenseSection(grid, startCol, endCol) {
         if (cu === 'NO') colNo = idx;
         else if (cu.includes('TANGGAL')) colTgl = idx;
         else if (cu.includes('KETERANGAN')) colKet = idx;
-        else if (cu.includes('JUMLAH')) colJml = idx;
+        else if (cu.includes('PEMASUKAN')) colMasuk = idx;
+        else if (cu.includes('PENGELUARAN')) colKeluar = idx;
+        else if (cu.includes('JUMLAH')) colJmlLegacy = idx;
       });
       break;
     }
   }
-  if (headerIdx < 0) throw new Error('Header tabel pengeluaran tidak ditemukan.');
+  if (headerIdx < 0) throw new Error('Header tabel In-Out tidak ditemukan.');
   const rows = [];
   for (let r = headerIdx + 1; r < grid.length; r++) {
     const ket = colKet >= 0 ? cell(grid, r, startCol + colKet) : '';
-    const jml = colJml >= 0 ? parseRp(cell(grid, r, startCol + colJml)) : 0;
-    if (!ket && jml === 0) continue;
+    const masuk = colMasuk >= 0 ? parseRp(cell(grid, r, startCol + colMasuk)) : 0;
+    let keluar = colKeluar >= 0 ? parseRp(cell(grid, r, startCol + colKeluar)) : 0;
+    if (colKeluar < 0 && colJmlLegacy >= 0) keluar = parseRp(cell(grid, r, startCol + colJmlLegacy));
+    if (!ket && masuk === 0 && keluar === 0) continue;
     rows.push({
       no: colNo >= 0 ? cell(grid, r, startCol + colNo) : String(rows.length + 1),
       tanggal: colTgl >= 0 ? cell(grid, r, startCol + colTgl) : '',
       keterangan: ket,
-      jumlah: jml
+      masuk, keluar
     });
   }
   return rows;
@@ -481,7 +545,7 @@ function setTab(tab){
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.tab === tab));
   document.getElementById('view-kelas').style.display = (tab==='EXP') ? 'none':'block';
   document.getElementById('view-exp').style.display = (tab==='EXP') ? 'block':'none';
-  if (tab === 'EXP') renderExpenses(); else renderTable();
+  if (tab === 'EXP') renderLedger(); else renderTable();
 }
 
 function renderTable(){
@@ -503,8 +567,8 @@ function renderTable(){
   tbody.innerHTML = students.map((s,i) => {
     const st = getStatus(s.payments);
     let badge;
-    if (st.level === 'lunas') badge = `<span class="badge lunas">✓ Lunas s.d ${MONTH_FULL[st.lastPaid]}</span>`;
-    else if (st.level === 'sebagian') badge = `<span class="badge sebagian">Lunas s.d ${MONTH_FULL[st.lastPaid]}</span>`;
+    if (st.level === 'lunas') badge = `<span class="badge lunas">✓ Lunas s.d ${monthLabel(st.lastPaid)}</span>`;
+    else if (st.level === 'sebagian') badge = `<span class="badge sebagian">Lunas s.d ${monthLabel(st.lastPaid)}</span>`;
     else badge = `<span class="badge belum">Belum bayar</span>`;
     return `<tr class="clickable" onclick='openModal(${JSON.stringify(s.nama)}, ${JSON.stringify(s.payments)})'>
       <td class="no-cell">${s.no || (i+1)}</td>
@@ -522,7 +586,7 @@ function openModal(nama, payments){
     const val = payments[m] || '';
     return `<div class="month-row">
       <span class="status-dot ${val?'paid':'unpaid'}"></span>
-      <span class="m-label">${m}</span>
+      <span class="m-label">${monthLabel(m)}</span>
       <span class="m-val">${val || 'Belum bayar'}</span>
     </div>`;
   }).join('');
@@ -530,25 +594,32 @@ function openModal(nama, payments){
   const el = document.getElementById('paid-summary');
   el.innerHTML = paid.length === 0
     ? 'Belum ada pembayaran tercatat.'
-    : 'Sudah lunas: <b>' + paid.map(m => MONTH_FULL[m] + ' (' + payments[m] + ')').join(', ') + '</b>';
+    : 'Sudah lunas: <b>' + paid.map(m => monthFullWithYear(m) + ' (' + payments[m] + ')').join(', ') + '</b>';
   document.getElementById('overlay').classList.add('show');
 }
 function closeModal(){ document.getElementById('overlay').classList.remove('show'); }
 
-function renderExpenses(){
-  const list = DATA.expenses || [];
+function renderLedger(){
+  const list = DATA.ledger || [];
   const tbody = document.getElementById('tbody-exp');
-  let total = 0;
+  let totalMasuk = 0, totalKeluar = 0;
   tbody.innerHTML = list.map((e,i) => {
-    total += e.jumlah;
+    const isMasuk = e.masuk > 0;
+    totalMasuk += e.masuk; totalKeluar += e.keluar;
+    const jumlah = isMasuk ? e.masuk : e.keluar;
+    const badge = isMasuk
+      ? `<span class="badge masuk">↑ Masuk</span>`
+      : `<span class="badge keluar">↓ Keluar</span>`;
     return `<tr>
       <td class="no-cell">${e.no || (i+1)}</td>
       <td class="date-cell">${e.tanggal || '—'}</td>
       <td>${e.keterangan || '—'}</td>
-      <td class="rp-cell">${fmtRp(e.jumlah)}</td>
+      <td>${badge}</td>
+      <td class="rp-cell ${isMasuk?'masuk':'keluar'}">${isMasuk?'+':'-'} ${fmtRp(jumlah)}</td>
     </tr>`;
-  }).join('') || `<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text3)">Belum ada data pengeluaran</td></tr>`;
-  document.getElementById('exp-total').textContent = fmtRp(total);
+  }).join('') || `<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text3)">Belum ada data transaksi</td></tr>`;
+  document.getElementById('exp-masuk').textContent = fmtRp(totalMasuk);
+  document.getElementById('exp-keluar').textContent = fmtRp(totalKeluar);
   document.getElementById('exp-count').textContent = `${list.length} transaksi`;
 }
 
@@ -569,20 +640,22 @@ async function init(){
     const text = await res.text();
     const grid = parseCSVGrid(text);
 
+    YEAR_MAP = {};
     const sections = findSections(grid);
     const secA = sections.find(s => s.name === 'KELAS A');
     const secB = sections.find(s => s.name === 'KELAS B');
-    const secE = sections.find(s => s.name === 'PENGELUARAN');
-    if (!secA || !secB || !secE) throw new Error('Tabel KELAS A / KELAS B / PENGELUARAN tidak ditemukan di sheet. Pastikan judul tabel tetap sama persis.');
+    const secE = sections.find(s => s.name === 'IN-OUT' || s.name === 'PENGELUARAN');
+    if (!secA || !secB || !secE) throw new Error('Tabel KELAS A / KELAS B / IN-OUT tidak ditemukan di sheet. Pastikan judul tabel tetap sama persis.');
 
     DATA.A = parseClassSection(grid, secA.col, secA.endCol);
     DATA.B = parseClassSection(grid, secB.col, secB.endCol);
-    DATA.expenses = parseExpenseSection(grid, secE.col, secE.endCol);
+    DATA.ledger = parseLedgerSection(grid, secE.col, secE.endCol);
+    finalizeYearMap();
 
-    // cutoff: cari tanggal terbaru dari seluruh payment + expense
+    // cutoff: cari tanggal terbaru dari seluruh payment + transaksi in-out
     const allDateStrs = [];
     [...DATA.A, ...DATA.B].forEach(s => MONTHS.forEach(m => { if (s.payments[m]) allDateStrs.push(s.payments[m]); }));
-    DATA.expenses.forEach(e => { if (e.tanggal) allDateStrs.push(e.tanggal); });
+    DATA.ledger.forEach(e => { if (e.tanggal) allDateStrs.push(e.tanggal); });
     const parsed = allDateStrs.map(t => {
       const parts = t.split('/');
       if (parts.length === 3) {
