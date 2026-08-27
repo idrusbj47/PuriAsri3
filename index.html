@@ -1749,22 +1749,6 @@
 
   <main>
 
-    <!-- ── BANNER KLASEMEN ACARA 17 AGUSTUSAN: topik hangat, ditaruh paling atas ── -->
-    <a class="klasemen-banner" href="klasemen-17an.html" id="klasemenBanner">
-      <div class="klasemen-banner-top">
-        <span class="klasemen-banner-flag">🏆</span>
-        <span class="klasemen-banner-eyebrow">Sedang Berjalan · Lomba 17 Agustusan</span>
-      </div>
-      <div class="klasemen-banner-title">Klasemen Acara 17 Agustusan HUT RI ke-81</div>
-      <div class="klasemen-banner-desc">Pantau perolehan poin & peringkat sementara tiap blok/regu dalam rangkaian lomba warga Puri Asri 3.</div>
-
-      <div class="klasemen-banner-cta">
-        <span>Lihat klasemen lengkap</span>
-        <div class="klasemen-banner-arrow">→</div>
-      </div>
-    </a>
-
-
     <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
     <div class="hero-slider" id="heroSlider">
       <div class="hero-slider-track" id="heroSliderTrack">
@@ -1873,189 +1857,6 @@
       </a>
 
     </div>
-
-    <div class="section-label" style="margin-top:8px;">
-      <span>Acara 17 Agustusan</span>
-    </div>
-
-    <!-- ── BANNER IURAN HUT RI 17 AGUSTUSAN: masih berjalan, ditaruh di bawah Laporan Keuangan ── -->
-    <a class="hutri-banner" href="hut-ri-17an.html" id="hutriBanner">
-      <div class="hutri-banner-top">
-        <span class="hutri-banner-flag">🇮🇩</span>
-        <span class="hutri-banner-eyebrow">Sedang Berjalan · Iuran Warga</span>
-        <button type="button" class="hutri-refresh-btn" id="hutriRefreshBtn" aria-label="Muat ulang total iuran" title="Muat ulang total iuran">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-          </svg>
-        </button>
-      </div>
-      <div class="hutri-banner-title">Iuran Acara 17 Agustusan HUT RI ke-81</div>
-      <div class="hutri-banner-desc">Yuk sukseskan acara 17 Agustusan warga Puri Asri 3. Cek progres dana & daftar donatur.</div>
-
-      <div class="hutri-progress-track">
-        <div class="hutri-progress-fill" id="hutriProgressFill"></div>
-      </div>
-      <div class="hutri-progress-meta">
-        <span>Terkumpul <strong id="hutriTerkumpul">memuat...</strong> dari <span id="hutriTarget">–</span></span>
-        <span><strong id="hutriProgressPercent">–</strong></span>
-      </div>
-      <div class="hutri-total-row">
-        <span>Total keseluruhan (+ pencairan proposal)</span>
-        <strong id="hutriTotalGabungan">–</strong>
-      </div>
-
-      <div class="hutri-banner-cta">
-        <span>Lihat detail & cara iuran</span>
-        <div class="hutri-banner-arrow">→</div>
-      </div>
-    </a>
-
-    <!-- ── DATA HUT RI: ambil live dari Google Sheets (CSV publikasi panitia) ── -->
-    <script>
-      (function () {
-        var HUTRI_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1228186543&single=true&output=csv';
-
-        function parseCSV(text) {
-          var rows = [], row = [], field = '', inQuotes = false;
-          for (var i = 0; i < text.length; i++) {
-            var c = text[i];
-            if (inQuotes) {
-              if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
-              else { field += c; }
-            } else {
-              if (c === '"') inQuotes = true;
-              else if (c === ',') { row.push(field); field = ''; }
-              else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
-              else if (c === '\r') { /* skip */ }
-              else field += c;
-            }
-          }
-          if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
-          return rows;
-        }
-
-        function parseRupiahLoose(str) {
-          if (!str) return 0;
-          var s = ('' + str).trim();
-          if (/^[\d,]+\.\d{2}$/.test(s)) return Math.round(parseFloat(s.replace(/,/g, '')));
-          var n = parseInt(s.replace(/[^\d]/g, ''), 10);
-          return isNaN(n) ? 0 : n;
-        }
-
-        function formatRupiah(n) {
-          return 'Rp ' + Math.round(n).toLocaleString('id-ID');
-        }
-
-        // Regex donatur disamakan dengan hut-ri-17an.html agar hasil total selalu konsisten
-        // di kedua halaman (mendukung format blok/rumah dgn huruf & tanda "-", mis. "E1/15").
-        var DONOR_RE = /^(\d+)\.(.+)\.([A-Za-z0-9]+\/[A-Za-z0-9-]+)\.Rp\.?\s*([\d.,]+)\s*$/;
-
-        // Kolom B: daftar "Pencairan Donatur dari proposal yg sudah di serahkan"
-        var PENCAIRAN_HEADER_RE = /pencairan\s+donatur\s+dari\s+proposal/i;
-        var PENCAIRAN_ITEM_RE = /^(\d+)\.\s*(.+)$/;
-
-        function parsePencairanItem(rawText) {
-          var text = rawText.trim();
-          var rpMatch = text.match(/Rp\.?\s*([\d.,]+)\s*$/i);
-          if (!rpMatch) return { amount: 0, isBarang: true };
-          return { amount: parseRupiahLoose(rpMatch[1]), isBarang: false };
-        }
-
-        function parseHutriData(csvText) {
-          var rows = parseCSV(csvText);
-          var rab = 0, donatur = [];
-          var pencairanUangTotal = 0, pencairanItemCount = 0, inPencairan = false, pencairanDone = false;
-
-          for (var i = 0; i < rows.length; i++) {
-            var row = rows[i];
-            var col0 = (row[0] || '').trim();
-            var col1 = (row[1] || '').trim();
-            var col3 = (row[3] || '').trim();
-            var col4 = (row[4] || '').trim();
-            if (col3.toUpperCase() === 'RAB') rab = parseRupiahLoose(col4);
-            var m = col0.match(DONOR_RE);
-            if (m) {
-              donatur.push({
-                nomor: m[1],
-                nama: m[2].replace(/\./g, ' ').replace(/\s+/g, ' ').trim(),
-                blok: m[3],
-                amount: parseRupiahLoose(m[4])
-              });
-            }
-
-            // Total pencairan donatur dari proposal (kolom B), hanya item berupa uang.
-            if (!pencairanDone) {
-              if (!inPencairan && PENCAIRAN_HEADER_RE.test(col1)) {
-                inPencairan = true;
-              } else if (inPencairan) {
-                var pm = col1.match(PENCAIRAN_ITEM_RE);
-                if (pm) {
-                  pencairanItemCount++;
-                  var item = parsePencairanItem(pm[2]);
-                  if (!item.isBarang) pencairanUangTotal += item.amount;
-                } else if (pencairanItemCount > 0) {
-                  pencairanDone = true;
-                  inPencairan = false;
-                }
-              }
-            }
-          }
-          var terkumpul = donatur.reduce(function (sum, d) { return sum + d.amount; }, 0);
-          return { rab: rab, terkumpul: terkumpul, donatur: donatur, pencairanUangTotal: pencairanUangTotal };
-        }
-
-        function renderBanner(data) {
-          var persen = data.rab > 0 ? (data.terkumpul / data.rab) * 100 : 0;
-          var gabungan = data.terkumpul + (data.pencairanUangTotal || 0);
-          document.getElementById('hutriTerkumpul').textContent = formatRupiah(data.terkumpul);
-          document.getElementById('hutriTarget').textContent = formatRupiah(data.rab);
-          document.getElementById('hutriProgressPercent').textContent = persen.toFixed(1).replace('.', ',') + '%';
-          document.getElementById('hutriTotalGabungan').textContent = formatRupiah(gabungan);
-          var fill = document.getElementById('hutriProgressFill');
-          requestAnimationFrame(function () {
-            setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 200);
-          });
-          try { sessionStorage.setItem('hutriDataCache', JSON.stringify(data)); } catch (e) {}
-        }
-
-        var refreshBtn = document.getElementById('hutriRefreshBtn');
-
-        function loadHutriBanner() {
-          if (refreshBtn) { refreshBtn.classList.add('is-loading'); refreshBtn.disabled = true; }
-          // cache: 'no-store' + cache-bust param memastikan data terbaru diambil, bukan versi cache browser.
-          return fetch(HUTRI_CSV_URL + '&cb=' + Date.now(), { cache: 'no-store' })
-            .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
-            .then(function (csvText) { renderBanner(parseHutriData(csvText)); })
-            .catch(function () {
-              var cached = null;
-              try { cached = JSON.parse(sessionStorage.getItem('hutriDataCache')); } catch (e) {}
-              if (cached) { renderBanner(cached); }
-              else {
-                document.getElementById('hutriTerkumpul').textContent = '–';
-                document.getElementById('hutriTarget').textContent = '–';
-                document.getElementById('hutriProgressPercent').textContent = '–';
-                document.getElementById('hutriTotalGabungan').textContent = '–';
-              }
-            })
-            .finally(function () {
-              if (refreshBtn) { refreshBtn.classList.remove('is-loading'); refreshBtn.disabled = false; }
-            });
-        }
-
-        if (refreshBtn) {
-          refreshBtn.addEventListener('click', function (ev) {
-            // Cegah klik tombol ikut membuka link banner (banner adalah elemen <a>)
-            ev.preventDefault();
-            ev.stopPropagation();
-            loadHutriBanner();
-          });
-        }
-
-        loadHutriBanner();
-      })();
-    </script>
-
 
     <!-- Seksi: Rincian Keuangan -->
     <div class="app-menu-grid" id="tourRincian">
@@ -2206,6 +2007,30 @@
     <div class="section-label" style="margin-bottom:16px;">
       <span>Arsip</span>
     </div>
+
+    <a class="polling-banner" href="klasemen-17an.html" id="klasemenArsipBanner" style="margin-bottom:12px;">
+      <div class="polling-banner-icon">🏆</div>
+      <div class="polling-banner-body">
+        <div class="polling-banner-eyebrow">Lomba 17 Agustusan HUT RI ke-81</div>
+        <div class="polling-banner-title">Klasemen Poin per Blok</div>
+        <div class="polling-live-dot">Selesai · Lihat klasemen akhir</div>
+      </div>
+      <div class="polling-banner-right">
+        <div class="polling-banner-arrow">→</div>
+      </div>
+    </a>
+
+    <a class="polling-banner" href="hut-ri-17an.html" id="hutriArsipBanner" style="margin-bottom:12px;">
+      <div class="polling-banner-icon">🇮🇩</div>
+      <div class="polling-banner-body">
+        <div class="polling-banner-eyebrow">Acara 17 Agustusan HUT RI ke-81</div>
+        <div class="polling-banner-title">Progres Iuran &amp; Daftar Donatur</div>
+        <div class="polling-live-dot">Selesai · Lihat rekap iuran</div>
+      </div>
+      <div class="polling-banner-right">
+        <div class="polling-banner-arrow">→</div>
+      </div>
+    </a>
 
     <a class="polling-banner" href="poling.html" id="pollingBanner">
       <div class="polling-banner-icon">🗳️</div>
@@ -2619,12 +2444,12 @@
 <script>
   // ── ONBOARDING TOUR: spotlight menyoroti menu utama ──
   const tourSteps = [
-    { selector: '.klasemen-banner', title: 'Klasemen 17 Agustusan', desc: 'Peringkat sementara lomba 17 Agustusan bisa dicek di banner ini.' },
     { selector: '.menu-grid', title: 'Laporan Keuangan', desc: 'Kas Umum & Dana Kematian — dua laporan utama warga ada di sini.' },
-    { selector: '.hutri-banner', title: 'Donasi 17 Agustusan', desc: 'Progres dana & daftar donatur acara HUT RI bisa dicek di banner ini.' },
     { selector: '#tourRincian', title: 'Rincian Keuangan', desc: 'Detail penggunaan dana kas umum & dana kematian per transaksi.' },
     { selector: '#tourKomunitas', title: 'Kas Komunitas & Lingkungan', desc: 'Kas Gang, Futsal, Posyandu, DKM, & kas warga lainnya di luar Kas RT.' },
     { selector: '#tourDokumen', title: 'Informasi & Dokumen RT', desc: 'Program kerja, timeline rapat, dokumentasi, inventaris, AD/ART, & peta lokasi.' },
+    { selector: '#klasemenArsipBanner', title: 'Arsip Klasemen 17 Agustusan', desc: 'Acara 17 Agustusan sudah selesai — klasemen akhir poin per blok tetap bisa dicek di sini.' },
+    { selector: '#hutriArsipBanner', title: 'Arsip Iuran 17 Agustusan', desc: 'Rekap iuran & daftar donatur acara HUT RI yang sudah selesai ada di sini.' },
     { selector: '.polling-banner', title: 'Arsip Polling', desc: 'Hasil polling yang sudah selesai tetap bisa dilihat di sini.' },
     { selector: '.wa-float-container', title: 'Bayar Iuran / Kas', desc: 'Konfirmasi pembayaran kas langsung ke Pak RT lewat WhatsApp.' }
   ];
