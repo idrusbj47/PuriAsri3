@@ -462,9 +462,9 @@ tr.row-kematian td:first-child{
     <!-- FINANCE SUMMARY -->
     <div class="finance-bar">
       <div class="fin-card masuk">
-        <div class="fin-label">💰 Saldo Awal Dana Kematian</div>
+        <div class="fin-label">💰 Total Dana Masuk</div>
         <div class="fin-value" id="fin-masuk">—</div>
-        <div class="fin-sub" id="fin-masuk-sub">saldo sumb. kematian Desember 2025</div>
+        <div class="fin-sub" id="fin-masuk-sub">termasuk saldo awal —</div>
       </div>
       <div class="fin-card keluar">
         <div class="fin-label">📤 Total Pengeluaran</div>
@@ -480,7 +480,7 @@ tr.row-kematian td:first-child{
 
     <!-- REKAP BULANAN -->
     <div class="rekap-section">
-      <div class="rekap-title">Rekap bulanan — Pengeluaran Dana Kematian per bulan</div>
+      <div class="rekap-title">Rekap bulanan — Masuk &amp; keluar per bulan</div>
       <div class="rekap-grid" id="rekap-grid"></div>
     </div>
 
@@ -565,7 +565,8 @@ const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','D
 const MK = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOPEMBER','DESEMBER'];
 
 let allRows = [], filterMode = 'all', activeMonth = null;
-let ringkasan = { saldoAwal: 0, totalPengeluaran: 0, saldoBerjalan: 0 };
+let ringkasan = { saldoAwal: 0, totalPengeluaran: 0, saldoBerjalan: 0, totalPemasukan: 0 };
+let pemasukanBulanan = {};
 
 function fmtRp(n) {
   if (!n || n === 0) return '—';
@@ -628,6 +629,46 @@ function findLabelValue(lines, labelUpper) {
   return 0;
 }
 
+// Menghitung total pemasukan (Sumb. Kematian warga) per bulan dari tabel di atas
+// section PENGELUARAN KAS. Header berselang-seling: <BULAN>, SUMB.KEMATIAN, <BULAN>, ...
+// jadi kolom Sumb. Kematian selalu 1 posisi setelah kolom nama bulannya.
+function parsePemasukanBulanan(lines) {
+  const result = {};
+  MK.forEach(m => result[m] = 0);
+
+  let headerIdx = -1;
+  for (let i = 0; i < lines.length; i++) {
+    const up = lines[i].toUpperCase();
+    if (up.includes('JANUARI') && up.includes('DESEMBER')) { headerIdx = i; break; }
+  }
+  if (headerIdx < 0) return result;
+
+  const headerFields = splitLine(lines[headerIdx]).map(x => x.toUpperCase());
+  const colIdx = {};
+  MK.forEach(m => {
+    const idx = headerFields.indexOf(m);
+    if (idx >= 0) colIdx[m] = idx + 1; // kolom Sumb. Kematian ada tepat setelah kolom bulan
+  });
+
+  for (let i = headerIdx + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const f = splitLine(line);
+    if ((f[0] || '').toUpperCase().includes('PENGELUARAN')) break; // sudah masuk area pengeluaran, berhenti
+    const no = parseInt(f[0], 10);
+    if (!isNaN(no) && f[2]) { // baris data warga: ada NO. dan NAMA
+      MK.forEach(m => {
+        const idx = colIdx[m];
+        if (idx != null && f[idx]) {
+          const val = parseNum(f[idx]);
+          if (val > 0) result[m] += val;
+        }
+      });
+    }
+  }
+  return result;
+}
+
 function parseCSV(text) {
   const lines = text.split('\n').map(l => l.replace(/\r$/, ''));
   allRows = [];
@@ -685,10 +726,15 @@ function parseCSV(text) {
   ringkasan.saldoAwal = findLabelValue(lines, 'KEMATIAN 2025');
   ringkasan.saldoBerjalan = findLabelValue(lines, 'KEMATIAN BULAN BERJALAN');
   ringkasan.totalPengeluaran = allRows.reduce((s, r) => s + r.keluar, 0);
+
+  pemasukanBulanan = parsePemasukanBulanan(lines);
+  pemasukanBulanan['JANUARI'] = (pemasukanBulanan['JANUARI'] || 0) + ringkasan.saldoAwal;
+  ringkasan.totalPemasukan = MK.reduce((s, m) => s + (pemasukanBulanan[m] || 0), 0);
 }
 
 function buildUI() {
-  document.getElementById('fin-masuk').textContent = fmtRpFull(ringkasan.saldoAwal);
+  document.getElementById('fin-masuk').textContent = fmtRpFull(ringkasan.totalPemasukan);
+  document.getElementById('fin-masuk-sub').textContent = 'termasuk saldo awal ' + fmtRpFull(ringkasan.saldoAwal);
   document.getElementById('fin-keluar').textContent = fmtRpFull(ringkasan.totalPengeluaran);
   document.getElementById('fin-saldo').textContent = fmtRpFull(ringkasan.saldoBerjalan);
 
@@ -697,11 +743,15 @@ function buildUI() {
   allRows.forEach(r => { if (r.bulan && rekapData[r.bulan] !== undefined) rekapData[r.bulan] += r.keluar; });
 
   document.getElementById('rekap-grid').innerHTML = MK.map((m, i) => {
-    const total = rekapData[m];
-    const hasData = total > 0;
+    const masuk = pemasukanBulanan[m] || 0;
+    const keluar = rekapData[m];
+    const hasData = masuk > 0 || keluar > 0;
     return `<div class="rekap-card">
       <div class="r-bulan">${MN[i]}</div>
-      ${hasData ? `<div class="r-keluar">-${fmtRp(total)}</div>` : `<div style="font-size:10px;color:var(--text3);margin-top:2px">—</div>`}
+      ${hasData ? `
+        <div class="r-masuk">+${fmtRp(masuk)}</div>
+        <div class="r-keluar">-${fmtRp(keluar)}</div>
+      ` : `<div style="font-size:10px;color:var(--text3);margin-top:2px">—</div>`}
     </div>`;
   }).join('');
 
