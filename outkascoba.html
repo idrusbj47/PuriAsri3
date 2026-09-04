@@ -135,7 +135,9 @@ html{scroll-behavior:smooth}
 .rekap-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
 .rekap-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;text-align:center}
 .rekap-card .r-bulan{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.rekap-card .r-masuk{font-size:11px;color:var(--green);font-family:'DM Mono',monospace;font-weight:600}
 .rekap-card .r-keluar{font-size:11px;color:var(--red);font-family:'DM Mono',monospace;font-weight:600}
+.rekap-card .r-empty{font-size:10px;color:var(--text3);margin-top:2px}
 .rekap-card.active-month{border-color:var(--green-mid);background:var(--green-bg)}
 @media(max-width:700px){.rekap-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:400px){.rekap-grid{grid-template-columns:repeat(2,1fr)}}
@@ -370,13 +372,11 @@ background-color: rgba(255, 255, 255, 0.15);
 
 <div id="content" style="display:none">
 
-<p class="page-note">Menampilkan pengeluaran Kas Operasional &amp; Dana Sosial. Pengeluaran Dana Kematian dicatat terpisah di halaman <a href="pengeluaran-kematian.html">Pengeluaran Dana Kematian</a>.</p>
-
 <div class="finance-bar">
 <div class="fin-card masuk">
-<div class="fin-label">💰 Saldo Awal Kas (Des 2025)</div>
+<div class="fin-label">💰 Total Dana Masuk</div>
 <div class="fin-value" id="fin-masuk">—</div>
-<div class="fin-sub">saldo kas awal tahun berjalan</div>
+<div class="fin-sub" id="fin-masuk-sub">termasuk saldo awal —</div>
 </div>
 <div class="fin-card keluar">
 <div class="fin-label">📤 Total Pengeluaran Kas</div>
@@ -391,7 +391,7 @@ background-color: rgba(255, 255, 255, 0.15);
 </div>
 
 <div class="rekap-section">
-<div class="rekap-title">Rekap bulanan — Pengeluaran Kas per bulan</div>
+<div class="rekap-title">Rekap bulanan — Masuk &amp; keluar per bulan</div>
 <div class="rekap-grid" id="rekap-grid"></div>
 </div>
 
@@ -475,7 +475,8 @@ const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','D
 const MK = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOPEMBER','DESEMBER'];
 
 let allRows = [], filterMode = 'all', activeMonth = null;
-let ringkasan = { saldoAwal: 0, totalPengeluaran: 0, saldoBerjalan: 0 };
+let ringkasan = { saldoAwal: 0, totalPengeluaran: 0, saldoBerjalan: 0, totalPemasukan: 0 };
+let pemasukanBulanan = {};
 
 function fmtRp(n) {
   if (!n || n === 0) return '—';
@@ -538,6 +539,47 @@ function findLabelValue(lines, labelUpper) {
   return 0;
 }
 
+// Menghitung total pemasukan (iuran Kas warga) per bulan dari tabel di atas
+// section PENGELUARAN KAS. Kolom "Kas" per bulan diselang-seling dengan kolom
+// "Sumb. Kematian" pada header (mis: JANUARI, SUMB.KEMATIAN, FEBRUARI, ...).
+// Hanya kolom Kas (bukan Sumb. Kematian) yang dijumlahkan di sini.
+function parsePemasukanBulanan(lines) {
+  const result = {};
+  MK.forEach(m => result[m] = 0);
+
+  let headerIdx = -1;
+  for (let i = 0; i < lines.length; i++) {
+    const up = lines[i].toUpperCase();
+    if (up.includes('JANUARI') && up.includes('DESEMBER')) { headerIdx = i; break; }
+  }
+  if (headerIdx < 0) return result;
+
+  const headerFields = splitLine(lines[headerIdx]).map(x => x.toUpperCase());
+  const colIdx = {};
+  MK.forEach(m => {
+    const idx = headerFields.indexOf(m);
+    if (idx >= 0) colIdx[m] = idx;
+  });
+
+  for (let i = headerIdx + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const f = splitLine(line);
+    if ((f[0] || '').toUpperCase().includes('PENGELUARAN')) break; // sudah masuk area pengeluaran, berhenti
+    const no = parseInt(f[0], 10);
+    if (!isNaN(no) && f[2]) { // baris data warga: ada NO. dan NAMA
+      MK.forEach(m => {
+        const idx = colIdx[m];
+        if (idx != null && f[idx]) {
+          const val = parseNum(f[idx]);
+          if (val > 0) result[m] += val;
+        }
+      });
+    }
+  }
+  return result;
+}
+
 function parseCSV(text) {
   const lines = text.split('\n').map(l => l.replace(/\r$/, ''));
   allRows = [];
@@ -592,10 +634,15 @@ function parseCSV(text) {
   ringkasan.saldoAwal = findLabelValue(lines, 'SALDO KAS DESEMBER 2025');
   ringkasan.saldoBerjalan = findLabelValue(lines, 'JUMLAH UANG KAS BULAN BERJALAN');
   ringkasan.totalPengeluaran = allRows.reduce((s, r) => s + r.keluar, 0);
+
+  pemasukanBulanan = parsePemasukanBulanan(lines);
+  pemasukanBulanan['JANUARI'] = (pemasukanBulanan['JANUARI'] || 0) + ringkasan.saldoAwal;
+  ringkasan.totalPemasukan = MK.reduce((s, m) => s + (pemasukanBulanan[m] || 0), 0);
 }
 
 function buildUI() {
-  document.getElementById('fin-masuk').textContent = fmtRpFull(ringkasan.saldoAwal);
+  document.getElementById('fin-masuk').textContent = fmtRpFull(ringkasan.totalPemasukan);
+  document.getElementById('fin-masuk-sub').textContent = 'termasuk saldo awal ' + fmtRpFull(ringkasan.saldoAwal);
   document.getElementById('fin-keluar').textContent = fmtRpFull(ringkasan.totalPengeluaran);
   document.getElementById('fin-saldo').textContent = fmtRpFull(ringkasan.saldoBerjalan);
 
@@ -604,11 +651,15 @@ function buildUI() {
   allRows.forEach(r => { if (r.bulan && rekapData[r.bulan] !== undefined) rekapData[r.bulan] += r.keluar; });
 
   document.getElementById('rekap-grid').innerHTML = MK.map((m, i) => {
-    const total = rekapData[m];
-    const hasData = total > 0;
+    const masuk = pemasukanBulanan[m] || 0;
+    const keluar = rekapData[m];
+    const hasData = masuk > 0 || keluar > 0;
     return `<div class="rekap-card">
       <div class="r-bulan">${MN[i]}</div>
-      ${hasData ? `<div class="r-keluar">-${fmtRp(total)}</div>` : `<div style="font-size:10px;color:var(--text3);margin-top:2px">—</div>`}
+      ${hasData ? `
+        <div class="r-masuk">+${fmtRp(masuk)}</div>
+        <div class="r-keluar">-${fmtRp(keluar)}</div>
+      ` : `<div class="r-empty">—</div>`}
     </div>`;
   }).join('');
 
