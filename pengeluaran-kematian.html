@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Laporan Dana Kematian Puri Asri 3 — TH.2026</title>
+<title>Pengeluaran Dana Kematian Puri Asri 3 — TH.2026</title>
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
 <script>
@@ -22,7 +22,7 @@
   --green:#0a7c52;--green-bg:#e6f5ee;--green-mid:#1da876;
   --red:#b5341a;--red-bg:#fdeee9;
   --amber:#8a5c00;--amber-bg:#fef3d8;
-  --blue:#1a56b0;--blue-bg:#e7effc;
+  --blue:#1a4f8a;--blue-bg:#e8f0fb;
   --text:#1a1a18;--text2:#5c5c58;--text3:#9a9a94;
   --bg:#f7f6f2;--surface:#ffffff;--border:#e8e6df;--border2:#d4d1c8;
   --radius:10px;--radius-lg:14px;
@@ -33,7 +33,7 @@
   --green:#22c47e;--green-bg:#0d3327;--green-mid:#22c47e;
   --red:#f07a63;--red-bg:#3b1a14;
   --amber:#f0c060;--amber-bg:#3a2a00;
-  --blue:#5b9bf5;--blue-bg:#122a4a;
+  --blue:#6fa3ef;--blue-bg:#0d1e35;
   --text:#e8e6df;--text2:#b0aea6;--text3:#6a6a64;
   --bg:#111110;--surface:#1e1e1c;--border:#2e2e2a;--border2:#3e3e38;
   --ham-color:rgba(220,215,240,0.85);
@@ -112,7 +112,7 @@ html{scroll-behavior:smooth}
 .pulse-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;background:#a78bde;opacity:.15;animation:pulse-ring 1.8s ease-out infinite .4s}
 @keyframes pulse-ring{0%{transform:scale(.7);opacity:.4}70%{transform:scale(1.6);opacity:0}100%{transform:scale(1.6);opacity:0}}
 
-/* HAMBURGER MENU */
+/* HAMBURGER */
 .ham-btn{display:flex;flex-direction:column;justify-content:center;gap:5px;width:36px;height:36px;border:1px solid rgba(255,255,255,0.15);border-radius:var(--radius);background:rgba(255,255,255,0.08);cursor:pointer;padding:0 8px;flex-shrink:0;backdrop-filter:blur(4px)}
 .ham-btn span{display:block;height:2px;background:var(--ham-color);border-radius:2px;transition:all .25s}
 .ham-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -161,20 +161,7 @@ html{scroll-behavior:smooth}
 /* LAYOUT */
 .container{max-width:1200px;margin:0 auto;padding:1.5rem}
 
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem}
-.stat-card .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
-.stat-card .value{font-size:28px;font-weight:600;color:var(--text);line-height:1;font-family:'DM Mono',monospace}
-.stat-card .sub{font-size:11px;color:var(--text3);margin-top:4px}
-.stat-card.green{border-left:3px solid var(--green-mid)}
-.stat-card.green .value{color:var(--green)}
-.stat-card.red{border-left:3px solid #e85d3a}
-.stat-card.red .value{color:var(--red)}
-.stat-card.amber{border-left:3px solid #d4a017}
-.stat-card.amber .value{color:var(--amber)}
-
-/* FINANCE BAR */
+/* FINANCE SUMMARY BAR */
 .finance-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
 .fin-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;display:flex;flex-direction:column;gap:4px}
 .fin-card .fin-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;font-weight:500}
@@ -186,25 +173,19 @@ html{scroll-behavior:smooth}
 .fin-card.keluar .fin-value{color:var(--red)}
 .fin-card.saldo{border-top:3px solid #d4a017;background:var(--amber-bg)}
 .fin-card.saldo .fin-value{color:var(--amber)}
-@media(max-width:600px){.finance-bar{grid-template-columns:1fr}.stats-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.finance-bar{grid-template-columns:1fr}}
 
-/* SUMMARY BAR */
-.summary-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem}
-.summary-bar .bar-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
-.progress-track{height:8px;background:var(--bg);border-radius:999px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--green-mid),var(--green));border-radius:999px;transition:width .6s ease}
-.bar-meta{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
-
-/* MONTH ROW */
-.month-section{margin-bottom:1.25rem}
-.month-section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
-.month-pills{display:flex;gap:6px;flex-wrap:wrap}
-.mpill{display:inline-flex;align-items:center;gap:5px;padding:0 12px;height:30px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);font-size:12px;cursor:pointer;font-family:inherit;color:var(--text2);font-weight:500;transition:all .15s}
-.mpill:hover{border-color:var(--border2);background:var(--bg)}
-.mpill.active{background:var(--green-bg);border-color:var(--green-mid);color:var(--green)}
-.mpill.many-missing{border-color:#f0a080;color:var(--red)}
-.mpill .count{font-size:10px;font-family:'DM Mono',monospace;background:var(--bg);padding:1px 5px;border-radius:999px}
-.mpill.active .count{background:rgba(29,168,118,.15)}
+/* REKAP BULANAN */
+.rekap-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.5rem}
+.rekap-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:12px;font-weight:500}
+.rekap-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.rekap-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:8px 10px;text-align:center}
+.rekap-card .r-bulan{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.rekap-card .r-masuk{font-size:10px;color:var(--green);font-family:'DM Mono',monospace;font-weight:500}
+.rekap-card .r-keluar{font-size:10px;color:var(--red);font-family:'DM Mono',monospace;font-weight:500}
+.rekap-card.active-month{border-color:var(--green-mid);background:var(--green-bg)}
+@media(max-width:700px){.rekap-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:400px){.rekap-grid{grid-template-columns:repeat(2,1fr)}}
 
 /* FILTER ROW */
 .filter-row{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
@@ -214,28 +195,26 @@ html{scroll-behavior:smooth}
 .fbtn:hover{background:var(--bg)}
 .fbtn.on{background:linear-gradient(135deg,rgba(29,168,118,0.20),rgba(10,124,82,0.10));backdrop-filter:blur(10px) saturate(1.5);-webkit-backdrop-filter:blur(10px) saturate(1.5);border-color:rgba(29,168,118,0.45);color:var(--green);box-shadow:0 2px 12px rgba(10,124,82,0.15),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:600}
 
-/* BLOK FILTER */
-.blok-row{display:flex;gap:5px;margin-bottom:1rem;flex-wrap:wrap}
-.bbtn{padding:0 11px;height:28px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font-size:11.5px;cursor:pointer;font-family:'DM Mono',monospace;color:var(--text2);font-weight:500;transition:all .2s}
-.bbtn:hover{background:var(--bg);border-color:var(--border2)}
-.bbtn.on{background:linear-gradient(135deg,rgba(29,168,118,0.20),rgba(10,124,82,0.10));backdrop-filter:blur(10px) saturate(1.5);-webkit-backdrop-filter:blur(10px) saturate(1.5);border-color:rgba(29,168,118,0.45);color:var(--green);box-shadow:0 2px 10px rgba(10,124,82,0.15),inset 0 1px 0 rgba(255,255,255,0.3);font-weight:600}
-
 /* Varian mode gelap untuk chip aktif — glass hijau yang tetap kontras */
-[data-theme="dark"] .fbtn.on,[data-theme="dark"] .bbtn.on,[data-theme="dark"] .mpill.active{
+[data-theme="dark"] .fbtn.on,[data-theme="dark"] .mpill.active{
   background:linear-gradient(135deg,rgba(34,196,126,0.22),rgba(34,196,126,0.08));
   border-color:rgba(34,196,126,0.4);
   color:#5fe3a0;
   box-shadow:0 2px 14px rgba(34,196,126,0.18),inset 0 1px 0 rgba(255,255,255,0.06);
 }
 
+/* MONTH PILLS */
+.month-section{margin-bottom:1.25rem}
+.month-section-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;font-weight:500}
+.month-pills{display:flex;gap:6px;flex-wrap:wrap}
+.mpill{display:inline-flex;align-items:center;gap:5px;padding:0 12px;height:30px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);font-size:12px;cursor:pointer;font-family:inherit;color:var(--text2);font-weight:500;transition:all .15s}
+.mpill:hover{background:var(--bg)}
+.mpill.active{background:var(--green-bg);border-color:var(--green-mid);color:var(--green)}
+.mpill .badge{font-size:9px;font-family:'DM Mono',monospace;background:var(--bg);padding:1px 5px;border-radius:999px;color:var(--text3)}
+.mpill.active .badge{background:rgba(29,168,118,.15);color:var(--green)}
+
 /* TABLE */
-.table-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow-x: auto; /* <-- INI YANG DITAMBAHKAN AGAR BISA DIGESER */
-  -webkit-overflow-scrolling: touch; /* Biar gesernya mulus di HP Android/iPhone */
-}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow-x:auto;-webkit-overflow-scrolling:touch}
 .table-wrap table{width:100%;border-collapse:collapse;font-size:12.5px}
 .table-wrap thead th{background:var(--bg);border-bottom:1px solid var(--border);padding:9px 12px;text-align:left;font-size:10.5px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
 .table-wrap tbody td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
@@ -243,38 +222,58 @@ html{scroll-behavior:smooth}
 .table-wrap tbody tr:hover td{background:rgba(29,168,118,0.07)}
 [data-theme="dark"] .table-wrap tbody tr:hover td{background:rgba(34,196,126,0.12)}
 .no-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
-.blok-tag{font-family:'DM Mono',monospace;font-size:10.5px;background:var(--bg);border:1px solid var(--border);padding:2px 8px;border-radius:6px;color:var(--text2);display:inline-block;white-space:nowrap}
-.nama-cell{font-size:12.5px;font-weight:500}
-.dots{display:flex;flex-wrap:wrap;gap:2px}
-.dot{width:19px;height:19px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:600;font-family:'DM Mono',monospace}
-.dot.ok{background:var(--green-bg);color:var(--green)}
-.dot.no{background:var(--red-bg);color:var(--red)}
-.dot.future{background:transparent;color:var(--text3);border:1px dashed var(--border2)}
-.dot.k{background:var(--blue-bg);color:var(--blue)}
-.total-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
-.status-pill{display:inline-block;font-size:10px;font-weight:600;padding:3px 9px;border-radius:999px;text-align:center}
-.status-pill.ok{background:var(--green-bg);color:var(--green)}
-.status-pill.partial{background:var(--amber-bg);color:var(--amber)}
-.status-pill.no{background:var(--red-bg);color:var(--red)}
+.tgl-cell{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);white-space:nowrap}
+.uraian-cell{font-size:12.5px}
+.uraian-cell.sosial{color:#4a3060;font-weight:600}
+[data-theme="dark"] .uraian-cell.sosial{color:#cdbdf2}
+.uraian-cell.iuran{color:var(--green);font-weight:500}
 
-/* FOOTER */
-.tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg)}
+/* KEMATIAN ROW HIGHLIGHT */
+tr.row-kematian td{
+  background:#f3f0f8;
+  border-bottom:1px solid #d8cff0;
+}
+tr.row-kematian:hover td{background:#ece7f5!important}
+tr.row-kematian td:first-child{
+  border-left:4px solid #7c6fa0;
+}
+[data-theme="dark"] tr.row-kematian td{background:rgba(124,111,160,0.16);border-bottom:1px solid rgba(124,111,160,0.35)}
+[data-theme="dark"] tr.row-kematian:hover td{background:rgba(124,111,160,0.26)!important}
+.badge-kematian{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:600;letter-spacing:.02em;
+  background:#7c6fa0;color:#fff;
+  padding:2px 7px 2px 5px;border-radius:99px;
+  vertical-align:middle;margin-left:6px;
+  white-space:nowrap;
+}
+.badge-kematian::before{content:'🕊️';font-size:10px}
+.amount-cell{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;text-align:right;white-space:nowrap}
+.amount-cell.masuk{color:var(--green)}
+.amount-cell.keluar{color:var(--red)}
+.amount-cell.sisa{color:var(--text2)}
+.amount-cell.empty{color:var(--text3)}
+.bulan-tag{display:inline-block;font-size:10px;font-family:'DM Mono',monospace;font-weight:600;background:var(--bg);border:1px solid var(--border);padding:2px 7px;border-radius:6px;color:var(--text2)}
+.bulan-tag.header-row{background:rgba(29,168,118,0.14);border-color:var(--green-mid);color:var(--green)}
+[data-theme="dark"] .bulan-tag.header-row{background:rgba(34,196,126,0.18);color:#5fe3a0}
+.tfoot{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:11px;color:var(--text3);border-top:1px solid var(--border);background:var(--bg);flex-wrap:wrap;gap:6px}
+.tfoot-totals{display:flex;gap:16px;font-family:'DM Mono',monospace;font-size:11px}
+.tfoot-totals span{display:flex;align-items:center;gap:4px}
+.tfoot-totals .lbl{color:var(--text3)}
+.tfoot-totals .val-m{color:var(--green);font-weight:600}
+.tfoot-totals .val-k{color:var(--red);font-weight:600}
 
 /* LOADING / ERROR */
 .state-box{text-align:center;padding:3rem 1rem;color:var(--text3)}
-.state-box .icon{font-size:32px;margin-bottom:12px}
 .state-box p{font-size:14px}
-.spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:#7c6fa0;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
+.spinner{display:inline-block;width:24px;height:24px;border:2px solid var(--border2);border-top-color:var(--green-mid);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px}
 @keyframes spin{to{transform:rotate(360deg)}}
 .err-box{background:var(--red-bg);border:1px solid #f5c0b0;border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;font-size:13px;color:var(--red)}
 
 /* RESPONSIVE */
 @media(max-width:700px){
-  .stats-grid{grid-template-columns:repeat(2,1fr)}
   .container{padding:1rem}
   .header{padding:1rem}
-  .nama-cell{font-size:12px}
-  .dot{width:16px;height:16px;font-size:7.5px}
 
   /* Susunan header mobile: hamburger → refresh → print → cutoff, sejajar satu baris */
   .header-right{width:100%;justify-content:flex-start;flex-wrap:nowrap;column-gap:8px}
@@ -285,10 +284,6 @@ html{scroll-behavior:smooth}
   .cutoff-badge .cutoff-label{display:none}
   .cutoff-badge br{display:none}
   .cutoff-badge #cutoff-value{font-size:11px}
-}
-@media(max-width:480px){
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .stat-card .value{font-size:22px}
 }
 
 /* PRINT */
@@ -301,10 +296,9 @@ html{scroll-behavior:smooth}
     --bg:#f7f6f2!important;--surface:#ffffff!important;--border:#e8e6df!important;--border2:#d4d1c8!important;
     --green:#0a7c52!important;--green-bg:#e6f5ee!important;--green-mid:#1da876!important;
     --red:#b5341a!important;--red-bg:#fdeee9!important;--amber:#8a5c00!important;--amber-bg:#fef3d8!important;
-    --blue:#1a56b0!important;--blue-bg:#e7effc!important;
   }
 
-  .filter-row,.blok-row,.month-section,.btn,.fbtn,.bbtn,.mpill,.scroll-top,.theme-toggle,.nav-drawer,.nav-overlay,.btn-refresh,.btn-print,.ham-btn{display:none!important}
+  .filter-row,.month-section,.btn,.fbtn,.mpill,.scroll-top,.theme-toggle,.nav-drawer,.nav-overlay,.btn-refresh,.btn-print,.ham-btn{display:none!important}
   body{background:#fff}
 
   /* Header laporan tetap tampil saat dicetak — disederhanakan jadi terang biar hemat tinta & rapi di atas kertas */
@@ -315,17 +309,14 @@ html{scroll-behavior:smooth}
   .cutoff-badge{background:#f3f0fa!important;border-color:#c9bfe6!important;color:#4a3f6b!important;backdrop-filter:none!important}
   .cutoff-badge .cutoff-label{color:#7c6fa0!important}
 
-  /* Tabel warga — pastikan seluruh kolom termasuk Status ikut tercetak, tidak terpotong */
+  /* Tabel — pastikan seluruh kolom ikut tercetak, tidak terpotong */
   .table-wrap{overflow:visible!important;border:1px solid #ccc}
   .table-wrap table{font-size:9.5px;table-layout:auto;width:100%}
   .table-wrap thead th{padding:5px 6px;font-size:8px}
   .table-wrap tbody td{padding:3px 6px}
-  .dot{width:14px;height:14px;font-size:6.5px}
-  .blok-tag{font-size:8.5px;padding:1px 5px}
-  .status-pill{font-size:8px;padding:2px 6px}
-  .total-cell{font-size:9.5px}
-  .nama-cell{font-size:9.5px}
-  .no-cell{font-size:9px}
+  .amount-cell{font-size:9.5px}
+  .no-cell,.tgl-cell{font-size:8.5px}
+  .uraian-cell{font-size:9.5px}
 }
 </style>
 </head>
@@ -334,10 +325,10 @@ html{scroll-behavior:smooth}
 <div class="header">
   <div class="logo-area" style="cursor:pointer" onclick="window.location.href='index.html'" title="Ke Beranda">
     <div class="logo-circle">
-  <img src="Logo RT11.png" alt="Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;"/>
-</div>
+      <img src="Logo RT11.png" alt="Logo" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.style.display='none';this.parentElement.textContent='💰'"/>
+    </div>
     <div class="logo-text">
-      <h1>Lap. Dana Kematian Puri Asri 3</h1>
+      <h1>Pengeluaran Dana Kematian Puri Asri 3</h1>
       <p>RT 01 / RW 012 · TH.2026</p>
     </div>
   </div>
@@ -363,9 +354,7 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 
-<!-- Overlay -->
 <div class="nav-overlay" id="nav-overlay" onclick="closeNav()"></div>
-
 <!-- Navigation Drawer dengan fitur Scroll -->
 <nav class="nav-drawer" id="nav-drawer">
   <div class="nav-header">
@@ -385,13 +374,13 @@ html{scroll-behavior:smooth}
   <a class="nav-item" href="kas-umum.html">
     <span class="nav-icon">💰</span> Laporan Kas Umum
   </a>
-  <a class="nav-item active " href="Kematian.html">
+  <a class="nav-item" href="Kematian.html">
     <span class="nav-icon">🏡</span> Laporan Dana Kematian
   </a>
   <a class="nav-item" href="pengeluaran-kas.html">
     <span class="nav-icon">📋</span> Pengeluaran Kas
   </a>
-  <a class="nav-item" href="pengeluaran-kematian.html">
+  <a class="nav-item active" href="pengeluaran-kematian.html">
     <span class="nav-icon">📄</span> Pengeluaran Dana Kematian
   </a>
 
@@ -402,7 +391,7 @@ html{scroll-behavior:smooth}
   <a class="nav-item" href="timeline-pa3.html">
     <span class="nav-icon">⏳</span> Timeline Rapat Warga
   </a>
-  <a class="nav-item" href="progres-rt.html">
+   <a class="nav-item" href="progres-rt.html">
     <span class="nav-icon">🔄</span> Progres Urusan Warga
   </a>
   <a class="nav-item" href="dokumentasiacara-rt.html">
@@ -470,88 +459,59 @@ html{scroll-behavior:smooth}
   </div>
 
   <div id="content" style="display:none">
-    <!-- FINANCE BAR: Masuk / Keluar / Saldo -->
+    <!-- FINANCE SUMMARY -->
     <div class="finance-bar">
       <div class="fin-card masuk">
-        <div class="fin-label">💰 Total Dana Masuk</div>
+        <div class="fin-label">💰 Saldo Awal Dana Kematian</div>
         <div class="fin-value" id="fin-masuk">—</div>
-        <div class="fin-sub" id="fin-masuk-sub">dari iuran warga tahun ini</div>
+        <div class="fin-sub" id="fin-masuk-sub">saldo sumb. kematian Desember 2025</div>
       </div>
       <div class="fin-card keluar">
         <div class="fin-label">📤 Total Pengeluaran</div>
         <div class="fin-value" id="fin-keluar">—</div>
-        <div class="fin-sub" id="fin-keluar-sub">pengeluaran kas tercatat</div>
+        <div class="fin-sub">total pengeluaran dana kematian</div>
       </div>
       <div class="fin-card saldo">
-        <div class="fin-label">🏦 Sisa Saldo</div>
+        <div class="fin-label">🏦 Saldo Dana Kematian Berjalan</div>
         <div class="fin-value" id="fin-saldo">—</div>
-        <div class="fin-sub">masuk dikurangi pengeluaran</div>
+        <div class="fin-sub">sisa dana kematian saat ini</div>
       </div>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="label">Total Anggota</div>
-        <div class="value" id="s-total">—</div>
-        <div class="sub">terdaftar</div>
-      </div>
-      <div class="stat-card green">
-        <div class="label">Total Kas</div>
-        <div class="value" id="s-kas">—</div>
-        <div class="sub" id="s-kas-sub"></div>
-      </div>
-      <div class="stat-card amber">
-        <div class="label">Lunas s.d. Bulan Ini</div>
-        <div class="value" id="s-bayar">—</div>
-        <div class="sub">anggota</div>
-      </div>
-      <div class="stat-card red">
-        <div class="label">Belum Lunas</div>
-        <div class="value" id="s-none">—</div>
-        <div class="sub">anggota</div>
-      </div>
+    <!-- REKAP BULANAN -->
+    <div class="rekap-section">
+      <div class="rekap-title">Rekap bulanan — Pengeluaran Dana Kematian per bulan</div>
+      <div class="rekap-grid" id="rekap-grid"></div>
     </div>
 
-    <div class="summary-bar">
-      <div class="bar-label">Persentase anggota yang sudah bayar</div>
-      <div class="progress-track"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-      <div class="bar-meta">
-        <span id="prog-left"></span>
-        <span id="prog-right"></span>
-      </div>
-    </div>
-
+    <!-- FILTER -->
     <div class="month-section">
-      <div class="month-section-title">Filter bulan — klik untuk lihat yang belum bayar</div>
+      <div class="month-section-title">Filter bulan</div>
       <div class="month-pills" id="month-pills"></div>
     </div>
 
-    <div class="blok-row" id="blok-row"></div>
-
     <div class="filter-row">
-      <input type="text" id="search" placeholder="🔍  Cari nama atau blok..." oninput="render()"/>
+      <input type="text" id="search" placeholder="🔍  Cari uraian pengeluaran..." oninput="render()"/>
       <button class="fbtn on" id="fb-all" onclick="setFilter('all')">Semua</button>
-      <button class="fbtn" id="fb-bayar" onclick="setFilter('bayar')">Ada Bayaran</button>
-      <button class="fbtn" id="fb-none" onclick="setFilter('none')">Belum Bayar</button>
     </div>
 
+    <!-- TABLE -->
     <div class="table-wrap">
       <table>
         <thead>
           <tr>
             <th style="width:36px">No</th>
-            <th style="width:76px">Blok</th>
-            <th>Pemilik</th>
-            <th>Jan Feb Mar Apr Mei Jun Jul Agu Sep Okt Nov Des</th>
-            <th style="text-align:right;width:80px">Total</th>
-            <th style="text-align:center;width:68px">Status</th>
+            <th>Uraian</th>
+            <th style="text-align:right;width:130px">Jumlah (Rp)</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
       <div class="tfoot">
         <span id="foot-count"></span>
-        <span id="foot-total"></span>
+        <div class="tfoot-totals">
+          <span><span class="lbl">Total Pengeluaran:</span> <span class="val-k" id="foot-keluar">—</span></span>
+        </div>
       </div>
     </div>
   </div>
@@ -588,85 +548,176 @@ html{scroll-behavior:smooth}
 </button>
 
 <script>
-// Link CSV murni langsung tanpa proxy (Aman karena dijalankan dari server web GitHub)
-// Sheet gabungan Kas + Sumb. Kematian: tiap bulan diikuti kolom "SUMB. KEMATIAN" di sampingnya.
-// Halaman ini khusus Dana Kematian, jadi yang dibaca adalah kolom SUMB. KEMATIAN (bukan kolom KAS-nya).
+// ══════════════════════════════════════════════════
+// Sumber data: Google Sheets (dipublikasikan sebagai CSV)
+// Sheet ini berisi tabel iuran warga (kas + dana kematian) DAN
+// catatan pengeluaran (Pengeluaran Kas, Pengeluaran Sumbangan Sosial,
+// Pengeluaran Sumbangan Kematian) di baris-baris bawahnya.
+// Halaman ini HANYA menampilkan Pengeluaran Dana Kematian.
+// Pengeluaran Kas Operasional + Dana Sosial ada di halaman
+// "Pengeluaran Kas" tersendiri.
+// Update tanggal cut-off dibaca otomatis dari sel A1/B1 sheet ini
+// ("Update Sampai : <tanggal>").
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=87411756&single=true&output=csv';
-// URL untuk ambil cell A1:B1 sebagai cut-off date. A1 = label "Update Sampai :", B1 = tanggalnya.
-const CUTOFF_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=87411756&single=true&output=csv&range=A1:B1';
+// ══════════════════════════════════════════════════
 
-// ── Ambil SALDO AWAL & SALDO BERJALAN sumb. kematian dari raw CSV ──
-// Sama seperti Laporan Kas Umum: baris ringkasan pakai label eksplisit
-// "SALDO SUMB. KEMATIAN 2025" dan "JUMLAH UANG SUMB. KEMATIAN BULAN BERJALAN".
-// Kita ambil dua angka itu apa adanya (sudah dihitung bendahara di sheet), lalu
-// dana kematian yang terkumpul dari tabel warga dihitung sendiri di buildUI().
-function parseFinance(text) {
-  const lines = text.split('\n');
-  let saldoAwal = 0, saldoAkhir = 0;
+const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MK = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOPEMBER','DESEMBER'];
+
+let allRows = [], filterMode = 'all', activeMonth = null;
+let ringkasan = { saldoAwal: 0, totalPengeluaran: 0, saldoBerjalan: 0 };
+
+function fmtRp(n) {
+  if (!n || n === 0) return '—';
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+function fmtRpFull(n) {
+  if (!n || n === 0) return 'Rp 0';
+  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+function parseNum(v) {
+  if (!v) return 0;
+  // Format sumber: "Rp 1,234,567.00" (koma = pemisah ribuan, titik = desimal)
+  v = v.toString().replace(/"/g,'').replace(/Rp/gi,'').replace(/,/g,'').trim();
+  const n = parseFloat(v);
+  return isNaN(n) ? 0 : n;
+}
+function splitLine(line) {
+  const r=[]; let cur='', inQ=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){inQ=!inQ;}
+    else if(c===','&&!inQ){r.push(cur.trim());cur='';}
+    else{cur+=c;}
+  }
+  r.push(cur.trim());
+  return r.map(x => x.replace(/^"+|"+$/g,'').trim());
+}
+function findMonthInText(txt) {
+  const up = (txt||'').toUpperCase();
+  for (const m of MK) { if (up.includes(m)) return m; }
+  return null;
+}
+function findAmountInFields(fields, skipIndex) {
+  for (let i = 0; i < fields.length; i++) {
+    if (i === skipIndex) continue;
+    const f = fields[i];
+    if (f && /RP/i.test(f)) {
+      const n = parseNum(f);
+      if (n > 0) return n;
+    }
+  }
+  return 0;
+}
+function findLabelValue(lines, labelUpper) {
+  for (const line of lines) {
+    if (!line || line.toUpperCase().indexOf(labelUpper) === -1) continue;
+    const fields = splitLine(line);
+    let hit = false;
+    for (let i = 0; i < Math.min(4, fields.length); i++) {
+      if (fields[i] && fields[i].toUpperCase().includes(labelUpper)) { hit = true; break; }
+    }
+    if (!hit) continue;
+    for (const f of fields) {
+      if (f && /RP/i.test(f)) {
+        const n = parseNum(f);
+        if (n > 0) return n;
+      }
+    }
+  }
+  return 0;
+}
+
+function parseCSV(text) {
+  const lines = text.split('\n').map(l => l.replace(/\r$/, ''));
+  allRows = [];
+  let section = null; // null | 'KAS' | 'SOSIAL' | 'KEMATIAN'
+  let currentBulan = null;
+  let rowNo = 0;
+  let lastItem = null;
 
   for (let i = 0; i < lines.length; i++) {
-    const raw   = lines[i];
-    const upper = raw.toUpperCase();
-    const cols  = splitLine(raw);
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const fields = splitLine(line);
+    const f0 = (fields[0] || '').toUpperCase();
+    const f1 = (fields[1] || '').trim();
 
-    // Baris "SALDO SUMB. KEMATIAN 2025" (saldo awal tahun berjalan)
-    if (saldoAwal === 0 && upper.includes('SALDO') && upper.includes('KEMATIAN')) {
-      for (let c = 0; c < cols.length; c++) {
-        if (!cols[c].trim().toUpperCase().startsWith('RP')) continue;
-        const val = parseK(cols[c]);
-        if (val > 0) { saldoAwal = val; break; }
-      }
-      console.log('[Finance] SALDO SUMB. KEMATIAN AWAL row', i, '→', saldoAwal);
+    if (f0 === 'PENGELUARAN KAS') { section = 'KAS'; currentBulan = null; continue; }
+    if (f0.startsWith('PENGELUARAN SUMBANGAN')) { section = 'SOSIAL'; currentBulan = null; continue; }
+    if ((f0.startsWith('PENGELUARAN SUMB') || f0.startsWith('PENELUARAN SUMB')) && f0.includes('KEMATIAN')) { section = 'KEMATIAN'; currentBulan = null; continue; }
+    if (f0.includes('JUMLAH PENGELUARAN')) { section = null; break; }
+    // Baris ringkasan/total kadang labelnya nyempil di kolom B (mis. ",JUMLAH PENGELUARAN KAS DAN SUMB. SOSIAL,...")
+    // Hanya berlaku saat sudah berada di dalam salah satu section pengeluaran, supaya tidak
+    // salah kena baris "JUMLAH..." lain yang muncul di area tabel iuran/penerimaan sebelum section dimulai.
+    if (section !== null && f1.toUpperCase().startsWith('JUMLAH')) { section = null; break; }
+
+    if (section === null) continue;        // belum masuk area pengeluaran (lewati tabel iuran warga & penerimaan)
+    if (section !== 'KEMATIAN') continue;   // halaman ini KHUSUS Pengeluaran Dana Kematian
+
+    // baris header bulan, misal "4. BULAN APRIL"
+    if (/^\d+\.\s*BULAN/i.test(f0)) {
+      currentBulan = findMonthInText(f0);
+      continue;
     }
 
-    // Baris "JUMLAH UANG SUMB. KEMATIAN BULAN BERJALAN" (saldo terkini menurut sheet)
-    if (upper.includes('JUMLAH') && upper.includes('SUMB') && upper.includes('KEMATIAN') && upper.includes('BULAN BERJALAN')) {
-      for (let c = 0; c < cols.length; c++) {
-        if (!cols[c].trim().toUpperCase().startsWith('RP')) continue;
-        const val = parseK(cols[c]);
-        if (val > 0) { saldoAkhir = val; break; }
+    if (f1) {
+      const amount = findAmountInFields(fields, 1);
+      if (amount > 0) {
+        rowNo++;
+        let desc = f1.replace(/^,+/, '').replace(/^\d+\.\s*/, '').trim();
+        const item = {
+          no: rowNo,
+          bulan: currentBulan,
+          uraian: desc,
+          keluar: amount
+        };
+        allRows.push(item);
+        lastItem = item;
+      } else if (lastItem) {
+        // baris lanjutan keterangan tanpa nominal -> gabung ke item sebelumnya
+        const extra = f1.replace(/^,+/, '').trim();
+        if (extra) lastItem.uraian += ', ' + extra;
       }
-      console.log('[Finance] SALDO SUMB. KEMATIAN BERJALAN row', i, '→', saldoAkhir);
     }
   }
 
-  console.log('[Finance FINAL] saldoAwal:', saldoAwal, '| saldoAkhir:', saldoAkhir);
-  return { saldoAwal, saldoAkhir };
+  ringkasan.saldoAwal = findLabelValue(lines, 'KEMATIAN 2025');
+  ringkasan.saldoBerjalan = findLabelValue(lines, 'KEMATIAN BULAN BERJALAN');
+  ringkasan.totalPengeluaran = allRows.reduce((s, r) => s + r.keluar, 0);
 }
 
-function fmtRpFull(n) {
-  return 'Rp ' + Math.round(n).toLocaleString('id-ID');
-}
+function buildUI() {
+  document.getElementById('fin-masuk').textContent = fmtRpFull(ringkasan.saldoAwal);
+  document.getElementById('fin-keluar').textContent = fmtRpFull(ringkasan.totalPengeluaran);
+  document.getElementById('fin-saldo').textContent = fmtRpFull(ringkasan.saldoBerjalan);
 
-const MN = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-const MK = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const rekapData = {};
+  MK.forEach(m => rekapData[m] = 0);
+  allRows.forEach(r => { if (r.bulan && rekapData[r.bulan] !== undefined) rekapData[r.bulan] += r.keluar; });
 
-let allRows = [], filterMode = 'all', activeMonth = null, activeBlok = null;
+  document.getElementById('rekap-grid').innerHTML = MK.map((m, i) => {
+    const total = rekapData[m];
+    const hasData = total > 0;
+    return `<div class="rekap-card">
+      <div class="r-bulan">${MN[i]}</div>
+      ${hasData ? `<div class="r-keluar">-${fmtRp(total)}</div>` : `<div style="font-size:10px;color:var(--text3);margin-top:2px">—</div>`}
+    </div>`;
+  }).join('');
 
-function parseK(v) {
-  if (!v) return 0;
-  v = v.toString().trim().toUpperCase().replace(/"/g, '');
-  const m = v.match(/^(\d+(?:\.\d+)?)K$/);
-  if (m) return parseFloat(m[1]) * 1000;
-  const n = parseFloat(v.replace(/[^0-9.]/g, ''));
-  return isNaN(n) ? 0 : n;
-}
-// Kode "K" = warga pengurus yang ditugaskan mengelola kas/iuran, sehingga
-// dibebaskan dari iuran bulanan (dianggap Lunas via kompensasi tugas).
-function isKompensasi(v) {
-  if (!v) return false;
-  return v.toString().trim().toUpperCase().replace(/"/g, '') === 'K';
-}
-function paid(v) { return parseK(v) > 0 || isKompensasi(v); }
-function fmtRp(n) {
-  if (n >= 1000000) return 'Rp ' + (n / 1000000).toFixed(1).replace('.0', '') + ' Jt';
-  if (n >= 1000) return 'Rp ' + Math.round(n / 1000) + 'K';
-  return 'Rp ' + n;
+  const bulanDenganData = MK.filter(m => rekapData[m] > 0);
+  document.getElementById('month-pills').innerHTML = bulanDenganData.map(m => {
+    const idx = MK.indexOf(m);
+    const count = allRows.filter(r => r.bulan === m).length;
+    return `<button class="mpill" data-m="${m}" onclick="setMonth('${m}')">${MN[idx]} <span class="badge">${count} item</span></button>`;
+  }).join('');
+
+  // Cutoff badge sudah diset di init() setelah baca sel A1/B1
 }
 
 function setFilter(f) {
   filterMode = f;
-  ['all','bayar','none'].forEach(x => document.getElementById('fb-' + x).classList.toggle('on', x === f));
+  ['all'].forEach(x => document.getElementById('fb-'+x).classList.toggle('on', x===f));
   render();
 }
 function setMonth(m) {
@@ -674,230 +725,78 @@ function setMonth(m) {
   document.querySelectorAll('.mpill').forEach(el => el.classList.toggle('active', el.dataset.m === activeMonth));
   render();
 }
-function setBlok(b) {
-  activeBlok = activeBlok === b ? null : b;
-  document.querySelectorAll('.bbtn').forEach(el => el.classList.toggle('on', el.dataset.b === activeBlok));
-  render();
-}
-
-function splitLine(line) {
-  const r = []; let cur = '', inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { r.push(cur.trim()); cur = ''; }
-    else { cur += c; }
-  }
-  r.push(cur.trim());
-  return r;
-}
-
-// Nama bulan penuh persis seperti di header sheet (kolom KAS untuk tiap bulan).
-// Tiap bulan diikuti kolom "SUMB. KEMATIAN" di sebelah kanannya — kolom itulah yang
-// diambil di sini karena halaman ini khusus Dana Kematian (Kas Umum ada di halaman terpisah).
-// Catatan: sheet memakai ejaan lama "NOPEMBER", bukan "NOVEMBER".
-const HEADER_MONTHS = ['JANUARI','FEBRUARI','MARET','APRIL','MEI','JUNI','JULI','AGUSTUS','SEPTEMBER','OKTOBER','NOPEMBER','DESEMBER'];
-
-function parseCSV(text) {
-  const lines = text.split('\n');
-  let hi = -1;
-  for (let i = 0; i < Math.min(15, lines.length); i++) {
-    const rawLine = lines[i].toUpperCase();
-    // Header sekarang pakai "NAMA" (dulu "PEMILIK") — dukung keduanya biar aman kalau berubah lagi
-    if ((rawLine.includes('NAMA') || rawLine.includes('PEMILIK')) && rawLine.includes('BLOK')) { hi = i; break; }
-  }
-  if (hi < 0) hi = 3;
-  
-  const headers = splitLine(lines[hi]).map(h => h.replace(/"/g, '').trim().toUpperCase());
-  const iNo = headers.findIndex(h => h === 'NO' || h === 'NO.');
-  const iBlok = headers.findIndex(h => h === 'BLOK');
-  const iPem = headers.findIndex(h => h.includes('NAMA') || h.includes('PEMILIK'));
-  // Kolom SUMB. KEMATIAN ada persis 1 kolom setelah kolom bulan KAS-nya di header
-  const sIdx = HEADER_MONTHS.map(m => {
-    const mi = headers.findIndex(h => h === m);
-    return mi >= 0 ? mi + 1 : -1;
-  });
-  
-  allRows = [];
-  for (let i = hi + 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const cols = splitLine(lines[i]);
-    const nama = (cols[iPem] || '').replace(/"/g, '').trim();
-    
-    if (!nama || !isNaN(Number(nama)) || nama === '0' || nama.toUpperCase().includes('TOTAL')) continue;
-    const blok = (cols[iBlok] || '').replace(/"/g, '').trim();
-    if (!blok || blok === '0') continue;
-    
-    const no = (cols[iNo] || '').replace(/"/g, '').trim();
-    const months = sIdx.map(si => si >= 0 ? (cols[si] || '').replace(/"/g, '').trim() : '');
-    allRows.push({ no, blok, nama, months });
-  }
-}
-
-function buildUI(finData) {
-  const total = allRows.length;
-  if (total === 0) return;
-
-  // dana = total setoran sumb. kematian warga tahun ini (hanya kolom SUMB. KEMATIAN)
-  const kas = allRows.reduce((s, r) => s + r.months.reduce((ss, v) => ss + parseK(v), 0), 0);
-
-  // masuk = saldo awal (SALDO SUMB. KEMATIAN 2025) + total dana terkumpul dari warga tahun ini
-  const saldoAwal = (finData && finData.saldoAwal) || 0;
-  const masuk = saldoAwal + kas;
-  // saldo = angka "JUMLAH UANG SUMB. KEMATIAN BULAN BERJALAN" langsung dari sheet (paling akurat)
-  const saldo = (finData && finData.saldoAkhir > 0) ? finData.saldoAkhir : masuk;
-  // keluar diturunkan dari selisih supaya tidak perlu mem-parsing daftar pengeluaran yang formatnya bebas
-  const keluar = Math.max(masuk - saldo, 0);
-
-  document.getElementById('fin-masuk').textContent  = fmtRpFull(masuk);
-  document.getElementById('fin-masuk-sub').textContent = saldoAwal > 0 ? `termasuk saldo awal ${fmtRpFull(saldoAwal)}` : 'total dana masuk tahun ini';
-  document.getElementById('fin-keluar').textContent = fmtRpFull(keluar);
-  document.getElementById('fin-keluar-sub').textContent = keluar > 0 ? 'pengeluaran dana kematian tercatat' : 'belum ada data pengeluaran';
-  document.getElementById('fin-saldo').textContent  = fmtRpFull(saldo);
-  
-  const currentMonthIdx = new Date().getMonth(); // 0-based
-  const hasBayar = allRows.filter(r => r.months.slice(0, currentMonthIdx + 1).every(v => paid(v))).length;
-  const pct = Math.round(hasBayar / total * 100);
-
-  document.getElementById('s-total').textContent = total;
-  document.getElementById('s-kas').textContent = fmtRp(kas);
-  document.getElementById('s-kas-sub').textContent = 'terkumpul tahun ini';
-  document.getElementById('s-bayar').textContent = hasBayar;
-  document.getElementById('s-none').textContent = total - hasBayar;
-  setTimeout(() => { document.getElementById('prog-fill').style.width = pct + '%'; }, 100);
-  document.getElementById('prog-left').textContent = hasBayar + ' dari ' + total + ' anggota (' + pct + '%)';
-  document.getElementById('prog-right').textContent = fmtRp(kas);
-
-  // Month pills
-  const mp = document.getElementById('month-pills');
-  mp.innerHTML = MN.map((m, i) => {
-    const belum = allRows.filter(r => !paid(r.months[i])).length;
-    const many = belum > total * 0.6;
-    return `<button class="mpill${many ? ' many-missing' : ''}" data-m="${MK[i]}" onclick="setMonth('${MK[i]}')">${m} <span class="count">${belum} blm</span></button>`;
-  }).join('');
-
-  // Blok filter
-  const bloks = [...new Set(allRows.map(r => { const m = r.blok.match(/^[A-Za-z]+/); return m ? m[0].toUpperCase() : r.blok[0]; }))].sort();
-  document.getElementById('blok-row').innerHTML =
-    '<span style="font-size:11px;color:var(--text3);font-weight:500;align-self:center;margin-right:4px">Blok:</span>' +
-    bloks.map(b => `<button class="bbtn" data-b="${b}" onclick="setBlok('${b}')">${b}</button>`).join('');
-
-  // Cutoff badge sudah diset di init() setelah fetch U1
-}
 
 function render() {
   const q = (document.getElementById('search').value || '').toLowerCase();
   let list = allRows.filter(r => {
-    const mq = r.nama.toLowerCase().includes(q) || r.blok.toLowerCase().includes(q);
-    const hasBayar = r.months.some(v => paid(v));
-    const mf = filterMode === 'all' || (filterMode === 'bayar' && hasBayar) || (filterMode === 'none' && !hasBayar);
-    const mi = activeMonth === null || !paid(r.months[MK.indexOf(activeMonth)]);
-    const mb = activeBlok === null || r.blok.toUpperCase().startsWith(activeBlok);
-    return mq && mf && mi && mb;
+    const mq = r.uraian.toLowerCase().includes(q);
+    const mb = activeMonth === null || r.bulan === activeMonth;
+    return mq && mb;
   });
 
-  const tbody = document.getElementById('tbody');
-  // Bulan berjalan: 0=Jan, 1=Feb, ..., 11=Des
-  const currentMonth = new Date().getMonth(); // 0-based
+  let totalKeluar = 0;
+  let lastBulan = '';
+  const rows = list.map(r => {
+    totalKeluar += r.keluar;
 
-  tbody.innerHTML = list.map(r => {
-    const total = r.months.reduce((s, v) => s + parseK(v), 0);
-
-    // Cek apakah semua bulan s.d. bulan berjalan sudah dibayar
-    const paidUpToCurrent = r.months.slice(0, currentMonth + 1).every(v => paid(v));
-    const hasBayar = r.months.some(v => paid(v));
-
-    let statusClass, statusText;
-    if (paidUpToCurrent) {
-      statusClass = 'ok';
-      statusText = 'Lunas';
-    } else if (hasBayar) {
-      statusClass = 'partial';
-      statusText = 'Sebagian';
-    } else {
-      statusClass = 'no';
-      statusText = 'Belum';
+    let bulanSep = '';
+    if (r.bulan && r.bulan !== lastBulan) {
+      lastBulan = r.bulan;
+      const idx = MK.indexOf(r.bulan);
+      const label = idx >= 0 ? MN[idx] : r.bulan;
+      bulanSep = `<tr class="month-divider">
+        <td colspan="3" style="padding:6px 12px;background:var(--green-bg);border-bottom:1px solid var(--green-mid)">
+          <span class="bulan-tag header-row">📅 ${label} 2026</span>
+        </td>
+      </tr>`;
     }
 
-    const dots = r.months.map((v, i) => {
-      let dotClass, title, label;
-      if (isKompensasi(v)) {
-        dotClass = 'k';
-        title = `${MN[i]}: K (Kompensasi Pengurus) — Lunas`;
-        label = 'K';
-      } else if (paid(v)) {
-        dotClass = 'ok';
-        title = `${MN[i]}: ${fmtRp(parseK(v))}`;
-        label = MN[i].slice(0,1);
-      } else if (i > currentMonth) {
-        dotClass = 'future';
-        title = `${MN[i]}: Belum waktunya`;
-        label = MN[i].slice(0,1);
-      } else {
-        dotClass = 'no';
-        title = `${MN[i]}: Belum bayar`;
-        label = MN[i].slice(0,1);
-      }
-      return `<div class="dot ${dotClass}" title="${title}">${label}</div>`;
-    }).join('');
-    return `<tr>
+    return bulanSep + `<tr>
       <td class="no-cell">${r.no}</td>
-      <td><span class="blok-tag">${r.blok}</span></td>
-      <td class="nama-cell">${r.nama}</td>
-      <td><div class="dots">${dots}</div></td>
-      <td class="total-cell">${total > 0 ? fmtRp(total) : '—'}</td>
-      <td style="text-align:center"><span class="status-pill ${statusClass}">${statusText}</span></td>
+      <td class="uraian-cell">${r.uraian}</td>
+      <td class="amount-cell keluar">-${fmtRp(r.keluar)}</td>
     </tr>`;
   }).join('');
 
-  const totalFiltered = list.reduce((s, r) => s + r.months.reduce((ss, v) => ss + parseK(v), 0), 0);
-  document.getElementById('foot-count').textContent = `Menampilkan ${list.length} dari ${allRows.length} anggota`;
-  document.getElementById('foot-total').textContent = list.length !== allRows.length ? `Total filter: ${fmtRp(totalFiltered)}` : '';
+  document.getElementById('tbody').innerHTML = rows || `<tr><td colspan="3" style="text-align:center;padding:2rem;color:var(--text3)">Tidak ada data ditemukan</td></tr>`;
+  document.getElementById('foot-count').textContent = `${list.length} item pengeluaran`;
+  document.getElementById('foot-keluar').textContent = fmtRp(totalKeluar) || '—';
 }
 
 async function init() {
-  document.getElementById('loading').style.display = 'block';
-  document.getElementById('content').style.display = 'none';
-  document.getElementById('err-box').style.display = 'none';
+  document.getElementById('loading').style.display  = 'block';
+  document.getElementById('content').style.display  = 'none';
+  document.getElementById('err-box').style.display  = 'none';
   document.getElementById('cutoff-badge').style.display = 'none';
-  activeMonth = null; activeBlok = null; filterMode = 'all';
-  try {
-    const t = new Date().getTime();
-    // Fetch data utama dan cell U1 (cutoff) secara paralel
-    const [res, cutoffRes] = await Promise.all([
-      fetch(`${CSV_URL}&t=${t}`),
-      fetch(`${CUTOFF_URL}&t=${t}`)
-    ]);
-    if (!res.ok) throw new Error('Gagal menarik data langsung dari Google Sheets.');
-    
-    const text = await res.text();
-    const finData = parseFinance(text);
-    parseCSV(text);
-    
-    if (allRows.length === 0) {
-      throw new Error('Data gagal diproses. Kolom BLOK atau NAMA tidak ditemukan.');
-    }
+  activeMonth = null; filterMode = 'all';
 
-    // Set nilai cutoff dari cell B1 (range A1:B1 → A1 label, B1 tanggalnya)
-    if (cutoffRes.ok) {
-      const cutoffText = await cutoffRes.text();
-      const cutoffCols = splitLine(cutoffText.split('\n')[0]);
-      const cutoffVal = (cutoffCols[1] !== undefined ? cutoffCols[1] : cutoffCols[0] || '').replace(/"/g,'').trim();
-      document.getElementById('cutoff-value').textContent = cutoffVal || '—';
-    } else {
-      document.getElementById('cutoff-value').textContent = '—';
-    }
+  try {
+    const t = Date.now();
+    const url = CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 't=' + t;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Gagal mengambil data dari Google Sheets.');
+    const text = await res.text();
+
+    parseCSV(text);
+    if (allRows.length === 0) throw new Error('Data pengeluaran dana kematian tidak ditemukan. Periksa format sheet dan URL CSV.');
+
+    buildUI();
+    render();
+
+    // Cut-off tanggal diambil dari sel A1/B1 baris pertama CSV ("Update Sampai : <tanggal>")
+    const firstLine = text.split('\n')[0].replace(/\r$/, '');
+    const firstFields = splitLine(firstLine);
+    const cutoffVal = (firstFields[1] || '').trim();
+    document.getElementById('cutoff-value').textContent = cutoffVal || '—';
     document.getElementById('cutoff-badge').style.display = 'inline-flex';
 
-    buildUI(finData);
-    render();
     document.getElementById('loading').style.display = 'none';
     document.getElementById('content').style.display = 'block';
-  } catch (e) {
+  } catch(e) {
     console.error(e);
     document.getElementById('loading').style.display = 'none';
     document.getElementById('err-box').style.display = 'block';
-    document.getElementById('err-box').innerHTML = `⚠️ <strong>Error Pengambilan Data:</strong> ${e.message}`;
+    document.getElementById('err-box').innerHTML = `⚠️ <strong>Error:</strong> ${e.message}<br><small style="margin-top:6px;display:block;color:var(--text2)">Pastikan URL CSV sudah benar dan sheet sudah dipublikasikan ke web.</small>`;
   }
 }
 
@@ -920,16 +819,8 @@ function refreshKas(){
   }, { passive: true });
 })();
 
-function toggleNav(){
-  document.getElementById('nav-drawer').classList.toggle('open');
-  document.getElementById('nav-overlay').classList.toggle('open');
-  document.getElementById('ham-btn').classList.toggle('open');
-}
-function closeNav(){
-  document.getElementById('nav-drawer').classList.remove('open');
-  document.getElementById('nav-overlay').classList.remove('open');
-  document.getElementById('ham-btn').classList.remove('open');
-}
+function toggleNav(){document.getElementById('nav-drawer').classList.toggle('open');document.getElementById('nav-overlay').classList.toggle('open');document.getElementById('ham-btn').classList.toggle('open')}
+function closeNav(){document.getElementById('nav-drawer').classList.remove('open');document.getElementById('nav-overlay').classList.remove('open');document.getElementById('ham-btn').classList.remove('open')}
 
 // DARK MODE TOGGLE
 function toggleTheme(){
