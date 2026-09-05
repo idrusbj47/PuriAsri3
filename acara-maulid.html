@@ -88,6 +88,16 @@ header.is-scrolled {
   display: flex; align-items: center; justify-content: center;
   font-size: 17px;
 }
+.back-btn {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; text-decoration: none;
+  transition: background 0.2s ease;
+}
+.back-btn:hover { background: rgba(255,255,255,0.22); }
 .header-title-wrap { line-height: 1.2; }
 .header-title {
   font-family: 'Playfair Display', serif;
@@ -224,13 +234,6 @@ main {
 }
 .stat-box .num { font-size: 18px; font-weight: 700; color: var(--green-700); font-family: 'Playfair Display', serif; }
 .stat-box .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
-.official-total-row {
-  margin-top: 16px; padding-top: 14px;
-  border-top: 1px dashed var(--border-light);
-  display: flex; align-items: center; justify-content: space-between;
-  font-size: 11.5px; color: var(--text-muted);
-}
-.official-total-row strong { color: var(--gold-700); font-family: 'Playfair Display', serif; font-size: 14px; }
 .progress-bar-track {
   position: relative;
   width: 100%; height: 14px;
@@ -384,7 +387,12 @@ main {
 <body>
 
 <header id="siteHeader">
-  <div class="header-icon">🕌</div>
+  <a class="back-btn" href="index.html" aria-label="Kembali ke Beranda">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+  </a>
   <div class="header-title-wrap">
     <div class="header-title">Peringatan Maulid Nabi SAW</div>
     <div class="header-sub">Panitia PHBI &middot; Progres Infaq</div>
@@ -441,10 +449,6 @@ main {
         <div class="num" id="jmlDonaturBarang">–</div>
         <div class="lbl">Donatur Barang</div>
       </div>
-    </div>
-    <div class="official-total-row">
-      <span>Angka resmi dari panitia</span>
-      <strong id="jmlResmi">–</strong>
     </div>
     <div class="cta-row">
       <a class="cta-btn wa" href="#" id="ctaWaBtn" target="_blank" rel="noopener">
@@ -692,7 +696,805 @@ main {
     document.getElementById('jmlTerkumpul').textContent = formatRupiah(totalHitung);
     document.getElementById('jmlDonaturTunai').textContent = data.tunai.length;
     document.getElementById('jmlDonaturBarang').textContent = data.barang.length;
-    document.getElementById('jmlResmi').textContent = formatRupiah(data.totalResmi);
+
+    var rabTarget = data.rabTarget || 0;
+    document.getElementById('jmlRab').textContent = rabTarget > 0 ? formatRupiah(rabTarget) : 'Belum ditentukan';
+    var persen = rabTarget > 0 ? (totalHitung / rabTarget) * 100 : 0;
+    document.getElementById('progressPercent').textContent = rabTarget > 0 ? (persen.toFixed(1).replace('.', ',') + '%') : '–';
+    var fill = document.getElementById('progressFill');
+    requestAnimationFrame(function () {
+      setTimeout(function () { fill.style.width = Math.max(persen, rabTarget > 0 ? 2 : 0) + '%'; }, 150);
+    });
+
+    var docBtn = document.getElementById('docLinkBtn');
+    if (data.docLink) {
+      docBtn.setAttribute('href', data.docLink);
+      docBtn.style.display = '';
+    } else {
+      docBtn.style.display = 'none';
+    }
+
+    var kontakEl = document.getElementById('kontakDonasi');
+    if (data.instruksiText || (data.kontakLines && data.kontakLines.length)) {
+      var lines = [];
+      if (data.instruksiText) lines.push(escapeHtml(data.instruksiText));
+      (data.kontakLines || []).forEach(function (l) { lines.push('<strong>' + escapeHtml(l) + '</strong>'); });
+      kontakEl.innerHTML = lines.join('<br><br>');
+    } else {
+      kontakEl.textContent = 'Info rekening & kontak belum tersedia.';
+    }
+
+    if (data.thanksText) {
+      document.getElementById('thanksNote').textContent = '🙏 ' + data.thanksText;
+    }
+
+    var allText = (data.kontakLines || []).join(' ');
+    var waMatch = allText.match(/(\d{4}[\s.-]?\d{4}[\s.-]?\d{3,5})/);
+    var waBtn = document.getElementById('ctaWaBtn');
+    if (waMatch) {
+      var digits = waMatch[1].replace(/[^\d]/g, '');
+      if (digits.charAt(0) === '0') digits = '62' + digits.slice(1);
+      waBtn.setAttribute('href', 'https://wa.me/' + digits + '?text=' + encodeURIComponent(WA_MESSAGE));
+    } else {
+      waBtn.setAttribute('href', 'https://wa.me/?text=' + encodeURIComponent(WA_MESSAGE));
+    }
+
+    var noteEl = document.getElementById('sourceNote');
+    if (opts.isFallback) {
+      noteEl.innerHTML = 'Sumber data live sedang tidak dapat diakses — menampilkan data cadangan terakhir dari rekap panitia.<br><span class="offline-tag">Mode Cadangan</span>';
+    } else {
+      noteEl.textContent = 'Data diambil otomatis dari rekap panitia (live) dan diperbarui berkala.';
+    }
+
+    try { sessionStorage.setItem('maulidDataCache', JSON.stringify(data)); } catch (e) {}
+  }
+
+  var refreshBtn = document.getElementById('refreshBtn');
+
+  function loadData() {
+    if (refreshBtn) { refreshBtn.classList.add('is-loading'); refreshBtn.disabled = true; }
+    return fetch(MAULID_CSV_URL + '&cb=' + Date.now())
+      .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
+      .then(function (csvText) { renderPage(parseMaulidData(csvText)); })
+      .catch(function () {
+        var cached = null;
+        try { cached = JSON.parse(sessionStorage.getItem('maulidDataCache')); } catch (e) {}
+        if (cached) {
+          renderPage(cached, { isFallback: true });
+        } else {
+          renderPage(parseMaulidData(FALLBACK_CSV_TEXT), { isFallback: true });
+        }
+      })
+      .finally(function () {
+        if (refreshBtn) { refreshBtn.classList.remove('is-loading'); refreshBtn.disabled = false; }
+      });
+  }
+
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', function () { loadData(); });
+  }
+
+  loadData();
+
+  // Header: transparan/glassmorphism saat halaman discroll
+  var siteHeader = document.getElementById('siteHeader');
+  var scrollTopBtn = document.getElementById('scrollTopBtn');
+
+  function handleHeaderScroll() {
+    var scrolled = window.scrollY > 24;
+    siteHeader.classList.toggle('is-scrolled', scrolled);
+    if (scrollTopBtn) scrollTopBtn.classList.toggle('is-visible', window.scrollY > 320);
+  }
+  window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+  handleHeaderScroll();
+
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Peringatan Maulid Nabi Muhammad SAW 1448 H</title>
+<meta name="theme-color" content="#0f6b4f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-900: #0a3d2c;
+  --green-800: #0d5138;
+  --green-700: #0f6b4f;
+  --green-600: #12805e;
+  --green-500: #189970;
+  --green-100: #e3f4ec;
+  --green-50: #f1faf6;
+  --gold-700: #7a5c1e;
+  --gold-600: #a97f21;
+  --gold-500: #c49a3c;
+  --gold-400: #d4af5a;
+  --gold-300: #e3c97e;
+  --gold-100: #f8f0da;
+  --amber-700: #935c14;
+  --amber-600: #c4841c;
+  --amber-100: #fbeed9;
+  --cream-bg: #faf8f2;
+  --cream-card: #fffefb;
+  --text-dark: #1a2e26;
+  --text-mid: #2f4a3d;
+  --text-muted: #6f8478;
+  --border-light: rgba(15, 107, 79, 0.13);
+  --border-mid: rgba(15, 107, 79, 0.24);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  --shadow-card: 0 2px 12px rgba(10, 61, 44, 0.08), 0 1px 3px rgba(10, 61, 44, 0.06);
+  --shadow-hover: 0 8px 32px rgba(10, 61, 44, 0.14), 0 2px 8px rgba(10, 61, 44, 0.08);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream-bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(15, 107, 79, 0.08) 0%, transparent 70%),
+    url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230f6b4f' fill-opacity='0.035'%3E%3Cpath d='M32 0l4 12 12-4-8 10 8 10-12-4-4 12-4-12-12 4 8-10-8-10 12 4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, var(--green-700), var(--green-900));
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 2px 16px rgba(10,61,44,0.18);
+  transition: background 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+}
+header.is-scrolled {
+  background: rgba(13, 81, 56, 0.55);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 4px 24px rgba(10,61,44,0.14);
+}
+.header-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px;
+}
+.back-btn {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; text-decoration: none;
+  transition: background 0.2s ease;
+}
+.back-btn:hover { background: rgba(255,255,255,0.22); }
+.header-title-wrap { line-height: 1.2; }
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+.header-sub {
+  font-size: 10.5px;
+  color: var(--gold-300);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+/* ── HERO ── */
+.hero-hijau {
+  position: relative;
+  margin: 0 -20px 24px;
+  padding: 40px 24px 34px;
+  background: linear-gradient(160deg, var(--green-700) 0%, var(--green-900) 100%);
+  overflow: hidden;
+  text-align: center;
+}
+.hero-hijau::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(255,255,255,0.08) 0%, transparent 45%);
+}
+.hero-flag-row {
+  position: relative;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 14px;
+}
+.hero-flag-row span { font-size: 26px; }
+.hero-eyebrow-w {
+  position: relative;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-300); font-weight: 600; margin-bottom: 10px;
+}
+.hero-title-w {
+  position: relative;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px; font-weight: 700; color: #fff;
+  line-height: 1.2; margin-bottom: 10px;
+}
+.hero-title-w em { color: var(--gold-300); font-style: normal; }
+.hero-arabic {
+  position: relative;
+  font-family: 'Amiri', serif;
+  font-size: 22px; color: var(--gold-300);
+  margin-bottom: 12px;
+}
+.hero-desc-w {
+  position: relative;
+  font-size: 13.5px; color: rgba(255,255,255,0.85);
+  line-height: 1.65; max-width: 480px; margin: 0 auto;
+}
+.hero-date-badge {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 7px;
+  margin-top: 18px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 30px;
+  padding: 7px 16px;
+  font-size: 12px; color: #fff; font-weight: 500;
+}
+/* ── SECTION LABEL ── */
+.section-label {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 600;
+  margin: 28px 0 14px;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border-light); order: 2;
+}
+.section-label > span { order: 1; }
+.section-label > .refresh-btn { order: 3; }
+.refresh-btn {
+  width: 26px; height: 26px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--cream-card); border: 1px solid var(--border-mid);
+  border-radius: 50%; color: var(--green-700); cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  padding: 0;
+}
+.refresh-btn:hover { background: var(--green-50); }
+.refresh-btn:active { transform: scale(0.92); }
+.refresh-btn svg { transition: transform 0.6s ease; }
+.refresh-btn.is-loading svg { animation: refresh-spin 0.8s linear infinite; }
+.refresh-btn:disabled { opacity: 0.6; cursor: default; }
+@keyframes refresh-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+/* ── PROGRESS CARD ── */
+.progress-card {
+  background: var(--cream-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 22px 20px;
+}
+.progress-top {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 10px;
+}
+.progress-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 700; color: var(--green-700);
+  line-height: 1;
+}
+.progress-amount small {
+  display: block; font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px; font-weight: 500; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 5px;
+}
+.progress-stats-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-top: 18px;
+}
+.stat-box {
+  background: var(--green-50);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  text-align: center;
+}
+.stat-box .num { font-size: 18px; font-weight: 700; color: var(--green-700); font-family: 'Playfair Display', serif; }
+.stat-box .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+.progress-bar-track {
+  position: relative;
+  width: 100%; height: 14px;
+  background: var(--green-50);
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 14px 0 10px;
+}
+.progress-bar-fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--gold-500), var(--green-600));
+  border-radius: 20px;
+  transition: width 1.1s cubic-bezier(.22,.9,.32,1);
+}
+.progress-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11.5px; color: var(--text-muted);
+}
+.progress-percent { font-weight: 700; color: var(--green-700); font-size: 13px; }
+.progress-target { text-align: right; font-size: 12.5px; color: var(--text-muted); }
+.progress-target strong { color: var(--text-dark); font-weight: 600; }
+/* ── DOKUMEN LINK ── */
+.doc-link {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--cream-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  text-decoration: none; color: inherit;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.doc-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.doc-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: var(--gold-100); border: 1px solid rgba(196,154,60,0.25);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+}
+.doc-body { flex: 1; min-width: 0; }
+.doc-title { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+.doc-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.doc-arrow { color: var(--green-600); font-size: 14px; flex-shrink: 0; }
+.cta-row {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  margin-top: 18px;
+}
+.cta-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 12px 10px; border-radius: var(--radius-md);
+  font-size: 12.5px; font-weight: 600; text-decoration: none;
+  border: 1px solid transparent; transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cta-btn:active { transform: scale(0.97); }
+.cta-btn.wa { background: #25D366; color: #fff; }
+.cta-btn.bank { background: var(--cream-card); color: var(--green-700); border-color: var(--border-mid); }
+/* ── LIST (donatur / barang) ── */
+.donor-list {
+  background: var(--cream-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.donor-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+.donor-item:last-child { border-bottom: none; }
+.donor-num {
+  width: 26px; height: 26px; flex-shrink: 0;
+  background: var(--green-50); color: var(--green-700);
+  border-radius: 50%; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.donor-num.barang { background: var(--amber-100); color: var(--amber-700); }
+.donor-info { flex: 1; min-width: 0; }
+.donor-name { font-size: 13px; font-weight: 500; color: var(--text-dark); }
+.donor-amount { font-size: 13px; font-weight: 700; color: var(--green-700); flex-shrink: 0; white-space: nowrap; }
+.donor-empty-note {
+  text-align: center; padding: 18px 16px; font-size: 12px; color: var(--text-muted);
+  border-top: 1px dashed var(--border-light);
+}
+.list-total-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 13px 16px;
+  background: var(--green-100);
+  font-size: 12.5px; font-weight: 700; color: var(--green-700);
+}
+/* ── CARA BERPARTISIPASI ── */
+.kontak-card {
+  background: var(--cream-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 18px 20px;
+  font-size: 12.5px; color: var(--text-mid); line-height: 2;
+}
+.kontak-card strong { color: var(--text-dark); }
+/* ── FOOTER NOTE ── */
+.thanks-note {
+  margin-top: 24px;
+  background: var(--gold-100);
+  border: 1px solid rgba(196,154,60,0.3);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-size: 12.5px; color: var(--gold-700); line-height: 1.6;
+  text-align: center;
+}
+.source-note {
+  margin-top: 10px;
+  font-size: 10.5px; color: var(--text-muted);
+  text-align: center; line-height: 1.6;
+}
+.offline-tag {
+  display: inline-block; margin-top: 6px;
+  background: var(--amber-100); color: var(--amber-700);
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
+}
+.foot-space { height: 30px; }
+.scroll-top-btn {
+  position: fixed;
+  right: 18px; bottom: 22px;
+  z-index: 90;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--green-700), var(--green-900));
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 20px rgba(10,61,44,0.32), 0 2px 6px rgba(10,61,44,0.2);
+  cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transform: translateY(12px) scale(0.9);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, background 0.2s ease;
+}
+.scroll-top-btn.is-visible { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.scroll-top-btn:hover { background: linear-gradient(135deg, var(--green-600), var(--green-800)); }
+.scroll-top-btn:active { transform: scale(0.92); }
+@media (max-width: 420px) {
+  .hero-title-w { font-size: 23px; }
+  .progress-amount { font-size: 22px; }
+  .cta-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <a class="back-btn" href="index.html" aria-label="Kembali ke Beranda">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/>
+      <polyline points="12 19 5 12 12 5"/>
+    </svg>
+  </a>
+  <div class="header-title-wrap">
+    <div class="header-title">Peringatan Maulid Nabi SAW</div>
+    <div class="header-sub">Panitia PHBI &middot; Progres Infaq</div>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero-hijau">
+    <div class="hero-flag-row"><span>🌙</span><span>🕌</span><span>✨</span></div>
+    <div class="hero-eyebrow-w">Panitia Peringatan Hari Besar Islam</div>
+    <h1 class="hero-title-w">Peringatan <em>Maulid Nabi</em><br>Muhammad SAW</h1>
+    <div class="hero-arabic">الحمد لله رب العالمين</div>
+    <p class="hero-desc-w" id="heroDesc">Puji syukur kehadirat Allah SWT, shalawat dan salam semoga tercurah kepada Baginda Nabi Muhammad SAW. Mari bersama menyukseskan acara Maulid Nabi tahun ini.</p>
+    <div class="hero-date-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      Maulid Nabi Muhammad SAW 2026
+    </div>
+  </div>
+
+  <!-- ── PROGRES DANA ── -->
+  <div class="section-label">
+    <span>Progres Infaq Terkumpul</span>
+    <button type="button" class="refresh-btn" id="refreshBtn" aria-label="Muat ulang data" title="Muat ulang data">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+      </svg>
+    </button>
+  </div>
+  <div class="progress-card">
+    <div class="progress-top">
+      <div class="progress-amount">
+        <small>Total Infaq Tunai (dihitung dari daftar)</small>
+        <span id="jmlTerkumpul">memuat...</span>
+      </div>
+      <div class="progress-target">Target Kebutuhan RAB<br><strong id="jmlRab">–</strong></div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-meta">
+      <span>Menuju target kebutuhan RAB</span>
+      <span class="progress-percent" id="progressPercent">–</span>
+    </div>
+    <div class="progress-stats-row">
+      <div class="stat-box">
+        <div class="num" id="jmlDonaturTunai">–</div>
+        <div class="lbl">Donatur Tunai</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="jmlDonaturBarang">–</div>
+        <div class="lbl">Donatur Barang</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <a class="cta-btn wa" href="#" id="ctaWaBtn" target="_blank" rel="noopener">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.39 1.26 4.81L2 22l5.42-1.36c1.36.72 2.9 1.12 4.62 1.12 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm5.86 14.11c-.24.68-1.42 1.32-1.96 1.4-.5.08-1.14.11-1.84-.12-.42-.14-.97-.32-1.66-.63-2.93-1.27-4.84-4.24-4.99-4.44-.14-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.29.6-.37.8-.37.2 0 .4 0 .58.01.19.01.44-.07.68.53.25.6.85 2.09.93 2.24.08.15.13.32.02.52-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.29.76 1.26 1.64 2.04 1.13 1.01 2.08 1.32 2.37 1.47.29.15.46.13.63-.08.17-.2.72-.83.91-1.12.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.94.29.15.48.22.55.34.07.13.07.71-.17 1.4z"/></svg>
+        Konfirmasi via WA
+      </a>
+      <a class="cta-btn bank" href="#caraPartisipasi">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Info Rekening
+      </a>
+    </div>
+  </div>
+
+  <!-- ── DOKUMEN RAB ── -->
+  <div class="section-label"><span>Dokumen Panitia</span></div>
+  <a class="doc-link" href="#" id="docLinkBtn" target="_blank" rel="noopener">
+    <div class="doc-icon">📄</div>
+    <div class="doc-body">
+      <div class="doc-title" id="docTitle">RAB &amp; Dokumen Acara Maulid Nabi</div>
+      <div class="doc-desc">Rincian Rencana Anggaran Biaya lengkap dari panitia</div>
+    </div>
+    <div class="doc-arrow">→</div>
+  </a>
+
+  <!-- ── DAFTAR INFAQ TUNAI ── -->
+  <div class="section-label"><span>Daftar Infaq Tunai</span></div>
+  <div class="donor-list" id="tunaiList">
+    <div class="donor-empty-note" id="tunaiLoading">Memuat daftar infaq tunai...</div>
+  </div>
+
+  <!-- ── DAFTAR INFAQ MAKANAN/MINUMAN ── -->
+  <div class="section-label"><span>Daftar Infaq Makanan &amp; Minuman</span></div>
+  <div class="donor-list" id="barangList">
+    <div class="donor-empty-note" id="barangLoading">Memuat daftar infaq makanan/minuman...</div>
+  </div>
+
+  <!-- ── CARA BERPARTISIPASI ── -->
+  <div class="section-label"><span>Cara Berpartisipasi</span></div>
+  <div class="kontak-card" id="caraPartisipasi">
+    <div id="kontakDonasi">Memuat info rekening &amp; kontak...</div>
+  </div>
+
+  <div class="thanks-note" id="thanksNote">
+    🙏 Jazakumullah khairan katsiran atas bantuan dan partisipasi Bapak/Ibu/Saudara/i sekalian. Semoga menjadi amal jariyah dan mendapat syafaat Rasulullah SAW. Aamiin.
+  </div>
+  <div class="source-note" id="sourceNote">Data diambil otomatis dari rekap panitia (live) dan diperbarui berkala.</div>
+
+  <div class="foot-space"></div>
+</main>
+
+<button type="button" class="scroll-top-btn" id="scrollTopBtn" aria-label="Kembali ke atas" title="Kembali ke atas">
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"/>
+  </svg>
+</button>
+
+<!-- ── DATA MAULID: ambil live dari Google Sheets (CSV publikasi panitia) ── -->
+<script>
+(function () {
+  var MAULID_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSa5kK_4YmOXNUAoYVbn7FwzahV08LLZvS0a-TB5nC_YNOECnQcBr9pymsKyV6O6iwe7kNo72fASf1m/pub?gid=0&single=true&output=csv';
+  var WA_MESSAGE = "Assalamu'alaikum, saya ingin konfirmasi infaq untuk acara Maulid Nabi Muhammad SAW. Terima kasih.";
+
+  // Cadangan offline dari file CSV panitia, dipakai HANYA jika link Google Sheets
+  // di atas gagal dibuka (mis. tidak ada internet / CORS / link berubah).
+  var FALLBACK_CSV_TEXT = "\"\u2728Assalamu'alaikum Wr. Wb.Puji syukur kehadirat Allah SWT, shalawat dan salam semoga tercurah kepada Baginda Nabi Muhammad SAW.\"\n" +
+    "Kami dari Panitia Peringatan Hari Besar Islam (PHBI) menginfokan list donatur dan perkembangan dana sumbangan Maulid Nabi Muhammad SAW sampai hari ini:\n" +
+    "Daftar Infaq Tunai : Nama - Rp Nominal\n" +
+    "1. Hamba allah - Rp.100.000\n" +
+    "2. Hamba allah - Rp. 100.000\n" +
+    "3. Hamba Allah - Rp.100.000\n" +
+    "\n" +
+    "Daftar infak makanan/minuman : Nama - Barangnya\n" +
+    "1. 10 dus Aqua gelas\n" +
+    "2. 5 Dus Botol VIT kecil\n" +
+    "3. Hamba Allah:5 Dus Air minum\n" +
+    "\n" +
+    "\"Total Dana Terkumpul:\uD83D\uDCB0 Rp. 0 mengucapkan jazakumullah khairan katsiran atas bantuan dan partisipasi Bapak/Ibu/Saudara/i sekalian. Semoga menjadi amal jariyah dan mendapat syafaat Rasulullah SAW. Aamiin.Bagi warga yang ingin ikut berpartisipasi, sumbangan dapat disalurkan melalui:\"\n" +
+    "\uD83C\uDFE2 BPK Rizki \uD83D\uDCB3 Transfer CIMB NIAGA:707285665800\n" +
+    "Dana : 082310203045 a.n. Rizki Ardiansyah\uD83D\uDCDE Konfirmasi: Wa.me/082310203045 (Rizki Ardiansyah)\n" +
+    "Wassalamu'alaikum Wr. Wb.,,Dok. RAB,https://drive.google.com/file/d/1kUJ-Mo-YhZ7kMcsn6L2MdUIGjTNkvE62/view?usp=sharing,Total Kebutuhan RAB,10000000";
+
+  function parseCSV(text) {
+    var rows = [], row = [], field = '', inQuotes = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (inQuotes) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+        else { field += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function parseRupiahLoose(str) {
+    if (!str) return 0;
+    var n = parseInt(('' + str).replace(/[^\d]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function formatRupiah(n) {
+    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+  }
+
+  function escapeHtml(s) {
+    return ('' + s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  var CASH_ITEM_RE = /^(\d+)\.\s*(.+?)\s*[-:]\s*Rp\.?\s*([\d.,]+)\s*$/i;
+  var NUM_ITEM_RE = /^(\d+)\.\s*(.+)$/;
+  var HEADER_TUNAI_RE = /daftar\s+infaq?\s+tunai/i;
+  var HEADER_BARANG_RE = /daftar\s+infa?k\s+makanan/i;
+  var TOTAL_LINE_RE = /total\s+dana\s+terkumpul/i;
+  var WASSALAM_RE = /wassalamu/i;
+
+  function parseMaulidData(csvText) {
+    var rows = parseCSV(csvText);
+    var lines = rows.map(function (r) { return (r[0] || '').trim(); });
+
+    var introLines = [];
+    var tunai = [], barang = [];
+    var mode = 'intro'; // intro -> tunai -> barang -> total -> kontak -> closing
+    var totalResmi = 0, thanksText = '', instruksiText = '';
+    var kontakLines = [];
+    var docLink = '', rabTarget = 0;
+
+    // Kolom C-F (index 2-5): "Dok. RAB" | link drive | "Total Kebutuhan RAB" | nominal
+    for (var r = 0; r < rows.length; r++) {
+      var colC = (rows[r][2] || '').trim();
+      var colD = (rows[r][3] || '').trim();
+      var colE = (rows[r][4] || '').trim();
+      var colF = (rows[r][5] || '').trim();
+      if (/dok\.?\s*rab/i.test(colC) && colD) docLink = colD;
+      if (/total\s+kebutuhan\s+rab/i.test(colE) && colF) rabTarget = parseRupiahLoose(colF);
+    }
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+
+      if (mode === 'intro') {
+        if (HEADER_TUNAI_RE.test(line)) { mode = 'tunai'; continue; }
+        if (line) introLines.push(line);
+        continue;
+      }
+      if (mode === 'tunai') {
+        if (!line) { continue; }
+        if (HEADER_BARANG_RE.test(line)) { mode = 'barang'; continue; }
+        var mc = line.match(CASH_ITEM_RE);
+        if (mc) { tunai.push({ nomor: mc[1], nama: mc[2].trim(), amount: parseRupiahLoose(mc[3]) }); continue; }
+        var mgeneric = line.match(NUM_ITEM_RE);
+        if (mgeneric) { tunai.push({ nomor: mgeneric[1], nama: mgeneric[2].trim(), amount: 0 }); continue; }
+        continue;
+      }
+      if (mode === 'barang') {
+        if (!line) { continue; }
+        if (TOTAL_LINE_RE.test(line)) { mode = 'total'; /* fall through below */ }
+        else {
+          var mb = line.match(NUM_ITEM_RE);
+          if (mb) { barang.push({ nomor: mb[1], keterangan: mb[2].trim() }); continue; }
+          continue;
+        }
+      }
+      if (mode === 'total') {
+        var mt = line.match(/Rp\.?\s*([\d.,]+)/i);
+        if (mt) totalResmi = parseRupiahLoose(mt[1]);
+        var afterRp = line.split(/Rp\.?\s*[\d.,]+/i)[1] || '';
+        var splitBagi = afterRp.split(/Bagi\s+warga/i);
+        thanksText = (splitBagi[0] || '').replace(/^["'\s]+|["'\s]+$/g, '').trim();
+        instruksiText = splitBagi.length > 1 ? ('Bagi warga' + splitBagi[1]).replace(/["']+$/g, '').trim() : '';
+        mode = 'kontak';
+        continue;
+      }
+      if (mode === 'kontak') {
+        if (WASSALAM_RE.test(line)) { mode = 'closing'; continue; }
+        if (line) kontakLines.push(line);
+        continue;
+      }
+    }
+
+    return {
+      introLines: introLines,
+      tunai: tunai,
+      barang: barang,
+      totalResmi: totalResmi,
+      thanksText: thanksText,
+      instruksiText: instruksiText,
+      kontakLines: kontakLines,
+      docLink: docLink,
+      rabTarget: rabTarget
+    };
+  }
+
+  function renderTunaiList(tunai) {
+    var wrap = document.getElementById('tunaiList');
+    if (!tunai.length) {
+      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data infaq tunai.</div>';
+      return;
+    }
+    var total = 0;
+    var html = tunai.map(function (d) {
+      total += d.amount;
+      return '<div class="donor-item">' +
+        '<div class="donor-num">' + escapeHtml(d.nomor) + '</div>' +
+        '<div class="donor-info"><div class="donor-name">' + escapeHtml(d.nama) + '</div></div>' +
+        '<div class="donor-amount">' + formatRupiah(d.amount) + '</div>' +
+        '</div>';
+    }).join('');
+    wrap.innerHTML = html + '<div class="list-total-row"><span>Total Infaq Tunai</span><span>' + formatRupiah(total) + '</span></div>';
+    return total;
+  }
+
+  function renderBarangList(barang) {
+    var wrap = document.getElementById('barangList');
+    if (!barang.length) {
+      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data infaq makanan/minuman.</div>';
+      return;
+    }
+    var html = barang.map(function (b) {
+      return '<div class="donor-item">' +
+        '<div class="donor-num barang">' + escapeHtml(b.nomor) + '</div>' +
+        '<div class="donor-info"><div class="donor-name">' + escapeHtml(b.keterangan) + '</div></div>' +
+        '</div>';
+    }).join('');
+    wrap.innerHTML = html;
+  }
+
+  function renderPage(data, opts) {
+    opts = opts || {};
+
+    if (data.introLines && data.introLines.length) {
+      document.getElementById('heroDesc').textContent = data.introLines.join(' ');
+    }
+
+    var totalHitung = renderTunaiList(data.tunai) || 0;
+    renderBarangList(data.barang);
+
+    document.getElementById('jmlTerkumpul').textContent = formatRupiah(totalHitung);
+    document.getElementById('jmlDonaturTunai').textContent = data.tunai.length;
+    document.getElementById('jmlDonaturBarang').textContent = data.barang.length;
 
     var rabTarget = data.rabTarget || 0;
     document.getElementById('jmlRab').textContent = rabTarget > 0 ? formatRupiah(rabTarget) : 'Belum ditentukan';
