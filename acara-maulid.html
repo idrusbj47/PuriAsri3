@@ -729,7 +729,7 @@ main {
     }
 
     var allText = (data.kontakLines || []).join(' ');
-    var waMatch = allText.match(/(\d{4}[\s.-]?\d{4}[\s.-]?\d{3,5})/);
+    var waMatch = allText.match(/wa\.me\/(\d{8,15})/i) || allText.match(/(?:^|[^\d])(0\d{9,13})(?:[^\d]|$)/);
     var waBtn = document.getElementById('ctaWaBtn');
     if (waMatch) {
       var digits = waMatch[1].replace(/[^\d]/g, '');
