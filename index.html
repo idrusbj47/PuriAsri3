@@ -1481,6 +1481,110 @@
       .hutri-banner-title { font-size: 14.5px; }
     }
 
+    /* ── BANNER PROGRES IURAN MAULID NABI (banner utama paling atas) ── */
+    .maulid-banner {
+      position: relative;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: linear-gradient(135deg, #0f6b4f 0%, #0a3d2c 100%);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin: 0 0 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(10,61,44,0.22), 0 2px 8px rgba(10,61,44,0.14);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .maulid-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(10,61,44,0.28), 0 3px 10px rgba(10,61,44,0.16); }
+    .maulid-banner::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 12% 20%, rgba(255,255,255,0.12) 0%, transparent 45%),
+                         radial-gradient(circle at 90% 85%, rgba(255,255,255,0.08) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .maulid-banner-top {
+      position: relative;
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .maulid-banner-flag { font-size: 18px; line-height: 1; }
+    .maulid-banner-eyebrow {
+      font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #e3c97e; font-weight: 600;
+    }
+    .maulid-banner-title {
+      position: relative;
+      font-family: 'Playfair Display', serif;
+      font-size: 16.5px; font-weight: 600; color: #fff;
+      line-height: 1.3; margin-bottom: 4px;
+    }
+    .maulid-banner-desc {
+      position: relative;
+      font-size: 11.5px; color: rgba(255,255,255,0.75);
+      margin-bottom: 14px;
+    }
+    .maulid-progress-track {
+      position: relative;
+      width: 100%; height: 10px;
+      background: rgba(255,255,255,0.16);
+      border-radius: 20px; overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .maulid-progress-fill {
+      position: absolute; inset: 0 auto 0 0;
+      width: 0%;
+      background: linear-gradient(90deg, #e3c97e, #fff3c4);
+      border-radius: 20px;
+      transition: width 1.1s cubic-bezier(.22,.9,.32,1);
+    }
+    .maulid-progress-meta {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; color: rgba(255,255,255,0.85);
+    }
+    .maulid-progress-meta strong { color: #fff; font-weight: 700; }
+    .maulid-banner-cta {
+      position: relative;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.14);
+      font-size: 11.5px; color: #e3c97e; font-weight: 600;
+    }
+    .maulid-banner-arrow {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px; flex-shrink: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .maulid-banner:hover .maulid-banner-arrow { background: rgba(255,255,255,0.16); transform: translateX(2px); }
+    .maulid-refresh-btn {
+      position: relative;
+      margin-left: auto;
+      width: 24px; height: 24px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 50%;
+      color: #fff;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .maulid-refresh-btn:hover { background: rgba(255,255,255,0.22); }
+    .maulid-refresh-btn:active { transform: scale(0.92); }
+    .maulid-refresh-btn svg { display: block; transition: transform 0.6s ease; }
+    .maulid-refresh-btn.is-loading svg { animation: maulid-refresh-spin 0.8s linear infinite; }
+    .maulid-refresh-btn:disabled { opacity: 0.55; cursor: default; }
+    @keyframes maulid-refresh-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @media (max-width: 600px) {
+      .maulid-banner { padding: 16px 16px; margin-bottom: 16px; }
+      .maulid-banner-title { font-size: 14.5px; }
+    }
+
     /* ── BANNER KLASEMEN ACARA 17 AGUSTUSAN (banner utama paling atas) ── */
     .klasemen-banner {
       position: relative;
@@ -1748,6 +1852,33 @@
   </header>
 
   <main>
+
+    <!-- ── BANNER PROGRES IURAN MAULID NABI (topik hangat, tampil paling atas) ── -->
+    <a class="maulid-banner" href="acara-maulid.html" id="maulidBanner">
+      <div class="maulid-banner-top">
+        <span class="maulid-banner-flag">🕌</span>
+        <span class="maulid-banner-eyebrow">Peringatan Maulid Nabi Muhammad SAW</span>
+        <button type="button" class="maulid-refresh-btn" id="maulidRefreshBtn" aria-label="Muat ulang data" title="Muat ulang data" onclick="event.preventDefault(); event.stopPropagation(); loadMaulidBanner();">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+      </div>
+      <div class="maulid-banner-title">Progres Iuran Maulid Nabi</div>
+      <div class="maulid-banner-desc" id="maulidBannerDesc">Memuat progres infaq terkini dari panitia...</div>
+      <div class="maulid-progress-track">
+        <div class="maulid-progress-fill" id="maulidBannerFill"></div>
+      </div>
+      <div class="maulid-progress-meta">
+        <span>Terkumpul <strong id="maulidBannerAmount">–</strong> dari <strong id="maulidBannerTarget">–</strong></span>
+        <span id="maulidBannerPercent">–</span>
+      </div>
+      <div class="maulid-banner-cta">
+        <span>Lihat progres &amp; daftar infaq lengkap</span>
+        <span class="maulid-banner-arrow">→</span>
+      </div>
+    </a>
 
     <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
     <div class="hero-slider" id="heroSlider">
@@ -2628,6 +2759,127 @@
       setTimeout(function () { startTour(); }, 900);
     }
   });
+</script>
+    <script>
+(function () {
+  var MAULID_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSa5kK_4YmOXNUAoYVbn7FwzahV08LLZvS0a-TB5nC_YNOECnQcBr9pymsKyV6O6iwe7kNo72fASf1m/pub?gid=0&single=true&output=csv';
+
+  function parseCSV(text) {
+    var rows = [], row = [], field = '', inQuotes = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
+      if (inQuotes) {
+        if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; } }
+        else { field += c; }
+      } else {
+        if (c === '"') inQuotes = true;
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+        else if (c === '\r') { /* skip */ }
+        else field += c;
+      }
+    }
+    if (field.length > 0 || row.length > 0) { row.push(field); rows.push(row); }
+    return rows;
+  }
+
+  function parseRupiahLoose(str) {
+    if (!str) return 0;
+    var n = parseInt(('' + str).replace(/[^\d]/g, ''), 10);
+    return isNaN(n) ? 0 : n;
+  }
+
+  function formatRupiah(n) {
+    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+  }
+
+  var CASH_ITEM_RE = /^(\d+)\.\s*(.+?)\s*[-:]\s*Rp\.?\s*([\d.,]+)\s*$/i;
+  var HEADER_TUNAI_RE = /daftar\s+infaq?\s+tunai/i;
+  var HEADER_BARANG_RE = /daftar\s+infa?k\s+makanan/i;
+  var TOTAL_LINE_RE = /total\s+dana\s+terkumpul/i;
+
+  function parseMaulidSummary(csvText) {
+    var rows = parseCSV(csvText);
+    var lines = rows.map(function (r) { return (r[0] || '').trim(); });
+    var mode = 'intro';
+    var totalTunai = 0;
+    var rabTarget = 0;
+
+    for (var r = 0; r < rows.length; r++) {
+      var colE = (rows[r][4] || '').trim();
+      var colF = (rows[r][5] || '').trim();
+      if (/total\s+kebutuhan\s+rab/i.test(colE) && colF) rabTarget = parseRupiahLoose(colF);
+    }
+
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i];
+      if (mode === 'intro') {
+        if (HEADER_TUNAI_RE.test(line)) mode = 'tunai';
+        continue;
+      }
+      if (mode === 'tunai') {
+        if (!line) continue;
+        if (HEADER_BARANG_RE.test(line)) { mode = 'barang'; continue; }
+        var mc = line.match(CASH_ITEM_RE);
+        if (mc) { totalTunai += parseRupiahLoose(mc[3]); continue; }
+        continue;
+      }
+      if (mode === 'barang') {
+        if (TOTAL_LINE_RE.test(line)) break;
+        continue;
+      }
+    }
+
+    return { totalTunai: totalTunai, rabTarget: rabTarget };
+  }
+
+  window.loadMaulidBanner = function () {
+    var btn = document.getElementById('maulidRefreshBtn');
+    if (btn) { btn.classList.add('is-loading'); btn.disabled = true; }
+    return fetch(MAULID_CSV_URL + '&cb=' + Date.now())
+      .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
+      .then(function (csvText) {
+        var data = parseMaulidSummary(csvText);
+        renderMaulidBanner(data);
+        try { sessionStorage.setItem('maulidBannerCache', JSON.stringify(data)); } catch (e) {}
+      })
+      .catch(function () {
+        var cached = null;
+        try { cached = JSON.parse(sessionStorage.getItem('maulidBannerCache')); } catch (e) {}
+        if (cached) renderMaulidBanner(cached);
+        else {
+          var descEl = document.getElementById('maulidBannerDesc');
+          if (descEl) descEl.textContent = 'Data belum dapat dimuat. Ketuk untuk melihat halaman lengkap.';
+        }
+      })
+      .finally(function () {
+        if (btn) { btn.classList.remove('is-loading'); btn.disabled = false; }
+      });
+  };
+
+  function renderMaulidBanner(data) {
+    var amountEl = document.getElementById('maulidBannerAmount');
+    var targetEl = document.getElementById('maulidBannerTarget');
+    var percentEl = document.getElementById('maulidBannerPercent');
+    var fillEl = document.getElementById('maulidBannerFill');
+    var descEl = document.getElementById('maulidBannerDesc');
+    if (!amountEl) return;
+
+    var rab = data.rabTarget || 0;
+    var persen = rab > 0 ? (data.totalTunai / rab) * 100 : 0;
+
+    amountEl.textContent = formatRupiah(data.totalTunai);
+    targetEl.textContent = rab > 0 ? formatRupiah(rab) : 'Belum ditentukan';
+    percentEl.textContent = rab > 0 ? (persen.toFixed(1).replace('.', ',') + '%') : '–';
+    descEl.textContent = 'Infaq tunai & barang untuk acara Maulid Nabi terus bertambah. Yuk ikut berpartisipasi!';
+
+    requestAnimationFrame(function () {
+      setTimeout(function () { fillEl.style.width = Math.max(persen, rab > 0 ? 2 : 0) + '%'; }, 150);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', function () { loadMaulidBanner(); });
+})();
 </script>
     <script>
   if ('serviceWorker' in navigator) {
