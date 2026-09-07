@@ -382,6 +382,10 @@ main {
   .progress-amount { font-size: 22px; }
   .cta-row { grid-template-columns: 1fr; }
 }
+@media (max-width: 380px) {
+  .progress-top { flex-direction: column; align-items: flex-start; }
+  .progress-target { text-align: left; }
+}
 </style>
 </head>
 <body>
@@ -428,10 +432,10 @@ main {
   <div class="progress-card">
     <div class="progress-top">
       <div class="progress-amount">
-        <small>Total Infaq Tunai (dihitung dari daftar)</small>
+        <small>Total Infaq Terkumpul</small>
         <span id="jmlTerkumpul">memuat...</span>
       </div>
-      <div class="progress-target">Target Kebutuhan RAB<br><strong id="jmlRab">–</strong></div>
+      <div class="progress-target">Target RAB<br><strong id="jmlRab">–</strong></div>
     </div>
     <div class="progress-bar-track">
       <div class="progress-bar-fill" id="progressFill"></div>
@@ -751,12 +755,17 @@ main {
 
   var refreshBtn = document.getElementById('refreshBtn');
 
+  var FETCH_TIMEOUT_MS = 8000; // batas tunggu maks. sebelum otomatis fallback ke cache/data cadangan
+
   function loadData() {
     if (refreshBtn) { refreshBtn.classList.add('is-loading'); refreshBtn.disabled = true; }
-    return fetch(MAULID_CSV_URL + '&cb=' + Date.now())
+    var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    var timeoutId = controller ? setTimeout(function () { controller.abort(); }, FETCH_TIMEOUT_MS) : null;
+    return fetch(MAULID_CSV_URL + '&cb=' + Date.now(), controller ? { signal: controller.signal } : {})
       .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
-      .then(function (csvText) { renderPage(parseMaulidData(csvText)); })
+      .then(function (csvText) { if (timeoutId) clearTimeout(timeoutId); renderPage(parseMaulidData(csvText)); })
       .catch(function () {
+        if (timeoutId) clearTimeout(timeoutId);
         var cached = null;
         try { cached = JSON.parse(sessionStorage.getItem('maulidDataCache')); } catch (e) {}
         if (cached) {
