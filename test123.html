@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dokumentasi & LPJ Kegiatan — Puri Asri 3</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0ZQVRYH8VK');
+</script>
+  <link rel="icon" type="image/png" href="Logo RT11-1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-950: #0d1f10; --green-900: #132b17; --green-800: #1e4225;
+      --green-700: #265930; --green-600: #2e7038; --green-500: #3a8c45;
+      --green-400: #56a660; --green-300: #80c489; --green-200: #b3ddb9;
+      --green-100: #ddf0e0; --green-50: #f2fbf4;
+      --gold-700: #7a5c1e; --gold-600: #9a7226; --gold-500: #c49a3c;
+      --gold-400: #d4af5a; --gold-300: #e3c97e; --gold-200: #f0dfa8; --gold-100: #f8f0da;
+      --cream-bg: #f7f5f0; --cream-card: #fdfcfa;
+      --text-dark: #1a2b1c; --text-mid: #3a5040; --text-muted: #6b8570;
+      --border-light: rgba(46,112,56,0.12); --border-mid: rgba(46,112,56,0.22);
+      --radius-sm: 6px; --radius-md: 12px; --radius-lg: 20px; --radius-xl: 28px;
+      --shadow-card: 0 2px 12px rgba(30,66,37,0.08), 0 1px 3px rgba(30,66,37,0.06);
+      --shadow-hover: 0 12px 40px rgba(30,66,37,0.16), 0 2px 8px rgba(30,66,37,0.08);
+      --shadow-gold: 0 4px 20px rgba(196,154,60,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream-bg); color: var(--text-dark);
+      min-height: 100vh; overflow-x: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    /* BACKGROUND TEXTURE */
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(46,112,56,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(196,154,60,0.04) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7038' fill-opacity='0.025'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* DECORATIVE RINGS */
+    .deco-ring { position: fixed; border-radius: 50%; border: 1px solid rgba(46,112,56,0.06); pointer-events: none; z-index: 0; }
+
+    /* ─── HEADER ─── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--green-800); padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
+      transition: background 0.35s ease, box-shadow 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    header.scrolled {
+      background: rgba(30,66,37,0.82);
+      backdrop-filter: blur(14px) saturate(1.4);
+      -webkit-backdrop-filter: blur(14px) saturate(1.4);
+      box-shadow: 0 2px 24px rgba(13,31,16,0.28), 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .header-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; transition: opacity 0.2s; }
+    .header-brand:hover { opacity: 0.85; }
+    .logo-mark {
+      width: 40px; height: 40px; background: #fff; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold-400); flex-shrink: 0; overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .header-brand:hover .logo-mark { box-shadow: 0 0 0 3px rgba(212,175,90,0.35); }
+    .logo-mark img { width: 30px; height: 30px; object-fit: contain; }
+    .logo-mark-fallback {
+      width: 24px; height: 24px; background: var(--green-600); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600;
+    }
+    .header-title { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 600; color: #fff; line-height: 1.2; }
+    .header-sub { font-size: 11px; color: var(--green-200); letter-spacing: 0.06em; text-transform: uppercase; font-weight: 400; margin-top: 1px; }
+    .btn-back {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--green-200); text-decoration: none;
+      letter-spacing: 0.04em; padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 20px;
+      transition: all 0.2s ease; white-space: nowrap;
+    }
+    .btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.07); }
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-print {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 500; color: #fff; text-decoration: none;
+      letter-spacing: 0.04em; padding: 6px 16px;
+      background: var(--green-600); border: 1px solid var(--green-400); border-radius: 20px;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(30,66,37,0.25);
+    }
+    .btn-print:hover { background: var(--green-500); box-shadow: 0 4px 14px rgba(30,66,37,0.35); transform: translateY(-1px); }
+    .btn-print svg { flex-shrink: 0; }
+
+    /* ─── MAIN ─── */
+    main { position: relative; z-index: 1; flex: 1; max-width: 900px; margin: 0 auto; width: 100%; padding: 52px 24px 96px; }
+
+    /* ─── LOADING / ERROR ─── */
+    .loading-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 80px 24px; text-align: center; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border-mid); border-top-color: var(--green-500); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 13px; color: var(--text-muted); font-weight: 300; }
+    
+    .error-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 60px 24px; text-align: center; }
+    .error-wrap p { font-size: 13px; color: var(--text-muted); }
+    .btn-retry {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px; border-radius: 20px; font-size: 12px;
+      background: var(--green-700); color: #fff; border: none; cursor: pointer;
+      font-family: inherit; transition: background 0.2s;
+    }
+    .btn-retry:hover { background: var(--green-600); }
+
+    /* ─── HERO ─── */
+    .hero { text-align: center; margin-bottom: 52px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold-600); font-weight: 500; margin-bottom: 20px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: ''; display: block; width: 36px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px,5vw,48px); font-weight: 500; color: var(--green-900);
+      line-height: 1.15; letter-spacing: -0.015em; margin-bottom: 18px;
+    }
+    .hero-title em { font-style: italic; color: var(--green-600); }
+    .hero-desc { font-size: 15px; color: var(--text-muted); font-weight: 300; line-height: 1.75; max-width: 500px; margin: 0 auto 20px; }
+    .hero-ornament {
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;
+    }
+    .hero-ornament-line { flex: 1; max-width: 60px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300)); }
+    .hero-ornament-line:last-child { background: linear-gradient(90deg, var(--gold-300), transparent); }
+    .hero-ornament-diamond {
+      width: 6px; height: 6px; background: var(--gold-400);
+      transform: rotate(45deg); border-radius: 1px;
+      box-shadow: 0 0 8px rgba(196,154,60,0.4);
+    }
+
+    /* ─── STATS ─── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1.45fr 1fr 1fr;
+      gap: 14px; margin-bottom: 60px;
+    }
+    .stat-chip {
+      background: var(--cream-card); border: 1px solid var(--border-light);
+      border-radius: var(--radius-md); padding: 24px 16px 20px;
+      text-align: center; box-shadow: var(--shadow-card);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    /* Colored accent top bar per card */
+    .stat-chip:nth-child(1)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--green-400), var(--green-600)); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(2)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--gold-300), var(--gold-500)); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(3)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #60a5b5, #2c90a0); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+    .stat-chip:nth-child(4)::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, #a0859a, #7a5570); border-radius: var(--radius-md) var(--radius-md) 0 0; }
+
+    .stat-chip::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .stat-chip:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 2.8vw, 34px);
+      font-weight: 600;
+      line-height: 1.1; transition: color 0.3s;
+      word-break: break-word; overflow-wrap: anywhere; width: 100%;
+    }
+    /* Individual number colors */
+    .stat-chip:nth-child(1) .stat-num { color: var(--green-700); }
+    .stat-chip:nth-child(2) .stat-num { color: var(--gold-600); }
+    .stat-chip:nth-child(3) .stat-num { color: #1c7080; }
+    .stat-chip:nth-child(4) .stat-num { color: #7a5570; }
+
+    @keyframes numPop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+    .stat-num.popped { animation: numPop 0.4s ease; }
+    .stat-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; margin-top: 8px; line-height: 1.4; }
+
+    /* ─── FILTER CHIPS ─── */
+    .filter-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border-light);
+    }
+    .filter-chip {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+      padding: 5px 14px; border-radius: 20px; cursor: pointer;
+      border: 1px solid var(--border-mid); color: var(--text-mid);
+      background: var(--cream-card); transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .filter-chip:hover { border-color: var(--green-400); color: var(--green-700); }
+    .filter-chip.active {
+      background: var(--green-800); color: #fff; border-color: var(--green-800);
+      box-shadow: 0 2px 10px rgba(30,66,37,0.2);
+    }
+
+    /* ─── YEAR BANNER & GROUP ─── */
+    .year-section { margin-bottom: 24px; transition: opacity 0.4s; }
+    .year-banner {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+      padding: 0 4px;
+    }
+    .year-badge {
+      font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600;
+      color: var(--gold-700); background: var(--gold-100);
+      border: 1px solid rgba(196,154,60,0.3); border-radius: 20px;
+      padding: 5px 16px; letter-spacing: 0.06em; white-space: nowrap;
+      box-shadow: var(--shadow-gold);
+    }
+    .year-line { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(196,154,60,0.4), transparent); }
+
+    /* ─── DOCUMENTATION GRID & CARDS ─── */
+    .doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .doc-card {
+      background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; display: flex; flex-direction: column; 
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+      opacity: 0; transform: translateY(20px) scale(0.98);
+    }
+    .doc-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+    .doc-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; opacity: 0.7; transition: width 0.3s ease; }
+    .doc-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--shadow-hover); border-color: var(--border-mid); z-index: 2; }
+    .doc-card:hover::before { width: 8px; }
+
+    /* CARD COMPONENTS */
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .cat-badge { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 4px; }
+    .status-badge { font-size: 9px; font-weight: 500; padding: 2px 8px; border-radius: 12px; background: var(--green-50); color: var(--green-600); border: 1px solid rgba(46,112,56,0.15); }
+    
+    .card-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; color: var(--text-dark); line-height: 1.4; margin-bottom: 8px; transition: color 0.3s; }
+    .doc-card:hover .card-title { color: var(--green-800); }
+    
+    .meta-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+    .meta-item svg { color: var(--text-muted); opacity: 0.7; flex-shrink: 0; }
+
+    /* FINANCIAL PANEL */
+    .finance-panel {
+      background: #fcfbfa; border: 1px dashed var(--border-mid); border-radius: 8px; padding: 10px 12px; margin: 12px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; transition: background 0.3s;
+    }
+    .doc-card:hover .finance-panel { background: #fdfdfd; border-color: rgba(46,112,56,0.3); }
+    .fin-box { display: flex; flex-direction: column; }
+    .fin-box:first-child { border-right: 1px solid rgba(46,112,56,0.1); padding-right: 8px; }
+    .fin-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
+    .fin-amount { font-size: 12px; font-weight: 500; margin-top: 2px; }
+    .fin-amount.in { color: var(--green-700); }
+    .fin-amount.out { color: #a64b4b; }
+
+    .card-ket { font-size: 11.5px; color: var(--text-mid); line-height: 1.5; font-style: italic; margin-bottom: 16px; font-weight: 300; background: rgba(0,0,0,0.01); padding: 6px 0; }
+    .card-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.03); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+    
+    .pj-text { font-size: 11px; color: var(--text-muted); flex: 1 1 85px; overflow-wrap: anywhere; }
+    .pj-text strong { color: var(--text-dark); font-weight: 400; }
+
+    /* BERKAS LPJ */
+    .btn-lpj {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; font-size: 0.875rem; font-weight: 500; line-height: 1.3; color: var(--gold-700); background: var(--gold-100); border: 1px solid rgba(196,154,60,0.3); padding: 9px 12px; border-radius: 9px; text-decoration: none; transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .btn-lpj:hover { 
+      background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 4px 12px rgba(30,66,37,0.2); transform: translateX(2px); 
+    }
+
+    .card-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; margin-left: auto; max-width: 100%; }
+    .card-actions svg { flex-shrink: 0; }
+
+    /* TONTON VIDEO — ajakan yang terlihat jelas dan nyaman disentuh */
+    .btn-video {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      min-height: 44px; max-width: 100%; padding: 9px 13px;
+      font-size: 0.875rem; font-weight: 600; line-height: 1.3;
+      color: #fff; background: linear-gradient(135deg, #176d7a, #104f5b);
+      border: 1px solid #125765; border-radius: 9px;
+      box-shadow: 0 3px 9px rgba(16,79,91,0.2);
+      text-decoration: none; text-align: center;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .video-play {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px; flex: 0 0 24px; border-radius: 50%;
+      background: rgba(255,255,255,0.17); border: 1px solid rgba(255,255,255,0.25);
+    }
+    .video-play svg { margin-left: 1px; }
+    .doc-card.visible .btn-video { animation: videoInvite 2.2s ease-out 2; }
+    .doc-card .btn-video:hover, .doc-card .btn-video:focus-visible {
+      background: linear-gradient(135deg, #125e6b, #0b414b);
+      box-shadow: 0 5px 14px rgba(16,79,91,0.28); transform: translateY(-2px);
+      animation: none;
+    }
+    .card-actions a:focus-visible { outline: 3px solid var(--gold-700); outline-offset: 3px; }
+    .doc-card .btn-video:active { transform: translateY(0); }
+    @keyframes videoInvite {
+      0% { box-shadow: 0 3px 9px rgba(16,79,91,0.2), 0 0 0 0 rgba(23,109,122,0.25); }
+      75%, 100% { box-shadow: 0 3px 9px rgba(16,79,91,0.2), 0 0 0 6px rgba(23,109,122,0); }
+    }
+
+    /* CATEGORY LUXURY STYLES */
+    .cat-sosial::before { background: var(--green-500); }
+    .cat-sosial .cat-badge { background: var(--green-50); color: var(--green-700); border: 1px solid rgba(46,112,56,0.15); }
+    
+    .cat-pembangunan::before { background: #5b5bb5; }
+    .cat-pembangunan .cat-badge { background: #f0f0fc; color: #4b4ba5; border: 1px solid rgba(75,75,165,0.15); }
+    
+    .cat-keagamaan::before { background: #2c90a0; }
+    .cat-keagamaan .cat-badge { background: #e6f5f7; color: #1c7080; border: 1px solid rgba(28,112,128,0.15); }
+    
+    .cat-keamanan::before { background: #c25252; }
+    .cat-keamanan .cat-badge { background: #fdf0f0; color: #a23232; border: 1px solid rgba(162,50,50,0.15); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 28px 24px;
+      border-top: 1px solid var(--border-light);
+      font-size: 12px; color: var(--text-muted); font-weight: 300; letter-spacing: 0.03em;
+    }
+    footer strong { color: var(--green-700); font-weight: 500; }
+    .footer-ornament {
+      display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;
+    }
+    .footer-line { width: 40px; height: 1px; background: var(--border-mid); }
+    .footer-diamond { width: 5px; height: 5px; background: var(--gold-400); transform: rotate(45deg); border-radius: 1px; }
+
+    /* ─── SCROLL TO TOP ─── */
+    .scroll-top {
+      position: fixed; right: 24px; bottom: 28px; z-index: 200;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--green-800); color: #fff; border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: 0 4px 16px rgba(13,31,16,0.25);
+      opacity: 0; transform: translateY(12px) scale(0.9);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .scroll-top.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: all; }
+    .scroll-top:hover { background: var(--green-700); transform: scale(1.08); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+
+    /* PARTICLE SPARKLE */
+    .sparkle-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .sparkle {
+      position: absolute; width: 3px; height: 3px; border-radius: 50%;
+      background: var(--gold-400); opacity: 0;
+      animation: sparkleFly var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+    }
+    @keyframes sparkleFly {
+      0%   { opacity: 0; transform: translateY(0) scale(0); }
+      10%  { opacity: 0.6; transform: translateY(-20px) scale(1); }
+      80%  { opacity: 0.3; }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.4); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 820px) {
+      .doc-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-num { font-size: clamp(18px, 4.5vw, 28px); }
+    }
+    @media (max-width: 640px) {
+      header { padding: 0 1rem; }
+      .btn-back span, .btn-print span { display: none; }
+      .btn-print { padding: 6px 10px; }
+      .header-actions { gap: 6px; }
+      main { padding: 32px 14px 70px; }
+      .stats-row { grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 40px; }
+      .stat-chip { padding: 18px 10px 14px; }
+      .stat-num { font-size: clamp(16px, 5vw, 26px); line-height: 1.2; }
+      .stat-label { font-size: 9px; margin-top: 6px; }
+      .doc-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 26px; }
+      .filter-row { gap: 6px; }
+    }
+    @media (max-width: 480px) {
+      .card-footer { align-items: stretch; }
+      .pj-text { flex-basis: 100%; }
+      .card-actions { width: 100%; margin-left: 0; }
+      .card-actions .btn-video { flex: 1 1 140px; }
+      .card-actions .btn-lpj { flex: 1 1 110px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .doc-card.visible .btn-video, .card-actions .btn-lpj { animation: none; transition: none; transform: none; }
+    }
+
+    /* ─── PRINT ─── */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+      .deco-ring, .sparkle-container, header, footer, .scroll-top, .filter-row, .btn-print { display: none !important; }
+      body { background: #fff !important; }
+      body::before { display: none !important; }
+      main { max-width: 100%; padding: 0 8px; }
+      .hero { margin-bottom: 24px; }
+      .stats-row { grid-template-columns: repeat(4, 1fr); margin-bottom: 28px; break-inside: avoid; }
+      .stat-chip { box-shadow: none; border: 1px solid var(--border-mid); break-inside: avoid; }
+      .year-section { display: block !important; opacity: 1 !important; }
+      .year-banner { break-after: avoid; }
+      .doc-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px; }
+      .doc-card {
+        display: flex !important; opacity: 1 !important; transform: none !important;
+        box-shadow: none !important; border: 1px solid var(--border-mid) !important;
+        break-inside: avoid; page-break-inside: avoid;
+      }
+      .doc-card:hover { transform: none; }
+      .btn-lpj, .btn-video { animation: none !important; box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="deco-ring" style="width:700px;height:700px;top:-300px;right:-250px;"></div>
+  <div class="deco-ring" style="width:500px;height:500px;bottom:-150px;left:-200px;"></div>
+  <div class="sparkle-container" id="sparkleContainer"></div>
+
+  <header>
+    <a href="index.html" class="header-brand">
+      <div class="logo-mark">
+        <img src="Logo RT11.png" alt="Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-mark-fallback" style="display:none">PA</div>
+      </div>
+      <div>
+        <div class="header-title">Puri Asri 3</div>
+        <div class="header-sub">RT 01 &nbsp;·&nbsp; RW 12 &nbsp;·&nbsp; Dokumentasi</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <button type="button" class="btn-print" onclick="window.print()" title="Cetak seluruh dokumentasi">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <span>Cetak</span>
+      </button>
+      <a href="index.html" class="btn-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        <span>Kembali</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="mainContainer">
+    <div class="loading-wrap">
+      <div class="spinner"></div>
+      <div class="loading-text">Menyelaraskan data arsip dokumentasi...</div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-ornament">
+      <div class="footer-line"></div>
+      <div class="footer-diamond"></div>
+      <div class="footer-line"></div>
+    </div>
+    <strong>Puri Asri 3</strong> &nbsp;·&nbsp; RT 01 / RW 12<br>
+    <span style="margin-top:4px;display:block;">Sistem Transparansi Kegiatan & Pengelolaan Kas Anggaran Warga</span>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Kembali ke atas">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+
+<script>
+// URL Google Sheet CSV
+const DOK_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1804471725&single=true&output=csv';
+
+function splitCsvLine(line) {
+  const result = []; let current = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (inQuotes && line[i+1] === '"') { current += '"'; i++; } 
+      else { inQuotes = !inQuotes; }
+    } 
+    else if (char === ',' && !inQuotes) { result.push(current.trim()); current = ''; } 
+    else { current += char; }
+  }
+  result.push(current.trim());
+  return result;
+}
+
+function parseCsvData(text) {
+  const lines = text.split(/\r?\n/).filter(line => line.trim());
+  if (lines.length < 2) return [];
+  const headers = splitCsvLine(lines[0]).map(h => h.replace(/"/g,'').trim());
+  const list = [];
+  for (let i = 1; i < lines.length; i++) {
+    const cols = splitCsvLine(lines[i]);
+    if (!cols[0]) continue;
+    const item = {};
+    headers.forEach((h, idx) => { item[h] = (cols[idx] || '').replace(/"/g,'').trim(); });
+    list.push(item);
+  }
+  return list;
+}
+
+function parseAndFormatIndoDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    const y = parts[0];
+    const m = parseInt(parts[1], 10);
+    const d = parseInt(parts[2], 10);
+    const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    return `${d} ${months[m-1]} ${y}`;
+  }
+  return dateStr;
+}
+
+function cleanCurrencyToNumber(val) {
+  if (!val) return 0;
+  return Number(val.replace(/[^0-9]/g, '')) || 0;
+}
+
+function formatRupiahDisplay(num) {
+  if (!num) return 'Rp 0';
+  if (num >= 1000000000) return 'Rp ' + (num / 1000000000).toFixed(2).replace('.', ',') + ' M';
+  if (num >= 1000000) return 'Rp ' + (num / 1000000).toFixed(3).replace('.', ',').replace(/\.?0+$/, '') + ' Jt';
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+function formatRupiahFull(num) {
+  if (!num) return 'Rp 0';
+  return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+let loadedData = [];
+
+function buildDocumentationUI(data) {
+  loadedData = data;
+  
+  const rawCategories = [...new Set(data.map(d => d['kategori']).filter(Boolean))];
+  const categoriesList = ['Semua', ...rawCategories];
+
+  const totalActivities = data.length;
+  let totalFundsManaged = 0;
+  let totalParticipantsCount = 0;
+  
+  data.forEach(row => {
+    totalFundsManaged += cleanCurrencyToNumber(row['dana terkumpul']);
+    totalParticipantsCount += (parseInt(row['peserta'], 10) || 0);
+  });
+
+  const groupYearMap = new Map();
+  data.forEach(row => {
+    const year = (row['tanggal'] || 'Lainnya').split('-')[0] || 'Lainnya';
+    if (!groupYearMap.has(year)) groupYearMap.set(year, []);
+    groupYearMap.get(year).push(row);
+  });
+  const sortedYears = [...groupYearMap.keys()].sort((a,b) => b - a);
+
+  let innerHTML = `
+    <div class="hero fade-up" style="animation-delay:.05s">
+      <div class="hero-eyebrow">Arsip Transparansi Publik</div>
+      <h1 class="hero-title">Dokumentasi &<br><em>LPJ Kegiatan</em></h1>
+      <div class="hero-ornament">
+        <div class="hero-ornament-line"></div>
+        <div class="hero-ornament-diamond"></div>
+        <div class="hero-ornament-line"></div>
+      </div>
+      <p class="hero-desc">Laporan komparasi dana, jumlah partisipan, berkas pertanggungjawaban, serta rekaman hasil berjalannya program kerja warga Puri Asri 3.</p>
+    </div>
+
+    <div class="stats-row fade-up" style="animation-delay:.12s">
+      <div class="stat-chip"><div class="stat-num" data-target="${totalActivities}">0</div><div class="stat-label">Total Kegiatan</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${totalFundsManaged}" is-money="true">0</div><div class="stat-label">Dana Terkelola</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${totalParticipantsCount}">0</div><div class="stat-label">Partisipasi Warga</div></div>
+      <div class="stat-chip"><div class="stat-num" data-target="${rawCategories.length}">0</div><div class="stat-label">Sektor Kategori</div></div>
+    </div>
+
+    <div class="filter-row fade-up" style="animation-delay:.15s">
+  `;
+  
+  categoriesList.forEach(cat => {
+    innerHTML += `<button class="filter-chip ${cat==='Semua'?'active':''}" data-category="${cat}">${cat}</button>`;
+  });
+  innerHTML += `</div><div id="cardsMasterContainer">`;
+
+  sortedYears.forEach(year => {
+    innerHTML += `
+      <div class="year-section fade-up" style="animation-delay:.18s" data-year="${year}">
+        <div class="year-banner">
+          <div class="year-badge">✦ ${year}</div>
+          <div class="year-line"></div>
+        </div>
+        <div class="doc-grid">
+    `;
+
+    const rowItems = groupYearMap.get(year);
+    rowItems.sort((a,b) => new Date(b['tanggal']) - new Date(a['tanggal']));
+
+    rowItems.forEach(item => {
+      const catClass = 'cat-' + (item['kategori'] || 'sosial').toLowerCase().replace(/\s+/g, '-');
+      const formattedIn = formatRupiahFull(cleanCurrencyToNumber(item['dana terkumpul']));
+      const formattedOut = formatRupiahFull(cleanCurrencyToNumber(item['dana keluar']));
+      
+      innerHTML += `
+        <div class="doc-card ${catClass}" data-cat-filter="${item['kategori'] || ''}">
+          <div class="card-top">
+            <span class="cat-badge">${item['kategori'] || 'Umum'}</span>
+            <span class="status-badge">${item['status'] || 'Selesai'}</span>
+          </div>
+          <h3 class="card-title">${item['nama_kegiatan'] || 'Nama Kegiatan'}</h3>
+          
+          <div class="meta-item" style="margin-top: 8px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>${parseAndFormatIndoDate(item['tanggal'])}</span>
+          </div>
+          <div class="meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <span>${item['lokasi'] || 'Fasum Puri Asri 3'}</span>
+          </div>
+          <div class="meta-item">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            <span>Partisipasi: <strong>${item['peserta'] || '0'} Warga</strong></span>
+          </div>
+
+          <div class="finance-panel">
+            <div class="fin-box">
+              <span class="fin-label">Dana Masuk</span>
+              <span class="fin-amount in">${formattedIn}</span>
+            </div>
+            <div class="fin-box" style="padding-left: 4px;">
+              <span class="fin-label">Dana Keluar</span>
+              <span class="fin-amount out">${formattedOut}</span>
+            </div>
+          </div>
+
+          ${item['Ket'] ? `<div class="card-ket">Nota: "${item['Ket']}"</div>` : '<div style="margin-bottom:12px;"></div>'}
+
+          <div class="card-footer">
+            <div class="pj-text">PJ: <strong>${item['pj'] || '-'}</strong></div>
+            <div class="card-actions">
+              ${item['Link VIDEO'] ? `
+                <a href="${item['Link VIDEO']}" target="_blank" rel="noopener" class="btn-video" title="Tonton video dokumentasi kegiatan — dibuka di tab baru" aria-label="Tonton Video dokumentasi kegiatan (dibuka di tab baru)">
+                  <span class="video-play" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+                  </span>
+                  <span>Tonton Video</span>
+                </a>
+              ` : ''}
+              ${item['Link LPJ'] ? `
+                <a href="${item['Link LPJ']}" target="_blank" rel="noopener" class="btn-lpj">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  Berkas LPJ
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    innerHTML += `</div></div>`;
+  });
+
+  innerHTML += `</div>`;
+  document.getElementById('mainContainer').innerHTML = innerHTML;
+
+  // Staggered Stats Animation
+  setTimeout(() => {
+    document.querySelectorAll('.stat-num[data-target]').forEach((el, index) => {
+      const target = Number(el.dataset.target);
+      const isMoney = el.getAttribute('is-money') === 'true';
+      setTimeout(() => animateStatsCounter(el, target, 1200, isMoney), index * 150);
+    });
+  }, 100);
+
+  // Intersection Observer utk memunculkan kartu saat di scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 50);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+  document.querySelectorAll('.doc-card').forEach(card => observer.observe(card));
+
+  // Logic Filter
+  document.querySelectorAll('.filter-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      executeFilterAction(btn.dataset.category);
+    });
+  });
+}
+
+function executeFilterAction(selectedCat) {
+  const cards = document.querySelectorAll('.doc-card');
+  
+  // 1. Animasi keluar perlahan
+  cards.forEach(card => {
+    card.classList.remove('visible');
+  });
+
+  // 2. Tunggu transisi selesai, ubah display, lalu animasi masuk
+  setTimeout(() => {
+    cards.forEach(card => {
+      const isMatch = selectedCat === 'Semua' || card.dataset.catFilter === selectedCat;
+      if (isMatch) {
+        card.style.display = '';
+        setTimeout(() => card.classList.add('visible'), 50); // Memicu ulang reflow masuk
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    document.querySelectorAll('.year-section').forEach(group => {
+      const hasVisibleCard = [...group.querySelectorAll('.doc-card')].some(c => c.style.display !== 'none');
+      group.style.opacity = '0';
+      
+      setTimeout(() => {
+        group.style.display = hasVisibleCard ? '' : 'none';
+        if(hasVisibleCard) group.style.opacity = '1';
+      }, 50);
+    });
+  }, 350); 
+}
+
+function countUp(el, target, duration) {
+  const start = performance.now();
+  function step(now) {
+    const elapsed = Math.min(now - start, duration);
+    const ease = 1 - Math.pow(1 - elapsed / duration, 3);
+    el.textContent = Math.floor(target * ease);
+    if (elapsed < duration) { requestAnimationFrame(step); }
+    else { el.textContent = target; el.classList.add('popped'); setTimeout(() => el.classList.remove('popped'), 450); }
+  }
+  requestAnimationFrame(step);
+}
+
+function animateStatsCounter(el, target, duration, isMoney) {
+  const startTimestamp = performance.now();
+  function step(now) {
+    const elapsed = Math.min(now - startTimestamp, duration);
+    const progress = 1 - Math.pow(1 - elapsed / duration, 4); // Quartic ease-out 
+    const currentVal = Math.floor(target * progress);
+    
+    if (isMoney) {
+      if (currentVal >= 1000000) {
+        const jt = (currentVal / 1000000).toFixed(1).replace('.', ',');
+        el.textContent = 'Rp ' + jt + ' Jt';
+      } else {
+        el.textContent = 'Rp ' + currentVal.toLocaleString('id-ID');
+      }
+    } else {
+      el.textContent = currentVal.toLocaleString('id-ID');
+    }
+
+    if (elapsed < duration) { requestAnimationFrame(step); } 
+    else {
+      el.textContent = isMoney ? formatRupiahDisplay(target) : target.toLocaleString('id-ID');
+      el.classList.add('popped'); 
+      setTimeout(() => el.classList.remove('popped'), 450);
+    }
+  }
+  requestAnimationFrame(step);
+}
+
+function renderErrorScreen() {
+  document.getElementById('mainContainer').innerHTML = `
+    <div class="error-wrap">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#b04b4b" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <div style="font-size:14px; color:var(--text-mid);">Koneksi terputus. Gagal mengambil arsip data dari server.</div>
+      <button class="btn-retry" style="margin-top:8px;" onclick="fetchCsvData()">Muat Ulang</button>
+    </div>`;
+}
+
+async function fetchCsvData() {
+  try {
+    const cacheBuster = Date.now();
+    const response = await fetch(`${DOK_CSV_URL}&t=${cacheBuster}`);
+    if (!response.ok) throw new Error('Network error');
+    const rawText = await response.text();
+    const parsedRows = parseCsvData(rawText);
+    buildDocumentationUI(parsedRows);
+  } catch (error) {
+    console.error(error);
+    renderErrorScreen();
+  }
+}
+
+fetchCsvData();
+
+// Particle Sparkle Script
+(function(){
+  const container = document.getElementById('sparkleContainer');
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+  for (let i = 0; i < 18; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.style.left   = (Math.random() * W) + 'px';
+    sp.style.top    = (Math.random() * H * 0.8 + H * 0.2) + 'px';
+    sp.style.setProperty('--dur',   (5 + Math.random() * 7) + 's');
+    sp.style.setProperty('--delay', (Math.random() * 8) + 's');
+    sp.style.width  = sp.style.height = (1.5 + Math.random() * 2.5) + 'px';
+    sp.style.opacity = (0.2 + Math.random() * 0.5).toFixed(2);
+    container.appendChild(sp);
+  }
+})();
+
+// Scroll Header 
+(function(){
+  const hdr = document.querySelector('header');
+  window.addEventListener('scroll', () => { hdr.classList.toggle('scrolled', window.scrollY > 10); }, { passive: true });
+})();
+
+// Scroll To Top Button
+(function(){
+  const btn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => { btn.classList.toggle('visible', window.scrollY > 320); }, { passive: true });
+})();
+</script>
+</body>
+</html>
