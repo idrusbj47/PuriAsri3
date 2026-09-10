@@ -283,15 +283,45 @@
     }
 
     .card-actions { display: flex; align-items: center; gap: 6px; }
-    /* VIDEO ACTION BUTTON - selaras tema teal/keagamaan agar berbeda dari LPJ (emas) */
+    /* VIDEO ACTION BUTTON - dibuat lebih hidup & mengundang klik, tetap selaras tema teal */
     .btn-video-icon {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px; flex-shrink: 0;
-      color: #1c7080; background: #e6f5f7;
-      border: 1px solid rgba(28,112,128,0.3); border-radius: 6px;
-      text-decoration: none; transition: all 0.3s;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.01em;
+      color: #0f5c6b; background: linear-gradient(135deg, #eafafb, #dcf2f4);
+      border: 1px solid rgba(28,112,128,0.35); border-radius: 6px;
+      padding: 5px 10px 5px 8px; flex-shrink: 0;
+      text-decoration: none; transition: all 0.3s; position: relative; overflow: hidden;
+      box-shadow: 0 1px 4px rgba(28,112,128,0.08);
     }
-    .btn-video-icon:hover { background: #2c90a0; color: #fff; border-color: #2c90a0; box-shadow: 0 4px 12px rgba(28,112,128,0.25); transform: translateY(-1px); }
+    .btn-video-icon .video-rec-dot {
+      width: 6px; height: 6px; border-radius: 50%; background: #d64545; flex-shrink: 0;
+      box-shadow: 0 0 0 0 rgba(214,69,69,0.55);
+      animation: recDotPulse 1.8s infinite;
+    }
+    .btn-video-icon svg { flex-shrink: 0; }
+    .btn-video-icon::after {
+      /* kilau halus yang lewat secara berkala, menarik perhatian tanpa berlebihan */
+      content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+      background: linear-gradient(115deg, transparent, rgba(255,255,255,0.75), transparent);
+      animation: videoSheen 3.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .btn-video-icon:hover {
+      background: linear-gradient(135deg, #2c90a0, #1c7080); color: #fff;
+      border-color: #1c7080; box-shadow: 0 5px 16px rgba(28,112,128,0.3); transform: translateY(-1px);
+    }
+    .btn-video-icon:hover .video-rec-dot { background: #fff; animation: none; box-shadow: none; }
+
+    @keyframes recDotPulse {
+      0%   { box-shadow: 0 0 0 0 rgba(214,69,69,0.55); }
+      70%  { box-shadow: 0 0 0 5px rgba(214,69,69,0); }
+      100% { box-shadow: 0 0 0 0 rgba(214,69,69,0); }
+    }
+    @keyframes videoSheen {
+      0%   { left: -60%; }
+      35%  { left: 130%; }
+      100% { left: 130%; }
+    }
 
     /* KEYFRAMES FOR PULSE ANIMATION */
     @keyframes pulseLPJ {
@@ -631,8 +661,10 @@ function buildDocumentationUI(data) {
             <div class="pj-text">PJ: <strong>${item['pj'] || '-'}</strong></div>
             <div class="card-actions">
               ${item['Link VIDEO'] ? `
-                <a href="${item['Link VIDEO']}" target="_blank" rel="noopener" class="btn-video-icon" title="Lihat Video Dokumentasi">
+                <a href="${item['Link VIDEO']}" target="_blank" rel="noopener" class="btn-video-icon" title="Tonton rekap video kegiatan ini">
+                  <span class="video-rec-dot"></span>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                  Tonton
                 </a>
               ` : ''}
               ${item['Link LPJ'] ? `
