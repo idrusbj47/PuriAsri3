@@ -399,7 +399,7 @@ main {
   </a>
   <div class="header-title-wrap">
     <div class="header-title">Peringatan Maulid Nabi SAW</div>
-    <div class="header-sub">Panitia PHBI &middot; Progres Infaq</div>
+    <div class="header-sub">Panitia PHBI &middot; Progres Partisipasi</div>
   </div>
 </header>
 
@@ -421,7 +421,7 @@ main {
 
   <!-- ── PROGRES DANA ── -->
   <div class="section-label">
-    <span>Progres Infaq Terkumpul</span>
+    <span>Progres Partisipasi Terkumpul</span>
     <button type="button" class="refresh-btn" id="refreshBtn" aria-label="Muat ulang data" title="Muat ulang data">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
@@ -432,7 +432,7 @@ main {
   <div class="progress-card">
     <div class="progress-top">
       <div class="progress-amount">
-        <small>Total Infaq Terkumpul</small>
+        <small>Total Partisipasi Terkumpul</small>
         <span id="jmlTerkumpul">memuat...</span>
       </div>
       <div class="progress-target">Target RAB<br><strong id="jmlRab">–</strong></div>
@@ -478,15 +478,15 @@ main {
   </a>
 
   <!-- ── DAFTAR INFAQ TUNAI ── -->
-  <div class="section-label"><span>Daftar Infaq Tunai</span></div>
+  <div class="section-label"><span>Daftar Partisipasi Tunai</span></div>
   <div class="donor-list" id="tunaiList">
-    <div class="donor-empty-note" id="tunaiLoading">Memuat daftar infaq tunai...</div>
+    <div class="donor-empty-note" id="tunaiLoading">Memuat daftar partisipasi tunai...</div>
   </div>
 
   <!-- ── DAFTAR INFAQ MAKANAN/MINUMAN ── -->
-  <div class="section-label"><span>Daftar Infaq Makanan &amp; Minuman</span></div>
+  <div class="section-label"><span>Daftar Partisipasi Makanan &amp; Minuman</span></div>
   <div class="donor-list" id="barangList">
-    <div class="donor-empty-note" id="barangLoading">Memuat daftar infaq makanan/minuman...</div>
+    <div class="donor-empty-note" id="barangLoading">Memuat daftar partisipasi makanan/minuman...</div>
   </div>
 
   <!-- ── CARA BERPARTISIPASI ── -->
@@ -513,13 +513,13 @@ main {
 <script>
 (function () {
   var MAULID_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSa5kK_4YmOXNUAoYVbn7FwzahV08LLZvS0a-TB5nC_YNOECnQcBr9pymsKyV6O6iwe7kNo72fASf1m/pub?gid=0&single=true&output=csv';
-  var WA_MESSAGE = "Assalamu'alaikum, saya ingin konfirmasi infaq untuk acara Maulid Nabi Muhammad SAW. Terima kasih.";
+  var WA_MESSAGE = "Assalamu'alaikum, saya ingin konfirmasi partisipasi untuk acara Maulid Nabi Muhammad SAW. Terima kasih.";
 
   // Cadangan offline dari file CSV panitia, dipakai HANYA jika link Google Sheets
   // di atas gagal dibuka (mis. tidak ada internet / CORS / link berubah).
   var FALLBACK_CSV_TEXT = "\"\u2728Assalamu'alaikum Wr. Wb.Puji syukur kehadirat Allah SWT, shalawat dan salam semoga tercurah kepada Baginda Nabi Muhammad SAW.\"\n" +
     "Kami dari Panitia Peringatan Hari Besar Islam (PHBI) menginfokan list donatur dan perkembangan dana sumbangan Maulid Nabi Muhammad SAW sampai hari ini:\n" +
-    "Daftar Infaq Tunai : Nama - Rp Nominal\n" +
+    "Daftar Partisipasi Tunai : Nama - Rp Nominal\n" +
     "1. Hamba allah - Rp.100.000\n" +
     "2. Hamba allah - Rp. 100.000\n" +
     "3. Hamba Allah - Rp.100.000\n" +
@@ -571,8 +571,8 @@ main {
 
   var CASH_ITEM_RE = /^(\d+)\.\s*(.+?)\s*[-:]\s*Rp\.?\s*([\d.,]+)\s*$/i;
   var NUM_ITEM_RE = /^(\d+)\.\s*(.+)$/;
-  var HEADER_TUNAI_RE = /daftar\s+infaq?\s+tunai/i;
-  var HEADER_BARANG_RE = /daftar\s+infa?k\s+makanan/i;
+  var HEADER_TUNAI_RE = /daftar\s+(?:infaq?|partisipasi)\s+tunai/i;
+  var HEADER_BARANG_RE = /daftar\s+(?:infa?k|partisipasi)\s+makanan/i;
   var TOTAL_LINE_RE = /total\s+dana\s+terkumpul/i;
   var WASSALAM_RE = /wassalamu/i;
 
@@ -656,7 +656,7 @@ main {
   function renderTunaiList(tunai) {
     var wrap = document.getElementById('tunaiList');
     if (!tunai.length) {
-      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data infaq tunai.</div>';
+      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data partisipasi tunai.</div>';
       return;
     }
     var total = 0;
@@ -668,14 +668,14 @@ main {
         '<div class="donor-amount">' + formatRupiah(d.amount) + '</div>' +
         '</div>';
     }).join('');
-    wrap.innerHTML = html + '<div class="list-total-row"><span>Total Infaq Tunai</span><span>' + formatRupiah(total) + '</span></div>';
+    wrap.innerHTML = html + '<div class="list-total-row"><span>Total Partisipasi Tunai</span><span>' + formatRupiah(total) + '</span></div>';
     return total;
   }
 
   function renderBarangList(barang) {
     var wrap = document.getElementById('barangList');
     if (!barang.length) {
-      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data infaq makanan/minuman.</div>';
+      wrap.innerHTML = '<div class="donor-empty-note">Belum ada data partisipasi makanan/minuman.</div>';
       return;
     }
     var html = barang.map(function (b) {
