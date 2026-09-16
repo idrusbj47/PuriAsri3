@@ -1866,7 +1866,7 @@
         </button>
       </div>
       <div class="maulid-banner-title">Progres Iuran Maulid Nabi</div>
-      <div class="maulid-banner-desc" id="maulidBannerDesc">Memuat progres infaq terkini dari panitia...</div>
+      <div class="maulid-banner-desc" id="maulidBannerDesc">Memuat progres partisipasi terkini dari panitia...</div>
       <div class="maulid-progress-track">
         <div class="maulid-progress-fill" id="maulidBannerFill"></div>
       </div>
@@ -1875,7 +1875,7 @@
         <span id="maulidBannerPercent">–</span>
       </div>
       <div class="maulid-banner-cta">
-        <span>Lihat progres &amp; daftar infaq lengkap</span>
+        <span>Lihat progres &amp; daftar partisipasi lengkap</span>
         <span class="maulid-banner-arrow">→</span>
       </div>
     </a>
@@ -2794,8 +2794,8 @@
   }
 
   var CASH_ITEM_RE = /^(\d+)\.\s*(.+?)\s*[-:]\s*Rp\.?\s*([\d.,]+)\s*$/i;
-  var HEADER_TUNAI_RE = /daftar\s+infaq?\s+tunai/i;
-  var HEADER_BARANG_RE = /daftar\s+infa?k\s+makanan/i;
+  var HEADER_TUNAI_RE = /daftar\s+(?:infaq?|partisipasi)\s+tunai/i;
+  var HEADER_BARANG_RE = /daftar\s+(?:infa?k|partisipasi)\s+makanan/i;
   var TOTAL_LINE_RE = /total\s+dana\s+terkumpul/i;
 
   function parseMaulidSummary(csvText) {
@@ -2871,7 +2871,7 @@
     amountEl.textContent = formatRupiah(data.totalTunai);
     targetEl.textContent = rab > 0 ? formatRupiah(rab) : 'Belum ditentukan';
     percentEl.textContent = rab > 0 ? (persen.toFixed(1).replace('.', ',') + '%') : '–';
-    descEl.textContent = 'Infaq tunai & barang untuk acara Maulid Nabi terus bertambah. Yuk ikut berpartisipasi!';
+    descEl.textContent = 'Partisipasi tunai & barang untuk acara Maulid Nabi terus bertambah. Yuk ikut berpartisipasi!';
 
     requestAnimationFrame(function () {
       setTimeout(function () { fillEl.style.width = Math.max(persen, rab > 0 ? 2 : 0) + '%'; }, 150);
