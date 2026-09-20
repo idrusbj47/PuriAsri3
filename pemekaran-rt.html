@@ -175,6 +175,17 @@ main { position: relative; z-index: 1; flex: 1; max-width: 900px; margin: 0 auto
 }
 @media (prefers-reduced-motion: reduce) { .btn-doc.btn-perbup::after { animation: none; } }
 
+/* tombol Site Plan: senada, aksen hijau */
+.btn-doc.btn-siteplan {
+  color: var(--green-950); font-weight: 600;
+  border-color: var(--green-400);
+  background: linear-gradient(135deg, var(--green-100), var(--cream-card));
+  box-shadow: 0 1px 8px rgba(46,112,56,0.16);
+}
+.btn-doc.btn-siteplan svg { color: var(--green-600); }
+.btn-doc.btn-siteplan:hover { background: var(--green-100); border-color: var(--green-500); }
+.btn-doc.btn-siteplan:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
+
 /* ─── STAT CARDS ─── */
 .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 48px; }
 .stat-chip {
@@ -1224,9 +1235,13 @@ function renderRiwayat() {
     <div class="tl-text">${esc(h.progres)}${i === 0 ? '<span class="tl-new">Terbaru</span>' : ''}</div></div>`).join('');
 }
 function renderActions() {
-  $('heroActions').innerHTML = PERBUP ? `<a class="btn-doc btn-perbup" href="${esc(PERBUP)}" target="_blank" rel="noopener">
+  const perbupBtn = PERBUP ? `<a class="btn-doc btn-perbup" href="${esc(PERBUP)}" target="_blank" rel="noopener">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     Buka Dokumen Perbup</a>` : '';
+  const sitePlanBtn = `<a class="btn-doc btn-siteplan" href="peta-lokasi.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z"/><path d="M8 2v16"/><path d="M16 6v16"/></svg>
+    Site Plan</a>`;
+  $('heroActions').innerHTML = perbupBtn + sitePlanBtn;
 }
 
 /* ── Tabel data blok ── */
