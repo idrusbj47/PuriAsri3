@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kalkulator Pemekaran RT · Puri Asri 3</title>
+<title>Informasi Pemekaran RT · Puri Asri 3</title>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0ZQVRYH8VK"></script>
@@ -148,6 +148,32 @@ main { position: relative; z-index: 1; flex: 1; max-width: 900px; margin: 0 auto
   background: var(--cream-card); transition: all 0.2s ease;
 }
 .btn-doc:hover { border-color: var(--green-400); background: var(--green-50); }
+
+
+/* tombol dokumen Perbup: denyut cincin emas yang lembut & berjeda */
+.btn-doc.btn-perbup {
+  position: relative; isolation: isolate;
+  color: var(--green-900); font-weight: 600;
+  border-color: var(--gold-400);
+  background: linear-gradient(135deg, var(--gold-100), var(--cream-card));
+  box-shadow: 0 1px 8px rgba(196,154,60,0.18);
+}
+.btn-doc.btn-perbup svg { color: var(--gold-600); }
+.btn-doc.btn-perbup:hover { background: var(--gold-100); border-color: var(--gold-500); }
+.btn-doc.btn-perbup::after {
+  content: ''; position: absolute; inset: -1px; z-index: -1;
+  border-radius: inherit; border: 1.5px solid var(--gold-400);
+  opacity: 0; pointer-events: none;
+  animation: perbup-pulse 3.2s cubic-bezier(.22,.6,.36,1) 1.2s infinite;
+}
+.btn-doc.btn-perbup:hover::after, .btn-doc.btn-perbup:focus-visible::after { animation: none; }
+.btn-doc.btn-perbup:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
+@keyframes perbup-pulse {
+  0%   { opacity: 0.6; transform: scale(1, 1); }
+  38%  { opacity: 0;   transform: scale(1.12, 1.55); }
+  100% { opacity: 0;   transform: scale(1.12, 1.55); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-doc.btn-perbup::after { animation: none; } }
 
 /* ─── STAT CARDS ─── */
 .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 48px; }
@@ -403,6 +429,43 @@ table.rt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .est-note { font-size: 11.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; font-style: italic; }
 .rt-table td.nomor { color: var(--text-muted); font-size: 11.5px; }
 
+
+/* ─── TABEL MUAT 1 LAYAR (tanpa geser horizontal) ─── */
+.l-s { display: none; }
+.nomor-sub { display: block; font-size: 10.5px; color: var(--text-muted); font-weight: 400; margin-top: 1px; line-height: 1.35; }
+.rc { display: flex; flex-direction: row-reverse; align-items: center; justify-content: flex-end; gap: 8px; }
+.rc .ratio { margin-right: 0; }
+@media (max-width: 600px) {
+  .rt-table { table-layout: auto; width: 100%; font-size: 12px; }
+  .rt-table th { padding: 9px 5px; font-size: 9px; letter-spacing: 0.03em; white-space: normal; line-height: 1.25; vertical-align: bottom; }
+  .rt-table td { padding: 8px 5px; }
+  .rt-table th:first-child, .rt-table td:first-child { padding-left: 10px; }
+  .rt-table th:last-child, .rt-table td:last-child { padding-right: 10px; }
+  .l-f { display: none; }
+  .l-s { display: inline; }
+  .data-table td:first-child { white-space: nowrap; }
+  .rc { flex-direction: column; align-items: flex-end; gap: 3px; }
+  .rc .ratio { width: 100%; max-width: 44px; height: 5px; }
+  .fit-table td:first-child { font-size: 12px; }
+  .nomor-sub { font-size: 10px; }
+  .data-scroll { max-height: 62vh; }
+}
+@media (max-width: 360px) {
+  .rt-table { font-size: 11.5px; }
+  .rt-table th { font-size: 8.5px; padding-left: 3px; padding-right: 3px; }
+  .rt-table td { padding-left: 3px; padding-right: 3px; }
+  .rt-table th:first-child, .rt-table td:first-child { padding-left: 8px; }
+  .rt-table th:last-child, .rt-table td:last-child { padding-right: 8px; }
+  .rc .ratio { max-width: 34px; }
+}
+
+
+@media (max-width: 600px) {
+  .tabs { overflow-x: visible; gap: 4px; }
+  .tab-btn { flex: 1 1 0; min-width: 0; padding: 10px 4px; font-size: 11.5px; text-align: center; white-space: normal; line-height: 1.25; }
+}
+@media (max-width: 360px) { .tab-btn { font-size: 10.5px; padding: 9px 2px; } }
+
 /* ─── TIMELINE ─── */
 .timeline { position: relative; padding-left: 26px; }
 .timeline::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: linear-gradient(180deg, var(--gold-400), var(--border-mid)); }
@@ -549,15 +612,15 @@ footer strong { color: var(--green-700); font-weight: 500; }
     <!-- Hero -->
     <div class="hero fade-up">
       <div class="hero-eyebrow">Perencanaan Pemekaran RT</div>
-      <h1 class="hero-title">Kalkulator <em>Pemekaran</em> RT</h1>
+      <h1 class="hero-title">Informasi <em>Pemekaran</em> RT</h1>
       <div class="hero-ornament">
         <div class="hero-ornament-line"></div>
         <div class="hero-ornament-diamond"></div>
         <div class="hero-ornament-line"></div>
       </div>
-      <p class="hero-desc">Pilih blok atau tentukan rentang blok untuk melihat jumlah rumah dan perkiraan warga yang sudah menempati, lalu cek apakah sudah memenuhi syarat pemekaran <strong>minimal <span id="heroMin">50</span> KK per RT</strong> menurut Perbup Kabupaten Bogor No. 31 Tahun 2012.</p>
+      <p class="hero-desc">Data jumlah rumah dan perkiraan warga yang sudah menempati di setiap blok, lengkap dengan kalkulator untuk mengecek syarat pemekaran <strong>minimal <span id="heroMin">50</span> KK per RT</strong> menurut Perbup Kabupaten Bogor No. 31 Tahun 2012.</p>
       <div class="hero-actions" id="heroActions"></div>
-      <p class="hint-print">💡 Untuk mencetak sebagian saja: tutup bagian yang tidak diperlukan dengan tombol panah di judul bagian. Bagian yang ditutup tidak ikut tercetak.</p>
+      <p class="hint-print">💡 Buka bagian lain (kalkulator, gambaran kawasan, riwayat) dengan tombol panah di judul bagian. Untuk mencetak, hanya bagian yang terbuka yang ikut tercetak.</p>
     </div>
 
     <!-- Stats -->
@@ -590,10 +653,10 @@ footer strong { color: var(--green-700); font-weight: 500; }
     </section>
 
     <!-- Kalkulator -->
-    <section class="section cs fade-up" id="sec-calc">
+    <section class="section cs collapsed fade-up" id="sec-calc">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-calc"><span>Kalkulator RT</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="cs-toggle" type="button" aria-expanded="false" aria-controls="body-calc"><span>Kalkulator RT</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
       <div class="cs-body" id="body-calc">
@@ -610,9 +673,9 @@ footer strong { color: var(--green-700); font-weight: 500; }
         </div>
 
         <div class="tabs" role="tablist">
-          <button class="tab-btn active" role="tab" data-tab="rentang">1 · Dari Blok sampai Blok</button>
-          <button class="tab-btn" role="tab" data-tab="pilih">2 · Pilih Blok</button>
-          <button class="tab-btn" role="tab" data-tab="simulasi">3 · Simulasi Pembagian</button>
+          <button class="tab-btn active" role="tab" data-tab="rentang">1 · <span class="l-f">Dari Blok sampai Blok</span><span class="l-s">Dari–Sampai</span></button>
+          <button class="tab-btn" role="tab" data-tab="pilih">2 · <span class="l-f">Pilih Blok</span><span class="l-s">Pilih Blok</span></button>
+          <button class="tab-btn" role="tab" data-tab="simulasi">3 · <span class="l-f">Simulasi Pembagian</span><span class="l-s">Simulasi</span></button>
         </div>
 
         <!-- Tab 1 -->
@@ -665,10 +728,10 @@ footer strong { color: var(--green-700); font-weight: 500; }
     </section>
 
     <!-- Kemampuan kawasan -->
-    <section class="section cs fade-up" id="sec-kawasan">
+    <section class="section cs collapsed fade-up" id="sec-kawasan">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-kawasan"><span>Gambaran Seluruh Kawasan</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="cs-toggle" type="button" aria-expanded="false" aria-controls="body-kawasan"><span>Gambaran Seluruh Kawasan</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
       <div class="cs-body" id="body-kawasan">
@@ -700,10 +763,10 @@ footer strong { color: var(--green-700); font-weight: 500; }
     </section>
 
     <!-- Riwayat -->
-    <section class="section cs fade-up" id="riwayatSection">
+    <section class="section cs collapsed fade-up" id="riwayatSection">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-riwayat"><span>Riwayat Status Pemekaran</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="cs-toggle" type="button" aria-expanded="false" aria-controls="body-riwayat"><span>Riwayat Status Pemekaran</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
       <div class="cs-body" id="body-riwayat">
@@ -921,10 +984,10 @@ function currentItems() {
 function itemsTable(items, t) {
   const c = v => v === 0 ? ' class="zero"' : '';
   const cell = (x, k) => x.full ? fmt(x[k]) : '≈ ' + x[k].toLocaleString('id-ID', { maximumFractionDigits: 1 });
-  return `<div class="tbl-title">Rincian blok</div><div class="tbl-wrap"><table class="rt-table">
-    <thead><tr><th>Blok</th><th>No. Rumah</th><th>Rumah</th><th>Proses Bangun</th><th>KK Aktif</th></tr></thead>
-    <tbody>${items.map(x => `<tr><td>${esc(x.b.nama)}</td><td class="nomor">${x.full ? 'semua (1–' + x.b.rumah + ')' : compress(x.nums)}</td><td>${fmt(x.rumah)}</td><td${c(Math.round(x.bangun))}>${cell(x, 'bangun')}</td><td${c(Math.round(x.kk))}>${cell(x, 'kk')}</td></tr>`).join('')}</tbody>
-    <tfoot><tr><td>Total (${t.n} blok)</td><td></td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td></tr></tfoot></table></div>
+  return `<div class="tbl-title">Rincian blok</div><div class="tbl-wrap"><table class="rt-table fit-table">
+    <thead><tr><th>Blok</th><th>Rumah</th><th><span class="l-f">Proses Bangun</span><span class="l-s">Bangun</span></th><th>KK Aktif</th></tr></thead>
+    <tbody>${items.map(x => `<tr><td>${esc(x.b.nama)}<span class="nomor-sub">No. ${x.full ? 'semua (1–' + x.b.rumah + ')' : compress(x.nums)}</span></td><td>${fmt(x.rumah)}</td><td${c(Math.round(x.bangun))}>${cell(x, 'bangun')}</td><td${c(Math.round(x.kk))}>${cell(x, 'kk')}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td>Total (${t.n} blok)</td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td></tr></tfoot></table></div>
     ${t.est ? '<p class="est-note">Tanda ≈ = perkiraan proporsional (total dibulatkan). Data kas dicatat per blok, bukan per nomor rumah, sehingga KK aktif untuk blok yang dipilih sebagian dihitung sebanding dengan jumlah rumah yang dipilih.</p>' : ''}`;
 }
 
@@ -1161,7 +1224,7 @@ function renderRiwayat() {
     <div class="tl-text">${esc(h.progres)}${i === 0 ? '<span class="tl-new">Terbaru</span>' : ''}</div></div>`).join('');
 }
 function renderActions() {
-  $('heroActions').innerHTML = PERBUP ? `<a class="btn-doc" href="${esc(PERBUP)}" target="_blank" rel="noopener">
+  $('heroActions').innerHTML = PERBUP ? `<a class="btn-doc btn-perbup" href="${esc(PERBUP)}" target="_blank" rel="noopener">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
     Buka Dokumen Perbup</a>` : '';
 }
@@ -1179,13 +1242,13 @@ function renderDataTable() {
     const val = { rumah: b => b.rumah, bangun: b => b.bangun, kk: b => b.kk, ratio: ratioOf }[sortKey];
     rows = [...rows].sort((a, b) => (val(a) - val(b)) * sortDir || BLOKS.indexOf(a) - BLOKS.indexOf(b));
   } else if (sortKey === 'nama' && sortDir < 0) rows = [...rows].reverse();
-  const th = (k, label) => `<th data-sort="${k}">${label}<span class="arr">${sortKey === k ? (sortDir > 0 ? '▲' : '▼') : ''}</span></th>`;
+  const th = (k, full, short) => `<th data-sort="${k}"><span class="l-f">${full}</span><span class="l-s">${short || full}</span><span class="arr">${sortKey === k ? (sortDir > 0 ? '▲' : '▼') : ''}</span></th>`;
   const t = totals(rows), c = v => v === 0 ? ' class="zero"' : '';
-  $('dataTable').innerHTML = `<thead><tr>${th('nama', 'Blok')}${th('rumah', 'Jumlah Rumah')}${th('bangun', 'Proses Bangun')}${th('kk', 'KK Aktif (Kas)')}${th('ratio', 'Terhuni')}</tr></thead>
+  $('dataTable').innerHTML = `<thead><tr>${th('nama', 'Blok')}${th('rumah', 'Jumlah Rumah', 'Rumah')}${th('bangun', 'Proses Bangun', 'Bangun')}${th('kk', 'KK Aktif (Kas)', 'KK Aktif')}${th('ratio', 'Terhuni')}</tr></thead>
     <tbody>${rows.length ? rows.map(b => { const p = Math.min(100, Math.round(ratioOf(b) * 100));
-      return `<tr><td>${esc(b.nama)}</td><td>${fmt(b.rumah)}</td><td${c(b.bangun)}>${fmt(b.bangun)}</td><td class="kk-cell${b.kk === 0 ? ' zero' : ''}">${fmt(b.kk)}</td><td><span class="ratio"><i style="width:${p}%"></i></span>${p}%</td></tr>`; }).join('')
+      return `<tr><td>${esc(b.nama)}</td><td>${fmt(b.rumah)}</td><td${c(b.bangun)}>${fmt(b.bangun)}</td><td class="kk-cell${b.kk === 0 ? ' zero' : ''}">${fmt(b.kk)}</td><td><div class="rc"><span class="pct">${p}%</span><span class="ratio"><i style="width:${p}%"></i></span></div></td></tr>`; }).join('')
       : '<tr><td colspan="5" style="text-align:center;padding:24px">Tidak ada blok yang cocok.</td></tr>'}</tbody>
-    <tfoot><tr><td>Total (${t.n} blok)</td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td><td>${t.rumah ? Math.round(t.kk / t.rumah * 100) : 0}%</td></tr></tfoot>`;
+    <tfoot><tr><td>Total (${t.n} blok)</td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td><td><div class="rc"><span class="pct">${t.rumah ? Math.round(t.kk / t.rumah * 100) : 0}%</span></div></td></tr></tfoot>`;
 }
 $('dataSearch').addEventListener('input', e => { dataSearch = e.target.value.trim().toLowerCase(); renderDataTable(); });
 $('dataChips').addEventListener('click', e => {
@@ -1203,8 +1266,9 @@ $('dataTable').addEventListener('click', e => {
 /* ── Bagian yang bisa dibuka/ditutup (yang ditutup tidak ikut cetak) ── */
 document.addEventListener('click', e => {
   const b = e.target.closest('.cs-toggle'); if (!b) return;
-  const collapsed = b.closest('.cs').classList.toggle('collapsed');
+  const sec = b.closest('.cs'), collapsed = sec.classList.toggle('collapsed');
   b.setAttribute('aria-expanded', String(!collapsed));
+  if (!collapsed && sec.id === 'sec-kawasan') { $('kwBarKK').style.width = '0%'; $('kwBarPot').style.width = '0%'; renderKawasan(); }
 });
 
 /* ── Render halaman ── */
