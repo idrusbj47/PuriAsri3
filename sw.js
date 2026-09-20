@@ -1,7 +1,7 @@
 // NAIKKAN nomor versi ini (v2 -> v3 -> v4, dst) SETIAP KALI Anda update
 // index.html, manifest.json, atau logo. Ini memaksa HP menghapus cache lama
 // dan mengambil versi terbaru dari server.
-const CACHE_NAME = 'pallet-app-v62';
+const CACHE_NAME = 'pallet-app-v63';
 
 const ASSETS = [
   './index.html',
@@ -33,6 +33,7 @@ const ASSETS = [
   './klasemen-17an.html',
   './acara-maulid.html',
   './juarabloke.PNG',
+  './pemekaran-rt.html',
   './hut-ri-17an.html'
 ];
 
