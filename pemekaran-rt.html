@@ -349,6 +349,60 @@ table.rt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .rt-card-nums { display: flex; gap: 18px; flex-wrap: wrap; font-size: 11.5px; color: var(--text-muted); }
 .rt-card-nums b { color: var(--green-700); font-weight: 600; font-size: 13px; }
 
+
+/* ─── COLLAPSIBLE ─── */
+.cs-toggle {
+  display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+  font-family: inherit; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-weight: 600; color: var(--green-700); background: var(--cream-card);
+  border: 1px solid var(--border-mid); border-radius: 20px; padding: 7px 14px 7px 16px;
+  white-space: nowrap; transition: all 0.2s ease;
+}
+.cs-toggle:hover { border-color: var(--green-400); background: var(--green-50); }
+.cs-toggle:focus-visible { outline: 2px solid var(--green-500); outline-offset: 2px; }
+.cs-toggle .chev { transition: transform 0.25s ease; flex-shrink: 0; }
+.cs.collapsed .cs-toggle .chev { transform: rotate(-90deg); }
+.cs-state { display: none; font-size: 9.5px; letter-spacing: 0.04em; text-transform: none; font-weight: 400; color: var(--text-muted); }
+.cs.collapsed .cs-state { display: inline; }
+.cs.collapsed .cs-body { display: none; }
+.cs.collapsed { margin-bottom: 28px; }
+.cs.collapsed .section-eyebrow { margin-bottom: 0; }
+.hint-print { font-size: 11.5px; color: var(--text-muted); margin-top: 14px; font-weight: 300; }
+
+/* ─── TABEL DATA BLOK ─── */
+.data-toolbar { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.search-wrap { position: relative; }
+.search-input {
+  width: 100%; font-family: inherit; font-size: 13px; color: var(--text-dark);
+  padding: 10px 16px 10px 38px; border-radius: 20px; border: 1px solid var(--border-mid);
+  background: var(--cream-card); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.search-input:focus { border-color: var(--green-400); box-shadow: 0 0 0 3px rgba(58,140,69,0.1); }
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+.chip-btn.active { background: var(--green-800); color: #fff; border-color: var(--green-800); box-shadow: 0 2px 10px rgba(30,66,37,0.2); }
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.data-scroll { max-height: 470px; overflow: auto; }
+.data-table thead th { position: sticky; top: 0; z-index: 1; cursor: pointer; user-select: none; }
+.data-table thead th:hover { color: var(--green-700); }
+.data-table th .arr { font-size: 8px; margin-left: 4px; color: var(--gold-600); }
+.ratio { display: inline-block; width: 44px; height: 6px; background: rgba(0,0,0,0.07); border-radius: 6px; overflow: hidden; vertical-align: middle; margin-right: 8px; }
+.ratio i { display: block; height: 100%; background: linear-gradient(90deg, #2a8a30, #56c460); }
+.kk-cell { font-weight: 600; color: #2a8a30 !important; }
+.data-note { font-size: 11.5px; color: var(--text-muted); font-weight: 300; line-height: 1.65; margin-top: 10px; }
+
+/* ─── RENTANG BLOK ─── */
+.range-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius-md); padding: 14px 16px 12px; margin-bottom: 12px; }
+.range-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.range-card-title { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--green-900); font-weight: 500; }
+.range-card-head .push { margin-left: auto; }
+.range-card .range-row { margin-bottom: 0; }
+.field.small { flex: 0 0 104px; min-width: 88px; }
+.num-input.sm { width: 100%; font-size: 16px; padding: 9px 6px; }
+.range-desc { margin-top: 12px; font-size: 12px; color: var(--text-mid); line-height: 1.65; padding-top: 10px; border-top: 1px dashed var(--border-light); }
+.range-desc b { color: var(--green-700); font-weight: 600; }
+.est-note { font-size: 11.5px; color: var(--text-muted); margin-top: 10px; line-height: 1.6; font-style: italic; }
+.rt-table td.nomor { color: var(--text-muted); font-size: 11.5px; }
+
 /* ─── TIMELINE ─── */
 .timeline { position: relative; padding-left: 26px; }
 .timeline::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 1px; background: linear-gradient(180deg, var(--gold-400), var(--border-mid)); }
@@ -438,6 +492,17 @@ footer strong { color: var(--green-700); font-weight: 500; }
   .bar-fill, .meter-fill, .verdict, .badge, .rt-card::before, .verdict::before, .rt-table tfoot td, .rt-table th { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .num-input { border: none; background: none; }
 }
+
+@media print {
+  .cs.collapsed { display: none !important; }
+  .cs-toggle { border: none; background: none; padding: 0; }
+  .cs-toggle .chev, .hint-print, .data-toolbar, .range-editor, .pane-hint, .grp-toggle { display: none !important; }
+  .data-scroll { max-height: none !important; overflow: visible !important; }
+  .data-table thead th { position: static; }
+  .ratio { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .rt-table tr { break-inside: avoid; }
+  .section { margin-bottom: 24px; }
+}
 </style>
 </head>
 <body>
@@ -492,6 +557,7 @@ footer strong { color: var(--green-700); font-weight: 500; }
       </div>
       <p class="hero-desc">Pilih blok atau tentukan rentang blok untuk melihat jumlah rumah dan perkiraan warga yang sudah menempati, lalu cek apakah sudah memenuhi syarat pemekaran <strong>minimal <span id="heroMin">50</span> KK per RT</strong> menurut Perbup Kabupaten Bogor No. 31 Tahun 2012.</p>
       <div class="hero-actions" id="heroActions"></div>
+      <p class="hint-print">💡 Untuk mencetak sebagian saja: tutup bagian yang tidak diperlukan dengan tombol panah di judul bagian. Bagian yang ditutup tidak ikut tercetak.</p>
     </div>
 
     <!-- Stats -->
@@ -502,47 +568,35 @@ footer strong { color: var(--green-700); font-weight: 500; }
       <div class="stat-chip"><div class="stat-num yellow" id="statBangun">0</div><div class="stat-label">🟡 Proses Bangun<br>(Perkiraan)</div></div>
     </div>
 
-    <!-- Kemampuan kawasan -->
-    <div class="section fade-up">
+    <!-- Data blok -->
+    <section class="section cs fade-up" id="sec-data">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <div class="section-eyebrow-text">Gambaran Seluruh Kawasan</div>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-data"><span>Data Blok &amp; KK Aktif</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
-      <div class="vote-bars">
-        <div class="vote-bar-item">
-          <div class="vote-bar-header">
-            <div class="vote-bar-emoji">🟢</div>
-            <div class="vote-bar-label">
-              <div class="vote-bar-opsi green">Berdasarkan KK Aktif Saat Ini</div>
-              <div class="vote-bar-text" id="kwTextKK"></div>
-            </div>
-            <div class="vote-bar-count"><div class="vote-bar-num green" id="kwNumKK">0</div><div class="vote-bar-pct">RT maksimal</div></div>
+      <div class="cs-body" id="body-data">
+        <p class="pane-hint">Data seluruh blok dari Google Sheets. <strong>KK Aktif</strong> adalah perkiraan jumlah warga yang sudah menempati rumah, dihitung dari data kas aktif (warga yang rutin menyetor kas). Ketuk judul kolom untuk mengurutkan.</p>
+        <div class="data-toolbar">
+          <div class="search-wrap">
+            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input class="search-input" id="dataSearch" type="text" placeholder="Cari blok, contoh: F6…" autocomplete="off" />
           </div>
-          <div class="bar-track"><div class="bar-fill green" id="kwBarKK"></div></div>
+          <div class="chip-row" id="dataChips"></div>
         </div>
-        <div class="vote-bar-item">
-          <div class="vote-bar-header">
-            <div class="vote-bar-emoji">🔵</div>
-            <div class="vote-bar-label">
-              <div class="vote-bar-opsi blue">Potensi Jika Seluruh Rumah Terhuni</div>
-              <div class="vote-bar-text" id="kwTextPot"></div>
-            </div>
-            <div class="vote-bar-count"><div class="vote-bar-num blue" id="kwNumPot">0</div><div class="vote-bar-pct">RT maksimal</div></div>
-          </div>
-          <div class="bar-track"><div class="bar-fill blue" id="kwBarPot"></div></div>
-        </div>
+        <div class="tbl-wrap data-scroll"><table class="rt-table data-table" id="dataTable"></table></div>
+        <p class="data-note">Terhuni = KK aktif ÷ jumlah rumah. Rumah yang masih dalam proses bangun belum dihitung sebagai warga.</p>
       </div>
-    </div>
+    </section>
 
     <!-- Kalkulator -->
-    <div class="section fade-up">
+    <section class="section cs fade-up" id="sec-calc">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <div class="section-eyebrow-text">Kalkulator RT</div>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-calc"><span>Kalkulator RT</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
-
+      <div class="cs-body" id="body-calc">
       <div class="calc-card">
         <div class="calc-head">
           <div>
@@ -556,33 +610,27 @@ footer strong { color: var(--green-700); font-weight: 500; }
         </div>
 
         <div class="tabs" role="tablist">
-          <button class="tab-btn active" role="tab" data-tab="pilih">1 · Pilih Blok</button>
-          <button class="tab-btn" role="tab" data-tab="rentang">2 · Dari Blok sampai Blok</button>
+          <button class="tab-btn active" role="tab" data-tab="rentang">1 · Dari Blok sampai Blok</button>
+          <button class="tab-btn" role="tab" data-tab="pilih">2 · Pilih Blok</button>
           <button class="tab-btn" role="tab" data-tab="simulasi">3 · Simulasi Pembagian</button>
         </div>
 
         <!-- Tab 1 -->
-        <div class="tab-pane active" id="pane-pilih">
-          <p class="pane-hint picker-only">Centang blok mana saja yang ingin digabung menjadi satu RT. Blok tidak harus berurutan.</p>
+        <div class="tab-pane active" id="pane-rentang">
+          <p class="pane-hint">Tentukan blok dan <strong>nomor rumah</strong> awal, lalu blok dan nomor rumah akhir. Blok awal dihitung dari nomor yang dipilih sampai nomor terakhirnya, blok akhir dihitung dari nomor 1 sampai nomor yang dipilih, dan blok di antaranya dihitung penuh. Untuk gang yang saling berhadapan (misalnya Blok F dan G), gunakan satu rentang yang mencakup keduanya, atau tambahkan beberapa rentang.</p>
+          <div id="rangeList" class="range-editor picker-only"></div>
+          <div class="toolbar picker-only"><button class="chip-btn primary" id="btnAddRange" type="button">+ Tambah rentang lain</button></div>
+        </div>
+
+        <!-- Tab 2 -->
+        <div class="tab-pane" id="pane-pilih">
+          <p class="pane-hint picker-only">Centang blok mana saja yang ingin digabung menjadi satu RT (seluruh rumah di blok tersebut). Blok tidak harus berurutan.</p>
           <div class="toolbar picker-only">
             <button class="chip-btn" onclick="selectAll(true)">Pilih semua</button>
             <button class="chip-btn" onclick="selectAll(false)">Kosongkan</button>
             <span class="sel-count" id="selCount"></span>
           </div>
           <div id="pickerGrid" class="picker-only"></div>
-          <div class="print-only tbl-title">Blok yang dipilih</div>
-        </div>
-
-        <!-- Tab 2 -->
-        <div class="tab-pane" id="pane-rentang">
-          <p class="pane-hint">Tentukan blok awal dan blok akhir. Semua blok di antaranya (sesuai urutan site plan) otomatis dihitung.</p>
-          <div class="range-row">
-            <div class="field"><label for="selFrom">Dari blok</label><select id="selFrom"></select></div>
-            <div class="range-arrow">➜</div>
-            <div class="field"><label for="selTo">Sampai blok</label><select id="selTo"></select></div>
-            <button class="chip-btn primary picker-only" onclick="autoRange()" title="Perluas blok akhir sampai KK aktif memenuhi syarat">Isi otomatis sampai memenuhi</button>
-          </div>
-          <div class="range-preview" id="rangePreview"></div>
         </div>
 
         <!-- Tab 3 -->
@@ -609,23 +657,59 @@ footer strong { color: var(--green-700); font-weight: 500; }
           <div class="sim-note" id="simNote"></div>
         </div>
 
-        <!-- Hasil tab 1 & 2 -->
         <div class="result" id="resultPanel"></div>
-        <!-- Hasil tab 3 -->
         <div class="result" id="simPanel" style="display:none"></div>
       </div>
       <p class="src-note">Jumlah rumah bersumber dari site plan; jumlah warga (KK) yang menempati diperkirakan dari <strong>Data Kas Aktif</strong> di puriasri3.my.id. Angka bersifat perkiraan dan mengikuti pembaruan data di Google Sheets.</p>
-    </div>
+      </div>
+    </section>
 
-    <!-- Riwayat -->
-    <div class="section fade-up" id="riwayatSection">
+    <!-- Kemampuan kawasan -->
+    <section class="section cs fade-up" id="sec-kawasan">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <div class="section-eyebrow-text">Riwayat Status Pemekaran</div>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-kawasan"><span>Gambaran Seluruh Kawasan</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
-      <div class="timeline" id="timeline"></div>
-    </div>
+      <div class="cs-body" id="body-kawasan">
+      <div class="vote-bars">
+        <div class="vote-bar-item">
+          <div class="vote-bar-header">
+            <div class="vote-bar-emoji">🟢</div>
+            <div class="vote-bar-label">
+              <div class="vote-bar-opsi green">Berdasarkan KK Aktif Saat Ini</div>
+              <div class="vote-bar-text" id="kwTextKK"></div>
+            </div>
+            <div class="vote-bar-count"><div class="vote-bar-num green" id="kwNumKK">0</div><div class="vote-bar-pct">RT maksimal</div></div>
+          </div>
+          <div class="bar-track"><div class="bar-fill green" id="kwBarKK"></div></div>
+        </div>
+        <div class="vote-bar-item">
+          <div class="vote-bar-header">
+            <div class="vote-bar-emoji">🔵</div>
+            <div class="vote-bar-label">
+              <div class="vote-bar-opsi blue">Potensi Jika Seluruh Rumah Terhuni</div>
+              <div class="vote-bar-text" id="kwTextPot"></div>
+            </div>
+            <div class="vote-bar-count"><div class="vote-bar-num blue" id="kwNumPot">0</div><div class="vote-bar-pct">RT maksimal</div></div>
+          </div>
+          <div class="bar-track"><div class="bar-fill blue" id="kwBarPot"></div></div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Riwayat -->
+    <section class="section cs fade-up" id="riwayatSection">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-riwayat"><span>Riwayat Status Pemekaran</span><span class="cs-state">tidak ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="section-eyebrow-line"></div>
+      </div>
+      <div class="cs-body" id="body-riwayat">
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
 
     <div class="last-updated" id="lastUpdated"></div>
   </div>
@@ -711,9 +795,10 @@ TOTAL,57 BLOK,1154,233,283,,,,,`;
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString('id-ID');
 let BLOKS = [], HISTORY = [], PERBUP = '', SOURCE = 'live';
-let MIN = 50, mode = 'pilih';
+let MIN = 50, mode = 'rentang';
 let selected = new Set();
-let rangeFrom = 0, rangeTo = 0;
+let ranges = [];
+let dataFilter = 'Semua', dataSearch = '', sortKey = null, sortDir = 1;
 let simBasis = 'kk', simN = 1;
 let firstRender = true;
 
@@ -787,49 +872,82 @@ function meter(label, val, color) {
   return `<div><div class="meter-top"><span>${label}</span><span><b>${fmt(val)}</b> / ${fmt(MIN)} KK</span></div>
     <div class="meter-track"><div class="meter-fill bar-fill ${color}" style="width:${pct}%"></div><div class="meter-goal" data-label="${fmt(MIN)}"></div></div></div>`;
 }
-function tableHTML(list, t) {
-  const c = v => v === 0 ? ' class="zero"' : '';
-  return `<div class="tbl-title">Rincian blok</div><div class="tbl-wrap"><table class="rt-table">
-    <thead><tr><th>Blok</th><th>Rumah</th><th>Proses Bangun</th><th>KK Aktif</th></tr></thead>
-    <tbody>${list.map(b => `<tr><td>${esc(b.nama)}</td><td>${fmt(b.rumah)}</td><td${c(b.bangun)}>${fmt(b.bangun)}</td><td${c(b.kk)}>${fmt(b.kk)}</td></tr>`).join('')}</tbody>
-    <tfoot><tr><td>Total (${t.n} blok)</td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td></tr></tfoot></table></div>`;
+function compress(nums) {
+  const out = []; let s = nums[0], p = nums[0];
+  for (let i = 1; i <= nums.length; i++) {
+    const n = nums[i];
+    if (n !== p + 1) { out.push(s === p ? `${s}` : `${s}–${p}`); s = n; }
+    p = n;
+  }
+  return out.join(', ');
 }
 
-/* ── Daftar blok aktif untuk tab 1 / 2 ── */
-function currentList() {
-  if (mode === 'rentang') {
-    const a = Math.min(rangeFrom, rangeTo), b = Math.max(rangeFrom, rangeTo);
-    return BLOKS.slice(a, b + 1);
+/* ── Cakupan rumah: Map(indeks blok → Set nomor rumah) ── */
+const idxOf = name => BLOKS.findIndex(b => b.nama === name);
+function wholeCover(names) {
+  const m = new Map();
+  BLOKS.forEach((b, i) => { if (names.has(b.nama)) { const s = new Set(); for (let n = 1; n <= b.rumah; n++) s.add(n); m.set(i, s); } });
+  return m;
+}
+function rangeCover(r) {
+  let a = idxOf(r.fb), b = idxOf(r.tb), an = r.fn, bn = r.tn;
+  const m = new Map(); if (a < 0 || b < 0) return m;
+  if (a > b || (a === b && an > bn)) { [a, b] = [b, a]; [an, bn] = [bn, an]; }
+  for (let i = a; i <= b; i++) {
+    const N = BLOKS[i].rumah, s = i === a ? an : 1, e = i === b ? bn : N, set = new Set();
+    for (let n = Math.max(1, s); n <= Math.min(N, e); n++) set.add(n);
+    if (set.size) m.set(i, set);
   }
-  return BLOKS.filter(b => selected.has(b.nama));
+  return m;
+}
+function mergeCovers(list) {
+  const m = new Map();
+  list.forEach(c => c.forEach((set, i) => { const s = m.get(i) || new Set(); set.forEach(n => s.add(n)); m.set(i, s); }));
+  return m;
+}
+function coverItems(m) {
+  return [...m.keys()].sort((a, b) => a - b).map(i => {
+    const b = BLOKS[i], nums = [...m.get(i)].sort((x, y) => x - y), ratio = b.rumah ? nums.length / b.rumah : 0;
+    return { b, nums, full: nums.length === b.rumah, rumah: nums.length, bangun: b.bangun * ratio, kk: b.kk * ratio };
+  });
+}
+function itemsTotals(items) {
+  const t = items.reduce((a, x) => ({ rumah: a.rumah + x.rumah, bangun: a.bangun + x.bangun, kk: a.kk + x.kk }), { rumah: 0, bangun: 0, kk: 0 });
+  return { n: items.length, rumah: t.rumah, bangun: Math.round(t.bangun), kk: Math.round(t.kk), est: items.some(x => !x.full) };
+}
+function currentItems() {
+  return coverItems(mode === 'pilih' ? wholeCover(selected) : mergeCovers(ranges.map(rangeCover)));
+}
+function itemsTable(items, t) {
+  const c = v => v === 0 ? ' class="zero"' : '';
+  const cell = (x, k) => x.full ? fmt(x[k]) : '≈ ' + x[k].toLocaleString('id-ID', { maximumFractionDigits: 1 });
+  return `<div class="tbl-title">Rincian blok</div><div class="tbl-wrap"><table class="rt-table">
+    <thead><tr><th>Blok</th><th>No. Rumah</th><th>Rumah</th><th>Proses Bangun</th><th>KK Aktif</th></tr></thead>
+    <tbody>${items.map(x => `<tr><td>${esc(x.b.nama)}</td><td class="nomor">${x.full ? 'semua (1–' + x.b.rumah + ')' : compress(x.nums)}</td><td>${fmt(x.rumah)}</td><td${c(Math.round(x.bangun))}>${cell(x, 'bangun')}</td><td${c(Math.round(x.kk))}>${cell(x, 'kk')}</td></tr>`).join('')}</tbody>
+    <tfoot><tr><td>Total (${t.n} blok)</td><td></td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td></tr></tfoot></table></div>
+    ${t.est ? '<p class="est-note">Tanda ≈ = perkiraan proporsional (total dibulatkan). Data kas dicatat per blok, bukan per nomor rumah, sehingga KK aktif untuk blok yang dipilih sebagian dihitung sebanding dengan jumlah rumah yang dipilih.</p>' : ''}`;
 }
 
 function renderResult() {
-  const list = currentList(), t = totals(list), p = $('resultPanel');
-  if (!t.n) {
-    p.innerHTML = `<div class="result-empty">Belum ada blok dipilih.<br>Centang satu atau lebih blok untuk melihat hasil perhitungan.</div>`;
+  const items = currentItems(), t = itemsTotals(items), p = $('resultPanel');
+  if (!items.length) {
+    p.innerHTML = `<div class="result-empty">${mode === 'pilih' ? 'Belum ada blok dipilih.<br>Centang satu atau lebih blok untuk melihat hasil perhitungan.' : 'Rentang belum valid. Pilih blok dan nomor rumah.'}</div>`;
     return;
   }
   const v = verdict(t);
   p.innerHTML = `
-    <div class="verdict ${v.cls}"><div class="verdict-emoji">${v.emoji}</div><div><div class="verdict-title">${v.title}</div><div class="verdict-text">${v.text}</div></div></div>
+    <div class="verdict ${v.cls}"><div class="verdict-emoji">${v.emoji}</div><div><div class="verdict-title">${v.title}</div><div class="verdict-text">${v.text}${t.est ? ' <i>(KK aktif diperkirakan untuk blok yang dipilih sebagian.)</i>' : ''}</div></div></div>
     <div class="mini-stats">
       <div class="mini"><div class="mini-num">${fmt(t.n)}</div><div class="mini-lab">Blok</div></div>
       <div class="mini"><div class="mini-num">${fmt(t.rumah)}</div><div class="mini-lab">Jumlah Rumah</div></div>
       <div class="mini"><div class="mini-num">${fmt(t.bangun)}</div><div class="mini-lab">Proses Bangun</div></div>
-      <div class="mini"><div class="mini-num hl">${fmt(t.kk)}</div><div class="mini-lab">KK Aktif (Warga Menempati)</div></div>
+      <div class="mini"><div class="mini-num hl">${t.est ? '≈ ' : ''}${fmt(t.kk)}</div><div class="mini-lab">KK Aktif (Warga Menempati)</div></div>
     </div>
     <div class="meters">${meter('KK aktif (Data Kas)', t.kk, 'green')}${meter('Potensi bila semua rumah terhuni', t.rumah, 'blue')}</div>
-    ${tableHTML(list, t)}`;
+    ${itemsTable(items, t)}`;
 }
 
-function renderRangePreview() {
-  const a = Math.min(rangeFrom, rangeTo), b = Math.max(rangeFrom, rangeTo);
-  const t = totals(BLOKS.slice(a, b + 1));
-  $('rangePreview').innerHTML = `Rentang: <b>${esc(BLOKS[a].nama)}</b> sampai <b>${esc(BLOKS[b].nama)}</b> · ${t.n} blok`;
-}
-
-/* ── Tab 1: picker ── */
+/* ── Tab 2: pilih blok ── */
 function renderPicker() {
   const groups = {};
   BLOKS.forEach(b => (groups[b.huruf] = groups[b.huruf] || []).push(b));
@@ -843,10 +961,7 @@ function renderPicker() {
   }).join('');
   updateSelCount();
 }
-function updateSelCount() {
-  const t = totals(BLOKS.filter(b => selected.has(b.nama)));
-  $('selCount').innerHTML = `<b>${t.n}</b> blok dipilih`;
-}
+function updateSelCount() { $('selCount').innerHTML = `<b>${BLOKS.filter(b => selected.has(b.nama)).length}</b> blok dipilih`; }
 function selectAll(on) {
   selected = on ? new Set(BLOKS.map(b => b.nama)) : new Set();
   document.querySelectorAll('#pickerGrid input').forEach(i => i.checked = on);
@@ -866,22 +981,81 @@ $('pickerGrid').addEventListener('click', e => {
   updateSelCount(); renderResult();
 });
 
-/* ── Tab 2: rentang ── */
-function fillRangeSelects() {
-  const opts = BLOKS.map((b, i) => `<option value="${i}">${esc(b.nama)}</option>`).join('');
-  $('selFrom').innerHTML = opts; $('selTo').innerHTML = opts;
-  rangeFrom = Math.min(rangeFrom, BLOKS.length - 1); rangeTo = Math.min(rangeTo, BLOKS.length - 1);
-  $('selFrom').value = rangeFrom; $('selTo').value = rangeTo;
+/* ── Tab 1: dari blok sampai blok (per nomor rumah) ── */
+function newRange(afterIdx) {
+  const i = Math.min(Math.max(afterIdx, 0), BLOKS.length - 1);
+  return { fb: BLOKS[i].nama, fn: 1, tb: BLOKS[i].nama, tn: BLOKS[i].rumah };
 }
-function autoRange() {
-  const start = Math.min(rangeFrom, rangeTo); let acc = 0, end = BLOKS.length - 1;
-  for (let i = start; i < BLOKS.length; i++) { acc += BLOKS[i].kk; if (acc >= MIN) { end = i; break; } }
-  rangeFrom = start; rangeTo = end;
-  $('selFrom').value = rangeFrom; $('selTo').value = rangeTo;
-  renderRangePreview(); renderResult();
+function rangeDesc(r) {
+  const t = itemsTotals(coverItems(rangeCover(r)));
+  return `<b>${esc(r.fb)}</b> no. ${r.fn} sampai <b>${esc(r.tb)}</b> no. ${r.tn} · <b>${fmt(t.rumah)}</b> rumah · ${t.est ? '≈ ' : ''}<b>${fmt(t.kk)}</b> KK aktif`;
 }
-$('selFrom').addEventListener('change', e => { rangeFrom = +e.target.value; renderRangePreview(); renderResult(); });
-$('selTo').addEventListener('change', e => { rangeTo = +e.target.value; renderRangePreview(); renderResult(); });
+function renderRanges() {
+  const opts = sel => BLOKS.map(b => `<option value="${esc(b.nama)}"${b.nama === sel ? ' selected' : ''}>${esc(b.nama)}</option>`).join('');
+  $('rangeList').innerHTML = ranges.map((r, i) => {
+    const nf = BLOKS[idxOf(r.fb)].rumah, nt = BLOKS[idxOf(r.tb)].rumah;
+    return `<div class="range-card" data-i="${i}">
+      <div class="range-card-head"><span class="range-card-title">Rentang ${i + 1}</span>
+        <button class="grp-toggle push" data-act="auto" type="button">Isi otomatis sampai memenuhi</button>
+        ${ranges.length > 1 ? '<button class="grp-toggle" data-act="del" type="button">Hapus</button>' : ''}</div>
+      <div class="range-row">
+        <div class="field"><label>Dari blok</label><select data-f="fb" aria-label="Dari blok">${opts(r.fb)}</select></div>
+        <div class="field small"><label>No. (1–${nf})</label><input class="num-input sm" type="number" inputmode="numeric" data-f="fn" min="1" max="${nf}" value="${r.fn}" aria-label="Nomor rumah awal"></div>
+        <div class="range-arrow">➜</div>
+        <div class="field"><label>Sampai blok</label><select data-f="tb" aria-label="Sampai blok">${opts(r.tb)}</select></div>
+        <div class="field small"><label>No. (1–${nt})</label><input class="num-input sm" type="number" inputmode="numeric" data-f="tn" min="1" max="${nt}" value="${r.tn}" aria-label="Nomor rumah akhir"></div>
+      </div>
+      <div class="range-desc">${rangeDesc(r)}</div></div>`;
+  }).join('');
+}
+function updateRangeDescs() {
+  document.querySelectorAll('#rangeList .range-card').forEach(c => { c.querySelector('.range-desc').innerHTML = rangeDesc(ranges[+c.dataset.i]); });
+}
+function autoFill(i) {
+  const r = ranges[i], a = idxOf(r.fb); if (a < 0) return;
+  const others = mergeCovers(ranges.filter((_, k) => k !== i).map(rangeCover));
+  const need = Math.max(0, MIN - itemsTotals(coverItems(others)).kk);
+  let acc = 0, done = false;
+  for (let bi = a; bi < BLOKS.length && !done; bi++) {
+    const B = BLOKS[bi], per = B.rumah ? B.kk / B.rumah : 0;
+    for (let n = bi === a ? Math.max(1, r.fn) : 1; n <= B.rumah; n++) {
+      acc += per;
+      if (acc >= need - 1e-9) { r.tb = B.nama; r.tn = n; done = true; break; }
+    }
+  }
+  if (!done) { const L = BLOKS[BLOKS.length - 1]; r.tb = L.nama; r.tn = L.rumah; }
+}
+const clampNo = (v, max) => Math.min(max, Math.max(1, v));
+$('rangeList').addEventListener('change', e => {
+  const card = e.target.closest('.range-card'); if (!card) return;
+  const r = ranges[+card.dataset.i], f = e.target.dataset.f;
+  if (f === 'fb') { r.fb = e.target.value; r.fn = 1; renderRanges(); }
+  else if (f === 'tb') { r.tb = e.target.value; r.tn = BLOKS[idxOf(r.tb)].rumah; renderRanges(); }
+  else if (f === 'fn' || f === 'tn') {
+    const max = BLOKS[idxOf(f === 'fn' ? r.fb : r.tb)].rumah;
+    r[f] = clampNo(parseInt(e.target.value, 10) || 1, max); e.target.value = r[f]; updateRangeDescs();
+  }
+  renderResult();
+});
+$('rangeList').addEventListener('input', e => {
+  const f = e.target.dataset.f; if (f !== 'fn' && f !== 'tn') return;
+  const card = e.target.closest('.range-card'), r = ranges[+card.dataset.i];
+  const v = parseInt(e.target.value, 10); if (!v) return;
+  r[f] = clampNo(v, BLOKS[idxOf(f === 'fn' ? r.fb : r.tb)].rumah);
+  updateRangeDescs(); renderResult();
+});
+$('rangeList').addEventListener('click', e => {
+  const btn = e.target.closest('[data-act]'); if (!btn) return;
+  const i = +btn.closest('.range-card').dataset.i;
+  if (btn.dataset.act === 'del') ranges.splice(i, 1);
+  else autoFill(i);
+  renderRanges(); renderResult();
+});
+$('btnAddRange').addEventListener('click', () => {
+  const last = ranges[ranges.length - 1];
+  ranges.push(newRange(last ? Math.max(idxOf(last.fb), idxOf(last.tb)) + 1 : 0));
+  renderRanges(); renderResult();
+});
 
 /* ── Tab 3: simulasi pembagian ── */
 function partition(vals, g, min) {
@@ -992,18 +1166,57 @@ function renderActions() {
     Buka Dokumen Perbup</a>` : '';
 }
 
+/* ── Tabel data blok ── */
+const ratioOf = b => b.rumah ? b.kk / b.rumah : 0;
+function renderDataChips() {
+  const letters = ['Semua', ...new Set(BLOKS.map(b => b.huruf))];
+  if (!letters.includes(dataFilter)) dataFilter = 'Semua';
+  $('dataChips').innerHTML = letters.map(l => `<button type="button" class="chip-btn${l === dataFilter ? ' active' : ''}" data-l="${esc(l)}">${l === 'Semua' ? 'Semua' : 'Blok ' + esc(l)}</button>`).join('');
+}
+function renderDataTable() {
+  let rows = BLOKS.filter(b => (dataFilter === 'Semua' || b.huruf === dataFilter) && (!dataSearch || b.nama.toLowerCase().includes(dataSearch)));
+  if (sortKey && sortKey !== 'nama') {
+    const val = { rumah: b => b.rumah, bangun: b => b.bangun, kk: b => b.kk, ratio: ratioOf }[sortKey];
+    rows = [...rows].sort((a, b) => (val(a) - val(b)) * sortDir || BLOKS.indexOf(a) - BLOKS.indexOf(b));
+  } else if (sortKey === 'nama' && sortDir < 0) rows = [...rows].reverse();
+  const th = (k, label) => `<th data-sort="${k}">${label}<span class="arr">${sortKey === k ? (sortDir > 0 ? '▲' : '▼') : ''}</span></th>`;
+  const t = totals(rows), c = v => v === 0 ? ' class="zero"' : '';
+  $('dataTable').innerHTML = `<thead><tr>${th('nama', 'Blok')}${th('rumah', 'Jumlah Rumah')}${th('bangun', 'Proses Bangun')}${th('kk', 'KK Aktif (Kas)')}${th('ratio', 'Terhuni')}</tr></thead>
+    <tbody>${rows.length ? rows.map(b => { const p = Math.min(100, Math.round(ratioOf(b) * 100));
+      return `<tr><td>${esc(b.nama)}</td><td>${fmt(b.rumah)}</td><td${c(b.bangun)}>${fmt(b.bangun)}</td><td class="kk-cell${b.kk === 0 ? ' zero' : ''}">${fmt(b.kk)}</td><td><span class="ratio"><i style="width:${p}%"></i></span>${p}%</td></tr>`; }).join('')
+      : '<tr><td colspan="5" style="text-align:center;padding:24px">Tidak ada blok yang cocok.</td></tr>'}</tbody>
+    <tfoot><tr><td>Total (${t.n} blok)</td><td>${fmt(t.rumah)}</td><td>${fmt(t.bangun)}</td><td>${fmt(t.kk)}</td><td>${t.rumah ? Math.round(t.kk / t.rumah * 100) : 0}%</td></tr></tfoot>`;
+}
+$('dataSearch').addEventListener('input', e => { dataSearch = e.target.value.trim().toLowerCase(); renderDataTable(); });
+$('dataChips').addEventListener('click', e => {
+  const b = e.target.closest('.chip-btn'); if (!b) return;
+  dataFilter = b.dataset.l; renderDataChips(); renderDataTable();
+});
+$('dataTable').addEventListener('click', e => {
+  const h = e.target.closest('th[data-sort]'); if (!h) return;
+  const k = h.dataset.sort;
+  if (sortKey === k) { if (sortDir === (k === 'nama' ? 1 : -1)) sortDir = -sortDir; else { sortKey = null; sortDir = 1; } }
+  else { sortKey = k; sortDir = k === 'nama' ? 1 : -1; }
+  renderDataTable();
+});
+
+/* ── Bagian yang bisa dibuka/ditutup (yang ditutup tidak ikut cetak) ── */
+document.addEventListener('click', e => {
+  const b = e.target.closest('.cs-toggle'); if (!b) return;
+  const collapsed = b.closest('.cs').classList.toggle('collapsed');
+  b.setAttribute('aria-expanded', String(!collapsed));
+});
+
 /* ── Render halaman ── */
 function renderPage(data) {
   BLOKS = data.bloks; HISTORY = data.hist; PERBUP = data.perbup;
-  // pertahankan pilihan pengguna antar pembaruan
   const names = new Set(BLOKS.map(b => b.nama));
   selected = new Set([...selected].filter(n => names.has(n)));
-  if (firstRender) {
-    let acc = 0, end = BLOKS.length - 1;
-    for (let i = 0; i < BLOKS.length; i++) { acc += BLOKS[i].kk; if (acc >= MIN) { end = i; break; } }
-    rangeFrom = 0; rangeTo = end; simN = simMaxN();
-  }
-  renderStats(); renderKawasan(); renderPicker(); fillRangeSelects(); renderRangePreview();
+  ranges = ranges.filter(r => names.has(r.fb) && names.has(r.tb));
+  ranges.forEach(r => { r.fn = clampNo(r.fn, BLOKS[idxOf(r.fb)].rumah); r.tn = clampNo(r.tn, BLOKS[idxOf(r.tb)].rumah); });
+  if (!ranges.length) { ranges = [newRange(0)]; autoFill(0); }
+  if (firstRender) simN = simMaxN();
+  renderStats(); renderDataChips(); renderDataTable(); renderKawasan(); renderPicker(); renderRanges();
   renderResult(); renderSim(); renderRiwayat(); renderActions();
   $('lastUpdated').innerHTML = `Terakhir diperbarui: <span>${fmtNow()}</span> &nbsp;·&nbsp; <span>${BLOKS.length} blok</span>` +
     (SOURCE === 'fallback' ? ' &nbsp;·&nbsp; <span style="color:#b8433c">memakai data cadangan (Google Sheets tidak terjangkau)</span>' : '');
