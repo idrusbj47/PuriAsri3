@@ -1536,78 +1536,70 @@
     }
 
 
-    /* ── BANNER PROGRAM BERJALAN: PEMEKARAN RT (di bawah banner Maulid) ── */
+    /* ── BANNER PROGRAM BERJALAN: PEMEKARAN RT (versi minimalis, di bawah banner Maulid) ── */
     .pemek-banner {
       position: relative;
-      display: block;
+      display: flex; align-items: center; gap: 12px;
       text-decoration: none;
       color: inherit;
-      background: linear-gradient(135deg, #2e6aaa 0%, #12365c 100%);
-      border-radius: var(--radius-lg);
-      padding: 18px 20px;
+      background: linear-gradient(120deg, #16406b 0%, #12365c 100%);
+      border-radius: 16px;
+      padding: 12px 14px;
       margin: 0 0 20px;
       overflow: hidden;
-      box-shadow: 0 8px 28px rgba(18,54,92,0.22), 0 2px 8px rgba(18,54,92,0.14);
+      box-shadow: 0 4px 16px rgba(18,54,92,0.18), 0 1px 4px rgba(18,54,92,0.12);
       border: 1px solid rgba(255,255,255,0.08);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .pemek-banner:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(18,54,92,0.28), 0 3px 10px rgba(18,54,92,0.16); }
+    .pemek-banner:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(18,54,92,0.24), 0 2px 6px rgba(18,54,92,0.14); }
     .pemek-banner::before {
       content: '';
       position: absolute; inset: 0;
-      background-image: radial-gradient(circle at 88% 18%, rgba(255,255,255,0.12) 0%, transparent 45%),
-                         radial-gradient(circle at 8% 90%, rgba(227,201,126,0.10) 0%, transparent 45%);
+      background-image: radial-gradient(circle at 92% 20%, rgba(227,201,126,0.10) 0%, transparent 50%);
       pointer-events: none;
     }
-    .pemek-banner-top { position: relative; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .pemek-banner-flag { font-size: 18px; line-height: 1; }
-    .pemek-banner-eyebrow { font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #e3c97e; font-weight: 600; }
+    .pemek-banner-flag {
+      position: relative; flex-shrink: 0;
+      width: 34px; height: 34px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.16);
+    }
+    .pemek-banner-body { position: relative; flex: 1; min-width: 0; }
+    .pemek-banner-title { font-family: 'Playfair Display', serif; font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.3; }
+    .pemek-banner-desc {
+      font-size: 11px; color: rgba(255,255,255,0.72); margin-top: 1px; line-height: 1.4;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
     .pemek-live {
-      margin-left: auto;
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 600; letter-spacing: 0.04em;
-      color: #fff; background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.22); border-radius: 20px;
-      padding: 3px 10px 3px 8px; white-space: nowrap;
+      position: relative; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 9.5px; font-weight: 600; letter-spacing: 0.04em;
+      color: #d9ffe0; background: rgba(126,224,138,0.14);
+      border: 1px solid rgba(126,224,138,0.28); border-radius: 20px;
+      padding: 3px 9px 3px 7px; white-space: nowrap;
     }
     .pemek-live i {
-      width: 6px; height: 6px; border-radius: 50%; background: #7ee08a;
+      width: 5px; height: 5px; border-radius: 50%; background: #7ee08a;
       box-shadow: 0 0 0 0 rgba(126,224,138,0.6);
       animation: pemek-pulse 1.8s ease-out infinite;
     }
     @keyframes pemek-pulse {
       0% { box-shadow: 0 0 0 0 rgba(126,224,138,0.55); }
-      70% { box-shadow: 0 0 0 7px rgba(126,224,138,0); }
+      70% { box-shadow: 0 0 0 6px rgba(126,224,138,0); }
       100% { box-shadow: 0 0 0 0 rgba(126,224,138,0); }
     }
-    .pemek-banner .maulid-refresh-btn { margin-left: 0; }
-    .pemek-banner-title { position: relative; font-family: 'Playfair Display', serif; font-size: 16.5px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 4px; }
-    .pemek-banner-desc { position: relative; font-size: 11.5px; color: rgba(255,255,255,0.78); margin-bottom: 12px; line-height: 1.5; }
-    .pemek-chips { position: relative; display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-    .pemek-chip {
-      font-size: 10.5px; font-weight: 500; color: #fff;
-      background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18);
-      border-radius: 20px; padding: 3px 10px;
-    }
-    .pemek-chip strong { color: #f5d98a; font-weight: 700; }
-    .pemek-progress-track { position: relative; width: 100%; height: 10px; background: rgba(255,255,255,0.16); border-radius: 20px; overflow: hidden; margin-bottom: 8px; }
-    .pemek-progress-fill { position: absolute; inset: 0 auto 0 0; width: 0%; background: linear-gradient(90deg, #e3c97e, #fff3c4); border-radius: 20px; transition: width 1.1s cubic-bezier(.22,.9,.32,1); }
-    .pemek-progress-meta { position: relative; display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,0.85); }
-    .pemek-progress-meta strong { color: #fff; font-weight: 700; }
-    .pemek-banner-cta {
-      position: relative; display: flex; align-items: center; justify-content: space-between;
-      margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.14);
-      font-size: 11.5px; color: #e3c97e; font-weight: 600;
-    }
     .pemek-banner-arrow {
-      width: 24px; height: 24px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.25);
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; flex-shrink: 0;
+      position: relative; flex-shrink: 0;
+      width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px;
       transition: background 0.2s, transform 0.2s;
     }
     .pemek-banner:hover .pemek-banner-arrow { background: rgba(255,255,255,0.16); transform: translateX(2px); }
     @media (max-width: 600px) {
-      .pemek-banner { padding: 16px 16px; margin-bottom: 16px; }
-      .pemek-banner-title { font-size: 14.5px; }
+      .pemek-banner { padding: 11px 12px; gap: 10px; margin-bottom: 16px; }
+      .pemek-banner-title { font-size: 12.5px; }
+      .pemek-banner-desc { font-size: 10.5px; }
+      .pemek-live span { display: none; }
     }
     @media (prefers-reduced-motion: reduce) { .pemek-live i { animation: none; } }
 
@@ -1907,36 +1899,15 @@
       </div>
     </a>
 
-    <!-- ── BANNER PROGRAM BERJALAN: PEMEKARAN RT (di bawah banner Maulid) ── -->
+    <!-- ── BANNER PROGRAM BERJALAN: PEMEKARAN RT (versi minimalis, di bawah banner Maulid) ── -->
     <a class="pemek-banner" href="pemekaran-rt.html" id="pemekaranBanner">
-      <div class="pemek-banner-top">
-        <span class="pemek-banner-flag">🏘️</span>
-        <span class="pemek-banner-eyebrow">Pemekaran RT</span>
-        <span class="pemek-live"><i></i>Sedang berjalan</span>
-        <button type="button" class="maulid-refresh-btn" id="pemekRefreshBtn" aria-label="Muat ulang data" title="Muat ulang data" onclick="event.preventDefault(); event.stopPropagation(); loadPemekBanner();">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-          </svg>
-        </button>
-      </div>
-      <div class="pemek-banner-title">Cek Kelayakan Pemekaran RT</div>
-      <div class="pemek-banner-desc" id="pemekBannerDesc">Memuat status terkini dari data blok...</div>
-      <div class="pemek-chips">
-        <span class="pemek-chip">Syarat <strong>50 KK</strong> per RT</span>
-        <span class="pemek-chip" id="pemekChipRT">Potensi RT: –</span>
-      </div>
-      <div class="pemek-progress-track">
-        <div class="pemek-progress-fill" id="pemekBannerFill"></div>
-      </div>
-      <div class="pemek-progress-meta">
-        <span><strong id="pemekBannerKK">–</strong> KK aktif dari <strong id="pemekBannerRumah">–</strong> rumah</span>
-        <span id="pemekBannerPercent">–</span>
-      </div>
-      <div class="pemek-banner-cta">
-        <span>Buka kalkulator &amp; data per blok</span>
-        <span class="pemek-banner-arrow">→</span>
-      </div>
+      <span class="pemek-banner-flag">🏘️</span>
+      <span class="pemek-banner-body">
+        <span class="pemek-banner-title">Pemekaran RT sedang berjalan</span>
+        <span class="pemek-banner-desc" id="pemekBannerDesc">Memuat status terkini…</span>
+      </span>
+      <span class="pemek-live"><i></i><span>Live</span></span>
+      <span class="pemek-banner-arrow">→</span>
     </a>
 
     <!-- ── HERO SLIDER: 6 slide otomatis, taruh file slide1.png..slide6.png di folder yang sama ── -->
@@ -3049,29 +3020,18 @@
   }
 
   function renderPemek(d) {
-    var fill = document.getElementById('pemekBannerFill');
-    if (!fill || !d.rumah) return;
-    var persen = d.rumah > 0 ? (d.kk / d.rumah) * 100 : 0;
-    document.getElementById('pemekBannerKK').textContent = d.kk.toLocaleString('id-ID');
-    document.getElementById('pemekBannerRumah').textContent = d.rumah.toLocaleString('id-ID');
-    document.getElementById('pemekBannerPercent').textContent = persen.toFixed(0) + '% terhuni';
-    document.getElementById('pemekChipRT').innerHTML = 'Potensi hingga <strong>' + Math.floor(d.kk / MIN_KK) + ' RT</strong> (KK aktif)';
-    document.getElementById('pemekBannerDesc').textContent = d.last
-      ? 'Status terbaru: ' + d.last.progres + ' (' + fmtTgl(d.last.tanggal) + ')'
-      : 'Cek apakah gabungan blok sudah memenuhi syarat pemekaran RT.';
-    requestAnimationFrame(function () {
-      setTimeout(function () { fill.style.width = Math.max(persen, 2) + '%'; }, 150);
-    });
+    var descEl = document.getElementById('pemekBannerDesc');
+    if (!descEl) return;
+    descEl.textContent = d.last
+      ? d.last.progres + ' · ' + fmtTgl(d.last.tanggal)
+      : 'Cek kalkulator & status pemekaran RT.';
   }
 
   window.loadPemekBanner = function () {
-    var btn = document.getElementById('pemekRefreshBtn');
-    if (btn) { btn.classList.add('is-loading'); btn.disabled = true; }
     return fetch(PEMEK_CSV_URL + '&cb=' + Date.now())
       .then(function (res) { if (!res.ok) throw new Error('fetch gagal'); return res.text(); })
       .then(function (t) {
         var d = parsePemek(t);
-        if (!d.rumah) throw new Error('data kosong');
         renderPemek(d);
         try { sessionStorage.setItem('pemekBannerCache', JSON.stringify(d)); } catch (e) {}
       })
@@ -3081,10 +3041,9 @@
         if (cached) renderPemek(cached);
         else {
           var el = document.getElementById('pemekBannerDesc');
-          if (el) el.textContent = 'Data belum dapat dimuat. Ketuk untuk membuka kalkulator pemekaran RT.';
+          if (el) el.textContent = 'Ketuk untuk membuka kalkulator & status pemekaran RT.';
         }
-      })
-      .finally(function () { if (btn) { btn.classList.remove('is-loading'); btn.disabled = false; } });
+      });
   };
 
   window.addEventListener('DOMContentLoaded', function () { loadPemekBanner(); });
