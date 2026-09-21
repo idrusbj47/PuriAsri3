@@ -186,6 +186,37 @@ main { position: relative; z-index: 1; flex: 1; max-width: 900px; margin: 0 auto
 .btn-doc.btn-siteplan:hover { background: var(--green-100); border-color: var(--green-500); }
 .btn-doc.btn-siteplan:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
 
+/* ─── PROGRES PEMBENTUKAN RT (headline) ─── */
+.progress-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--green-800); letter-spacing: 0.02em; white-space: nowrap; padding: 0 4px; }
+.progress-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-bottom: 40px; }
+.prog-card { background: var(--cream-card); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-card); }
+.prog-card-active { border-color: var(--gold-400); box-shadow: 0 2px 14px rgba(196,154,60,0.16); }
+.prog-card-done { border-color: var(--green-400); }
+.prog-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.prog-rt { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--green-900); }
+.prog-cakupan { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+.prog-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+.prog-badge-todo { background: var(--cream-bg); color: var(--text-muted); border: 1px solid var(--border-mid); }
+.prog-badge-active { background: var(--gold-100); color: var(--gold-700); border: 1px solid var(--gold-400); }
+.prog-badge-done { background: var(--green-100); color: var(--green-700); border: 1px solid var(--green-400); }
+.prog-bar-track { height: 5px; border-radius: 10px; background: var(--cream-bg); overflow: hidden; margin-bottom: 12px; }
+.prog-bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+.prog-bar-todo { background: var(--border-mid); }
+.prog-bar-active { background: linear-gradient(90deg, var(--gold-400), var(--gold-500)); }
+.prog-bar-done { background: linear-gradient(90deg, var(--green-400), var(--green-500)); }
+.prog-stages { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; }
+.prog-stage { display: flex; align-items: center; gap: 7px; font-size: 11.5px; }
+.prog-dot { width: 15px; text-align: center; font-size: 10px; flex-shrink: 0; }
+.prog-todo .prog-dot { color: var(--text-muted); }
+.prog-active .prog-dot { color: var(--gold-600); }
+.prog-done .prog-dot { color: var(--green-600); }
+.prog-todo .prog-lbl { color: var(--text-muted); }
+.prog-active .prog-lbl { color: var(--text-dark); font-weight: 500; }
+.prog-done .prog-lbl { color: var(--text-dark); }
+.prog-foot { display: flex; flex-direction: column; gap: 4px; border-top: 1px dashed var(--border-mid); padding-top: 10px; }
+.prog-due { font-size: 11px; color: var(--green-700); font-weight: 500; }
+.prog-ket { font-size: 11px; color: var(--text-muted); font-style: italic; }
+
 /* ─── STAT CARDS ─── */
 .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 48px; }
 .stat-chip {
@@ -634,6 +665,16 @@ footer strong { color: var(--green-700); font-weight: 500; }
       <p class="hint-print">💡 Buka bagian lain (kalkulator, gambaran kawasan, riwayat) dengan tombol panah di judul bagian. Untuk mencetak, hanya bagian yang terbuka yang ikut tercetak.</p>
     </div>
 
+    <!-- Progres pembentukan RT (headline) -->
+    <section class="section fade-up" id="sec-progress" style="display:none">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <span class="progress-title">Progres Pembentukan RT Baru</span>
+        <div class="section-eyebrow-line"></div>
+      </div>
+      <div class="progress-board" id="progressBoard"></div>
+    </section>
+
     <!-- Stats -->
     <div class="stats-row fade-up">
       <div class="stat-chip"><div class="stat-num" id="statBlok">0</div><div class="stat-label">Total Blok</div></div>
@@ -838,10 +879,10 @@ const FALLBACK_CSV = `No,Nama Blok,Jumlah Rumah,Perkiraan Proses Bangun,Data Kas
 5,Blok B3,40,,20,,,,,
 6,Blok C1,38,,14,,,,,
 7,Blok C2,33,,14,,,,,
-8,Blok D1,22,,7,,,,,
-9,Blok D2,27,,12,,,,,
-10,Blok D3,8,,3,,,,,
-11,Blok E1,29,,15,,,,,
+8,Blok D1,22,,7,,,Progres RT,Cakupan Wilayah,Pembentukan Panitia,Musyawarah Internal,Pendataan Warga,Calon Ketua RT,Pemilihan / Musyawarah,Berita Acara,Pengajuan ke RW,Due Date,Keterangan
+9,Blok D2,27,,12,,,RT 3,Blok E & I,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,E1-E2 masih musyawarah wilayah
+10,Blok D3,8,,3,,,RT 4,Blok F & G,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
+11,Blok E1,29,,15,,,RT 5,Blok H & J,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
 12,Blok E2,20,,6,,,,,
 13,Blok E3,20,,6,,,,,
 14,Blok E4,24,,8,,,,,
@@ -892,7 +933,7 @@ TOTAL,57 BLOK,1154,233,283,,,,,`;
 
 const $ = id => document.getElementById(id);
 const fmt = n => Number(n).toLocaleString('id-ID');
-let BLOKS = [], HISTORY = [], PERBUP = '', SOURCE = 'live';
+let BLOKS = [], HISTORY = [], PROGRESS = [], PERBUP = '', SOURCE = 'live';
 let MIN = 50, mode = 'rentang';
 let selected = new Set();
 let ranges = [];
@@ -919,9 +960,9 @@ function parseCSV(text) {
 }
 function num(v) { const n = parseInt(String(v || '').replace(/[^\d-]/g, ''), 10); return isNaN(n) ? 0 : n; }
 
-/* ── Ambil blok, link Perbup, riwayat dari tabel CSV ── */
+/* ── Ambil blok, link Perbup, riwayat, progres RT dari tabel CSV ── */
 function extract(table) {
-  const bloks = [], hist = []; let perbup = '', inHist = false;
+  const bloks = [], hist = [], progress = []; let perbup = '', inHist = false, inProgress = false;
   table.forEach(r => {
     const c = r.map(x => (x || '').trim());
     if (/^\d+$/.test(c[0]) && /^blok/i.test(c[1] || '')) {
@@ -930,10 +971,16 @@ function extract(table) {
                    rumah: num(c[2]), bangun: num(c[3]), kk: num(c[4]) });
     }
     if ((c[7] || '').toLowerCase().includes('link dokumen perbup')) perbup = c[8] || '';
-    if (c[7] === 'No' && c[8] === 'Tanggal') { inHist = true; return; }
+    if (c[7] === 'No' && c[8] === 'Tanggal') { inHist = true; inProgress = false; return; }
     if (inHist && /^\d+$/.test(c[7] || '') && (c[9] || c[8])) hist.push({ no: +c[7], tanggal: c[8], progres: c[9] });
+    if ((c[7] || '').toLowerCase() === 'progres rt') { inProgress = true; inHist = false; return; }
+    if (inProgress && /^rt\s*\d+/i.test(c[7] || '')) {
+      progress.push({ rt: c[7], cakupan: c[8], panitia: c[9], musyInternal: c[10], pendataan: c[11],
+                       calonKetua: c[12], pemilihan: c[13], beritaAcara: c[14], pengajuanRW: c[15],
+                       due: c[16], ket: c[17] });
+    }
   });
-  return { bloks, hist, perbup };
+  return { bloks, hist, progress, perbup };
 }
 function fmtTanggal(s) {
   const m = String(s || '').match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
@@ -1268,6 +1315,49 @@ function renderActions() {
   $('heroActions').innerHTML = perbupBtn + sitePlanBtn;
 }
 
+/* ── Progres pembentukan RT (headline) ── */
+const PROGRESS_STAGES = [
+  ['panitia', 'Panitia'], ['musyInternal', 'Musyawarah Internal'], ['pendataan', 'Pendataan Warga'],
+  ['calonKetua', 'Calon Ketua'], ['pemilihan', 'Pemilihan'], ['beritaAcara', 'Berita Acara'],
+  ['pengajuanRW', 'Pengajuan RW']
+];
+function stageState(v) {
+  const s = (v || '').toUpperCase();
+  if (s === 'SELESAI' || s === 'DONE' || s === 'OK') return 'done';
+  if (s === 'PROSES' || s === 'BERJALAN') return 'active';
+  return 'todo';
+}
+function renderProgress() {
+  const wrap = $('progressBoard');
+  if (!wrap) return;
+  if (!PROGRESS.length) { $('sec-progress').style.display = 'none'; return; }
+  $('sec-progress').style.display = '';
+  wrap.innerHTML = PROGRESS.map(p => {
+    const stagesHtml = PROGRESS_STAGES.map(([key, label]) => {
+      const st = stageState(p[key]);
+      const icon = st === 'done' ? '✔' : st === 'active' ? '●' : '○';
+      return `<div class="prog-stage prog-${st}"><span class="prog-dot">${icon}</span><span class="prog-lbl">${esc(label)}</span></div>`;
+    }).join('');
+    const doneCount = PROGRESS_STAGES.filter(([key]) => stageState(p[key]) === 'done').length;
+    const pct = Math.round(doneCount / PROGRESS_STAGES.length * 100);
+    const hasActive = PROGRESS_STAGES.some(([key]) => stageState(p[key]) === 'active');
+    const overall = pct === 100 ? 'done' : hasActive ? 'active' : 'todo';
+    const overallLabel = pct === 100 ? 'Selesai' : hasActive ? 'Sedang berjalan' : 'Belum mulai';
+    return `<div class="prog-card prog-card-${overall}">
+      <div class="prog-card-head">
+        <div><div class="prog-rt">${esc(p.rt)}</div><div class="prog-cakupan">${esc(p.cakupan)}</div></div>
+        <div class="prog-badge prog-badge-${overall}">${overallLabel}</div>
+      </div>
+      <div class="prog-bar-track"><div class="prog-bar-fill prog-bar-${overall}" style="width:${pct}%"></div></div>
+      <div class="prog-stages">${stagesHtml}</div>
+      <div class="prog-foot">
+        ${p.due ? `<span class="prog-due">🗓 Target: ${esc(fmtTanggal(p.due))}</span>` : ''}
+        ${p.ket && p.ket !== '-' ? `<span class="prog-ket">${esc(p.ket)}</span>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
 /* ── Tabel data blok ── */
 const ratioOf = b => b.rumah ? b.kk / b.rumah : 0;
 function renderDataChips() {
@@ -1312,14 +1402,14 @@ document.addEventListener('click', e => {
 
 /* ── Render halaman ── */
 function renderPage(data) {
-  BLOKS = data.bloks; HISTORY = data.hist; PERBUP = data.perbup;
+  BLOKS = data.bloks; HISTORY = data.hist; PROGRESS = data.progress; PERBUP = data.perbup;
   const names = new Set(BLOKS.map(b => b.nama));
   selected = new Set([...selected].filter(n => names.has(n)));
   ranges = ranges.filter(r => names.has(r.fb) && names.has(r.tb));
   ranges.forEach(r => { r.fn = clampNo(r.fn, BLOKS[idxOf(r.fb)].rumah); r.tn = clampNo(r.tn, BLOKS[idxOf(r.tb)].rumah); });
   if (!ranges.length) { ranges = [newRange(0)]; autoFill(0); }
   if (firstRender) simN = simMaxN();
-  renderStats(); renderDataChips(); renderDataTable(); renderKawasan(); renderPicker(); renderRanges();
+  renderStats(); renderDataChips(); renderDataTable(); renderKawasan(); renderPicker(); renderRanges(); renderProgress();
   renderResult(); renderSim(); renderRiwayat(); renderActions();
   $('lastUpdated').innerHTML = `Terakhir diperbarui: <span>${fmtNow()}</span> &nbsp;·&nbsp; <span>${BLOKS.length} blok</span>` +
     (SOURCE === 'fallback' ? ' &nbsp;·&nbsp; <span style="color:#b8433c">memakai data cadangan (Google Sheets tidak terjangkau)</span>' : '');
