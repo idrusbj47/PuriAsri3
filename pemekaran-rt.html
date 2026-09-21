@@ -464,7 +464,7 @@ table.rt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   font-family: inherit; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
   font-weight: 600; color: var(--green-700); background: var(--cream-card);
   border: 1px solid var(--border-mid); border-radius: 20px; padding: 7px 14px 7px 16px;
-  white-space: nowrap; transition: all 0.2s ease;
+  white-space: nowrap; transition: all 0.2s ease; max-width: 100%;
 }
 .cs-toggle:hover { border-color: var(--green-400); background: var(--green-50); }
 .cs-toggle:focus-visible { outline: 2px solid var(--green-500); outline-offset: 2px; }
@@ -472,6 +472,7 @@ table.rt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .cs.collapsed .cs-toggle .chev { transform: rotate(-90deg); }
 .cs-state { display: none; font-size: 9.5px; letter-spacing: 0.04em; text-transform: none; font-weight: 400; color: var(--text-muted); }
 .cs.collapsed .cs-state { display: inline; }
+.cs-subtitle { font-size: 9.5px; letter-spacing: 0.02em; text-transform: none; font-weight: 400; color: var(--text-muted); white-space: nowrap; }
 .cs.collapsed .cs-body { display: none; }
 .cs.collapsed { margin-bottom: 28px; }
 .cs.collapsed .section-eyebrow { margin-bottom: 0; }
@@ -531,6 +532,10 @@ table.rt-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
   .fit-table td:first-child { font-size: 12px; }
   .nomor-sub { font-size: 10px; }
   .data-scroll { max-height: 62vh; }
+  /* judul section panjang: bungkus, jangan dorong lebar layar */
+  .cs-toggle { white-space: normal; text-align: left; line-height: 1.35; padding: 8px 12px 8px 14px; }
+  .cs-toggle > span:first-child { flex: 1 1 auto; min-width: 0; }
+  .cs-subtitle, .cs-state { white-space: normal; }
 }
 @media (max-width: 360px) {
   .rt-table { font-size: 11.5px; }
@@ -748,7 +753,7 @@ footer strong { color: var(--green-700); font-weight: 500; }
     <section class="section cs fade-up" id="sec-keputusan">
       <div class="section-eyebrow">
         <div class="section-eyebrow-line"></div>
-        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-keputusan"><span>Hasil Keputusan Musyawarah Pemekaran (Rapat ke-1 · 20 Sept 2026)</span><span class="cs-state">ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-keputusan"><span>Hasil Keputusan Musyawarah Pemekaran</span><span class="cs-subtitle">Rapat ke-1 · 20 Sept 2026</span><span class="cs-state">ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
         <div class="section-eyebrow-line"></div>
       </div>
       <div class="cs-body" id="body-keputusan">
