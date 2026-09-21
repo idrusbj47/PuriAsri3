@@ -879,10 +879,10 @@ const FALLBACK_CSV = `No,Nama Blok,Jumlah Rumah,Perkiraan Proses Bangun,Data Kas
 5,Blok B3,40,,20,,,,,
 6,Blok C1,38,,14,,,,,
 7,Blok C2,33,,14,,,,,
-8,Blok D1,22,,7,,,Progres RT,Cakupan Wilayah,Pembentukan Panitia,Musyawarah Internal,Pendataan Warga,Calon Ketua RT,Pemilihan / Musyawarah,Berita Acara,Pengajuan ke RW,Due Date,Keterangan
-9,Blok D2,27,,12,,,RT 3,Blok E & I,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,E1-E2 masih musyawarah wilayah
-10,Blok D3,8,,3,,,RT 4,Blok F & G,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
-11,Blok E1,29,,15,,,RT 5,Blok H & J,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
+8,Blok D1,22,,7,,,Progres RT,Cakupan Wilayah,Pembentukan Panitia,Musyawarah Internal,Pendataan Warga,Calon Ketua RT,Pemilihan / Musyawarah,Berita Acara,Pengajuan RW ke Desa,Penetapan / SK RT dari Desa,Due Date,Keterangan
+9,Blok D2,27,,12,,,RT 3,Blok E & I,Selesai,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,E1-E2 masih musyawarah wilayah
+10,Blok D3,8,,3,,,RT 4,Blok F & G,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
+11,Blok E1,29,,15,,,RT 5,Blok H & J,PROSES,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,BELUM,9/27/2026,-
 12,Blok E2,20,,6,,,,,
 13,Blok E3,20,,6,,,,,
 14,Blok E4,24,,8,,,,,
@@ -977,7 +977,7 @@ function extract(table) {
     if (inProgress && /^rt\s*\d+/i.test(c[7] || '')) {
       progress.push({ rt: c[7], cakupan: c[8], panitia: c[9], musyInternal: c[10], pendataan: c[11],
                        calonKetua: c[12], pemilihan: c[13], beritaAcara: c[14], pengajuanRW: c[15],
-                       due: c[16], ket: c[17] });
+                       penetapanSK: c[16], due: c[17], ket: c[18] });
     }
   });
   return { bloks, hist, progress, perbup };
@@ -1319,7 +1319,7 @@ function renderActions() {
 const PROGRESS_STAGES = [
   ['panitia', 'Panitia'], ['musyInternal', 'Musyawarah Internal'], ['pendataan', 'Pendataan Warga'],
   ['calonKetua', 'Calon Ketua'], ['pemilihan', 'Pemilihan'], ['beritaAcara', 'Berita Acara'],
-  ['pengajuanRW', 'Pengajuan RW']
+  ['pengajuanRW', 'Pengajuan RW'], ['penetapanSK', 'Penetapan/SK Desa']
 ];
 function stageState(v) {
   const s = (v || '').toUpperCase();
