@@ -483,6 +483,21 @@
       background: var(--border-light);
     }
 
+    .section-label-toggle { user-select: none; }
+    .arsip-chev { color: var(--text-muted); flex-shrink: 0; transition: transform 0.25s ease; }
+    .section-label-toggle[aria-expanded="true"] .arsip-chev { transform: rotate(180deg); }
+    .arsip-body {
+      display: grid; grid-template-rows: 1fr; opacity: 1;
+      transition: grid-template-rows 0.32s ease, opacity 0.28s ease, margin-bottom 0.32s ease;
+      margin-bottom: 8px;
+    }
+    .arsip-body > .arsip-inner { min-height: 0; overflow: hidden; }
+    .arsip-body.collapsed {
+      grid-template-rows: 0fr; opacity: 0; margin-bottom: 0;
+      pointer-events: none;
+    }
+    @media (prefers-reduced-motion: reduce) { .arsip-body, .arsip-chev { transition: none; } }
+
     .menu-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1567,8 +1582,9 @@
     .pemek-banner-body { position: relative; flex: 1; min-width: 0; }
     .pemek-banner-title { font-family: 'Playfair Display', serif; font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.3; }
     .pemek-banner-desc {
-      font-size: 11px; color: rgba(255,255,255,0.72); margin-top: 1px; line-height: 1.4;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 11px; color: rgba(255,255,255,0.72); margin-top: 2px; line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; text-overflow: ellipsis;
     }
     .pemek-live {
       position: relative; flex-shrink: 0;
@@ -2189,9 +2205,13 @@
     </div>
 
     <!-- ── ARSIP: POLLING SUDAH SELESAI ── -->
-    <div class="section-label" style="margin-bottom:16px;">
+    <button type="button" class="section-label section-label-toggle" id="arsipToggle" aria-expanded="false" aria-controls="arsipBody" style="margin-bottom:16px; width:100%; background:none; border:none; padding:0; cursor:pointer; font:inherit;">
       <span>Arsip</span>
-    </div>
+      <svg class="arsip-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+
+    <div id="arsipBody" class="arsip-body collapsed">
+    <div class="arsip-inner">
 
     <a class="polling-banner" href="klasemen-17an.html" id="klasemenArsipBanner" style="margin-bottom:12px;">
       <div class="polling-banner-icon">🏆</div>
@@ -2232,6 +2252,9 @@
         <div class="polling-banner-arrow">→</div>
       </div>
     </a>
+
+    </div>
+    </div>
 
   </main>
 
@@ -3048,6 +3071,17 @@
 
   window.addEventListener('DOMContentLoaded', function () { loadPemekBanner(); });
 })();
+</script>
+    <script>
+  (function () {
+    var btn = document.getElementById('arsipToggle');
+    var body = document.getElementById('arsipBody');
+    if (!btn || !body) return;
+    btn.addEventListener('click', function () {
+      var collapsed = body.classList.toggle('collapsed');
+      btn.setAttribute('aria-expanded', String(!collapsed));
+    });
+  })();
 </script>
     <script>
   if ('serviceWorker' in navigator) {
