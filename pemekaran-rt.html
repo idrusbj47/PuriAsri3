@@ -663,6 +663,30 @@ footer strong { color: var(--green-700); font-weight: 500; }
       </div>
     </section>
 
+    <!-- Hasil Keputusan Resmi -->
+    <section class="section cs fade-up" id="sec-keputusan">
+      <div class="section-eyebrow">
+        <div class="section-eyebrow-line"></div>
+        <button class="cs-toggle" type="button" aria-expanded="true" aria-controls="body-keputusan"><span>Hasil Keputusan Musyawarah Pemekaran (Rapat ke-1 · 20 Sept 2026)</span><span class="cs-state">ikut dicetak</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="section-eyebrow-line"></div>
+      </div>
+      <div class="cs-body" id="body-keputusan">
+        <p class="pane-hint">Musyawarah warga menyetujui <strong>pembentukan 3 wilayah RT baru</strong> di Puri Asri 3, sehingga total menjadi 4 wilayah RT. Ini adalah <strong>musyawarah pemekaran yang pertama</strong> (bertepatan dengan pertemuan warga rutin ke-8 di lingkungan Puri Asri 3).</p>
+        <div class="tbl-wrap data-scroll">
+          <table class="rt-table">
+            <thead><tr><th>Wilayah RT</th><th>Cakupan Blok</th></tr></thead>
+            <tbody>
+              <tr><td><strong>RT 001</strong></td><td>Blok A, B, C dan D, serta wilayah tahap awal yang masih menunggu hasil musyawarah lanjutan</td></tr>
+              <tr><td><strong>RT 003</strong></td><td>Blok E dan I, dengan catatan sebagian wilayah Blok E tahap awal masih akan dimusyawarahkan</td></tr>
+              <tr><td><strong>RT 004</strong></td><td>Blok F dan G</td></tr>
+              <tr><td><strong>RT 005</strong></td><td>Blok H, J dan K</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="data-note">Catatan khusus: status <strong>Blok E1 dan E2</strong> (masuk RT 001 atau RT 003) belum final dan akan ditentukan melalui musyawarah internal warga Blok E1/E2 terlebih dahulu. Panitia pembentukan/pemilihan Ketua RT dibentuk terpisah di masing-masing wilayah RT baru.</p>
+      </div>
+    </section>
+
     <!-- Kalkulator -->
     <section class="section cs collapsed fade-up" id="sec-calc">
       <div class="section-eyebrow">
@@ -810,7 +834,7 @@ const FALLBACK_CSV = `No,Nama Blok,Jumlah Rumah,Perkiraan Proses Bangun,Data Kas
 1,Blok A2,24,21,0,,,Riwayat Status Pemekaran,,
 2,Blok A3,30,5,9,,,No,Tanggal,Progres
 3,Blok B1,36,,7,,,1,9/20/2026,Rapat 1 Perumusan Pemekaran
-4,Blok B2,36,,14,,,,,
+4,Blok B2,36,,14,,,2,9/20/2026,"Rapat Pemekaran ke-1 (Rapat Warga ke-8): Musyawarah menyetujui pemekaran 3 RT baru - RT003 (Blok E+I) RT004 (Blok F+G) RT005 (Blok H+J+K). RT001 tetap Blok A-D dengan status Blok E1/E2 masih menunggu musyawarah internal warga."
 5,Blok B3,40,,20,,,,,
 6,Blok C1,38,,14,,,,,
 7,Blok C2,33,,14,,,,,
