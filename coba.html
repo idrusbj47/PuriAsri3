@@ -535,13 +535,10 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
       0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
       40%           { transform: translateY(-7px); opacity: 1; }
     }
-
 /* ===== TAB + DASBOR ===== */
 .tabpanel{display:none;padding-top:16px}.tabpanel.on{display:block;animation:tin .35s var(--ease)}
 @keyframes tin{from{opacity:0;transform:translateY(8px)}}
 .tabpanel>section:first-child{padding-top:6px}
-#top .pemek-banner{margin-top:0}
-.arsip-toggle{pointer-events:none}.arsip-chev{display:none}
 .dash-head{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px}
 .dh-t{font-family:'Playfair Display',serif;font-size:22px;font-weight:600}
 .dh-u{font-size:11.5px;color:var(--soft);margin-top:2px}
@@ -599,6 +596,15 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
 .pbar{background:#fff;border-radius:20px;padding:13px 14px;margin-top:10px;box-shadow:0 6px 18px rgba(18,56,38,.07),0 0 0 1px var(--line);font-size:12px;color:var(--soft)}
 .pbar b{display:block;font-size:15px;color:var(--ink);margin-bottom:8px}
 .pb-t{height:9px;border-radius:9px;background:#e4efe7;overflow:hidden;margin-bottom:7px}.pb-t div{height:100%;border-radius:9px;background:linear-gradient(90deg,#56a660,#c49a3c)}
+
+.eq{display:flex;flex-direction:column;gap:7px;margin:10px 0 12px;font-size:13px}
+.eq div{display:flex;justify-content:space-between;align-items:baseline;color:var(--soft)}
+.eq b{color:var(--ink);font-size:14px}.eq .p b{color:#1e6b3a}.eq .m b{color:#c4532d}
+.eq .t{border-top:1.5px dashed var(--border-mid);padding-top:9px;margin-top:2px;color:var(--ink);font-weight:600}
+.eq .t b{font-size:24px;letter-spacing:-.02em}
+.kp-h a{font-size:12px;color:#1e6b3a;font-weight:600}
+.kt b.sm{font-size:16px}
+#viewRingkasan{padding-top:16px}
 </style>
 </head>
 <body>
@@ -612,50 +618,62 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
 <header><div class="wrap">
   <a class="brand" href="#top"><div class="logo-mark"><img src="Logo RT11.png" alt="Logo Puri Asri 3"></div>
     <div><div class="header-title">PURI ASRI 3</div><div class="header-sub">Portal Warga · RT 01 / RW 12 · Jonggol</div></div></a>
-  <nav class="top"><a class="on" href="#top">Beranda</a><a href="#keuangan">Keuangan</a><a href="#informasi">Informasi RT</a><a href="#arsip">Arsip</a></nav>
+  <nav class="top"><a class="on" href="#top">Beranda</a><a href="#ringkasan">Ringkasan</a><a href="#keuangan">Keuangan</a><a href="#informasi">Informasi RT</a><a href="#arsip">Arsip</a></nav>
   <div class="datechip"><span>Hari ini</span><b id="dateChip">—</b></div>
 </div></header>
 <div class="hspace"></div>
 
+<div id="viewHome"><div class="hero" id="top"><div class="wrap">
+  <div><div class="eyebrow">Puri Asri 3</div>
+    <h1>Bersama Membangun Lingkungan yang <em>Lebih Baik</em></h1>
+    <p>Portal informasi &amp; laporan keuangan warga RT 01 / RW 12. Transparan, rukun, dan mudah diakses.</p>
+    <div class="cta"><a class="btn gold" href="progres-rt.html">Lihat Progres →</a><a class="btn line" href="#keuangan">Jelajahi Portal</a></div></div>
+  <div class="hero-slider" id="heroSlider"><div class="hero-slider-track" id="heroSliderTrack">
+    <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div><div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div><div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div><div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div><div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div><div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
+  </div><div class="hero-slider-dots" id="heroSliderDots"></div></div>
+</div></div>
+
 <main class="wrap">
-<div class="tabpanel on" id="top" data-tab="top">
-<div class="dhero"><div class="dh-row"><div><div class="dh-hi" id="dhHi">Selamat datang</div><div class="dh-sub">Warga Puri Asri 3 · RT 01 / RW 12</div></div><button class="dh-rf" id="dashRf" aria-label="Muat ulang">↻</button></div>
-<div class="dh-lbl">Total saldo kas &amp; dana kematian</div><div class="dh-tot" id="dhTot">Rp —</div><div class="dh-u" id="dashUpd">Memuat data…</div></div>
-<div class="qk"><a href="kas-umum.html"><span style="--c:linear-gradient(145deg,#3a8c45,#1e4225)">💰</span>Kas Umum</a><a href="Kematian.html"><span style="--c:linear-gradient(145deg,#e3c97e,#b98a2c)">🤍</span>Kematian</a><a href="pemekaran-rt.html"><span style="--c:linear-gradient(145deg,#8aa0ee,#3b4a9c)">🏘️</span>Pemekaran</a><a href="#informasi" onclick="showTab('informasi');return false"><span style="--c:linear-gradient(145deg,#e58a6a,#b8482a)">📂</span>Dokumen</a></div>
-<div class="mtiles" id="mTiles"></div>
-<div class="kp"><div class="kp-h"><h3>Kondisi Puri</h3><span class="stp" id="kpSt">…</span></div><div class="kgrid" id="kGrid"></div><div class="pbar" id="pBar" style="display:none"></div></div>
-<div class="dcard" id="dKas"><div class="dload">Memuat…</div></div>
-<div class="dcard kem" id="dKem"><div class="dload">Memuat…</div></div>
-<a class="pemek-banner" href="pemekaran-rt.html" id="pemekaranBanner">
+  <a class="pemek-banner" href="pemekaran-rt.html" id="pemekaranBanner">
     <span class="pemek-banner-flag">🏘️</span>
     <span class="pemek-banner-body"><span class="pemek-banner-title">Pemekaran RT · Sedang Berjalan</span><span class="pemek-banner-desc" id="pemekBannerDesc">Memuat status terkini…</span></span>
     <span class="pemek-live"><i></i>Live</span><span class="pemek-banner-arrow"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-<section class="slide-sec"><div class="sec-h"><h2>Kabar Warga</h2></div><div class="hero-slider" id="heroSlider"><div class="hero-slider-track" id="heroSliderTrack">
-    <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div><div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div><div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div><div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div><div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div><div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
-  </div><div class="hero-slider-dots" id="heroSliderDots"></div></div>
-</section>
-</div>
-<div class="tabpanel" data-tab="keuangan"><section id="keuangan"><div class="sec-h"><h2>Akses Cepat</h2><span>Lebih Kompak · Lebih Peduli · Lebih Baik</span></div>
+
+  <section><div class="sec-h"><h2>Panduan &amp; Aplikasi</h2></div><div class="pills">
+    <a class="pill" href="javascript:void(0)" onclick="startTour()"><span class="si" style="background:#e4f2e8;color:#1e6b3a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="bd"><b>Panduan Penggunaan Website</b><small>Cara cepat memakai fitur kas, laporan &amp; dokumen RT</small></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
+    <a class="pill" href="javascript:void(0)" id="installCard" onclick="handleInstallClick()"><span class="si" style="background:#f8ecd0;color:#9a6d17"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><span class="bd"><b id="installCardTitle">Install Aplikasi (PWA)</b><small id="installCardDesc">Pasang di layar utama HP, akses lebih cepat tanpa browser</small></span><span id="installCardArrow" style="display:flex"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span></a>
+  </div></section>
+
+  <section id="keuangan"><div class="sec-h"><h2>Akses Cepat</h2><span>Lebih Kompak · Lebih Peduli · Lebih Baik</span></div>
     <div class="menu-grid">
       <div class="big kas"><a class="top" href="kas-umum.html"><span class="bi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></span><span><h3>Kas Umum</h3><p>Transparansi untuk kegiatan dan kebutuhan warga.</p></span><span class="go"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span></a>
         <div class="group" id="tourRincian"><a class="srow" href="pengeluaran-kas.html"><span class="si"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span><span>Pengeluaran Kas</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="srow" href="info-dokumen-kas.html"><span class="si"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6l5 5v13a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M9 12h6M9 16h6M9 8h1"/></svg></span><span>Info &amp; Dokumen Kas</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="srow" href="index2.html" id="tourKomunitas"><span class="si"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Kas Komunitas</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a></div></div>
       <div class="big kem"><a class="top" href="Kematian.html"><span class="bi"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span><h3>Dana Kematian</h3><p>Saling peduli, meringankan beban keluarga yang ditinggalkan.</p></span><span class="go"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span></a>
         <div class="group"><a class="srow" href="pengeluaran-kematian.html"><span class="si"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><span>Pengeluaran Kematian</span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a></div></div>
-    </div></section></div>
-<div class="tabpanel" data-tab="informasi"><section id="informasi"><div class="sec-h"><h2>Informasi &amp; Dokumen RT</h2></div><div class="dock" id="tourDokumen"><a class="app" href="program-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#8aa0ee,#3b4a9c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h4M8 18h.01M12 18h4"/></svg></span><span class="lbl">Kegiatan RT</span></a><a class="app" href="timeline-pa3.html"><span class="sq" style="--g:linear-gradient(145deg,#e3c97e,#a8791f)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="lbl">Timeline Rapat</span></a><a class="app" href="progres-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#4fe0cc,#0f766e)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><span class="lbl">Progres Warga</span></a><a class="app" href="pemekaran-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#6db4ee,#14416b)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><polyline points="8 3 3 3 3 8"/><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.87L3 3M15 9l6-6"/></svg></span><span class="lbl">Pemekaran RT</span></a><a class="app" href="dokumentasiacara-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#fdac66,#c2410c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span class="lbl">Dokumentasi Acara</span></a><a class="app" href="inventaris-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#e9c46a,#b5832a)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M12 12v4M10 14h4"/></svg></span><span class="lbl">Inventaris RT</span></a><a class="app" href="adart.html"><span class="sq" style="--g:linear-gradient(145deg,#5fbf6b,#1e5a2a)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5V22h16"/></svg></span><span class="lbl">AD / ART</span></a><a class="app" href="peta-lokasi.html"><span class="sq" style="--g:linear-gradient(145deg,#3f9a58,#0f3a1c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span><span class="lbl">Peta Lokasi</span></a></div></section><section><div class="sec-h"><h2>Panduan &amp; Aplikasi</h2></div><div class="pills">
-    <a class="pill" href="javascript:void(0)" onclick="startTour()"><span class="si" style="background:#e4f2e8;color:#1e6b3a"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="bd"><b>Panduan Penggunaan Website</b><small>Cara cepat memakai fitur kas, laporan &amp; dokumen RT</small></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a>
-    <a class="pill" href="javascript:void(0)" id="installCard" onclick="handleInstallClick()"><span class="si" style="background:#f8ecd0;color:#9a6d17"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span><span class="bd"><b id="installCardTitle">Install Aplikasi (PWA)</b><small id="installCardDesc">Pasang di layar utama HP, akses lebih cepat tanpa browser</small></span><span id="installCardArrow" style="display:flex"><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></span></a>
-  </div></section></div>
-<div class="tabpanel" data-tab="arsip"><section id="arsip"><button type="button" class="arsip-toggle" id="arsipToggle" aria-expanded="false" aria-controls="arsipBody"><h2>Arsip</h2>
+    </div></section>
+
+  <section id="informasi"><div class="sec-h"><h2>Informasi &amp; Dokumen RT</h2></div><div class="dock" id="tourDokumen"><a class="app" href="program-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#8aa0ee,#3b4a9c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h4M8 18h.01M12 18h4"/></svg></span><span class="lbl">Kegiatan RT</span></a><a class="app" href="timeline-pa3.html"><span class="sq" style="--g:linear-gradient(145deg,#e3c97e,#a8791f)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="lbl">Timeline Rapat</span></a><a class="app" href="progres-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#4fe0cc,#0f766e)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span><span class="lbl">Progres Warga</span></a><a class="app" href="pemekaran-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#6db4ee,#14416b)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><polyline points="8 3 3 3 3 8"/><path d="M12 22v-8.3a4 4 0 0 0-1.17-2.87L3 3M15 9l6-6"/></svg></span><span class="lbl">Pemekaran RT</span></a><a class="app" href="dokumentasiacara-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#fdac66,#c2410c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span class="lbl">Dokumentasi Acara</span></a><a class="app" href="inventaris-rt.html"><span class="sq" style="--g:linear-gradient(145deg,#e9c46a,#b5832a)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M12 12v4M10 14h4"/></svg></span><span class="lbl">Inventaris RT</span></a><a class="app" href="adart.html"><span class="sq" style="--g:linear-gradient(145deg,#5fbf6b,#1e5a2a)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5V22h16"/></svg></span><span class="lbl">AD / ART</span></a><a class="app" href="peta-lokasi.html"><span class="sq" style="--g:linear-gradient(145deg,#3f9a58,#0f3a1c)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></span><span class="lbl">Peta Lokasi</span></a></div></section>
+
+  <section id="arsip"><button type="button" class="arsip-toggle" id="arsipToggle" aria-expanded="false" aria-controls="arsipBody"><h2>Arsip</h2>
     <svg class="arsip-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
-    <div id="arsipBody" class="arsip-body"><div class="arsip-inner"><div class="agroup"><a class="polling-banner" id="maulidArsipBanner" href="acara-maulid.html"><span class="em">🕌</span><span class="bd"><small>Peringatan Maulid Nabi Muhammad SAW</small><strong>Progres Iuran Maulid Nabi</strong><em>Selesai · Lihat rekap iuran & partisipasi</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="klasemenArsipBanner" href="klasemen-17an.html"><span class="em">🏆</span><span class="bd"><small>Lomba 17 Agustusan HUT RI ke-81</small><strong>Klasemen Poin per Blok</strong><em>Selesai · Lihat klasemen akhir</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="hutriArsipBanner" href="hut-ri-17an.html"><span class="em">🇮🇩</span><span class="bd"><small>Acara 17 Agustusan HUT RI ke-81</small><strong>Progres Iuran & Daftar Donatur</strong><em>Selesai · Lihat rekap iuran</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="pollingBanner" href="poling.html"><span class="em">🗳️</span><span class="bd"><small>Berita acara ada di Progres Urusan Warga</small><strong>Polling Posyandu & Kas RT</strong><em>Selesai · Lihat hasil polling</em></span><span class="cnt"><b id="pollingCountNum">—</b><i>Suara</i></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a></div></div></div></section></div>
-<div class="visitor-counter-wrap"><div class="visitor-counter-card"><div class="visitor-counter-label"><div class="visitor-counter-dot"></div><span>Total Pengunjung</span></div>
+    <div id="arsipBody" class="arsip-body collapsed"><div class="arsip-inner"><div class="agroup"><a class="polling-banner" id="maulidArsipBanner" href="acara-maulid.html"><span class="em">🕌</span><span class="bd"><small>Peringatan Maulid Nabi Muhammad SAW</small><strong>Progres Iuran Maulid Nabi</strong><em>Selesai · Lihat rekap iuran & partisipasi</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="klasemenArsipBanner" href="klasemen-17an.html"><span class="em">🏆</span><span class="bd"><small>Lomba 17 Agustusan HUT RI ke-81</small><strong>Klasemen Poin per Blok</strong><em>Selesai · Lihat klasemen akhir</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="hutriArsipBanner" href="hut-ri-17an.html"><span class="em">🇮🇩</span><span class="bd"><small>Acara 17 Agustusan HUT RI ke-81</small><strong>Progres Iuran & Daftar Donatur</strong><em>Selesai · Lihat rekap iuran</em></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a><a class="polling-banner" id="pollingBanner" href="poling.html"><span class="em">🗳️</span><span class="bd"><small>Berita acara ada di Progres Urusan Warga</small><strong>Polling Posyandu & Kas RT</strong><em>Selesai · Lihat hasil polling</em></span><span class="cnt"><b id="pollingCountNum">—</b><i>Suara</i></span><svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></a></div></div></div></section>
+
+  <div class="visitor-counter-wrap"><div class="visitor-counter-card"><div class="visitor-counter-label"><div class="visitor-counter-dot"></div><span>Total Pengunjung</span></div>
     <a href="https://www.hitwebcounter.com/" target="_blank" rel="noopener"><img src="https://www.hitwebcounter.com/counter/counter.php?page=21505345&style=0006&nbdigits=5&type=page" alt="Counter" decoding="async"></a></div></div>
+</main></div>
+<main class="wrap" id="viewRingkasan" hidden>
+<div class="dhero"><div class="dh-row"><div><div class="dh-hi" id="dhHi">Ringkasan</div><div class="dh-sub">Ringkasan keadaan Puri Asri 3 · RT 01 / RW 12</div></div><button class="dh-rf" id="dashRf" aria-label="Muat ulang">↻</button></div>
+<div class="dh-lbl">Total saldo kas &amp; dana kematian</div><div class="dh-tot" id="dhTot">Rp —</div><div class="dh-u" id="dashUpd">Memuat data…</div></div>
+<div class="mtiles" id="mTiles"></div>
+<div class="kp"><div class="kp-h"><h3>Kondisi Puri</h3><span class="stp" id="kpSt">…</span></div><div class="kgrid" id="kGrid"></div><div class="pbar" id="pBar" style="display:none"></div></div>
+<div class="dcard" id="dKas"><div class="dload">Memuat…</div></div>
+<div class="dcard kem" id="dKem"><div class="dload">Memuat…</div></div>
+<div class="kp"><div class="kp-h"><h3>Kegiatan &amp; Partisipasi Warga</h3><a href="dokumentasiacara-rt.html">Detail ›</a></div><div class="kgrid" id="actGrid"><div class="dload" style="grid-column:1/-1">Memuat…</div></div></div>
 </main>
 
 <footer><strong>Puri Asri 3</strong> · RT 01 / RW 12 · Tahun 2026 | Jonggol<br>Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</footer>
 
-<nav class="tabbar" id="tabbar"><a class="on" href="#top"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Beranda</a><a href="#keuangan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>Keuangan</a><a href="#informasi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Informasi</a><a href="#arsip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Arsip</a></nav>
+<nav class="tabbar" id="tabbar"><a class="on" href="#top"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Beranda</a><a href="#ringkasan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="11"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg>Ringkasan</a><a href="#keuangan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>Keuangan</a><a href="#informasi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Informasi</a><a href="#arsip"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Arsip</a></nav>
 
   <!-- ── MODAL: INSTRUKSI MANUAL INSTALL PWA ── -->
   <div class="modal-overlay" id="installHelpModal">
@@ -734,14 +752,19 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
 </script>
 <script>
 (function(){var d=document.getElementById('dateChip');if(d)d.textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-var hdr=document.querySelector('header'),links=document.querySelectorAll('.tabbar a,nav.top a');
-window.showTab=function(t,quiet){document.querySelectorAll('.tabpanel').forEach(function(p){p.classList.toggle('on',p.dataset.tab===t)});
-links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+t)});
-if(!quiet){scrollTo(0,0);try{history.replaceState(null,'','#'+t)}catch(e){}}};
-links.forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();showTab(a.getAttribute('href').slice(1))})});
-document.querySelector('.brand').addEventListener('click',function(e){e.preventDefault();showTab('top')});
-addEventListener('scroll',function(){hdr.classList.toggle('scrolled',scrollY>24)},{passive:true});
-var h=location.hash.slice(1);if(h&&document.querySelector('.tabpanel[data-tab="'+h+'"]'))showTab(h,true)})();
+var hdr=document.querySelector('header'),links=document.querySelectorAll('.tabbar a,nav.top a'),ids=['top','keuangan','informasi','arsip'],lock=0;
+function setOn(c){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+c)})}
+function openArsip(){document.getElementById('arsipBody').classList.remove('collapsed');document.getElementById('arsipToggle').setAttribute('aria-expanded','true')}
+function on(){if(scrollY>24)hdr.classList.add('scrolled');else if(scrollY<6)hdr.classList.remove('scrolled');if(Date.now()<lock||vh.hidden)return;var y=scrollY+innerHeight*.35,cur='top';ids.forEach(function(i){var e=document.getElementById(i);if(e&&e.getBoundingClientRect().top+scrollY<=y)cur=i});if(innerHeight+scrollY>=document.documentElement.scrollHeight-6)cur='arsip';setOn(cur)}
+var vh=document.getElementById('viewHome'),vr=document.getElementById('viewRingkasan');
+function showR(on){vh.hidden=on;vr.hidden=!on}
+links.forEach(function(a){a.addEventListener('click',function(e){var h=a.getAttribute('href').slice(1);
+if(h==='ringkasan'){e.preventDefault();showR(true);setOn(h);scrollTo(0,0);return}
+lock=Date.now()+1100;setOn(h);if(h==='arsip')openArsip();
+if(vh.hidden){e.preventDefault();showR(false);var t=document.getElementById(h);if(t)t.scrollIntoView()}})});
+document.querySelector('.brand').addEventListener('click',function(e){if(vh.hidden){e.preventDefault();showR(false);setOn('top');scrollTo(0,0)}});
+if(location.hash==='#ringkasan'){showR(true);setOn('ringkasan')}
+addEventListener('scroll',on,{passive:true});on()})();
 </script>
 <script>
     // ── parser CSV quote-aware — tahan terhadap komentar multi-baris ──
@@ -1030,7 +1053,6 @@ var h=location.hash.slice(1);if(h&&document.querySelector('.tabpanel[data-tab="'
     const step = tourSteps[tourIndex];
     const target = document.querySelector(step.selector);
     currentTourTarget = target;
-    var pn = target.closest('.tabpanel'); if (pn && window.showTab) showTab(pn.dataset.tab, true);
 
     document.getElementById('tourTitle').textContent = step.title;
     document.getElementById('tourDesc').textContent = step.desc;
@@ -1288,37 +1310,39 @@ function parse(text){
   if(!sec)return;
   if(/^\d+\.\s*BULAN/i.test(f0)){cur=mon(f0);return}
   if(f1&&cur){var a=amt(f,1);if(a>0){(sec==='e'?kem:kas).k[cur]+=a;items.push({u:f1.replace(/^\d+\.\s*/,''),a:a,m:cur,e:sec==='e'})}}});
- var saldoKas=0,awalKem=0,saldoKem=0;
+ var saldoKas=0,awalKas=0,awalKem=0,saldoKem=0;
  lines.forEach(function(l){var u=l.toUpperCase(),f=sp(l);
   if(!saldoKas&&u.indexOf('JUMLAH UANG KAS BULAN BERJALAN')>=0)f.forEach(function(x){if(!saldoKas&&/RP/i.test(x))saldoKas=num(x)});
   if(!saldoKem&&u.indexOf('JUMLAH UANG SUMB')>=0&&u.indexOf('BERJALAN')>=0)f.forEach(function(x){if(!saldoKem&&/RP/i.test(x))saldoKem=num(x)});
+  if(!awalKas&&u.indexOf('SALDO KAS DESEMBER 2025')>=0)f.forEach(function(x){if(!awalKas&&/RP/i.test(x))awalKas=num(x)});
   if(!awalKem&&u.indexOf('SALDO')>=0&&u.indexOf('KEMATIAN')>=0)f.forEach(function(x){if(!awalKem&&/RP/i.test(x))awalKem=num(x)})});
  var up=(sp(lines[0]||'')[1]||'').trim(),mm=up.match(/(\d{1,2})\s+([A-Za-z]+)/),cI=new Date().getMonth(),cD=new Date().getDate();
  if(mm){var ab=['jan','feb','mar','apr','mei','jun','jul','agu','sep','okt','nov','des'].indexOf(mm[2].slice(0,3).toLowerCase());if(mm[2].slice(0,2).toLowerCase()==='no')ab=10;if(ab>=0){cI=ab;cD=+mm[1]}}
- return{items:items,kas:kas,kem:kem,saldoKas:saldoKas,awalKem:awalKem,saldoKem:saldoKem,upd:up,cutI:cI,cutD:cD};
+ return{items:items,kas:kas,kem:kem,saldoKas:saldoKas,awalKas:awalKas,awalKem:awalKem,saldoKem:saldoKem,upd:up,cutI:cI,cutD:cD};
 }
 function rp(n){return 'Rp '+Math.round(n).toLocaleString('id-ID')}
 function cp(n){if(n>=1e6)return 'Rp '+(n/1e6).toFixed(1).replace('.',',')+' jt';if(n>=1e3)return 'Rp '+Math.round(n/1e3)+' rb';return 'Rp '+Math.round(n)}
-function card(el,title,href,saldo,d,sel){
+function card(el,title,href,saldo,d,sel,awal){
  var ms=[];MK.forEach(function(m,i){if(i<=LIM&&(d.m[m]>0||d.k[m]>0))ms.push(i)});
- var tm=0,tk=0,mx=1;MK.forEach(function(m){tm+=d.m[m];tk+=d.k[m];mx=Math.max(mx,d.m[m],d.k[m])});
+ var tm=0,tk=0,mx=1;MK.forEach(function(m,i){tm+=d.m[m];tk+=d.k[m];if(i<=LIM)mx=Math.max(mx,d.m[m],d.k[m])});
+ var aw=awal==null?saldo-tm+tk:awal;
  if(sel==null||ms.indexOf(sel)<0)sel=ms.length?ms[ms.length-1]:null;
  var bars=ms.map(function(i){var m=MK[i],hi=Math.max(d.m[m]/mx*100,d.m[m]>0?2:0),ho=Math.max(d.k[m]/mx*100,d.k[m]>0?2:0);
   return '<div class="cg'+(i===sel?' sel':'')+'" data-i="'+i+'"><div class="cb i" style="height:'+hi+'%"></div><div class="cb o" style="height:'+ho+'%"></div></div>'}).join('');
  var labs=ms.map(function(i){return '<span class="'+(i===sel?'sel':'')+'">'+MN[i]+'</span>'}).join('');
  var det=sel==null?'Belum ada data.':'<b>'+MN[sel]+' 2026</b> · Masuk '+rp(d.m[MK[sel]])+' · Keluar '+rp(d.k[MK[sel]]);
- el.innerHTML='<div class="dc-top"><span>'+title+'</span><a href="'+href+'">Detail ›</a></div><div class="dc-saldo">'+rp(saldo)+'</div>'
- +'<div class="dc-chips"><div class="chip in">Total masuk<b>'+cp(tm)+'</b></div><div class="chip out">Total keluar<b>'+cp(tk)+'</b></div></div>'
+ el.innerHTML='<div class="dc-top"><span>'+title+'</span><a href="'+href+'">Detail ›</a></div>'
+ +'<div class="eq"><div><span>Saldo awal (Des 2025)</span><b>'+rp(aw)+'</b></div><div class="p"><span>+ Total masuk 2026</span><b>'+rp(tm)+'</b></div><div class="m"><span>− Total keluar 2026</span><b>'+rp(tk)+'</b></div><div class="t"><span>= Saldo akhir</span><b>'+rp(saldo)+'</b></div></div>'
  +'<div class="dc-detail">'+det+'</div><div class="chart">'+bars+'</div><div class="clab">'+labs+'</div>'
  +'<div class="legend"><span><i style="background:#3a8c45"></i>Masuk</span><span><i style="background:#e07a52"></i>Keluar</span></div>';
- el.onclick=function(e){var g=e.target.closest('.cg');if(g)card(el,title,href,saldo,d,+g.dataset.i)}
+ el.onclick=function(e){var g=e.target.closest('.cg');if(g)card(el,title,href,saldo,d,+g.dataset.i,awal)}
 }
 function render(r){
  LIM=r.cutI==null?11:r.cutI;
- card(document.getElementById('dKas'),'Saldo Kas Umum','kas-umum.html',r.saldoKas,r.kas);
+ card(document.getElementById('dKas'),'Saldo Kas Umum','kas-umum.html',r.saldoKas,r.kas,null,r.awalKas);
  var tm=0,tk=0;MK.forEach(function(m){tm+=r.kem.m[m];tk+=r.kem.k[m]});
  var sk=r.saldoKem||(r.awalKem+tm-tk);
- card(document.getElementById('dKem'),'Saldo Dana Kematian','Kematian.html',sk,r.kem);
+ card(document.getElementById('dKem'),'Saldo Dana Kematian','Kematian.html',sk,r.kem,null,r.awalKem);
  document.getElementById('dashUpd').textContent=r.upd?'Update sampai: '+r.upd:'Data terbaru';
  var its=r.items||[],esc=function(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
  var sK=0,sM=0,nm=0;MK.forEach(function(m){sK+=r.kas.k[m];sM+=r.kas.m[m];if(r.kas.k[m]>0)nm++});
@@ -1355,6 +1379,21 @@ fetch(PU+'&t='+Date.now()).then(function(x){return x.text()}).then(function(t){v
  rows(t).forEach(function(r){var c=r.map(function(x){return(x||'').trim()});if(/^\d+$/.test(c[0])&&/^blok/i.test(c[1]||'')){bl++;kk+=parseInt((c[4]||'').replace(/[^\d-]/g,''),10)||0}});
  if(!kk)return;var el=document.getElementById('pBar');el.style.display='block';
  el.innerHTML='<b>🏘️ '+kk+' KK aktif terdata</b><div class="pb-t"><div style="width:'+Math.min(kk/50*100,100)+'%"></div></div>'+bl+' blok · '+(kk>=50?'sudah memenuhi syarat 50 KK per RT':'kurang '+(50-kk)+' KK dari syarat 50 KK per RT')}).catch(function(){})})();
+</script>
+<script>
+(function(){var U='https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1804471725&single=true&output=csv';
+function sp(l){var r=[],c='',q=false;for(var i=0;i<l.length;i++){var ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c.trim());c=''}else c+=ch}r.push(c.trim());return r}
+function cn(v){return Number(String(v||'').replace(/[^0-9]/g,''))||0}
+function rp(n){return 'Rp '+Math.round(n).toLocaleString('id-ID')}
+var g=document.getElementById('actGrid');
+fetch(U+'&t='+Date.now()).then(function(x){return x.text()}).then(function(t){
+ var L=t.split(/\r?\n/).filter(function(x){return x.trim()}),H=sp(L[0]).map(function(h){return h.replace(/"/g,'').trim()}),n=0,di=0,dk=0,pe=0;
+ for(var i=1;i<L.length;i++){var c=sp(L[i]);if(!c[0])continue;var o={};H.forEach(function(h,k){o[h]=(c[k]||'').replace(/"/g,'').trim()});
+  n++;di+=cn(o['dana terkumpul']);dk+=cn(o['dana keluar']);pe+=parseInt(o['peserta'],10)||0}
+ var T=function(i,l,b,s){return '<div class="kt"><i>'+i+'</i><span>'+l+'</span><b class="sm">'+b+'</b><small>'+s+'</small></div>'};
+ g.innerHTML=T('🎉','Total kegiatan',n,'acara yang sudah didokumentasikan')+T('👥','Partisipasi warga',pe.toLocaleString('id-ID')+' warga','jumlah peserta seluruh kegiatan')
+  +T('💰','Pengumpulan dana',rp(di),'dana terkumpul dari warga')+T('🧾','Pengeluaran',rp(dk),'dana keluar untuk kegiatan')})
+ .catch(function(){g.innerHTML='<div class="dload" style="grid-column:1/-1">Gagal memuat data kegiatan.</div>'})})();
 </script>
 </body>
 </html>
