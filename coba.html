@@ -669,6 +669,7 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
 <div class="dcard" id="dKas"><div class="dload">Memuat…</div></div>
 <div class="dcard kem" id="dKem"><div class="dload">Memuat…</div></div>
 <div class="kp"><div class="kp-h"><h3>Kegiatan &amp; Partisipasi Warga</h3><a href="dokumentasiacara-rt.html">Detail ›</a></div><div class="kgrid" id="actGrid"><div class="dload" style="grid-column:1/-1">Memuat…</div></div></div>
+<div class="kp"><div class="kp-h"><h3>Rapat &amp; Inventaris RT</h3></div><div class="kgrid" id="rtGrid"><div class="dload" style="grid-column:1/-1">Memuat…</div></div></div>
 </main>
 
 <footer><strong>Puri Asri 3</strong> · RT 01 / RW 12 · Tahun 2026 | Jonggol<br>Dikelola oleh Pengurus RT · Seluruh data bersifat internal warga</footer>
@@ -1346,7 +1347,7 @@ function render(r){
  document.getElementById('dashUpd').textContent=r.upd?'Update sampai: '+r.upd:'Data terbaru';
  var its=r.items||[],esc=function(x){return String(x).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})};
  var sK=0,sM=0,nm=0;MK.forEach(function(m){sK+=r.kas.k[m];sM+=r.kas.m[m];if(r.kas.k[m]>0)nm++});
- var avg=nm?sK/nm:0,run=avg?r.saldoKas/avg:null,ratio=sM?sK/sM*100:null;
+ var avg=nm?sK/nm:0,run=avg?r.saldoKas/avg:null,inc=sM+(r.awalKas||0),ratio=inc?sK/inc*100:null;
  var st=run==null?['Data belum cukup','']:(run>=6&&(ratio==null||ratio<=85))?['Sehat','ok']:run>=3?['Waspada','warn']:['Perlu perhatian','bad'];
  var se=document.getElementById('kpSt');se.textContent=st[0];se.className='stp '+st[1];
  var top=its.filter(function(x){return !x.e}).sort(function(a,b){return b.a-a.a})[0];
@@ -1354,7 +1355,7 @@ function render(r){
  var T=function(i,l,b,n){return '<div class="kt"><i>'+i+'</i><span>'+l+'</span><b>'+b+'</b><small>'+n+'</small></div>'};
  document.getElementById('kGrid').innerHTML=
   T('🛡️','Daya tahan kas',run==null?'—':(run>=24?'24+ bln':run.toFixed(1).replace('.',',')+' bln'),avg?'dengan pengeluaran rata-rata '+cp(avg)+'/bln':'belum ada pengeluaran')
- +T('⚖️','Keluar vs masuk',ratio==null?'—':Math.round(ratio)+'%','iuran kas yang sudah terpakai tahun ini')
+ +T('⚖️','Pengeluaran vs pemasukan',ratio==null?'—':Math.round(ratio)+'%','pengeluaran terdata ÷ total pemasukan (termasuk saldo awal 2025)')
  +T('🧾','Pengeluaran terbesar',top?cp(top.a):'—',top?esc(top.u.length>34?top.u.slice(0,34)+'…':top.u):'—')
  +T('🤍','Dana kematian',kn+' kejadian',kn?'rata-rata '+cp(ka)+' · saldo cukup ±'+Math.max(0,Math.floor(kb/ka))+' kejadian lagi':'belum ada santunan tahun ini');
  document.getElementById('dhTot').textContent=rp(r.saldoKas+sk);
@@ -1375,10 +1376,10 @@ document.getElementById('dashRf').onclick=load;load();
 <script>
 (function(){var PU='https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1360541816&single=true&output=csv';
 function rows(t){var R=[],r=[],f='',q=false;for(var i=0;i<t.length;i++){var c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===','){r.push(f);f=''}else if(c==='\n'){r.push(f);R.push(r);r=[];f=''}else if(c!=='\r')f+=c}if(f||r.length){r.push(f);R.push(r)}return R}
-fetch(PU+'&t='+Date.now()).then(function(x){return x.text()}).then(function(t){var kk=0,bl=0;
- rows(t).forEach(function(r){var c=r.map(function(x){return(x||'').trim()});if(/^\d+$/.test(c[0])&&/^blok/i.test(c[1]||'')){bl++;kk+=parseInt((c[4]||'').replace(/[^\d-]/g,''),10)||0}});
+fetch(PU+'&t='+Date.now()).then(function(x){return x.text()}).then(function(t){var kk=0,bl=0,rm=0;
+ rows(t).forEach(function(r){var c=r.map(function(x){return(x||'').trim()});if(/^\d+$/.test(c[0])&&/^blok/i.test(c[1]||'')){bl++;rm+=parseInt((c[2]||'').replace(/[^\d-]/g,''),10)||0;kk+=parseInt((c[4]||'').replace(/[^\d-]/g,''),10)||0}});
  if(!kk)return;var el=document.getElementById('pBar');el.style.display='block';
- el.innerHTML='<b>🏘️ '+kk+' KK aktif terdata</b><div class="pb-t"><div style="width:'+Math.min(kk/50*100,100)+'%"></div></div>'+bl+' blok · '+(kk>=50?'sudah memenuhi syarat 50 KK per RT':'kurang '+(50-kk)+' KK dari syarat 50 KK per RT')}).catch(function(){})})();
+ el.innerHTML='<b>🏘️ '+kk+' KK aktif terdata</b>'+bl+' blok'+(rm?' · '+rm+' rumah':'')+' terdata'}).catch(function(){})})();
 </script>
 <script>
 (function(){var U='https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?gid=1804471725&single=true&output=csv';
@@ -1394,6 +1395,25 @@ fetch(U+'&t='+Date.now()).then(function(x){return x.text()}).then(function(t){
  g.innerHTML=T('🎉','Total kegiatan',n,'acara yang sudah didokumentasikan')+T('👥','Partisipasi warga',pe.toLocaleString('id-ID')+' warga','jumlah peserta seluruh kegiatan')
   +T('💰','Pengumpulan dana',rp(di),'dana terkumpul dari warga')+T('🧾','Pengeluaran',rp(dk),'dana keluar untuk kegiatan')})
  .catch(function(){g.innerHTML='<div class="dload" style="grid-column:1/-1">Gagal memuat data kegiatan.</div>'})})();
+</script>
+<script>
+(function(){var B='https://docs.google.com/spreadsheets/d/e/2PACX-1vT3AcxgyXE2lhGdxWuq3EhzyRCVRS8tWe5HhKXT6OpC2V2dCZ3LqZt85mGbBI7LUC-IzHoWTbyYUCox/pub?single=true&output=csv&gid=';
+function sp(l){var r=[],c='',q=false;for(var i=0;i<l.length;i++){var ch=l[i];if(ch==='"'){if(q&&l[i+1]==='"'){c+='"';i++}else q=!q}else if(ch===','&&!q){r.push(c.trim());c=''}else c+=ch}r.push(c.trim());return r}
+function tbl(t,inv){var L=t.trim().split('\n').filter(function(l){return l.trim()});if(L.length<2)return[];var H=sp(L[0]).map(function(h){return h.replace(/"/g,'').trim()}),R=[];
+ for(var i=1;i<L.length;i++){var c=sp(L[i]),k=(c[0]||'').replace(/"/g,'').trim();if(!k||(inv&&isNaN(Number(k))))continue;var o={};H.forEach(function(h,x){o[h]=(c[x]||'').replace(/"/g,'').trim()});R.push(o)}return R}
+function get(g){return fetch(B+g+'&t='+Date.now()).then(function(x){return x.text()})}
+var yr=String(new Date().getFullYear());
+var pr=get('2015947126').then(function(t){var rows=tbl(t,false),m={},thn=0;
+ rows.forEach(function(r){var y=r['Tahun']||'Lainnya',k=y+'|'+(r['Rapat Warga Ke -']||r['Rapat Warga Ke - ']||'?');if(!m[k]){m[k]=1;if(y===yr)thn++}});
+ return{tot:Object.keys(m).length,thn:thn,ag:rows.length}}).catch(function(){return null});
+var pi=get('1378010647').then(function(t){var rows=tbl(t,true),u=0;rows.forEach(function(r){var x=(r['Jumlah']||'').match(/(\d+)/);u+=x?parseInt(x[1],10):1});return{n:rows.length,u:u}}).catch(function(){return null});
+Promise.all([pr,pi]).then(function(v){var a=v[0],b=v[1],d='—';
+ var T=function(h,i,l,x,n){return '<a class="kt" href="'+h+'"><i>'+i+'</i><span>'+l+'</span><b>'+x+'</b><small>'+n+'</small></a>'};
+ document.getElementById('rtGrid').innerHTML=
+  T('timeline-pa3.html','🗓️','Total rapat warga',a?a.tot:d,a?a.ag+' agenda dibahas':'data belum termuat')
+ +T('timeline-pa3.html','📌','Rapat tahun '+yr,a?a.thn:d,'rapat warga sepanjang tahun ini')
+ +T('inventaris-rt.html','📦','Barang inventaris RT',b?b.u+' unit':d,b?b.n+' jenis item tercatat':'data belum termuat')
+ +T('inventaris-rt.html','🧰','Jenis inventaris',b?b.n:d,'item terdaftar di inventaris RT')})})();
 </script>
 </body>
 </html>
