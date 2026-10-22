@@ -174,6 +174,34 @@ section{padding-top:42px}
 .visitor-counter-card img{display:block;height:22px}
 footer{text-align:center;color:var(--soft);font-size:12px;line-height:1.7;padding:26px 20px 10px}
 footer strong{color:var(--ink)}
+/* SMART STACK (hero) */
+.cta{flex-wrap:nowrap;align-items:flex-start}
+.cta .btn.line{padding:13px 18px;flex:0 0 auto;white-space:nowrap}
+.ss{position:relative;flex:1 1 0;min-width:0;max-width:240px;height:46px;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.ss::before,.ss::after{content:"";position:absolute;left:0;right:0;height:46px;border-radius:999px;z-index:0}
+.ss::before{top:12px;transform:scale(.86);background:rgba(240,215,148,.26)}
+.ss::after{top:6px;transform:scale(.93);background:rgba(240,215,148,.5)}
+.ss-card{position:absolute;inset:0;z-index:2;display:flex;align-items:center;gap:9px;padding:0 14px 0 8px;border-radius:999px;overflow:hidden;background:linear-gradient(180deg,#f0d794,#c79a3d);color:#2a1d04;box-shadow:0 8px 22px rgba(199,154,61,.4),inset 0 1px 0 rgba(255,255,255,.5);animation:ssIn .55s var(--ease) both;transition:transform .25s var(--ease)}
+.ss-card:active{transform:scale(.97)}
+.ss-card.out{animation:ssOut .45s var(--ease) both;pointer-events:none}
+.ss-ic{flex:0 0 30px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--g);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 3px 8px rgba(0,0,0,.2)}
+.ss-ic svg{width:16px;height:16px}
+.ss-tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.15}
+.ss-tx small{font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.ss-tx b{font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ss-card::after{content:"›";font-size:20px;font-weight:600;line-height:1;opacity:.6;flex-shrink:0}
+.ss-bar{position:absolute;left:16px;right:16px;bottom:0;height:3px;border-radius:3px;background:rgba(42,29,4,.1)}
+.ss-bar i{display:block;height:100%;width:0;border-radius:3px;background:rgba(42,29,4,.4);animation:ssFill 5s linear forwards}
+.ss.paused .ss-bar i{animation-play-state:paused}
+@keyframes ssIn{from{opacity:0;transform:translateY(55%) scale(.92)}to{opacity:1;transform:none}}
+@keyframes ssOut{to{opacity:0;transform:translateY(-70%) scale(.94)}}
+@keyframes ssFill{to{width:100%}}
+@media (prefers-reduced-motion:reduce){.ss-card,.ss-card.out{animation:none}.ss-card.out{display:none}}
+/* HALAMAN TERPISAH PER MENU (Keuangan / Informasi RT / Arsip) */
+#viewHome.single .hero,#viewHome.single .pemek-banner,#viewHome.single .visitor-counter-wrap,#viewHome.single main>section:not(.sel){display:none}
+#viewHome.single main{padding-top:8px;min-height:62vh}
+#viewHome.single main>section.sel{animation:vIn .45s var(--ease) both}
+@keyframes vIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 /* TAB BAR (iOS) */
 .tabbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));z-index:90;display:flex;gap:2px;padding:7px;width:min(92vw,420px);border-radius:28px;background:rgba(255,255,255,.74);backdrop-filter:blur(26px) saturate(1.9);-webkit-backdrop-filter:blur(26px) saturate(1.9);box-shadow:0 16px 40px rgba(10,30,20,.22),0 0 0 1px rgba(255,255,255,.7) inset,0 0 0 1px rgba(20,38,26,.06)}
 .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 0 7px;border-radius:21px;font-size:10.5px;font-weight:600;color:#6d8274;transition:.3s var(--ease)}
@@ -633,7 +661,7 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
   <div><div class="eyebrow">Puri Asri 3</div>
     <h1>Bersama Membangun Lingkungan yang <em>Lebih Baik</em></h1>
     <p>Portal informasi &amp; laporan keuangan warga RT 01 / RW 12. Transparan, rukun, dan mudah diakses.</p>
-    <div class="cta"><a class="btn gold" href="progres-rt.html">Lihat Progres →</a><a class="btn line" href="#keuangan">Jelajahi Portal</a></div></div>
+    <div class="cta"><div class="ss" id="smartStack" aria-label="Pintasan informasi RT"><a class="ss-card" href="progres-rt.html"><span class="ss-ic" style="--g:linear-gradient(145deg,#4fe0cc,#0f766e)"></span><span class="ss-tx"><small>Lihat</small><b>Progres Warga</b></span></a></div><a class="btn line" href="#keuangan">Jelajahi Portal</a></div></div>
   <div class="hero-slider" id="heroSlider"><div class="hero-slider-track" id="heroSliderTrack">
     <div class="hero-slide"><img src="slide1.png" alt="Slide 1" loading="eager"></div><div class="hero-slide"><img src="slide2.png" alt="Slide 2" loading="lazy"></div><div class="hero-slide"><img src="slide3.png" alt="Slide 3" loading="lazy"></div><div class="hero-slide"><img src="slide4.png" alt="Slide 4" loading="lazy"></div><div class="hero-slide"><img src="slide5.png" alt="Slide 5" loading="lazy"></div><div class="hero-slide"><img src="slide6.png" alt="Slide 6" loading="lazy"></div>
   </div><div class="hero-slider-dots" id="heroSliderDots"></div></div>
@@ -758,19 +786,47 @@ body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
     });
 </script>
 <script>
+(function(){
+var box=document.getElementById('smartStack');if(!box)return;
+var short={'Dokumentasi Acara':'Dok. Acara','Inventaris RT':'Inventaris'};
+var order=['Progres Warga','Kegiatan RT','Timeline Rapat','Dokumentasi Acara','Pemekaran RT','Inventaris RT','AD / ART','Peta Lokasi'];
+var items=[].map.call(document.querySelectorAll('#tourDokumen .app'),function(a){var l=a.querySelector('.lbl').textContent.trim();return{label:l,href:a.getAttribute('href'),icon:a.querySelector('.sq svg').outerHTML,g:a.querySelector('.sq').style.getPropertyValue('--g')||a.querySelector('.sq').getAttribute('style').replace(/^.*--g:\s*/,'').replace(/;?$/,'')}});
+items.sort(function(x,y){var i=order.indexOf(x.label),j=order.indexOf(y.label);return(i<0?99:i)-(j<0?99:j)});
+if(items.length<2)return;
+var idx=0,cur=box.querySelector('.ss-card'),swiped=false;
+function build(i){var it=items[i],a=document.createElement('a');a.className='ss-card';a.href=it.href;
+a.innerHTML='<span class="ss-ic"></span><span class="ss-tx"><small>Lihat</small><b></b></span><span class="ss-bar"><i></i></span>';
+var ic=a.querySelector('.ss-ic');ic.style.setProperty('--g',it.g);ic.innerHTML=it.icon;
+a.querySelector('b').textContent=short[it.label]||it.label;
+a.querySelector('.ss-bar i').addEventListener('animationend',function(){go(1)});return a}
+function go(d){var old=cur;idx=(idx+d+items.length)%items.length;cur=build(idx);
+if(old){old.classList.add('out');old.querySelector('.ss-bar')&&old.querySelector('.ss-bar').remove();setTimeout(function(){old.remove()},480)}
+box.appendChild(cur)}
+box.removeChild(cur);cur=null;go(0);
+['mouseenter','touchstart','focusin'].forEach(function(ev){box.addEventListener(ev,function(){box.classList.add('paused')},{passive:true})});
+['mouseleave','touchend','touchcancel','focusout'].forEach(function(ev){box.addEventListener(ev,function(){box.classList.remove('paused')},{passive:true})});
+var x0=null;
+box.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;swiped=false},{passive:true});
+box.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;x0=null;if(Math.abs(dx)>30){swiped=true;go(dx<0?1:-1)}},{passive:true});
+box.addEventListener('click',function(e){if(swiped){e.preventDefault();swiped=false}});
+})();
+</script>
+<script>
 (function(){var d=document.getElementById('dateChip');if(d)d.textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-var hdr=document.querySelector('header'),links=document.querySelectorAll('.tabbar a,nav.top a'),ids=['top','keuangan','informasi','arsip'],lock=0;
+var hdr=document.querySelector('header'),links=document.querySelectorAll('.tabbar a,nav.top a'),vh=document.getElementById('viewHome'),vr=document.getElementById('viewRingkasan'),views={top:1,ringkasan:1,keuangan:1,informasi:1,arsip:1};
 function setOn(c){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+c)})}
 function openArsip(){document.getElementById('arsipBody').classList.remove('collapsed');document.getElementById('arsipToggle').setAttribute('aria-expanded','true')}
-function on(){if(scrollY>24)hdr.classList.add('scrolled');else if(scrollY<6)hdr.classList.remove('scrolled');if(Date.now()<lock||vh.hidden)return;var y=scrollY+innerHeight*.35,cur='top';ids.forEach(function(i){var e=document.getElementById(i);if(e&&e.getBoundingClientRect().top+scrollY<=y)cur=i});if(innerHeight+scrollY>=document.documentElement.scrollHeight-6)cur='arsip';setOn(cur)}
-var vh=document.getElementById('viewHome'),vr=document.getElementById('viewRingkasan');
-function showR(on){vh.hidden=on;vr.hidden=!on}
-links.forEach(function(a){a.addEventListener('click',function(e){var h=a.getAttribute('href').slice(1);
-if(h==='ringkasan'){e.preventDefault();showR(true);setOn(h);scrollTo(0,0);return}
-lock=Date.now()+1100;setOn(h);if(h==='arsip')openArsip();
-if(vh.hidden){e.preventDefault();showR(false);var t=document.getElementById(h);if(t)t.scrollIntoView()}})});
-document.querySelector('.brand').addEventListener('click',function(e){if(vh.hidden){e.preventDefault();showR(false);setOn('top');scrollTo(0,0)}});
-if(location.hash==='#ringkasan'){showR(true);setOn('ringkasan')}
+function setView(h,keep){
+var single=h==='keuangan'||h==='informasi'||h==='arsip';
+vr.hidden=h!=='ringkasan';vh.hidden=h==='ringkasan';vh.classList.toggle('single',single);
+['keuangan','informasi','arsip'].forEach(function(i){var e=document.getElementById(i);if(e)e.classList.toggle('sel',i===h)});
+if(h==='arsip')openArsip();
+setOn(h);scrollTo({top:0,left:0,behavior:'instant'});
+if(!keep&&history.replaceState)history.replaceState(null,'',h==='top'?location.pathname+location.search:'#'+h)}
+function on(){if(scrollY>24)hdr.classList.add('scrolled');else if(scrollY<6)hdr.classList.remove('scrolled')}
+links.forEach(function(a){a.addEventListener('click',function(e){var h=a.getAttribute('href').slice(1);if(!views[h])return;e.preventDefault();setView(h)})});
+document.querySelector('.brand').addEventListener('click',function(e){e.preventDefault();setView('top')});
+var h0=location.hash.slice(1);if(views[h0])setView(h0,true);else setOn('top');
 addEventListener('scroll',on,{passive:true});on()})();
 </script>
 <script>
