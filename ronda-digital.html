@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="id"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0f2d1e"><title>Ronda Digital — Puri Asri 3</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
 :root{--g9:#0f2d1e;--g7:#265930;--g1:#ddf0e0;--au:#c49a3c;--bg:#f3f1ea;--ink:#14261a;--soft:#5d7564}
+html,body,button,input,select{touch-action:manipulation}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:40px}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:120px;-webkit-user-select:none;user-select:none}input{-webkit-user-select:text;user-select:text}
 header{background:linear-gradient(180deg,#0f2d1e,#123826);color:#f4e3b0;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;display:flex;align-items:center;justify-content:space-between}
 header h1{font:500 18px 'Playfair Display',serif;letter-spacing:.1em}header small{display:block;font-size:10px;letter-spacing:.2em;color:#a9c9b3;text-transform:uppercase;margin-top:3px}
 .wrap{max-width:560px;margin:0 auto;padding:16px}
@@ -41,9 +44,14 @@ label{font-size:12px;color:var(--soft)}
 #ok svg{width:130px;height:130px}#ok circle{fill:none;stroke:#56a660;stroke-width:5;stroke-dasharray:166;stroke-dashoffset:166;animation:d .6s .1s forwards}
 #ok path{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:50;stroke-dashoffset:50;animation:d .4s .6s forwards}
 #ok svg{animation:pop .5s}@keyframes d{to{stroke-dashoffset:0}}@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
-#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#14261a;color:#fff;padding:12px 18px;border-radius:14px;z-index:99;font-size:13px;max-width:90vw;opacity:0;transition:.3s;pointer-events:none}#toast.s{opacity:1}
+#toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:#14261a;color:#fff;padding:12px 18px;border-radius:14px;z-index:99;font-size:13px;max-width:90vw;opacity:0;transition:.3s;pointer-events:none}#toast.s{opacity:1}
 #pr{background:#fff;color:#000;padding:10px}#pr .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}#pr .q{border:1px dashed #888;padding:10px;text-align:center;break-inside:avoid;font:700 14px sans-serif}#pr svg{width:100%;height:auto}
 @media print{body>*:not(#pr){display:none!important}#pr{display:block!important}}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;box-shadow:0 -4px 20px #0002;display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+#nav button{flex:1;border:0;background:none;font:600 10px inherit;font-family:inherit;color:var(--soft);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;overflow:visible}
+#nav button i{font-style:normal;font-size:20px}#nav .act{color:var(--g7)}#nav .act i{filter:none}
+#nav .ctr{flex:0 0 78px;position:relative;color:var(--g7)}#nav .ctr span{position:absolute;top:-36px;left:50%;transform:translateX(-50%);width:66px;height:66px;border-radius:50%;background:linear-gradient(180deg,#f0d794,#c79a3d);box-shadow:0 6px 16px #0005;border:4px solid #fff;display:flex;align-items:center;justify-content:center}#nav .ctr em{margin-top:30px;font-style:normal}
+#h3 .row:nth-child(n+4){display:none}
 .demo{background:#fff4d6;color:#7a5c1e;font-size:12px;padding:8px 16px;text-align:center}
 </style></head><body>
 <header><div><h1>RONDA DIGITAL</h1><small>Puri Asri 3 · RT 01 / RW 12</small></div><button class="btn sm gold hide" id="lo">Keluar</button></header>
@@ -52,19 +60,25 @@ label{font-size:12px;color:var(--soft)}
 <div class="wrap" id="vLogin"><div class="card"><h3 style="margin-bottom:8px">Masuk</h3>
 <label id="lu">Email / username</label><input id="u" autocapitalize="none"><label>Kata sandi / PIN</label><input id="p" type="password"><button class="btn big" id="bl">Masuk</button></div></div>
 
-<div class="wrap hide" id="vPet">
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><small style="color:var(--soft)">Saldo kamu</small><span class="chip" id="st"></span></div>
+<div class="wrap hide" id="vApp">
+<div id="pHome" class="pg"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><small style="color:var(--soft)">Saldo kamu</small><span class="chip" id="st"></span></div>
 <div class="saldo" id="sal">Rp0</div><small style="color:var(--soft)" id="rt"></small></div>
 <button class="btn gold big" id="go" style="margin-bottom:14px">📷 Scan Rumah &amp; Foto</button>
-<div class="card"><b>Riwayat terakhir</b><div id="hist"></div></div></div>
-
-<div class="wrap hide" id="vBen"><div class="tabs"><button class="act" data-t="r">Rekap Saldo</button><button data-t="f">Foto</button><button data-t="h">Rumah</button><button data-t="u" id="tbu" class="hide">Pengguna</button><button data-t="s">Pengaturan</button></div>
-<div id="tr"></div><div id="tf" class="hide"></div>
-<div id="tu" class="hide"><div class="card"><b>Tambah pengguna</b><br><label>Nama</label><input id="un" placeholder="mis. Pak Budi"><label>Username atau email</label><input id="ue" autocapitalize="none" placeholder="mis. budi"><label>Kata sandi (min. 6)</label><input id="up" type="text"><label>Peran</label><select id="ur" style="width:100%;padding:12px;border-radius:12px;border:1px solid #cfd8d0;margin:6px 0 10px;font:inherit"><option value="petugas">Petugas ronda</option><option value="bendahara">Bendahara</option><option value="admin">Super admin</option></select><button class="btn big" id="ua">+ Tambah Pengguna</button></div><div class="card" id="ul"></div></div>
-<div id="th" class="hide"><div class="card"><label>Kode rumah (isi barcode)</label><input id="hc" placeholder="mis. A01" autocapitalize="characters"><label>Nama / alamat</label><input id="hn" placeholder="mis. Blok A No.1"><button class="btn big" id="ha">+ Tambah Rumah</button></div><button class="btn gold big" id="hp" style="margin-bottom:14px">🖨 Cetak Semua QR</button><div class="card" id="hl"></div></div>
-<div id="ts" class="hide"><div class="card"><label>Nominal per foto (Rp)</label><input id="sr" type="number" inputmode="numeric">
+<div class="card"><b>Terakhir</b><div id="h3"></div></div></div>
+<div id="pRiw" class="pg hide"><div class="card"><b>Riwayat ronda</b><div id="hist"></div></div></div>
+<div id="pInfo" class="pg hide"><div class="card" id="info"></div></div>
+<div id="tr" class="pg hide"></div><div id="tf" class="pg hide"></div>
+<div id="tu" class="pg hide"><div class="card"><b>Tambah pengguna</b><br><label>Nama</label><input id="un" placeholder="mis. Pak Budi"><label>Username atau email</label><input id="ue" autocapitalize="none" placeholder="mis. budi"><label>Kata sandi (min. 6)</label><input id="up" type="text"><label>Peran</label><select id="ur" style="width:100%;padding:12px;border-radius:12px;border:1px solid #cfd8d0;margin:6px 0 10px;font:inherit"><option value="petugas">Petugas ronda</option><option value="bendahara">Bendahara</option><option value="admin">Super admin</option></select><button class="btn big" id="ua">+ Tambah Pengguna</button></div><div class="card" id="ul"></div></div>
+<div id="th" class="pg hide"><div class="card"><label>Kode rumah (isi barcode)</label><input id="hc" placeholder="mis. A01" autocapitalize="characters"><label>Nama / alamat</label><input id="hn" placeholder="mis. Blok A No.1"><button class="btn big" id="ha">+ Tambah Rumah</button></div><button class="btn gold big" id="hp" style="margin-bottom:14px">🖨 Cetak Semua QR</button><div class="card" id="hl"></div></div>
+<div id="ts" class="pg hide"><div class="card"><label>Nominal per foto (Rp)</label><input id="sr" type="number" inputmode="numeric">
 <label>Ronda aktif mulai (WIB)</label><input id="ss" type="time"><label>Sampai (WIB)</label><input id="se" type="time">
-<label id="byl" class="hide"><input type="checkbox" id="by" style="width:auto;margin:0 6px 0 0">Abaikan jam (khusus uji coba)</label><br><br><button class="btn big" id="sv">Simpan Pengaturan</button></div></div></div>
+<label id="byl" class="hide"><input type="checkbox" id="by" style="width:auto;margin:0 6px 0 0">Abaikan jam (khusus uji coba)</label><br><br><button class="btn big" id="sv">Simpan Pengaturan</button></div></div>
+<div id="pProf" class="pg hide"><div class="card"><b>Profil</b><p id="pcur" style="font-size:13px;color:var(--soft);margin:6px 0 12px"></p>
+<label>Nama tampilan</label><input id="pn"><label>Username login baru (kosongkan bila tidak diganti)</label><input id="pu" autocapitalize="none">
+<label>Kata sandi baru (kosongkan bila tidak diganti)</label><input id="pw" type="password"><label>Ulangi kata sandi baru</label><input id="pw2" type="password">
+<button class="btn big" id="ps">Simpan Perubahan</button></div><button class="btn line big" id="px">Keluar dari akun</button></div>
+</div>
+<nav id="nav" class="hide"></nav>
 
 <div class="ov hide" id="cam"><video id="v" playsinline muted autoplay></video><div class="frame" id="fr"></div>
 <div class="top"><span id="ct">Arahkan ke barcode rumah</span><span id="gp">GPS…</span><button class="btn sm line" id="cx">✕</button></div>
@@ -106,6 +120,10 @@ const api=sb?{
  async login(u,p){const{data,error}=await sb.auth.signInWithPassword({email:u,password:p});if(error)throw error;const{data:pr,error:e2}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).maybeSingle();if(!pr){await sb.auth.signOut();throw{message:e2?'Gagal membaca profil: '+e2.message:'Akun belum terdaftar di ronda_profiles (minta admin mendaftarkan)'}}return pr},
  async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).maybeSingle()).data},
  async users(){return(await sb.rpc('admin_users')).data||[]},
+ async myEmail(){return(await sb.auth.getUser()).data.user?.email||''},
+ async setName(n){const{error}=await sb.rpc('set_my_name',{p_name:n});if(error)throw error},
+ async setPass(p){const{error}=await sb.auth.updateUser({password:p});if(error)throw error},
+ async setEmail(e){const{error}=await sb.auth.updateUser({email:e});if(error)throw error},
  async setRole(id,n,r){const{error}=await sb.rpc('admin_set_profile',{p_user:id,p_name:n,p_role:r});if(error)throw error},
  async delUser(id){const{error}=await sb.rpc('admin_delete_profile',{p_user:id});if(error)throw error},
  async addUser(n,e,p,r){const t=supabase.createClient(CFG.URL,CFG.KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'tmp-admin'}});const{data,error}=await t.auth.signUp({email:e,password:p});if(error)throw error;if(!data.user||data.user.identities?.length===0)throw{message:'Username/email sudah terdaftar'};await this.setRole(data.user.id,n,r)},
@@ -126,7 +144,8 @@ const api=sb?{
  async url(p){return(await sb.storage.from('ronda-photos').createSignedUrl(p,3600)).data?.signedUrl}
 }:{
  async login(u,p){if(demoU[u]&&p=='1234')return demoU[u];throw{message:'Login uji salah'}},
- async me(){return JSON.parse(sessionStorage.du||'null')},out:()=>sessionStorage.removeItem('du'),
+ async me(){return JSON.parse(sessionStorage.du||'null')},
+ async myEmail(){return U.id},setName(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setPass(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setEmail(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},out:()=>sessionStorage.removeItem('du'),
  async st(){return LS().st},async saveSt(s){const d=LS();d.st=s;SS(d)},
  async house(c){return LS().h.find(h=>h.code.toLowerCase()==c.toLowerCase())},
  async houses(){return LS().h},
@@ -140,7 +159,20 @@ const api=sb?{
  async url(p){return MP[p]||''}};
 
 /* ========= LOGIN & NAV ========= */
-function view(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role!='petugas'?'vBen':'vPet')).classList.remove('hide')}
+function viewOld(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role!='petugas'?'vBen':'vPet')).classList.remove('hide')}
+const MAG='<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/><path d="M8 8h2v2H8zM11.5 11.5h2v2h-2z" fill="#2a1d04" stroke-width="1"/></svg>';
+function view(){$('#vLogin').classList.toggle('hide',!!U);$('#vApp').classList.toggle('hide',!U);$('#nav').classList.toggle('hide',!U);$('#lo').classList.toggle('hide',!U);if(U){buildNav();go(U.role=='petugas'?'pHome':'tr')}}
+function buildNav(){const P=U.role=='petugas',adm=sb&&U.role=='admin',it=P?[['pHome','🏠','Beranda'],['pRiw','🕘','Riwayat'],'scan',['pInfo','ℹ️','Info'],['pProf','👤','Profil']]:[['tr','💰','Rekap'],['tf','🖼️','Foto'],['th','🏘️','Rumah'],adm&&['tu','👥','Pengguna'],['ts','⚙️','Setelan'],['pProf','👤','Profil']].filter(Boolean);
+ $('#nav').innerHTML=it.map(x=>x=='scan'?`<button class="ctr" id="nsc"><span>${MAG}</span><em>Scan</em></button>`:`<button data-p="${x[0]}"><i>${x[1]}</i>${x[2]}</button>`).join('');
+ document.querySelectorAll('#nav [data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));const s=$('#nsc');if(s)s.onclick=startScan}
+function go(p){document.querySelectorAll('.pg').forEach(e=>e.classList.toggle('hide',e.id!=p));document.querySelectorAll('#nav [data-p]').forEach(b=>b.classList.toggle('act',b.dataset.p==p));
+ if(p=='pProf')profLoad();else if(U.role=='petugas')petLoad();else benLoad();scrollTo(0,0)}
+async function profLoad(){$('#pn').value=U.name;const e=await api.myEmail();$('#pcur').textContent=`${U.name} · ${({petugas:'Petugas',bendahara:'Bendahara',admin:'Super admin'})[U.role]} · login: ${e.replace('@ronda.puriasri3.com','')}`}
+$('#ps').onclick=async()=>{try{const n=$('#pn').value.trim(),u=$('#pu').value.trim(),w=$('#pw').value;if(w&&(w.length<6||w!=$('#pw2').value))return toast('Sandi min. 6 karakter & harus sama');
+ if(n&&n!=U.name){await api.setName(n);U.name=n}if(u)await api.setEmail(em(u));if(w)await api.setPass(w);
+ $('#pu').value=$('#pw').value=$('#pw2').value='';toast('Profil diperbarui');profLoad()}catch(e){toast(e.message)}};
+$('#px').onclick=()=>$('#lo').click();
+document.addEventListener('gesturestart',e=>e.preventDefault());
 async function boot(){if(!sb){$('#demo').classList.remove('hide');$('#lu').textContent='Username';$('#byl').classList.remove('hide')}
  U=await api.me();if(U)await enter();view()}
 async function enter(){try{ST={...ST,...await api.st()}}catch(e){}U.role!='petugas'?benLoad():petLoad()}
@@ -148,11 +180,12 @@ $('#bl').onclick=async()=>{try{U=await api.login(sb?em($('#u').value.trim()):$('
 $('#lo').onclick=async()=>{await api.out();U=null;view()};
 
 /* ========= PETUGAS ========= */
-async function petLoad(){ST={...ST,...await api.st()};paintSt();$('#rt').textContent=`Tiap foto rumah: ${rp(ST.rate)} · aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`;
- $('#sal').textContent=rp(await api.saldo());const L=await api.mine();$('#hist').innerHTML=L.length?L.map(l=>`<div class="row"><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${fmt(l.created_at)}</small></div><b style="color:var(--g7)">+${rp(l.amount)}</b></div>`).join(''):'<p style="color:var(--soft);font-size:13px;padding-top:8px">Belum ada foto.</p>'}
+async function petLoad(){ST={...ST,...await api.st()};paintSt();$('#info').innerHTML=`<b>Info Ronda</b><p style="font-size:14px;line-height:1.7;margin-top:8px">🕙 Aktif: <b>${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB</b><br>💰 Tarif: <b>${rp(ST.rate)}</b> per foto rumah<br>📍 Foto otomatis diberi cap lokasi &amp; waktu<br>🏠 Satu rumah dihitung sekali per malam<br>📷 Foto hanya dari kamera, tidak dari galeri<br>💵 Saldo dibayarkan oleh bendahara</p>`;$('#rt').textContent=`Tiap foto rumah: ${rp(ST.rate)} · aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`;
+ $('#sal').textContent=rp(await api.saldo());const L=await api.mine();$('#h3').innerHTML=$('#hist').innerHTML=L.length?L.map(l=>`<div class="row"><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${fmt(l.created_at)}</small></div><b style="color:var(--g7)">+${rp(l.amount)}</b></div>`).join(''):'<p style="color:var(--soft);font-size:13px;padding-top:8px">Belum ada foto.</p>'}
 function paintSt(){const o=isOpen(),e=$('#st');e.textContent=o?'Ronda AKTIF':'Di luar jam ronda';e.className='chip '+(o?'on':'off')}
 setInterval(()=>U&&U.role=='petugas'&&paintSt(),20000);
-$('#go').onclick=async()=>{await petLoad().catch(()=>{});if(!isOpen())return toast(`Ronda hanya aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`);unlock();openCam('scan')};
+async function startScan(){await petLoad().catch(()=>{});if(!isOpen())return toast(`Ronda hanya aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`);unlock();openCam('scan')}
+$('#go').onclick=startScan;
 
 /* ========= KAMERA: scan barcode + ambil foto (live camera only, tanpa galeri) ========= */
 async function openCam(m){mode=m;$('#cam').classList.remove('hide');$('#bs').classList.toggle('hide',m!='scan');$('#bp').classList.toggle('hide',m=='scan');$('#fr').classList.toggle('hide',m!='scan');
@@ -214,8 +247,7 @@ $('#svp').onclick=async()=>{const btn=$('#svp');if(!isOpen())return toast('Jam r
  btn.disabled=false;btn.textContent='✔ Simpan'};
 
 /* ========= BENDAHARA ========= */
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('act',x==b));['r','f','h','u','s'].forEach(k=>$('#t'+k).classList.toggle('hide',k!=b.dataset.t));benLoad()});
-async function benLoad(){const adm=sb&&U.role=='admin';$('#tbu').classList.toggle('hide',!adm);adm&&userLoad();houseLoad();ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
+async function benLoad(){const adm=sb&&U.role=='admin';adm&&userLoad();houseLoad();ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
  const R=await api.rekap();$('#tr').innerHTML=R.map(r=>`<div class="card"><div class="row"><div class="grow"><b>${r.name}</b><small>${r.fotos} foto tercatat</small></div><div style="text-align:right"><div class="saldo" style="font-size:22px">${rp(r.saldo)}</div><button class="btn sm gold" data-pay="${r.user_id}" ${r.saldo>0?'':'disabled'}>Bayarkan</button></div></div></div>`).join('')||'<p>Belum ada petugas.</p>';
  document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{if(confirm('Tandai saldo petugas ini sudah dibayar (jadi Rp0)?')){await api.pay(b.dataset.pay);benLoad()}});
  const L=await api.all();$('#tf').innerHTML='<div class="card">'+(L.map(l=>`<div class="row"><img data-p="${l.photo_path}" alt=""><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${l.profiles?.name||''}<br>${fmt(l.created_at)}</small></div><b>${rp(l.amount)}</b></div>`).join('')||'Belum ada foto.')+'</div>';
