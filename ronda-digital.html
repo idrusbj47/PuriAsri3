@@ -69,6 +69,8 @@ body{padding-bottom:130px}#toast{bottom:125px}
 .bc{flex:0 0 auto;border:1px solid #cfd8d0;background:#fff;border-radius:99px;padding:6px 12px;font:600 12px inherit;font-family:inherit;color:var(--soft)}.bc.on2{background:var(--g9);color:#f4e3b0;border-color:var(--g9)}
 .bt{width:100%;border-collapse:separate;border-spacing:0 4px;margin-top:4px}.bt th{font-size:10px;text-align:left;color:var(--soft);font-weight:600;padding:2px 8px;text-transform:uppercase;letter-spacing:.1em}.bt th:last-child,.bt td:last-child{text-align:right}
 .bt td{padding:9px 10px;font-size:13px;vertical-align:middle}.bt small{display:block;color:var(--soft);font-size:11px;margin-top:2px}.bt tr.ok td{background:#e8f5ea}.bt tr.no td{background:#fdecea}.bt td:first-child{border-radius:12px 0 0 12px}.bt td:last-child{border-radius:0 12px 12px 0}.bt .nb{color:#8a6414;font-weight:700}
+.pit{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #0001;font-size:13px;cursor:pointer}.pit:last-child{border:0}.pit small{display:block;color:var(--soft);font-size:11px}
+.pit input,#pfa{width:20px;height:20px;padding:0;margin:0;flex:none;accent-color:var(--g7)}.pl{max-height:34vh;overflow:auto;border:1px solid #0001;border-radius:12px;padding:0 12px;margin:6px 0 10px}
 </style></head><body>
 <header><div><h1>RONDA DIGITAL</h1><small>Puri Asri 3 · RT 01 / RW 12</small></div><button class="btn sm gold hide" id="lo">Keluar</button></header>
 <div class="demo hide" id="demo">MODE UJI COBA (data hanya di HP ini). Isi CFG.URL &amp; CFG.KEY untuk memakai Supabase. Login uji: <b>ronda1</b> / <b>bendahara</b>, PIN <b>1234</b></div>
@@ -140,13 +142,13 @@ function ting(){unlock();const t=AC.currentTime;[[1318.5,.45],[1975.5,.25],[2637
 /* ========= DATA: Supabase atau mode uji coba ========= */
 const MP={},LS=()=>JSON.parse(localStorage.rd||'null')||{h:[{code:'A01',name:'Blok A No.1',balance:5000},{code:'A02',name:'Blok A No.2',balance:0},{code:'A03',name:'Blok A No.3',balance:1000}],logs:[],pay:[],st:ST},SS=d=>localStorage.rd=JSON.stringify(d);
 const demoU={ronda1:{id:'u1',name:'Pak Budi (Ronda)',role:'petugas'},ronda2:{id:'u2',name:'Pak Andi (Ronda)',role:'petugas'},bendahara:{id:'b1',name:'Bendahara',role:'bendahara'}};
-const bal=(d,id)=>d.logs.filter(l=>l.user_id==id).reduce((a,l)=>a+l.amount,0)-d.pay.filter(p=>p.user_id==id&&!p.voided_at).reduce((a,l)=>a+l.amount,0);
+const bal=(d,id)=>d.logs.filter(l=>l.user_id==id&&!l.payout_id).reduce((a,l)=>a+l.amount,0);
 const UC={},PAYS={};
 const api=sb?{
  async login(u,p){let e=u;if(!u.includes('@')){const{data:d0}=await sb.rpc('login_email',{p_username:u});if(!d0)throw{message:'Username tidak ditemukan'};e=d0}const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)throw error;const{data:pr,error:e2}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).maybeSingle();if(!pr){await sb.auth.signOut();throw{message:e2?'Gagal membaca profil: '+e2.message:'Akun belum terdaftar di ronda_profiles (minta admin mendaftarkan)'}}return pr},
  async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).maybeSingle()).data},
  async users(){return(await sb.rpc('admin_users')).data||[]},
- async pays(){const q=c=>sb.from('ronda_payouts').select(c+',who:ronda_profiles!user_id(name)').order('created_at',{ascending:false}).limit(30);let r;for(const c of['id,user_id,amount,created_at,paid_name,proof_path,voided_at,void_reason','id,user_id,amount,created_at,paid_name,proof_path','id,user_id,amount,created_at,paid_name']){r=await q(c);if(!r.error)break}return r.data||[]},
+ async pays(){const q=c=>sb.from('ronda_payouts').select(c+',who:ronda_profiles!user_id(name)').order('created_at',{ascending:false}).limit(30);let r;for(const c of['id,user_id,amount,created_at,paid_name,proof_path,voided_at,void_reason,items:ronda_logs(count)','id,user_id,amount,created_at,paid_name,proof_path,voided_at,void_reason','id,user_id,amount,created_at,paid_name,proof_path','id,user_id,amount,created_at,paid_name']){r=await q(c);if(!r.error)break}return r.data||[]},
  async setName(n){const{error}=await sb.rpc('set_my_name',{p_name:n});if(error)throw error},
  async setPass(p){const{error}=await sb.auth.updateUser({password:p});if(error)throw error},
  async setUsername(u){const{error}=await sb.rpc('set_my_username',{p_username:u});if(error)throw error},
@@ -168,7 +170,8 @@ const api=sb?{
  async mine(){return(await sb.from('ronda_logs').select('*,houses:ronda_houses(name)').eq('user_id',U.id).order('created_at',{ascending:false}).limit(15)).data||[]},
  async all(){return(await sb.from('ronda_logs').select('*,houses:ronda_houses(name),profiles:ronda_profiles(name)').order('created_at',{ascending:false}).limit(40)).data||[]},
  async rekap(){return(await sb.rpc('rekap')).data||[]},
- async pay(id,proof){const{error}=await sb.rpc('pay_out',{p_user:id,p_proof:proof||null});if(error)throw error.code=='PGRST202'?{message:'Jalankan ronda_update3.sql di Supabase dulu'}:error},
+ async pay(id,proof,ids){const{error}=await sb.rpc('pay_out',{p_user:id,p_proof:proof||null,p_logs:ids||null});if(error)throw error.code=='PGRST202'?{message:'Jalankan ronda_update7.sql di Supabase dulu'}:error},
+ async unpaid(uid){const{data,error}=await sb.from('ronda_logs').select('id,house_code,amount,created_at,houses:ronda_houses(name)').eq('user_id',uid).is('payout_id',null).gt('amount',0).order('created_at',{ascending:true}).limit(500);if(error)throw error.code=='42703'?{message:'Jalankan ronda_update7.sql di Supabase dulu'}:error;return data||[]},
  async voidPay(id,why){const{error}=await sb.rpc('void_payout',{p_id:id,p_reason:why||null});if(error)throw error.code=='PGRST202'?{message:'Jalankan ronda_update4.sql di Supabase dulu'}:error},
  async upProof(b,uid){const p=`${uid}/${Date.now()}.jpg`,{error}=await sb.storage.from('ronda-proofs').upload(p,b,{contentType:'image/jpeg'});if(error)throw error;return p},
  async url(p){return(await sb.storage.from('ronda-photos').createSignedUrl(p,3600)).data?.signedUrl},
@@ -176,7 +179,7 @@ const api=sb?{
 }:{
  async login(u,p){if(demoU[u]&&p=='1234')return demoU[u];throw{message:'Login uji salah'}},
  async me(){return JSON.parse(sessionStorage.du||'null')},
- async pays(){const d=LS();return d.pay.filter(p=>U.role!='petugas'||p.user_id==U.id).map(p=>({...p,who:{name:(Object.values(demoU).find(u=>u.id==p.user_id)||{}).name}})).reverse()},setName(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setPass(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setUsername(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},out:()=>sessionStorage.removeItem('du'),
+ async pays(){const d=LS();return d.pay.filter(p=>U.role!='petugas'||p.user_id==U.id).map(p=>({...p,items:[{count:d.logs.filter(l=>l.payout_id==p.id).length}],who:{name:(Object.values(demoU).find(u=>u.id==p.user_id)||{}).name}})).reverse()},setName(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setPass(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},setUsername(){throw{message:'Mode uji coba: tidak bisa mengubah akun'}},out:()=>sessionStorage.removeItem('du'),
  async st(){return LS().st},async saveSt(s){const d=LS();d.st=s;SS(d)},
  async house(c){return LS().h.find(h=>h.code.toLowerCase()==c.toLowerCase())},
  async houses(){return LS().h},
@@ -188,8 +191,9 @@ const api=sb?{
  async topup(c,a,n){const d=LS(),h=d.h.find(x=>x.code==c);if(!h)throw{message:'Rumah tidak ada'};if((h.balance||0)+a<0)throw{message:'Saldo tidak boleh minus'};h.balance=(h.balance||0)+a;SS(d);return h.balance},
  async saldo(){return bal(LS(),U.id)},async mine(){return LS().logs.filter(l=>l.user_id==U.id).slice(0,15)},async all(){return LS().logs.slice(0,40)},
  async rekap(){const d=LS();return Object.values(demoU).filter(u=>u.role=='petugas').map(u=>({user_id:u.id,name:u.name,fotos:d.logs.filter(l=>l.user_id==u.id).length,saldo:bal(d,u.id)}))},
- async pay(id,proof){const d=LS(),s=bal(d,id);if(s>0)d.pay.push({id:Date.now(),user_id:id,amount:s,created_at:new Date().toISOString(),paid_name:'Bendahara',proof_path:proof});SS(d)},
- async voidPay(id,why){const d=LS(),p=d.pay.find(x=>x.id==id);if(!p)throw{message:'Data tidak ditemukan'};p.voided_at=new Date().toISOString();p.void_reason=why||'';SS(d)},
+ async pay(id,proof,ids){const d=LS(),pid=Date.now(),L=d.logs.filter(l=>l.user_id==id&&!l.payout_id&&l.amount>0&&(!ids||ids.includes(l.id)));if(!L.length)throw{message:'Tidak ada foto yang dipilih'};L.forEach(l=>l.payout_id=pid);d.pay.push({id:pid,user_id:id,amount:L.reduce((a,l)=>a+l.amount,0),created_at:new Date().toISOString(),paid_name:'Bendahara',proof_path:proof});SS(d)},
+ async unpaid(uid){return LS().logs.filter(l=>l.user_id==uid&&!l.payout_id&&l.amount>0).reverse()},
+ async voidPay(id,why){const d=LS(),p=d.pay.find(x=>x.id==id);if(!p)throw{message:'Data tidak ditemukan'};p.voided_at=new Date().toISOString();p.void_reason=why||'';d.logs.forEach(l=>{if(l.payout_id==p.id)l.payout_id=null});SS(d)},
  async upProof(b,uid){const p=`${uid}/${Date.now()}.jpg`;await this.up(b,p);return p},async purl(p){return MP[p]||''},
  async url(p){return MP[p]||''}};
 
@@ -211,9 +215,9 @@ $('#ps').onclick=async()=>{try{const n=$('#pn').value.trim(),u=$('#pu').value.tr
 $('#px').onclick=()=>$('#lo').click();
 document.addEventListener('gesturestart',e=>e.preventDefault());
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const logRow=(l,i,who)=>`<div class="row" data-lg="${i}" style="cursor:pointer"><img ${UC[l.photo_path]?`src="${UC[l.photo_path].u}" `:''}data-p="${esc(l.photo_path)}" alt=""><div class="grow"><b>${esc(l.houses?.name||l.house_code)}</b><small>${who&&l.profiles?.name?esc(l.profiles.name)+' · ':''}${fmt(l.created_at)}</small></div>${l.amount>0?`<b style="color:var(--g7)">+${rp(l.amount)}</b>`:'<span class="chip off">Tanpa saldo</span>'}</div>`;
-const payRow=(p,who)=>{const v=!!p.voided_at;return `<div class="row"><div class="grow"><b style="${v?'text-decoration:line-through;color:var(--soft)':''}">${rp(p.amount)}</b><small>${who&&p.who?.name?esc(p.who.name)+' · ':''}${fmt(p.created_at)}${p.paid_name?'<br>Dibayar oleh '+esc(p.paid_name):''}${v?'<br>Dibatalkan '+fmt(p.voided_at)+(p.void_reason?' · '+esc(p.void_reason):''):''}</small></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="chip ${v?'off':'on'}">${v?'Dibatalkan':'Dibayar'}</span>${p.proof_path?`<button class="btn sm line" data-pf="${esc(p.proof_path)}">Lihat bukti</button>`:''}${who&&!v&&p.id!=null?`<button class="btn sm line" style="color:#a3281b;border-color:#a3281b" data-vp="${p.id}">Batalkan</button>`:''}</div></div>`};
-const paintLogs=(el,L,who)=>{const k=L.map(l=>l.id+'|'+l.photo_path).join(',');if(el.dataset.k!==k||!L.length){el.dataset.k=k;el.innerHTML=L.map((l,i)=>logRow(l,i,who)).join('')||none('Belum ada foto.')}bindLogs(el,L)};
+const logRow=(l,i,who)=>`<div class="row" data-lg="${i}" style="cursor:pointer"><img ${UC[l.photo_path]?`src="${UC[l.photo_path].u}" `:''}data-p="${esc(l.photo_path)}" alt=""><div class="grow"><b>${esc(l.houses?.name||l.house_code)}</b><small>${who&&l.profiles?.name?esc(l.profiles.name)+' · ':''}${fmt(l.created_at)}</small></div>${l.amount>0?`<div style="text-align:right"><b style="color:var(--g7)">+${rp(l.amount)}</b>${l.payout_id?'<small style="display:block;color:var(--soft);font-size:11px">Sudah dibayar</small>':''}</div>`:'<span class="chip off">Tanpa saldo</span>'}</div>`;
+const payRow=(p,who)=>{const v=!!p.voided_at;return `<div class="row"><div class="grow"><b style="${v?'text-decoration:line-through;color:var(--soft)':''}">${rp(p.amount)}</b><small>${who&&p.who?.name?esc(p.who.name)+' · ':''}${fmt(p.created_at)}${p.items&&p.items[0]&&p.items[0].count?' · '+p.items[0].count+' rumah':''}${p.paid_name?'<br>Dibayar oleh '+esc(p.paid_name):''}${v?'<br>Dibatalkan '+fmt(p.voided_at)+(p.void_reason?' · '+esc(p.void_reason):''):''}</small></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="chip ${v?'off':'on'}">${v?'Dibatalkan':'Dibayar'}</span>${p.proof_path?`<button class="btn sm line" data-pf="${esc(p.proof_path)}">Lihat bukti</button>`:''}${who&&!v&&p.id!=null?`<button class="btn sm line" style="color:#a3281b;border-color:#a3281b" data-vp="${p.id}">Batalkan</button>`:''}</div></div>`};
+const paintLogs=(el,L,who)=>{const k=L.map(l=>l.id+'|'+l.photo_path+'|'+(l.payout_id||'')).join(',');if(el.dataset.k!==k||!L.length){el.dataset.k=k;el.innerHTML=L.map((l,i)=>logRow(l,i,who)).join('')||none('Belum ada foto.')}bindLogs(el,L)};
 const none=t=>`<p style="color:var(--soft);font-size:13px;padding-top:8px">${t}</p>`;
 function bindLogs(box,arr){box.querySelectorAll('[data-lg]').forEach(x=>x.onclick=()=>openLog(arr[+x.dataset.lg]));box.querySelectorAll('img[data-p]').forEach(async i=>{if(i.getAttribute('src'))return;try{i.src=await api.url(i.dataset.p)||''}catch(e){}})}
 async function openLog(l){let u='';try{u=await api.url(l.photo_path)||''}catch(e){}const g=l.lat!=null&&l.lng!=null;
@@ -340,23 +344,33 @@ async function houseLoad(){const L=await api.houses(),z=L.filter(h=>(h.balance||
 $('#ha').onclick=async()=>{const c=$('#hc').value.trim().toUpperCase(),n=$('#hn').value.trim();if(!c||!n)return toast('Isi kode dan nama rumah');try{await api.addH(c,n);$('#hc').value=$('#hn').value='';houseLoad()}catch(e){toast(e.message)}};
 $('#hp').onclick=async()=>{const L=await api.houses();if(!L.length)return toast('Belum ada rumah');const p=$('#pr');p.innerHTML='<div class="g">'+L.map(h=>`<div class="q">${qr(h.code)}<div>${h.name}</div><div style="font-weight:400">${h.code}</div></div>`).join('')+'</div>';p.classList.remove('hide');setTimeout(()=>{window.print();p.classList.add('hide')},300)};
 /* ========= BAYAR + BUKTI ========= */
-function openPay(r){if(!r)return;let f=null;
- $('#dmb').innerHTML=`<b style="font-size:17px;display:block;margin-bottom:10px">Bayarkan saldo</b>
- <div class="ir"><span>Petugas</span><b>${esc(r.name)}</b></div><div class="ir"><span>Nominal</span><b>${rp(r.saldo)}</b></div>
- <label style="display:block;margin-top:14px">Bukti pembayaran (wajib)</label>
- <input type="file" id="pfi" accept="image/*" class="hide">
- <button class="btn line big" id="pfb" style="margin:8px 0">Pilih / ambil foto bukti</button>
- <div class="pimg hide" id="pfp"><img id="pfv" alt=""></div>
- <div style="display:flex;gap:10px;margin-top:10px"><button class="btn line" id="pfc" style="flex:1">Batal</button><button class="btn gold" id="pfo" style="flex:1.4" disabled>Bayar ${rp(r.saldo)}</button></div>`;
- $('#dm').classList.remove('hide');
- $('#pfb').onclick=()=>$('#pfi').click();
- $('#pfi').onchange=()=>{f=$('#pfi').files[0];if(!f)return;$('#pfv').src=URL.createObjectURL(f);$('#pfp').classList.remove('hide');$('#pfo').disabled=false;$('#pfb').textContent='Ganti foto bukti'};
- $('#pfc').onclick=()=>$('#dm').classList.add('hide');
- $('#pfo').onclick=async()=>{if(!f)return;const o=$('#pfo'),c=$('#pfc'),im=$('#pfv');o.disabled=c.disabled=true;o.textContent='Mengunggah…';
-  try{const cv=document.createElement('canvas');cv.width=im.naturalWidth;cv.height=im.naturalHeight;cv.getContext('2d').drawImage(im,0,0);
-   const b=await compress(cv),p=await api.upProof(b,r.user_id);await api.pay(r.user_id,p);
-   $('#dm').classList.add('hide');toast('Pembayaran dicatat');go.t=0;benLoad()}
-  catch(e){toast(e.message||'Gagal membayar');o.disabled=c.disabled=false;o.textContent='Bayar '+rp(r.saldo)}}}
+function openPay(r){if(!r)return;let f=null,items=[],sel=new Set();
+ $('#dmb').innerHTML=`<b style="font-size:17px;display:block;margin-bottom:10px">Bayarkan ke ${esc(r.name)}</b><p style="color:var(--soft);font-size:13px">Memuat daftar rumah…</p>`;$('#dm').classList.remove('hide');
+ api.unpaid(r.user_id).then(L=>{items=L;sel=new Set(L.map(x=>x.id));draw()}).catch(e=>{$('#dm').classList.add('hide');toast(e.message||'Gagal memuat daftar')});
+ const tot=()=>items.filter(x=>sel.has(x.id)).reduce((a,x)=>a+x.amount,0);
+ function sync(){const t=tot(),o=$('#pfo'),a=$('#pfa');$('#pft').textContent=rp(t);$('#pfn').textContent=sel.size+' dari '+items.length+' dipilih';a.checked=items.length>0&&sel.size==items.length;a.indeterminate=sel.size>0&&sel.size<items.length;o.textContent='Bayar '+rp(t);o.disabled=!(f&&sel.size)}
+ function draw(){
+  if(!items.length){$('#dmb').innerHTML=`<b style="font-size:17px;display:block;margin-bottom:10px">Bayarkan ke ${esc(r.name)}</b><p style="color:var(--soft);font-size:13px;margin-bottom:12px">Tidak ada foto yang perlu dibayar.</p><button class="btn line big" id="pfc">Tutup</button>`;$('#pfc').onclick=()=>$('#dm').classList.add('hide');return}
+  $('#dmb').innerHTML=`<b style="font-size:17px;display:block;margin-bottom:10px">Bayarkan ke ${esc(r.name)}</b>
+  <label class="pit" style="border:0;padding:4px 0" for="pfa"><input type="checkbox" id="pfa"><b>Pilih semua</b><span id="pfn" style="margin-left:auto;color:var(--soft);font-size:12px"></span></label>
+  <div class="pl">${items.map(x=>`<label class="pit"><input type="checkbox" data-i="${x.id}" checked><div class="grow"><b>${esc(x.houses?.name||x.house_code)}</b><small>${fmt(x.created_at)}</small></div><b>${rp(x.amount)}</b></label>`).join('')}</div>
+  <div class="ir" style="padding-top:0"><span>Total dibayarkan</span><b id="pft"></b></div>
+  <label style="display:block;margin-top:10px">Bukti pembayaran (wajib)</label>
+  <input type="file" id="pfi" accept="image/*" class="hide">
+  <button class="btn line big" id="pfb" style="margin:8px 0">Pilih / ambil foto bukti</button>
+  <div class="pimg hide" id="pfp"><img id="pfv" alt=""></div>
+  <div style="display:flex;gap:10px;margin-top:10px"><button class="btn line" id="pfc" style="flex:1">Batal</button><button class="btn gold" id="pfo" style="flex:1.4" disabled>Bayar</button></div>`;
+  $('#pfa').onchange=e=>{sel=e.target.checked?new Set(items.map(x=>x.id)):new Set();document.querySelectorAll('.pit input[data-i]').forEach(c=>c.checked=e.target.checked);sync()};
+  document.querySelectorAll('.pit input[data-i]').forEach(c=>c.onchange=()=>{c.checked?sel.add(+c.dataset.i):sel.delete(+c.dataset.i);sync()});
+  $('#pfb').onclick=()=>$('#pfi').click();
+  $('#pfi').onchange=()=>{f=$('#pfi').files[0];if(!f)return;$('#pfv').src=URL.createObjectURL(f);$('#pfp').classList.remove('hide');$('#pfb').textContent='Ganti foto bukti';sync()};
+  $('#pfc').onclick=()=>$('#dm').classList.add('hide');
+  $('#pfo').onclick=async()=>{if(!f||!sel.size)return;const o=$('#pfo'),c=$('#pfc'),im=$('#pfv');o.disabled=c.disabled=true;o.textContent='Mengunggah…';
+   try{const cv=document.createElement('canvas');cv.width=im.naturalWidth;cv.height=im.naturalHeight;cv.getContext('2d').drawImage(im,0,0);
+    const b=await compress(cv),p=await api.upProof(b,r.user_id);await api.pay(r.user_id,p,[...sel]);
+    $('#dm').classList.add('hide');toast('Pembayaran dicatat');go.t=0;benLoad()}
+   catch(e){toast(e.message||'Gagal membayar');c.disabled=false;sync()}};
+  sync()}}
 document.addEventListener('click',async e=>{const b=e.target.closest('[data-pf]');if(!b)return;let u='';try{u=await api.purl(b.dataset.pf)}catch(x){}
  if(u){$('#vi').src=u;$('#vw').classList.remove('hide')}else toast('Bukti tidak tersedia')});
 function openVoid(p){
