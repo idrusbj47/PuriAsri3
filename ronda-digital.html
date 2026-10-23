@@ -51,7 +51,7 @@ label{font-size:12px;color:var(--soft)}
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;box-shadow:0 -4px 20px #0002;display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
 #nav button{flex:1;border:0;background:none;font:600 10px inherit;font-family:inherit;color:var(--soft);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;overflow:visible}
 #nav i{font-style:normal;display:block;line-height:0}#nav i svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.75;transition:stroke-width .3s,opacity .3s}#nav .act i svg{stroke-width:1.9;opacity:1}#nav button{letter-spacing:.03em}#nav .act{color:var(--g7)}#nav .act i{filter:none}
-#nav .ctr{flex:0 0 78px;position:relative;color:var(--g7)}#nav .ctr span{position:absolute;top:-36px;left:50%;transform:translateX(-50%);width:66px;height:66px;border-radius:50%;background:linear-gradient(180deg,#f0d794,#c79a3d);box-shadow:0 6px 16px #0005;border:4px solid #fff;display:flex;align-items:center;justify-content:center}#nav .ctr em{margin-top:30px;font-style:normal}
+#nav .ctr{flex:0 0 72px;position:relative;color:var(--g7)}#nav .ctr span{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:58px;height:58px;border-radius:50%;background:linear-gradient(160deg,#f3dea4,#c9a049 60%,#b88a2e);box-shadow:0 8px 18px rgba(120,90,20,.38),inset 0 1px 0 rgba(255,255,255,.55);border:3px solid rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;transition:transform .2s}#nav .ctr:active span{transform:translateX(-50%) scale(.94)}#nav .ctr em{margin-top:26px;font-style:normal}#nav.dense button{font-size:9.5px}#nav.dense button i svg{width:20px;height:20px}#info:empty{display:none}
 #h3 .row:nth-child(n+4){display:none}
 .demo{background:#fff4d6;color:#7a5c1e;font-size:12px;padding:8px 16px;text-align:center}
 
@@ -83,7 +83,6 @@ body{padding-bottom:130px}#toast{bottom:125px}
 <div class="card hide" id="nb"></div>
 <div class="card"><b>Terakhir</b><div id="h3"></div></div></div>
 <div id="pRiw" class="pg hide"><div class="card"><b>Riwayat ronda</b><div id="hist"></div></div><div class="card"><b>Riwayat pembayaran</b><div id="pays"></div></div></div>
-<div id="pInfo" class="pg hide"><div class="card" id="info"></div></div>
 <div id="pBoard" class="pg hide"><div class="card" id="bd"></div></div>
 <div id="tr" class="pg hide"></div><div id="tf" class="pg hide"><div class="card" id="bd2"></div><div class="card" id="tfc"></div></div>
 <div id="tu" class="pg hide"><div class="card"><b>Tambah pengguna</b><br><label>Nama</label><input id="un" placeholder="mis. Pak Budi"><label>Username atau email</label><input id="ue" autocapitalize="none" placeholder="mis. budi"><label>Kata sandi (min. 6)</label><input id="up" type="text"><label>Peran</label><select id="ur" style="width:100%;padding:12px;border-radius:12px;border:1px solid #cfd8d0;margin:6px 0 10px;font:inherit"><option value="petugas">Petugas ronda</option><option value="bendahara">Bendahara</option><option value="admin">Super admin</option></select><button class="btn big" id="ua">+ Tambah Pengguna</button></div><div class="card" id="ul"></div></div>
@@ -94,7 +93,7 @@ body{padding-bottom:130px}#toast{bottom:125px}
 <div id="pProf" class="pg hide"><div class="card"><b>Profil</b><p id="pcur" style="font-size:13px;color:var(--soft);margin:6px 0 12px"></p>
 <label>Nama tampilan</label><input id="pn"><label>Username login baru (kosongkan bila tidak diganti)</label><input id="pu" autocapitalize="none">
 <label>Kata sandi baru (kosongkan bila tidak diganti)</label><input id="pw" type="password"><label>Ulangi kata sandi baru</label><input id="pw2" type="password">
-<button class="btn big" id="ps">Simpan Perubahan</button></div><button class="btn line big" id="px">Keluar dari akun</button></div>
+<button class="btn big" id="ps">Simpan Perubahan</button></div><div class="card" id="info"></div><button class="btn line big" id="px">Keluar dari akun</button></div>
 </div>
 <nav id="nav" class="hide"></nav>
 
@@ -197,11 +196,11 @@ const api=sb?{
 for(const[n,k]of[['url',''],['purl','p:']]){const _u=api[n].bind(api);api[n]=async p=>{const c=UC[k+p];if(c&&c.e>Date.now())return c.u;const u=await _u(p);if(u)UC[k+p]={u,e:Date.now()+3300e3};return u}}
 /* ========= LOGIN & NAV ========= */
 function viewOld(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role!='petugas'?'vBen':'vPet')).classList.remove('hide')}
-const MAG='<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/><path d="M8 8h2v2H8zM11.5 11.5h2v2h-2z" fill="#2a1d04" stroke-width="1"/></svg>';
+const MAG='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8.5V7a3 3 0 013-3h1.5"/><path d="M15.5 4H17a3 3 0 013 3v1.5"/><path d="M20 15.5V17a3 3 0 01-3 3h-1.5"/><path d="M8.5 20H7a3 3 0 01-3-3v-1.5"/><rect x="9" y="9" width="6" height="6" rx="1.4"/></svg>';
 function view(){go.t=0;$('#vLogin').classList.toggle('hide',!!U);$('#vApp').classList.toggle('hide',!U);$('#nav').classList.toggle('hide',!U);$('#lo').classList.toggle('hide',!U);if(U){buildNav();go(U.role=='petugas'?'pHome':'tr')}}
 const IC={home:'<path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/>',hist:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><path d="M12 8h.01"/>',user:'<circle cx="12" cy="8.5" r="3.7"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/>',wallet:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><path d="M16 14.5h2"/>',img:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.5"/><path d="M20.5 16l-5-4.5L7 19.5"/>',chk:'<rect x="4" y="4" width="16" height="16" rx="3.5"/><path d="M8.5 12.2l2.4 2.4 4.6-5"/>',bld:'<path d="M4.5 20.5V8.5l6-3.5v15.5"/><path d="M10.5 20.5V10l9 3v7.5"/><path d="M3 20.5h18"/>',users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.6a3 3 0 010 5.8"/><path d="M18 14.8c1.9.5 3 1.9 3 4.7"/>',set:'<path d="M4 7h9"/><path d="M17 7h3"/><path d="M4 17h3"/><path d="M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'},ic=n=>`<svg viewBox="0 0 24 24">${IC[n]}</svg>`;
-function buildNav(){const P=U.role=='petugas',adm=sb&&U.role=='admin',it=P?[['pHome','home','Beranda'],['pRiw','hist','Riwayat'],'scan',['pBoard','chk','Status'],['pInfo','info','Info'],['pProf','user','Profil']]:[['tr','wallet','Rekap'],['tf','img','Foto'],['th','bld','Rumah'],adm&&['tu','users','Pengguna'],['ts','set','Setelan'],['pProf','user','Profil']].filter(Boolean);
- $('#nav').innerHTML='<span class="ind"></span>'+it.map(x=>x=='scan'?`<button class="ctr" id="nsc"><span>${MAG}</span><em>Scan</em></button>`:`<button data-p="${x[0]}"><i>${ic(x[1])}</i>${x[2]}</button>`).join('');
+function buildNav(){const P=U.role=='petugas',adm=sb&&U.role=='admin',it=P?[['pHome','home','Beranda'],['pRiw','hist','Riwayat'],'scan',['pBoard','chk','Status'],['pProf','user','Profil']]:[['tr','wallet','Rekap'],['tf','img','Foto'],['th','bld','Rumah'],adm&&['tu','users','Pengguna'],['ts','set','Setelan'],['pProf','user','Profil']].filter(Boolean);
+ $('#nav').classList.toggle('dense',it.length>5);$('#nav').innerHTML='<span class="ind"></span>'+it.map(x=>x=='scan'?`<button class="ctr" id="nsc"><span>${MAG}</span><em>Scan</em></button>`:`<button data-p="${x[0]}"><i>${ic(x[1])}</i>${x[2]}</button>`).join('');
  document.querySelectorAll('#nav [data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));const s=$('#nsc');if(s)s.onclick=startScan}
 function go(p){document.querySelectorAll('.pg').forEach(e=>e.classList.toggle('hide',e.id!=p));document.querySelectorAll('#nav [data-p]').forEach(b=>b.classList.toggle('act',b.dataset.p==p));moveInd();
  if(p=='pProf')profLoad();else{const f=!go.t||Date.now()-go.t>10000;if(f){go.t=Date.now();U.role=='petugas'?petLoad():benLoad()}}scrollTo(0,0)}
@@ -236,7 +235,7 @@ $('#lo').onclick=async()=>{await api.out();U=null;view()};
 
 /* ========= PETUGAS ========= */
 async function petLoad(){ST={...ST,...await api.st()};paintSt();
- $('#info').innerHTML=`<b>Info Ronda</b><p style="font-size:14px;line-height:1.7;margin-top:8px">🕙 Aktif: <b>${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB</b><br>💰 Tarif: <b>${rp(ST.rate)}</b> per foto rumah<br>📍 Foto otomatis diberi cap lokasi &amp; waktu<br>🏠 Satu rumah dihitung sekali per malam<br>📷 Foto hanya dari kamera, tidak dari galeri<br>💵 Saldo dibayarkan oleh bendahara</p>`;
+ $('#info').innerHTML=`<b>Info Ronda</b><p style="font-size:14px;line-height:1.7;margin-top:8px">🕙 Aktif: <b>${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB</b><br>💰 Tarif: <b>${rp(ST.rate)}</b> per foto rumah<br>📍 Foto otomatis diberi cap lokasi &amp; waktu<br>🏠 Satu rumah dihitung sekali per malam<br>📷 Foto hanya dari kamera, tidak dari galeri<br>💵 Saldo dibayarkan oleh bendahara<br>🚫 Rumah tanpa saldo tetap dicatat, tapi tidak dibayarkan</p>`;
  $('#rt').textContent=`Tiap foto rumah: ${rp(ST.rate)} · aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`;
  $('#sal').textContent=rp(await api.saldo());const[L,P,HL,SC]=await Promise.all([api.mine(),api.pays(),api.houses().catch(()=>[]),api.scans().catch(()=>[])]);
  paintLogs($('#h3'),L.slice(0,3));paintLogs($('#hist'),L);
