@@ -50,7 +50,7 @@ label{font-size:12px;color:var(--soft)}
 <div class="demo hide" id="demo">MODE UJI COBA (data hanya di HP ini). Isi CFG.URL &amp; CFG.KEY untuk memakai Supabase. Login uji: <b>ronda1</b> / <b>bendahara</b>, PIN <b>1234</b></div>
 
 <div class="wrap" id="vLogin"><div class="card"><h3 style="margin-bottom:8px">Masuk</h3>
-<label id="lu">Email</label><input id="u" autocapitalize="none"><label>Kata sandi / PIN</label><input id="p" type="password"><button class="btn big" id="bl">Masuk</button></div></div>
+<label id="lu">Email / username</label><input id="u" autocapitalize="none"><label>Kata sandi / PIN</label><input id="p" type="password"><button class="btn big" id="bl">Masuk</button></div></div>
 
 <div class="wrap hide" id="vPet">
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><small style="color:var(--soft)">Saldo kamu</small><span class="chip" id="st"></span></div>
@@ -58,8 +58,9 @@ label{font-size:12px;color:var(--soft)}
 <button class="btn gold big" id="go" style="margin-bottom:14px">📷 Scan Rumah &amp; Foto</button>
 <div class="card"><b>Riwayat terakhir</b><div id="hist"></div></div></div>
 
-<div class="wrap hide" id="vBen"><div class="tabs"><button class="act" data-t="r">Rekap Saldo</button><button data-t="f">Foto</button><button data-t="h">Rumah</button><button data-t="s">Pengaturan</button></div>
+<div class="wrap hide" id="vBen"><div class="tabs"><button class="act" data-t="r">Rekap Saldo</button><button data-t="f">Foto</button><button data-t="h">Rumah</button><button data-t="u" id="tbu" class="hide">Pengguna</button><button data-t="s">Pengaturan</button></div>
 <div id="tr"></div><div id="tf" class="hide"></div>
+<div id="tu" class="hide"><div class="card"><b>Tambah pengguna</b><br><label>Nama</label><input id="un" placeholder="mis. Pak Budi"><label>Username atau email</label><input id="ue" autocapitalize="none" placeholder="mis. budi"><label>Kata sandi (min. 6)</label><input id="up" type="text"><label>Peran</label><select id="ur" style="width:100%;padding:12px;border-radius:12px;border:1px solid #cfd8d0;margin:6px 0 10px;font:inherit"><option value="petugas">Petugas ronda</option><option value="bendahara">Bendahara</option><option value="admin">Super admin</option></select><button class="btn big" id="ua">+ Tambah Pengguna</button></div><div class="card" id="ul"></div></div>
 <div id="th" class="hide"><div class="card"><label>Kode rumah (isi barcode)</label><input id="hc" placeholder="mis. A01" autocapitalize="characters"><label>Nama / alamat</label><input id="hn" placeholder="mis. Blok A No.1"><button class="btn big" id="ha">+ Tambah Rumah</button></div><button class="btn gold big" id="hp" style="margin-bottom:14px">🖨 Cetak Semua QR</button><div class="card" id="hl"></div></div>
 <div id="ts" class="hide"><div class="card"><label>Nominal per foto (Rp)</label><input id="sr" type="number" inputmode="numeric">
 <label>Ronda aktif mulai (WIB)</label><input id="ss" type="time"><label>Sampai (WIB)</label><input id="se" type="time">
@@ -84,6 +85,7 @@ label{font-size:12px;color:var(--soft)}
 <script>
 const CFG={URL:'https://hqfjcbwndtahxlblumcg.supabase.co',KEY:'sb_publishable_HCHKzCnSdIFPZ0JfDxhdwA_-dHFCLvT'};   // ← isi dengan data project Supabase
 const $=s=>document.querySelector(s),rp=n=>'Rp'+Math.round(n||0).toLocaleString('id-ID'),clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const em=u=>u.includes('@')?u:u.toLowerCase().replace(/\s+/g,'')+'@ronda.puriasri3.com';
 const sb=CFG.URL&&CFG.KEY?supabase.createClient(CFG.URL,CFG.KEY):null;
 let U=null,ST={rate:500,start:'22:00',end:'03:00',bypass:false},H=null,GPS=null,gw=null,stream=null,mode='scan',raw=null,meta=null,hist=[],AC=null,scanT=0;
 const fmt=d=>new Date(d).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).replace(/\./g,':')+' WIB';
@@ -102,7 +104,11 @@ const demoU={ronda1:{id:'u1',name:'Pak Budi (Ronda)',role:'petugas'},ronda2:{id:
 const bal=(d,id)=>d.logs.filter(l=>l.user_id==id).reduce((a,l)=>a+l.amount,0)-d.pay.filter(p=>p.user_id==id).reduce((a,l)=>a+l.amount,0);
 const api=sb?{
  async login(u,p){const{data,error}=await sb.auth.signInWithPassword({email:u,password:p});if(error)throw error;const{data:pr}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).single();return pr},
- async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).single()).data},
+ async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).maybeSingle()).data},
+ async users(){return(await sb.rpc('admin_users')).data||[]},
+ async setRole(id,n,r){const{error}=await sb.rpc('admin_set_profile',{p_user:id,p_name:n,p_role:r});if(error)throw error},
+ async delUser(id){const{error}=await sb.rpc('admin_delete_profile',{p_user:id});if(error)throw error},
+ async addUser(n,e,p,r){const t=supabase.createClient(CFG.URL,CFG.KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false,storageKey:'tmp-admin'}});const{data,error}=await t.auth.signUp({email:e,password:p});if(error)throw error;if(!data.user||data.user.identities?.length===0)throw{message:'Username/email sudah terdaftar'};await this.setRole(data.user.id,n,r)},
  out:()=>sb.auth.signOut(),
  async st(){const{data}=await sb.from('ronda_settings').select('*').eq('id',1).single();return{rate:data.rate,start:data.start_t,end:data.end_t}},
  saveSt:s=>sb.from('ronda_settings').update({rate:s.rate,start_t:s.start,end_t:s.end}).eq('id',1),
@@ -134,11 +140,11 @@ const api=sb?{
  async url(p){return MP[p]||''}};
 
 /* ========= LOGIN & NAV ========= */
-function view(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role=='bendahara'?'vBen':'vPet')).classList.remove('hide')}
+function view(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role!='petugas'?'vBen':'vPet')).classList.remove('hide')}
 async function boot(){if(!sb){$('#demo').classList.remove('hide');$('#lu').textContent='Username';$('#byl').classList.remove('hide')}
  U=await api.me();if(U)await enter();view()}
-async function enter(){try{ST={...ST,...await api.st()}}catch(e){}U.role=='bendahara'?benLoad():petLoad()}
-$('#bl').onclick=async()=>{try{U=await api.login($('#u').value.trim(),$('#p').value);if(!sb)sessionStorage.du=JSON.stringify(U);await enter();view()}catch(e){toast(e.message||'Gagal masuk')}};
+async function enter(){try{ST={...ST,...await api.st()}}catch(e){}U.role!='petugas'?benLoad():petLoad()}
+$('#bl').onclick=async()=>{try{U=await api.login(sb?em($('#u').value.trim()):$('#u').value.trim(),$('#p').value);if(!sb)sessionStorage.du=JSON.stringify(U);await enter();view()}catch(e){toast(e.message||'Gagal masuk')}};
 $('#lo').onclick=async()=>{await api.out();U=null;view()};
 
 /* ========= PETUGAS ========= */
@@ -204,13 +210,19 @@ $('#svp').onclick=async()=>{const btn=$('#svp');if(!isOpen())return toast('Jam r
  btn.disabled=false;btn.textContent='✔ Simpan'};
 
 /* ========= BENDAHARA ========= */
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('act',x==b));['r','f','h','s'].forEach(k=>$('#t'+k).classList.toggle('hide',k!=b.dataset.t));benLoad()});
-async function benLoad(){houseLoad();ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('act',x==b));['r','f','h','u','s'].forEach(k=>$('#t'+k).classList.toggle('hide',k!=b.dataset.t));benLoad()});
+async function benLoad(){const adm=sb&&U.role=='admin';$('#tbu').classList.toggle('hide',!adm);adm&&userLoad();houseLoad();ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
  const R=await api.rekap();$('#tr').innerHTML=R.map(r=>`<div class="card"><div class="row"><div class="grow"><b>${r.name}</b><small>${r.fotos} foto tercatat</small></div><div style="text-align:right"><div class="saldo" style="font-size:22px">${rp(r.saldo)}</div><button class="btn sm gold" data-pay="${r.user_id}" ${r.saldo>0?'':'disabled'}>Bayarkan</button></div></div></div>`).join('')||'<p>Belum ada petugas.</p>';
  document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{if(confirm('Tandai saldo petugas ini sudah dibayar (jadi Rp0)?')){await api.pay(b.dataset.pay);benLoad()}});
  const L=await api.all();$('#tf').innerHTML='<div class="card">'+(L.map(l=>`<div class="row"><img data-p="${l.photo_path}" alt=""><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${l.profiles?.name||''}<br>${fmt(l.created_at)}</small></div><b>${rp(l.amount)}</b></div>`).join('')||'Belum ada foto.')+'</div>';
  document.querySelectorAll('#tf img').forEach(async i=>{const u=await api.url(i.dataset.p);i.src=u;i.onclick=()=>{$('#vi').src=u;$('#vw').classList.remove('hide')}})}
 $('#sv').onclick=async()=>{await api.saveSt({rate:+$('#sr').value,start:$('#ss').value,end:$('#se').value,bypass:$('#by').checked});toast('Pengaturan disimpan');benLoad()};
+const RL={petugas:'Petugas',bendahara:'Bendahara',admin:'Super admin'};
+async function userLoad(){const L=await api.users();$('#ul').innerHTML=L.map(x=>`<div class="row"><div class="grow"><b>${x.name}</b><small>${x.email.replace('@ronda.puriasri3.com','')}</small></div><select data-r="${x.id}" data-n="${x.name}" style="padding:8px;border-radius:10px">${Object.keys(RL).map(k=>`<option value="${k}" ${k==x.role?'selected':''}>${RL[k]}</option>`).join('')}</select><button class="btn sm line" data-x="${x.id}">Hapus</button></div>`).join('')||'Belum ada pengguna.';
+ document.querySelectorAll('[data-r]').forEach(s=>s.onchange=async()=>{try{await api.setRole(s.dataset.r,s.dataset.n,s.value);toast('Peran diubah')}catch(e){toast(e.message)}userLoad()});
+ document.querySelectorAll('[data-x]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus pengguna ini dari aplikasi?')){try{await api.delUser(b.dataset.x);userLoad()}catch(e){toast('Tidak bisa dihapus: sudah punya riwayat. Ubah perannya saja.')}}})}
+$('#ua').onclick=async()=>{const n=$('#un').value.trim(),e=em($('#ue').value.trim()),p=$('#up').value;if(!n||!$('#ue').value.trim()||p.length<6)return toast('Isi nama, username, dan sandi min. 6 karakter');
+ try{$('#ua').disabled=true;await api.addUser(n,e,p,$('#ur').value);$('#un').value=$('#ue').value=$('#up').value='';toast('Pengguna ditambahkan');userLoad()}catch(x){toast(/confirm|email/i.test(x.message||'')?x.message+' (cek: Confirm email harus OFF)':x.message)}$('#ua').disabled=false};
 const qr=c=>{if(!window.qrcode)return '<small>QR gagal dimuat (cek internet)</small>';const q=qrcode(0,'M');q.addData(c);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})};
 async function houseLoad(){const L=await api.houses();$('#hl').innerHTML=L.map(h=>`<div class="row"><div style="width:54px">${qr(h.code)}</div><div class="grow"><b>${h.name}</b><small>Kode: ${h.code}</small></div><button class="btn sm line" data-d="${h.code}">Hapus</button></div>`).join('')||'Belum ada rumah.';
  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus rumah '+b.dataset.d+'? (ditolak bila sudah punya riwayat foto)')){try{await api.delH(b.dataset.d);houseLoad()}catch(e){toast('Tidak bisa dihapus: sudah ada riwayat foto')}}})}
