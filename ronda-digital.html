@@ -162,10 +162,14 @@ async function openCam(m){mode=m;$('#cam').classList.remove('hide');$('#bs').cla
  if(m=='scan')scanLoop()}
 function closeCam(){mode='';stream&&stream.getTracks().forEach(t=>t.stop());stream=null;gw!=null&&navigator.geolocation.clearWatch(gw);gw=null;$('#cam').classList.add('hide')}
 $('#cx').onclick=closeCam;
-async function scanLoop(){const v=$('#v'),bd='BarcodeDetector' in window?new BarcodeDetector():null,c=document.createElement('canvas'),x=c.getContext('2d',{willReadFrequently:true});
- while(mode=='scan'&&stream){await new Promise(r=>setTimeout(r,250));if(!v.videoWidth)continue;let code=null;
-  try{if(bd){const r=await bd.detect(v);code=r[0]&&r[0].rawValue}else if(window.jsQR){c.width=480;c.height=480*v.videoHeight/v.videoWidth;x.drawImage(v,0,0,c.width,c.height);const i=x.getImageData(0,0,c.width,c.height),r=jsQR(i.data,c.width,c.height);code=r&&r.data}}catch(e){}
-  if(code&&await pick(code))return}}
+async function scanLoop(){const v=$('#v');let bd=null;try{if('BarcodeDetector' in window)bd=new BarcodeDetector()}catch(e){}
+ if(!bd&&!window.jsQR)toast('Pustaka scan gagal dimuat — cek internet, atau ketik kode manual');
+ try{const t=stream.getVideoTracks()[0];await t.applyConstraints({advanced:[{focusMode:'continuous'}]})}catch(e){}
+ const c=document.createElement('canvas'),x=c.getContext('2d',{willReadFrequently:true});
+ while(mode=='scan'&&stream){await new Promise(r=>setTimeout(r,200));if(!v.videoWidth)continue;let code=null;
+  try{if(bd){const r=await bd.detect(v);code=r[0]&&r[0].rawValue}}catch(e){}
+  if(!code&&window.jsQR){try{const w=Math.min(v.videoWidth,960);c.width=w;c.height=Math.round(w*v.videoHeight/v.videoWidth);x.drawImage(v,0,0,c.width,c.height);const i=x.getImageData(0,0,c.width,c.height),r=jsQR(i.data,c.width,c.height,{inversionAttempts:'attemptBoth'});code=r&&r.data}catch(e){}}
+  try{if(code&&await pick(code))return}catch(e){toast('Gagal membaca data rumah: '+(e.message||e))}}}
 async function pick(code){const h=await api.house(code.trim());if(!h){if(Date.now()-scanT>2500)toast('Kode "'+code+'" tidak terdaftar');scanT=Date.now();return false}H=h;ting();openCam('shot');return true}
 $('#mb').onclick=()=>$('#mc').value&&pick($('#mc').value);
 $('#sh').onclick=()=>{if(!GPS)return toast('Menunggu sinyal GPS… aktifkan lokasi');const v=$('#v');raw=document.createElement('canvas');raw.width=v.videoWidth;raw.height=v.videoHeight;raw.getContext('2d').drawImage(v,0,0);
