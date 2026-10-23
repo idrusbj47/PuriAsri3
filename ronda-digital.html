@@ -19,6 +19,7 @@ header h1{font:500 18px 'Playfair Display',serif;letter-spacing:.1em}header smal
 .card{background:#fff;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px rgba(30,66,37,.08)}
 .btn{border:0;border-radius:999px;padding:13px 20px;font:700 14px inherit;font-family:inherit;cursor:pointer;background:var(--g7);color:#fff}
 .btn.gold{background:linear-gradient(180deg,#f0d794,#c79a3d);color:#2a1d04}.btn.line{background:#fff;color:var(--g7);border:1px solid var(--g7)}.btn.big{width:100%;padding:18px;font-size:16px}.btn.sm{padding:8px 14px;font-size:12px}
+textarea{width:100%;padding:12px;border:1px solid #cfd8d0;border-radius:12px;font:inherit;margin:6px 0 10px;resize:none;-webkit-user-select:text;user-select:text}
 input{width:100%;padding:12px;border:1px solid #cfd8d0;border-radius:12px;font:inherit;margin:6px 0 10px}
 label{font-size:12px;color:var(--soft)}
 .saldo{font:500 34px 'Playfair Display',serif;color:var(--g7)}
@@ -49,7 +50,7 @@ label{font-size:12px;color:var(--soft)}
 @media print{body>*:not(#pr){display:none!important}#pr{display:block!important}}
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;box-shadow:0 -4px 20px #0002;display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
 #nav button{flex:1;border:0;background:none;font:600 10px inherit;font-family:inherit;color:var(--soft);display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 0;overflow:visible}
-#nav button i{font-style:normal;font-size:20px}#nav .act{color:var(--g7)}#nav .act i{filter:none}
+#nav i{font-style:normal;display:block;line-height:0}#nav i svg{width:22px;height:22px;display:block;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.75;transition:stroke-width .3s,opacity .3s}#nav .act i svg{stroke-width:1.9;opacity:1}#nav button{letter-spacing:.03em}#nav .act{color:var(--g7)}#nav .act i{filter:none}
 #nav .ctr{flex:0 0 78px;position:relative;color:var(--g7)}#nav .ctr span{position:absolute;top:-36px;left:50%;transform:translateX(-50%);width:66px;height:66px;border-radius:50%;background:linear-gradient(180deg,#f0d794,#c79a3d);box-shadow:0 6px 16px #0005;border:4px solid #fff;display:flex;align-items:center;justify-content:center}#nav .ctr em{margin-top:30px;font-style:normal}
 #h3 .row:nth-child(n+4){display:none}
 .demo{background:#fff4d6;color:#7a5c1e;font-size:12px;padding:8px 16px;text-align:center}
@@ -57,8 +58,8 @@ label{font-size:12px;color:var(--soft)}
 #nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));max-width:540px;margin:0 auto;border-radius:26px;background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(20px) saturate(1.7);backdrop-filter:blur(20px) saturate(1.7);border:1px solid rgba(255,255,255,.75);box-shadow:0 10px 30px rgba(15,45,30,.25),inset 0 1px 0 rgba(255,255,255,.8);padding:6px}
 #nav button{position:relative;z-index:1}
 #nav .ind{position:absolute;top:6px;bottom:6px;left:0;z-index:0;border-radius:19px;background:linear-gradient(180deg,rgba(38,89,48,.22),rgba(38,89,48,.12));box-shadow:inset 0 0 0 1px rgba(38,89,48,.18);transition:transform .5s cubic-bezier(.34,1.35,.5,1),width .35s ease,opacity .2s;pointer-events:none}
-#nav i{transition:transform .35s cubic-bezier(.34,1.5,.5,1)}#nav [data-p].act{font-weight:800}#nav [data-p].act i{transform:translateY(-2px) scale(1.15)}
-.pg:not(.hide){animation:fi .35s ease}@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+#nav i{transition:transform .35s cubic-bezier(.34,1.5,.5,1)}#nav [data-p].act{font-weight:700}#nav [data-p].act i{transform:translateY(-1px)}
+.pg:not(.hide){animation:fi .18s ease}@keyframes fi{from{opacity:.5}to{opacity:1}}
 .dm{position:fixed;inset:0;z-index:75;background:#000a;display:flex;align-items:center;justify-content:center;padding:14px}.dm>div{background:#fff;color:var(--ink);border-radius:22px;max-width:520px;width:100%;max-height:92vh;overflow:auto;padding:18px}
 .pimg{position:relative;border-radius:16px;overflow:hidden;background:#222;margin-bottom:6px}.pimg img{display:block;width:100%;max-height:340px;object-fit:cover}.pimg span{position:absolute;left:10px;bottom:10px;background:#000a;color:#fff;font-size:11px;padding:4px 10px;border-radius:99px}
 .ir{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid #0001;font-size:14px}.ir span{color:var(--soft);flex:0 0 38%}.ir b{text-align:right;font-weight:600;word-break:break-word}
@@ -95,6 +96,13 @@ body{padding-bottom:130px}#toast{bottom:125px}
 <div class="bar" id="bs"><input id="mc" placeholder="atau ketik kode rumah"><button class="btn sm gold" id="mb">OK</button></div>
 <div class="bar hide" id="bp"><button class="shut" id="sh" aria-label="Foto"></button></div></div>
 
+<div class="ov hide" id="fm" style="background:var(--bg);color:var(--ink);overflow:auto;z-index:60"><div class="wrap" style="width:100%;padding-top:calc(16px + env(safe-area-inset-top))">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><b style="font:500 20px 'Playfair Display',serif">Bukti Ronda</b><button class="btn sm line" id="fx">Batal</button></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><small style="color:var(--soft)">Data rumah</small><span class="chip on" id="fg">GPS…</span></div><div id="fo"></div></div>
+<div class="card"><label for="fn">Catatan (opsional)</label><textarea id="fn" rows="3" maxlength="200" placeholder="mis. pagar terbuka, lampu mati, aman"></textarea>
+<button class="btn gold big" id="ff" style="display:flex;align-items:center;justify-content:center;gap:10px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Foto Rumah</button></div>
+</div></div>
+
 <div class="ov hide" id="ed"><div id="edwrap"><div id="stage"><canvas id="pv"></canvas><div id="cb" class="hide"><i data-k="tl"></i><i data-k="tr"></i><i data-k="bl"></i><i data-k="br"></i></div></div></div>
 <div class="bar" id="e1"><button class="btn sm line" id="rot">⟳ Putar</button><button class="btn sm line" id="crp">✂ Crop</button><button class="btn sm line" id="und">↩ Undo</button>
 <span style="font-size:12px">☀</span><input type="range" id="br" min="-50" max="80" value="0"></div>
@@ -127,11 +135,12 @@ function ting(){unlock();const t=AC.currentTime;[[1318.5,.45],[1975.5,.25],[2637
 const MP={},LS=()=>JSON.parse(localStorage.rd||'null')||{h:[{code:'A01',name:'Blok A No.1'},{code:'A02',name:'Blok A No.2'},{code:'A03',name:'Blok A No.3'}],logs:[],pay:[],st:ST},SS=d=>localStorage.rd=JSON.stringify(d);
 const demoU={ronda1:{id:'u1',name:'Pak Budi (Ronda)',role:'petugas'},ronda2:{id:'u2',name:'Pak Andi (Ronda)',role:'petugas'},bendahara:{id:'b1',name:'Bendahara',role:'bendahara'}};
 const bal=(d,id)=>d.logs.filter(l=>l.user_id==id).reduce((a,l)=>a+l.amount,0)-d.pay.filter(p=>p.user_id==id).reduce((a,l)=>a+l.amount,0);
+const UC={};
 const api=sb?{
  async login(u,p){let e=u;if(!u.includes('@')){const{data:d0}=await sb.rpc('login_email',{p_username:u});if(!d0)throw{message:'Username tidak ditemukan'};e=d0}const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)throw error;const{data:pr,error:e2}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).maybeSingle();if(!pr){await sb.auth.signOut();throw{message:e2?'Gagal membaca profil: '+e2.message:'Akun belum terdaftar di ronda_profiles (minta admin mendaftarkan)'}}return pr},
  async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).maybeSingle()).data},
  async users(){return(await sb.rpc('admin_users')).data||[]},
- async pays(){return(await sb.from('ronda_payouts').select('id,amount,created_at,paid_name,who:ronda_profiles!user_id(name)').order('created_at',{ascending:false}).limit(30)).data||[]},
+ async pays(){const q=c=>sb.from('ronda_payouts').select(c).order('created_at',{ascending:false}).limit(30);let r=await q('id,user_id,amount,created_at,paid_name,proof_path,who:ronda_profiles!user_id(name)');if(r.error)r=await q('id,user_id,amount,created_at,paid_name,who:ronda_profiles!user_id(name)');return r.data||[]},
  async setName(n){const{error}=await sb.rpc('set_my_name',{p_name:n});if(error)throw error},
  async setPass(p){const{error}=await sb.auth.updateUser({password:p});if(error)throw error},
  async setUsername(u){const{error}=await sb.rpc('set_my_username',{p_username:u});if(error)throw error},
@@ -146,13 +155,15 @@ const api=sb?{
  async addH(c,n){const{error}=await sb.from('ronda_houses').upsert({code:c,name:n});if(error)throw error},
  async delH(c){const{error}=await sb.from('ronda_houses').delete().eq('code',c);if(error)throw error},
  async up(b,p){const{error}=await sb.storage.from('ronda-photos').upload(p,b,{contentType:'image/jpeg'});if(error)throw error},
- async submit(o){const{error}=await sb.rpc('submit_ronda',{p_house:o.code,p_path:o.path,p_lat:o.lat,p_lng:o.lng,p_acc:o.acc,p_taken:o.t.toISOString()});if(error)throw error},
+ async submit(o){const a={p_house:o.code,p_path:o.path,p_lat:o.lat,p_lng:o.lng,p_acc:o.acc,p_taken:o.t.toISOString()};if(o.note)a.p_note=o.note;let{error}=await sb.rpc('submit_ronda',a);if(error&&o.note&&(error.code=='PGRST202'||/p_note/i.test(error.message||''))){delete a.p_note;({error}=await sb.rpc('submit_ronda',a))}if(error)throw error},
  async saldo(){return(await sb.rpc('my_saldo')).data||0},
  async mine(){return(await sb.from('ronda_logs').select('*,houses:ronda_houses(name)').eq('user_id',U.id).order('created_at',{ascending:false}).limit(15)).data||[]},
  async all(){return(await sb.from('ronda_logs').select('*,houses:ronda_houses(name),profiles:ronda_profiles(name)').order('created_at',{ascending:false}).limit(40)).data||[]},
  async rekap(){return(await sb.rpc('rekap')).data||[]},
- pay:id=>sb.rpc('pay_out',{p_user:id}),
- async url(p){return(await sb.storage.from('ronda-photos').createSignedUrl(p,3600)).data?.signedUrl}
+ async pay(id,proof){const{error}=await sb.rpc('pay_out',{p_user:id,p_proof:proof||null});if(error)throw error.code=='PGRST202'?{message:'Jalankan ronda_update3.sql di Supabase dulu'}:error},
+ async upProof(b,uid){const p=`${uid}/${Date.now()}.jpg`,{error}=await sb.storage.from('ronda-proofs').upload(p,b,{contentType:'image/jpeg'});if(error)throw error;return p},
+ async url(p){return(await sb.storage.from('ronda-photos').createSignedUrl(p,3600)).data?.signedUrl},
+ async purl(p){return(await sb.storage.from('ronda-proofs').createSignedUrl(p,3600)).data?.signedUrl}
 }:{
  async login(u,p){if(demoU[u]&&p=='1234')return demoU[u];throw{message:'Login uji salah'}},
  async me(){return JSON.parse(sessionStorage.du||'null')},
@@ -163,21 +174,24 @@ const api=sb?{
  async addH(c,n){const d=LS();d.h=d.h.filter(h=>h.code!=c);d.h.push({code:c,name:n});d.h.sort((a,b)=>a.code.localeCompare(b.code));SS(d)},
  async delH(c){const d=LS();d.h=d.h.filter(h=>h.code!=c);SS(d)},
  async up(b,p){MP[p]=await new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result);f.readAsDataURL(b)})},
- async submit(o){const d=LS(),sd=new Date().toDateString();if(d.logs.some(l=>l.user_id==U.id&&l.house_code==o.code&&l.sd==sd))throw{message:'Rumah ini sudah difoto malam ini'};d.logs.unshift({id:Date.now(),user_id:U.id,house_code:o.code,houses:d.h.find(h=>h.code==o.code),profiles:{name:U.name},photo_path:o.path,amount:d.st.rate,created_at:new Date().toISOString(),lat:o.lat,lng:o.lng,acc:o.acc,taken_at:o.t.toISOString(),sd});SS(d)},
+ async submit(o){const d=LS(),sd=new Date().toDateString();if(d.logs.some(l=>l.user_id==U.id&&l.house_code==o.code&&l.sd==sd))throw{message:'Rumah ini sudah difoto malam ini'};d.logs.unshift({id:Date.now(),user_id:U.id,house_code:o.code,houses:d.h.find(h=>h.code==o.code),profiles:{name:U.name},photo_path:o.path,amount:d.st.rate,created_at:new Date().toISOString(),lat:o.lat,lng:o.lng,acc:o.acc,taken_at:o.t.toISOString(),note:o.note||'',sd});SS(d)},
  async saldo(){return bal(LS(),U.id)},async mine(){return LS().logs.filter(l=>l.user_id==U.id).slice(0,15)},async all(){return LS().logs.slice(0,40)},
  async rekap(){const d=LS();return Object.values(demoU).filter(u=>u.role=='petugas').map(u=>({user_id:u.id,name:u.name,fotos:d.logs.filter(l=>l.user_id==u.id).length,saldo:bal(d,u.id)}))},
- async pay(id){const d=LS(),s=bal(d,id);if(s>0)d.pay.push({user_id:id,amount:s,created_at:new Date().toISOString(),paid_name:'Bendahara'});SS(d)},
+ async pay(id,proof){const d=LS(),s=bal(d,id);if(s>0)d.pay.push({user_id:id,amount:s,created_at:new Date().toISOString(),paid_name:'Bendahara',proof_path:proof});SS(d)},
+ async upProof(b,uid){const p=`${uid}/${Date.now()}.jpg`;await this.up(b,p);return p},async purl(p){return MP[p]||''},
  async url(p){return MP[p]||''}};
 
+for(const[n,k]of[['url',''],['purl','p:']]){const _u=api[n].bind(api);api[n]=async p=>{const c=UC[k+p];if(c&&c.e>Date.now())return c.u;const u=await _u(p);if(u)UC[k+p]={u,e:Date.now()+3300e3};return u}}
 /* ========= LOGIN & NAV ========= */
 function viewOld(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role!='petugas'?'vBen':'vPet')).classList.remove('hide')}
 const MAG='<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#2a1d04" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/><path d="M8 8h2v2H8zM11.5 11.5h2v2h-2z" fill="#2a1d04" stroke-width="1"/></svg>';
-function view(){$('#vLogin').classList.toggle('hide',!!U);$('#vApp').classList.toggle('hide',!U);$('#nav').classList.toggle('hide',!U);$('#lo').classList.toggle('hide',!U);if(U){buildNav();go(U.role=='petugas'?'pHome':'tr')}}
-function buildNav(){const P=U.role=='petugas',adm=sb&&U.role=='admin',it=P?[['pHome','🏠','Beranda'],['pRiw','🕘','Riwayat'],'scan',['pInfo','ℹ️','Info'],['pProf','👤','Profil']]:[['tr','💰','Rekap'],['tf','🖼️','Foto'],['th','🏘️','Rumah'],adm&&['tu','👥','Pengguna'],['ts','⚙️','Setelan'],['pProf','👤','Profil']].filter(Boolean);
- $('#nav').innerHTML='<span class="ind"></span>'+it.map(x=>x=='scan'?`<button class="ctr" id="nsc"><span>${MAG}</span><em>Scan</em></button>`:`<button data-p="${x[0]}"><i>${x[1]}</i>${x[2]}</button>`).join('');
+function view(){go.t=0;$('#vLogin').classList.toggle('hide',!!U);$('#vApp').classList.toggle('hide',!U);$('#nav').classList.toggle('hide',!U);$('#lo').classList.toggle('hide',!U);if(U){buildNav();go(U.role=='petugas'?'pHome':'tr')}}
+const IC={home:'<path d="M3.5 11L12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/>',hist:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><path d="M12 8h.01"/>',user:'<circle cx="12" cy="8.5" r="3.7"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6"/>',wallet:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><path d="M16 14.5h2"/>',img:'<rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.5"/><path d="M20.5 16l-5-4.5L7 19.5"/>',bld:'<path d="M4.5 20.5V8.5l6-3.5v15.5"/><path d="M10.5 20.5V10l9 3v7.5"/><path d="M3 20.5h18"/>',users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5 6-5s6 1.7 6 5"/><path d="M16 5.6a3 3 0 010 5.8"/><path d="M18 14.8c1.9.5 3 1.9 3 4.7"/>',set:'<path d="M4 7h9"/><path d="M17 7h3"/><path d="M4 17h3"/><path d="M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'},ic=n=>`<svg viewBox="0 0 24 24">${IC[n]}</svg>`;
+function buildNav(){const P=U.role=='petugas',adm=sb&&U.role=='admin',it=P?[['pHome','home','Beranda'],['pRiw','hist','Riwayat'],'scan',['pInfo','info','Info'],['pProf','user','Profil']]:[['tr','wallet','Rekap'],['tf','img','Foto'],['th','bld','Rumah'],adm&&['tu','users','Pengguna'],['ts','set','Setelan'],['pProf','user','Profil']].filter(Boolean);
+ $('#nav').innerHTML='<span class="ind"></span>'+it.map(x=>x=='scan'?`<button class="ctr" id="nsc"><span>${MAG}</span><em>Scan</em></button>`:`<button data-p="${x[0]}"><i>${ic(x[1])}</i>${x[2]}</button>`).join('');
  document.querySelectorAll('#nav [data-p]').forEach(b=>b.onclick=()=>go(b.dataset.p));const s=$('#nsc');if(s)s.onclick=startScan}
 function go(p){document.querySelectorAll('.pg').forEach(e=>e.classList.toggle('hide',e.id!=p));document.querySelectorAll('#nav [data-p]').forEach(b=>b.classList.toggle('act',b.dataset.p==p));moveInd();
- if(p=='pProf')profLoad();else if(U.role=='petugas')petLoad();else benLoad();scrollTo(0,0)}
+ if(p=='pProf')profLoad();else{const f=!go.t||Date.now()-go.t>10000;if(f){go.t=Date.now();U.role=='petugas'?petLoad():benLoad()}}scrollTo(0,0)}
 async function profLoad(){$('#pn').value=U.name;$('#pcur').textContent=`${U.name} · ${RL[U.role]} · username: ${U.username||'(belum ada)'}`}
 $('#ps').onclick=async()=>{try{const n=$('#pn').value.trim(),u=$('#pu').value.trim().toLowerCase(),w=$('#pw').value;if(w&&(w.length<6||w!=$('#pw2').value))return toast('Sandi min. 6 karakter & harus sama');
  if(n&&n!=U.name){await api.setName(n);U.name=n}if(u&&u!=U.username){await api.setUsername(u);U.username=u}if(w)await api.setPass(w);
@@ -185,14 +199,15 @@ $('#ps').onclick=async()=>{try{const n=$('#pn').value.trim(),u=$('#pu').value.tr
 $('#px').onclick=()=>$('#lo').click();
 document.addEventListener('gesturestart',e=>e.preventDefault());
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const logRow=(l,i,who)=>`<div class="row" data-lg="${i}" style="cursor:pointer"><img data-p="${esc(l.photo_path)}" alt=""><div class="grow"><b>${esc(l.houses?.name||l.house_code)}</b><small>${who&&l.profiles?.name?esc(l.profiles.name)+' · ':''}${fmt(l.created_at)}</small></div><b style="color:var(--g7)">+${rp(l.amount)}</b></div>`;
-const payRow=(p,who)=>`<div class="row"><div class="grow"><b>${rp(p.amount)}</b><small>${who&&p.who?.name?esc(p.who.name)+' · ':''}${fmt(p.created_at)}${p.paid_name?'<br>Dibayar oleh '+esc(p.paid_name):''}</small></div><span class="chip on">Dibayar</span></div>`;
+const logRow=(l,i,who)=>`<div class="row" data-lg="${i}" style="cursor:pointer"><img ${UC[l.photo_path]?`src="${UC[l.photo_path].u}" `:''}data-p="${esc(l.photo_path)}" alt=""><div class="grow"><b>${esc(l.houses?.name||l.house_code)}</b><small>${who&&l.profiles?.name?esc(l.profiles.name)+' · ':''}${fmt(l.created_at)}</small></div><b style="color:var(--g7)">+${rp(l.amount)}</b></div>`;
+const payRow=(p,who)=>`<div class="row"><div class="grow"><b>${rp(p.amount)}</b><small>${who&&p.who?.name?esc(p.who.name)+' · ':''}${fmt(p.created_at)}${p.paid_name?'<br>Dibayar oleh '+esc(p.paid_name):''}</small></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="chip on">Dibayar</span>${p.proof_path?`<button class="btn sm line" data-pf="${esc(p.proof_path)}">Lihat bukti</button>`:''}</div></div>`;
+const paintLogs=(el,L,who)=>{const k=L.map(l=>l.id+'|'+l.photo_path).join(',');if(el.dataset.k!==k||!L.length){el.dataset.k=k;el.innerHTML=L.map((l,i)=>logRow(l,i,who)).join('')||none('Belum ada foto.')}bindLogs(el,L)};
 const none=t=>`<p style="color:var(--soft);font-size:13px;padding-top:8px">${t}</p>`;
-function bindLogs(box,arr){box.querySelectorAll('[data-lg]').forEach(x=>x.onclick=()=>openLog(arr[+x.dataset.lg]));box.querySelectorAll('img[data-p]').forEach(async i=>{try{i.src=await api.url(i.dataset.p)||''}catch(e){}})}
+function bindLogs(box,arr){box.querySelectorAll('[data-lg]').forEach(x=>x.onclick=()=>openLog(arr[+x.dataset.lg]));box.querySelectorAll('img[data-p]').forEach(async i=>{if(i.getAttribute('src'))return;try{i.src=await api.url(i.dataset.p)||''}catch(e){}})}
 async function openLog(l){let u='';try{u=await api.url(l.photo_path)||''}catch(e){}const g=l.lat!=null&&l.lng!=null;
  $('#dmb').innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><b style="font-size:17px">${esc(l.houses?.name||l.house_code)}</b><button class="btn sm line" id="dmx">✕</button></div>
  <div class="pimg"><img id="dmi" src="${u}" alt=""><span>Ketuk untuk memperbesar</span></div>
- ${[['Kode rumah',l.house_code],['Petugas',l.profiles?.name],['Waktu foto',fmt(l.taken_at||l.created_at)],['Nominal','+'+rp(l.amount)],['Koordinat GPS',g?(+l.lat).toFixed(6)+', '+(+l.lng).toFixed(6):'Tidak tersedia'],['Akurasi GPS',l.acc!=null?'±'+Math.round(l.acc)+' m':'']].filter(x=>x[1]).map(x=>`<div class="ir"><span>${x[0]}</span><b>${esc(x[1])}</b></div>`).join('')}
+ ${[['Kode rumah',l.house_code],['Petugas',l.profiles?.name],['Waktu foto',fmt(l.taken_at||l.created_at)],['Nominal','+'+rp(l.amount)],['Catatan',l.note],['Koordinat GPS',g?(+l.lat).toFixed(6)+', '+(+l.lng).toFixed(6):'Tidak tersedia'],['Akurasi GPS',l.acc!=null?'±'+Math.round(l.acc)+' m':'']].filter(x=>x[1]).map(x=>`<div class="ir"><span>${x[0]}</span><b>${esc(x[1])}</b></div>`).join('')}
  ${g?`<a class="btn gold big" style="display:block;text-align:center;text-decoration:none;margin-top:14px" href="https://www.google.com/maps?q=${l.lat},${l.lng}" target="_blank" rel="noopener">📍 Buka di Google Maps</a>`:''}`;
  $('#dm').classList.remove('hide');$('#dmx').onclick=()=>$('#dm').classList.add('hide');$('#dmi').onclick=()=>{if(u){$('#vi').src=u;$('#vw').classList.remove('hide')}}}
 $('#dm').onclick=e=>{if(e.target.id=='dm')$('#dm').classList.add('hide')};
@@ -211,8 +226,7 @@ async function petLoad(){ST={...ST,...await api.st()};paintSt();
  $('#info').innerHTML=`<b>Info Ronda</b><p style="font-size:14px;line-height:1.7;margin-top:8px">🕙 Aktif: <b>${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB</b><br>💰 Tarif: <b>${rp(ST.rate)}</b> per foto rumah<br>📍 Foto otomatis diberi cap lokasi &amp; waktu<br>🏠 Satu rumah dihitung sekali per malam<br>📷 Foto hanya dari kamera, tidak dari galeri<br>💵 Saldo dibayarkan oleh bendahara</p>`;
  $('#rt').textContent=`Tiap foto rumah: ${rp(ST.rate)} · aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`;
  $('#sal').textContent=rp(await api.saldo());const[L,P]=await Promise.all([api.mine(),api.pays()]);
- $('#h3').innerHTML=L.slice(0,3).map((l,i)=>logRow(l,i)).join('')||none('Belum ada foto.');bindLogs($('#h3'),L);
- $('#hist').innerHTML=L.map((l,i)=>logRow(l,i)).join('')||none('Belum ada foto.');bindLogs($('#hist'),L);
+ paintLogs($('#h3'),L.slice(0,3));paintLogs($('#hist'),L);
  $('#pays').innerHTML=P.map(p=>payRow(p)).join('')||none('Belum ada pembayaran dari bendahara.')}
 function paintSt(){const o=isOpen(),e=$('#st');e.textContent=o?'Ronda AKTIF':'Di luar jam ronda';e.className='chip '+(o?'on':'off')}
 setInterval(()=>U&&U.role=='petugas'&&paintSt(),20000);
@@ -223,8 +237,9 @@ $('#go').onclick=startScan;
 async function openCam(m){mode=m;$('#cam').classList.remove('hide');$('#bs').classList.toggle('hide',m!='scan');$('#bp').classList.toggle('hide',m=='scan');$('#fr').classList.toggle('hide',m!='scan');
  $('#ct').textContent=m=='scan'?'Arahkan ke barcode rumah':H.name;
  if(!stream){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920}},audio:false});$('#v').srcObject=stream}catch(e){toast('Kamera tidak bisa dibuka (butuh HTTPS & izin kamera)');return closeCam()}}
- if(!gw&&navigator.geolocation)gw=navigator.geolocation.watchPosition(p=>{GPS={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};$('#gp').textContent=`GPS ±${Math.round(GPS.acc)} m`},()=>$('#gp').textContent='GPS mati!',{enableHighAccuracy:true,maximumAge:3000});
+ if(!gw&&navigator.geolocation)gw=navigator.geolocation.watchPosition(p=>{GPS={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};$('#gp').textContent=$('#fg').textContent=`GPS ±${Math.round(GPS.acc)} m`},()=>$('#gp').textContent=$('#fg').textContent='GPS mati!',{enableHighAccuracy:true,maximumAge:3000});
  if(m=='scan')scanLoop()}
+function pauseCam(){mode='';stream&&stream.getTracks().forEach(t=>t.stop());stream=null;$('#cam').classList.add('hide')}
 function closeCam(){mode='';stream&&stream.getTracks().forEach(t=>t.stop());stream=null;gw!=null&&navigator.geolocation.clearWatch(gw);gw=null;$('#cam').classList.add('hide')}
 $('#cx').onclick=closeCam;
 async function scanLoop(){const v=$('#v');let bd=null;try{if('BarcodeDetector' in window)bd=new BarcodeDetector()}catch(e){}
@@ -235,7 +250,11 @@ async function scanLoop(){const v=$('#v');let bd=null;try{if('BarcodeDetector' i
   try{if(bd){const r=await bd.detect(v);code=r[0]&&r[0].rawValue}}catch(e){}
   if(!code&&window.jsQR){try{const w=Math.min(v.videoWidth,960);c.width=w;c.height=Math.round(w*v.videoHeight/v.videoWidth);x.drawImage(v,0,0,c.width,c.height);const i=x.getImageData(0,0,c.width,c.height),r=jsQR(i.data,c.width,c.height,{inversionAttempts:'attemptBoth'});code=r&&r.data}catch(e){}}
   try{if(code&&await pick(code))return}catch(e){toast('Gagal membaca data rumah: '+(e.message||e))}}}
-async function pick(code){const h=await api.house(code.trim());if(!h){if(Date.now()-scanT>2500)toast('Kode "'+code+'" tidak terdaftar');scanT=Date.now();return false}H=h;ting();openCam('shot');return true}
+async function pick(code){const h=await api.house(code.trim());if(!h){if(Date.now()-scanT>2500)toast('Kode "'+code+'" tidak terdaftar');scanT=Date.now();return false}H=h;ting();pauseCam();openForm();return true}
+let NOTE='';
+function openForm(){$('#fo').innerHTML=[['Pemilik / alamat',H.owner||H.name],['No. rumah',H.code]].map(x=>`<div class="ir"><span>${x[0]}</span><b>${esc(x[1])}</b></div>`).join('');$('#fn').value='';NOTE='';if(GPS)$('#fg').textContent=`GPS ±${Math.round(GPS.acc)} m`;$('#fm').classList.remove('hide')}
+$('#ff').onclick=()=>{NOTE=$('#fn').value.trim();$('#fm').classList.add('hide');openCam('shot')};
+$('#fx').onclick=()=>{$('#fm').classList.add('hide');closeCam()};
 $('#mb').onclick=()=>$('#mc').value&&pick($('#mc').value);
 $('#sh').onclick=()=>{if(!GPS)return toast('Menunggu sinyal GPS… aktifkan lokasi');const v=$('#v');raw=document.createElement('canvas');raw.width=v.videoWidth;raw.height=v.videoHeight;raw.getContext('2d').drawImage(v,0,0);
  meta={t:new Date(),...GPS};closeCam();hist=[{c:raw,br:0}];$('#br').value=0;$('#ed').classList.remove('hide');draw()};
@@ -263,7 +282,7 @@ cb.onpointermove=e=>{if(!drag)return;const r=$('#pv').getBoundingClientRect(),dx
  cr={x,y,w,h};pcb()};cb.onpointerup=()=>drag=null;
 
 /* ========= STAMP (lokasi+waktu) & KOMPRES <500KB ========= */
-function stamp(c){const x=c.getContext('2d'),f=Math.max(16,Math.round(Math.max(c.width,c.height)/55)),L=[`${H.name} (${H.code})`,fmt(meta.t),`Lat ${meta.lat.toFixed(6)}, Lng ${meta.lng.toFixed(6)} (±${Math.round(meta.acc)} m)`,`Petugas: ${U.name}`],h=L.length*f*1.35+f;
+function stamp(c){const x=c.getContext('2d'),f=Math.max(16,Math.round(Math.max(c.width,c.height)/55)),L=[`${H.name} (${H.code})`,fmt(meta.t),`Lat ${meta.lat.toFixed(6)}, Lng ${meta.lng.toFixed(6)} (±${Math.round(meta.acc)} m)`,`Petugas: ${U.name}`].concat(NOTE?['Catatan: '+NOTE.slice(0,90)]:[]),h=L.length*f*1.35+f;
  x.fillStyle='rgba(0,0,0,.55)';x.fillRect(0,c.height-h,c.width,h);x.fillStyle='#fff';x.font=`600 ${f}px sans-serif`;x.textBaseline='top';L.forEach((t,i)=>x.fillText(t,f*.7,c.height-h+f*.5+i*f*1.35))}
 const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
 async function compress(src){const MAX=480*1024;let s=Math.min(1,1600/Math.max(src.width,src.height)),q=.85,b;
@@ -272,7 +291,7 @@ async function compress(src){const MAX=480*1024;let s=Math.min(1,1600/Math.max(s
 /* ========= SIMPAN ========= */
 $('#svp').onclick=async()=>{const btn=$('#svp');if(!isOpen())return toast('Jam ronda sudah berakhir');unlock();btn.disabled=true;btn.textContent='Menyimpan…';
  try{const f=render(top_());stamp(f);const b=await compress(f),path=`${U.id}/${meta.t.toISOString().replace(/[:.]/g,'-')}_${H.code}.jpg`;
-  await api.up(b,path);await api.submit({code:H.code,path,lat:meta.lat,lng:meta.lng,acc:meta.acc,t:meta.t});
+  await api.up(b,path);await api.submit({code:H.code,path,lat:meta.lat,lng:meta.lng,acc:meta.acc,t:meta.t,note:NOTE});
   $('#ed').classList.add('hide');$('#ok').classList.remove('hide');$('#okm').textContent=`+${rp(ST.rate)} · ${H.name} · ${Math.round(b.size/1024)} KB`;ting();
   setTimeout(()=>{$('#ok').classList.add('hide');petLoad()},2200)}
  catch(e){toast(e.code=='23505'||/duplicate|sudah/.test(e.message||'')?'Rumah ini sudah difoto malam ini':(e.message||'Gagal menyimpan'))}
@@ -283,8 +302,8 @@ async function benLoad(){const adm=sb&&U.role=='admin';if(adm)userLoad();houseLo
  ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
  const[R,P,L]=await Promise.all([api.rekap(),api.pays(),api.all()]);
  $('#tr').innerHTML=(R.map(r=>`<div class="card"><div class="row"><div class="grow"><b>${esc(r.name)}</b><small>${r.fotos} foto tercatat</small></div><div style="text-align:right"><div class="saldo" style="font-size:22px">${rp(r.saldo)}</div><button class="btn sm gold" data-pay="${r.user_id}" ${r.saldo>0?'':'disabled'}>Bayarkan</button></div></div></div>`).join('')||'<p>Belum ada petugas.</p>')+`<div class="card"><b>Riwayat pembayaran</b><div>${P.map(p=>payRow(p,1)).join('')||none('Belum ada pembayaran.')}</div></div>`;
- document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{if(confirm('Tandai saldo petugas ini sudah dibayar (jadi Rp0)?')){await api.pay(b.dataset.pay);benLoad()}});
- $('#tf').innerHTML='<div class="card">'+(L.map((l,i)=>logRow(l,i,1)).join('')||'Belum ada foto.')+'</div>';bindLogs($('#tf'),L)}
+ document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>openPay(R.find(x=>x.user_id==b.dataset.pay)));
+ if(!$('#tfc'))$('#tf').innerHTML='<div class="card" id="tfc"></div>';paintLogs($('#tfc'),L,1)}
 $('#sv').onclick=async()=>{await api.saveSt({rate:+$('#sr').value,start:$('#ss').value,end:$('#se').value,bypass:$('#by').checked});toast('Pengaturan disimpan');benLoad()};
 const RL={petugas:'Petugas',bendahara:'Bendahara',admin:'Super admin'};
 async function userLoad(){const L=await api.users();$('#ul').innerHTML=L.map(x=>`<div class="row"><div class="grow"><b>${x.name}</b><small>${esc(x.username||'-')} · ${esc(x.email)}</small></div><select data-r="${x.id}" data-n="${x.name}" style="padding:8px;border-radius:10px">${Object.keys(RL).map(k=>`<option value="${k}" ${k==x.role?'selected':''}>${RL[k]}</option>`).join('')}</select><button class="btn sm line" data-x="${x.id}">Hapus</button></div>`).join('')||'Belum ada pengguna.';
@@ -297,5 +316,25 @@ async function houseLoad(){const L=await api.houses();$('#hl').innerHTML=L.map(h
  document.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus rumah '+b.dataset.d+'? (ditolak bila sudah punya riwayat foto)')){try{await api.delH(b.dataset.d);houseLoad()}catch(e){toast('Tidak bisa dihapus: sudah ada riwayat foto')}}})}
 $('#ha').onclick=async()=>{const c=$('#hc').value.trim().toUpperCase(),n=$('#hn').value.trim();if(!c||!n)return toast('Isi kode dan nama rumah');try{await api.addH(c,n);$('#hc').value=$('#hn').value='';houseLoad()}catch(e){toast(e.message)}};
 $('#hp').onclick=async()=>{const L=await api.houses();if(!L.length)return toast('Belum ada rumah');const p=$('#pr');p.innerHTML='<div class="g">'+L.map(h=>`<div class="q">${qr(h.code)}<div>${h.name}</div><div style="font-weight:400">${h.code}</div></div>`).join('')+'</div>';p.classList.remove('hide');setTimeout(()=>{window.print();p.classList.add('hide')},300)};
+/* ========= BAYAR + BUKTI ========= */
+function openPay(r){if(!r)return;let f=null;
+ $('#dmb').innerHTML=`<b style="font-size:17px;display:block;margin-bottom:10px">Bayarkan saldo</b>
+ <div class="ir"><span>Petugas</span><b>${esc(r.name)}</b></div><div class="ir"><span>Nominal</span><b>${rp(r.saldo)}</b></div>
+ <label style="display:block;margin-top:14px">Bukti pembayaran (wajib)</label>
+ <input type="file" id="pfi" accept="image/*" class="hide">
+ <button class="btn line big" id="pfb" style="margin:8px 0">Pilih / ambil foto bukti</button>
+ <div class="pimg hide" id="pfp"><img id="pfv" alt=""></div>
+ <div style="display:flex;gap:10px;margin-top:10px"><button class="btn line" id="pfc" style="flex:1">Batal</button><button class="btn gold" id="pfo" style="flex:1.4" disabled>Bayar ${rp(r.saldo)}</button></div>`;
+ $('#dm').classList.remove('hide');
+ $('#pfb').onclick=()=>$('#pfi').click();
+ $('#pfi').onchange=()=>{f=$('#pfi').files[0];if(!f)return;$('#pfv').src=URL.createObjectURL(f);$('#pfp').classList.remove('hide');$('#pfo').disabled=false;$('#pfb').textContent='Ganti foto bukti'};
+ $('#pfc').onclick=()=>$('#dm').classList.add('hide');
+ $('#pfo').onclick=async()=>{if(!f)return;const o=$('#pfo'),c=$('#pfc'),im=$('#pfv');o.disabled=c.disabled=true;o.textContent='Mengunggah…';
+  try{const cv=document.createElement('canvas');cv.width=im.naturalWidth;cv.height=im.naturalHeight;cv.getContext('2d').drawImage(im,0,0);
+   const b=await compress(cv),p=await api.upProof(b,r.user_id);await api.pay(r.user_id,p);
+   $('#dm').classList.add('hide');toast('Pembayaran dicatat');go.t=0;benLoad()}
+  catch(e){toast(e.message||'Gagal membayar');o.disabled=c.disabled=false;o.textContent='Bayar '+rp(r.saldo)}}}
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-pf]');if(!b)return;let u='';try{u=await api.purl(b.dataset.pf)}catch(x){}
+ if(u){$('#vi').src=u;$('#vw').classList.remove('hide')}else toast('Bukti tidak tersedia')});
 boot();
 </script></body></html>
