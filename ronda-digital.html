@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f2d1e"><title>Ronda Digital — Puri Asri 3</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{--g9:#0f2d1e;--g7:#265930;--g1:#ddf0e0;--au:#c49a3c;--bg:#f3f1ea;--ink:#14261a;--soft:#5d7564}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:40px}
+header{background:linear-gradient(180deg,#0f2d1e,#123826);color:#f4e3b0;padding:calc(14px + env(safe-area-inset-top)) 18px 14px;display:flex;align-items:center;justify-content:space-between}
+header h1{font:500 18px 'Playfair Display',serif;letter-spacing:.1em}header small{display:block;font-size:10px;letter-spacing:.2em;color:#a9c9b3;text-transform:uppercase;margin-top:3px}
+.wrap{max-width:560px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 12px rgba(30,66,37,.08)}
+.btn{border:0;border-radius:999px;padding:13px 20px;font:700 14px inherit;font-family:inherit;cursor:pointer;background:var(--g7);color:#fff}
+.btn.gold{background:linear-gradient(180deg,#f0d794,#c79a3d);color:#2a1d04}.btn.line{background:#fff;color:var(--g7);border:1px solid var(--g7)}.btn.big{width:100%;padding:18px;font-size:16px}.btn.sm{padding:8px 14px;font-size:12px}
+input{width:100%;padding:12px;border:1px solid #cfd8d0;border-radius:12px;font:inherit;margin:6px 0 10px}
+label{font-size:12px;color:var(--soft)}
+.saldo{font:500 34px 'Playfair Display',serif;color:var(--g7)}
+.chip{display:inline-block;padding:5px 12px;border-radius:99px;font-size:12px;font-weight:700}.on{background:var(--g1);color:var(--g7)}.off{background:#fde4e1;color:#a3281b}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #0001}.row:last-child{border:0}
+.row img{width:54px;height:54px;object-fit:cover;border-radius:10px;background:#ddd}.grow{flex:1;min-width:0;font-size:13px}.grow small{color:var(--soft);display:block}
+.tabs{display:flex;gap:6px;margin-bottom:14px}.tabs button{flex:1;padding:10px;border:0;border-radius:12px;background:#e6e3d8;font:700 13px inherit;font-family:inherit}.tabs .act{background:var(--g9);color:#f4e3b0}
+.hide{display:none!important}
+.ov{position:fixed;inset:0;background:#000;z-index:50;display:flex;flex-direction:column;color:#fff}
+.ov video{flex:1;min-height:0;width:100%;object-fit:cover}
+.bar{padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:#0c1a12;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.bar input{margin:0;flex:1;min-width:120px}
+.shut{width:72px;height:72px;border-radius:50%;border:5px solid #fff;background:#e6c777;cursor:pointer}
+.frame{position:absolute;left:50%;top:38%;width:62vmin;height:62vmin;transform:translate(-50%,-50%);border:3px solid #e6c777;border-radius:20px;box-shadow:0 0 0 100vmax #0005;pointer-events:none}
+.top{position:absolute;top:calc(10px + env(safe-area-inset-top));left:12px;right:12px;display:flex;justify-content:space-between;font-size:13px;gap:8px}.top span{background:#000a;padding:6px 12px;border-radius:99px}
+#stage{position:relative;margin:auto;display:inline-block;line-height:0}#pv{max-width:100vw;max-height:60vh;display:block}
+#edwrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#111}
+#cb{position:absolute;border:2px solid #e6c777;box-shadow:0 0 0 100vmax #0008;touch-action:none}
+#cb i{position:absolute;width:30px;height:30px;background:#e6c777;border-radius:50%}
+#cb i[data-k=tl]{left:-15px;top:-15px}#cb i[data-k=tr]{right:-15px;top:-15px}#cb i[data-k=bl]{left:-15px;bottom:-15px}#cb i[data-k=br]{right:-15px;bottom:-15px}
+.bar input[type=range]{padding:0;min-width:140px}
+#ok{background:#0f2d1ee8;align-items:center;justify-content:center;z-index:70;text-align:center}
+#ok svg{width:130px;height:130px}#ok circle{fill:none;stroke:#56a660;stroke-width:5;stroke-dasharray:166;stroke-dashoffset:166;animation:d .6s .1s forwards}
+#ok path{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:50;stroke-dashoffset:50;animation:d .4s .6s forwards}
+#ok svg{animation:pop .5s}@keyframes d{to{stroke-dashoffset:0}}@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+#toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#14261a;color:#fff;padding:12px 18px;border-radius:14px;z-index:99;font-size:13px;max-width:90vw;opacity:0;transition:.3s;pointer-events:none}#toast.s{opacity:1}
+#pr{background:#fff;color:#000;padding:10px}#pr .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}#pr .q{border:1px dashed #888;padding:10px;text-align:center;break-inside:avoid;font:700 14px sans-serif}#pr svg{width:100%;height:auto}
+@media print{body>*:not(#pr){display:none!important}#pr{display:block!important}}
+.demo{background:#fff4d6;color:#7a5c1e;font-size:12px;padding:8px 16px;text-align:center}
+</style></head><body>
+<header><div><h1>RONDA DIGITAL</h1><small>Puri Asri 3 · RT 01 / RW 12</small></div><button class="btn sm gold hide" id="lo">Keluar</button></header>
+<div class="demo hide" id="demo">MODE UJI COBA (data hanya di HP ini). Isi CFG.URL &amp; CFG.KEY untuk memakai Supabase. Login uji: <b>ronda1</b> / <b>bendahara</b>, PIN <b>1234</b></div>
+
+<div class="wrap" id="vLogin"><div class="card"><h3 style="margin-bottom:8px">Masuk</h3>
+<label id="lu">Email</label><input id="u" autocapitalize="none"><label>Kata sandi / PIN</label><input id="p" type="password"><button class="btn big" id="bl">Masuk</button></div></div>
+
+<div class="wrap hide" id="vPet">
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><small style="color:var(--soft)">Saldo kamu</small><span class="chip" id="st"></span></div>
+<div class="saldo" id="sal">Rp0</div><small style="color:var(--soft)" id="rt"></small></div>
+<button class="btn gold big" id="go" style="margin-bottom:14px">📷 Scan Rumah &amp; Foto</button>
+<div class="card"><b>Riwayat terakhir</b><div id="hist"></div></div></div>
+
+<div class="wrap hide" id="vBen"><div class="tabs"><button class="act" data-t="r">Rekap Saldo</button><button data-t="f">Foto</button><button data-t="h">Rumah</button><button data-t="s">Pengaturan</button></div>
+<div id="tr"></div><div id="tf" class="hide"></div>
+<div id="th" class="hide"><div class="card"><label>Kode rumah (isi barcode)</label><input id="hc" placeholder="mis. A01" autocapitalize="characters"><label>Nama / alamat</label><input id="hn" placeholder="mis. Blok A No.1"><button class="btn big" id="ha">+ Tambah Rumah</button></div><button class="btn gold big" id="hp" style="margin-bottom:14px">🖨 Cetak Semua QR</button><div class="card" id="hl"></div></div>
+<div id="ts" class="hide"><div class="card"><label>Nominal per foto (Rp)</label><input id="sr" type="number" inputmode="numeric">
+<label>Ronda aktif mulai (WIB)</label><input id="ss" type="time"><label>Sampai (WIB)</label><input id="se" type="time">
+<label id="byl" class="hide"><input type="checkbox" id="by" style="width:auto;margin:0 6px 0 0">Abaikan jam (khusus uji coba)</label><br><br><button class="btn big" id="sv">Simpan Pengaturan</button></div></div></div>
+
+<div class="ov hide" id="cam"><video id="v" playsinline muted autoplay></video><div class="frame" id="fr"></div>
+<div class="top"><span id="ct">Arahkan ke barcode rumah</span><span id="gp">GPS…</span><button class="btn sm line" id="cx">✕</button></div>
+<div class="bar" id="bs"><input id="mc" placeholder="atau ketik kode rumah"><button class="btn sm gold" id="mb">OK</button></div>
+<div class="bar hide" id="bp"><button class="shut" id="sh" aria-label="Foto"></button></div></div>
+
+<div class="ov hide" id="ed"><div id="edwrap"><div id="stage"><canvas id="pv"></canvas><div id="cb" class="hide"><i data-k="tl"></i><i data-k="tr"></i><i data-k="bl"></i><i data-k="br"></i></div></div></div>
+<div class="bar" id="e1"><button class="btn sm line" id="rot">⟳ Putar</button><button class="btn sm line" id="crp">✂ Crop</button><button class="btn sm line" id="und">↩ Undo</button>
+<span style="font-size:12px">☀</span><input type="range" id="br" min="-50" max="80" value="0"></div>
+<div class="bar" id="e2"><button class="btn sm line" id="rt2">Foto ulang</button><button class="btn gold" id="svp">✔ Simpan</button></div>
+<div class="bar hide" id="e3"><button class="btn sm line" id="cc">Batal</button><button class="btn gold" id="ca">Terapkan crop</button></div></div>
+
+<div class="ov hide" id="ok"><div><svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="26.5"/><path d="M18 31l8 8 17-18"/></svg><h2 style="margin-top:14px">Tersimpan!</h2><p id="okm" style="margin-top:6px;color:#e6c777"></p></div></div>
+<div class="ov hide" id="vw" style="z-index:80"><img id="vi" style="flex:1;min-height:0;object-fit:contain"><div class="bar"><button class="btn sm line" onclick="$('#vw').classList.add('hide')">Tutup</button></div></div>
+<div id="pr" class="hide"></div>
+<div id="toast"></div>
+
+<script>
+const CFG={URL:'',KEY:''};   // ← isi dengan data project Supabase
+const $=s=>document.querySelector(s),rp=n=>'Rp'+Math.round(n||0).toLocaleString('id-ID'),clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const sb=CFG.URL?supabase.createClient(CFG.URL,CFG.KEY):null;
+let U=null,ST={rate:500,start:'22:00',end:'03:00',bypass:false},H=null,GPS=null,gw=null,stream=null,mode='scan',raw=null,meta=null,hist=[],AC=null,scanT=0;
+const fmt=d=>new Date(d).toLocaleString('id-ID',{timeZone:'Asia/Jakarta',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).replace(/\./g,':')+' WIB';
+const tm=s=>{const[a,b]=s.slice(0,5).split(':');return +a*60+ +b};
+function jkt(){const p=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jakarta',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());return +p[0].value*60+ +p[2].value}
+function isOpen(){if(!sb&&ST.bypass)return true;const m=jkt(),s=tm(ST.start),e=tm(ST.end);return s>e?(m>=s||m<e):(m>=s&&m<e)}
+function toast(t){const e=$('#toast');e.textContent=t;e.className='s';clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',3200)}
+
+/* ========= SUARA "TING" (disintesis WebAudio, tanpa file) ========= */
+function unlock(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();if(AC.state!='running')AC.resume()}
+function ting(){unlock();const t=AC.currentTime;[[1318.5,.45],[1975.5,.25],[2637,.12]].forEach(([f,a])=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(a,t+.008);g.gain.exponentialRampToValueAtTime(.0008,t+1.2);o.connect(g).connect(AC.destination);o.start(t);o.stop(t+1.3)});navigator.vibrate&&navigator.vibrate(60)}
+
+/* ========= DATA: Supabase atau mode uji coba ========= */
+const MP={},LS=()=>JSON.parse(localStorage.rd||'null')||{h:[{code:'A01',name:'Blok A No.1'},{code:'A02',name:'Blok A No.2'},{code:'A03',name:'Blok A No.3'}],logs:[],pay:[],st:ST},SS=d=>localStorage.rd=JSON.stringify(d);
+const demoU={ronda1:{id:'u1',name:'Pak Budi (Ronda)',role:'petugas'},ronda2:{id:'u2',name:'Pak Andi (Ronda)',role:'petugas'},bendahara:{id:'b1',name:'Bendahara',role:'bendahara'}};
+const bal=(d,id)=>d.logs.filter(l=>l.user_id==id).reduce((a,l)=>a+l.amount,0)-d.pay.filter(p=>p.user_id==id).reduce((a,l)=>a+l.amount,0);
+const api=sb?{
+ async login(u,p){const{data,error}=await sb.auth.signInWithPassword({email:u,password:p});if(error)throw error;const{data:pr}=await sb.from('profiles').select('*').eq('id',data.user.id).single();return pr},
+ async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('profiles').select('*').eq('id',data.session.user.id).single()).data},
+ out:()=>sb.auth.signOut(),
+ async st(){const{data}=await sb.from('settings').select('*').eq('id',1).single();return{rate:data.rate,start:data.start_t,end:data.end_t}},
+ saveSt:s=>sb.from('settings').update({rate:s.rate,start_t:s.start,end_t:s.end}).eq('id',1),
+ async house(c){return(await sb.from('houses').select('*').eq('code',c).maybeSingle()).data},
+ async houses(){return(await sb.from('houses').select('*').order('code')).data||[]},
+ async addH(c,n){const{error}=await sb.from('houses').upsert({code:c,name:n});if(error)throw error},
+ async delH(c){const{error}=await sb.from('houses').delete().eq('code',c);if(error)throw error},
+ async up(b,p){const{error}=await sb.storage.from('ronda-photos').upload(p,b,{contentType:'image/jpeg'});if(error)throw error},
+ async submit(o){const{error}=await sb.rpc('submit_ronda',{p_house:o.code,p_path:o.path,p_lat:o.lat,p_lng:o.lng,p_acc:o.acc,p_taken:o.t.toISOString()});if(error)throw error},
+ async saldo(){return(await sb.rpc('my_saldo')).data||0},
+ async mine(){return(await sb.from('ronda_logs').select('*,houses(name)').eq('user_id',U.id).order('created_at',{ascending:false}).limit(15)).data||[]},
+ async all(){return(await sb.from('ronda_logs').select('*,houses(name),profiles(name)').order('created_at',{ascending:false}).limit(40)).data||[]},
+ async rekap(){return(await sb.rpc('rekap')).data||[]},
+ pay:id=>sb.rpc('pay_out',{p_user:id}),
+ async url(p){return(await sb.storage.from('ronda-photos').createSignedUrl(p,3600)).data?.signedUrl}
+}:{
+ async login(u,p){if(demoU[u]&&p=='1234')return demoU[u];throw{message:'Login uji salah'}},
+ async me(){return JSON.parse(sessionStorage.du||'null')},out:()=>sessionStorage.removeItem('du'),
+ async st(){return LS().st},async saveSt(s){const d=LS();d.st=s;SS(d)},
+ async house(c){return LS().h.find(h=>h.code.toLowerCase()==c.toLowerCase())},
+ async houses(){return LS().h},
+ async addH(c,n){const d=LS();d.h=d.h.filter(h=>h.code!=c);d.h.push({code:c,name:n});d.h.sort((a,b)=>a.code.localeCompare(b.code));SS(d)},
+ async delH(c){const d=LS();d.h=d.h.filter(h=>h.code!=c);SS(d)},
+ async up(b,p){MP[p]=await new Promise(r=>{const f=new FileReader;f.onload=()=>r(f.result);f.readAsDataURL(b)})},
+ async submit(o){const d=LS(),sd=new Date().toDateString();if(d.logs.some(l=>l.user_id==U.id&&l.house_code==o.code&&l.sd==sd))throw{message:'Rumah ini sudah difoto malam ini'};d.logs.unshift({id:Date.now(),user_id:U.id,house_code:o.code,houses:d.h.find(h=>h.code==o.code),profiles:{name:U.name},photo_path:o.path,amount:d.st.rate,created_at:new Date().toISOString(),sd});SS(d)},
+ async saldo(){return bal(LS(),U.id)},async mine(){return LS().logs.filter(l=>l.user_id==U.id).slice(0,15)},async all(){return LS().logs.slice(0,40)},
+ async rekap(){const d=LS();return Object.values(demoU).filter(u=>u.role=='petugas').map(u=>({user_id:u.id,name:u.name,fotos:d.logs.filter(l=>l.user_id==u.id).length,saldo:bal(d,u.id)}))},
+ async pay(id){const d=LS(),s=bal(d,id);if(s>0)d.pay.push({user_id:id,amount:s});SS(d)},
+ async url(p){return MP[p]||''}};
+
+/* ========= LOGIN & NAV ========= */
+function view(){['vLogin','vPet','vBen'].forEach(i=>$('#'+i).classList.add('hide'));$('#lo').classList.toggle('hide',!U);$('#'+(!U?'vLogin':U.role=='bendahara'?'vBen':'vPet')).classList.remove('hide')}
+async function boot(){if(!sb){$('#demo').classList.remove('hide');$('#lu').textContent='Username';$('#byl').classList.remove('hide')}
+ U=await api.me();if(U)await enter();view()}
+async function enter(){try{ST={...ST,...await api.st()}}catch(e){}U.role=='bendahara'?benLoad():petLoad()}
+$('#bl').onclick=async()=>{try{U=await api.login($('#u').value.trim(),$('#p').value);if(!sb)sessionStorage.du=JSON.stringify(U);await enter();view()}catch(e){toast(e.message||'Gagal masuk')}};
+$('#lo').onclick=async()=>{await api.out();U=null;view()};
+
+/* ========= PETUGAS ========= */
+async function petLoad(){ST={...ST,...await api.st()};paintSt();$('#rt').textContent=`Tiap foto rumah: ${rp(ST.rate)} · aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`;
+ $('#sal').textContent=rp(await api.saldo());const L=await api.mine();$('#hist').innerHTML=L.length?L.map(l=>`<div class="row"><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${fmt(l.created_at)}</small></div><b style="color:var(--g7)">+${rp(l.amount)}</b></div>`).join(''):'<p style="color:var(--soft);font-size:13px;padding-top:8px">Belum ada foto.</p>'}
+function paintSt(){const o=isOpen(),e=$('#st');e.textContent=o?'Ronda AKTIF':'Di luar jam ronda';e.className='chip '+(o?'on':'off')}
+setInterval(()=>U&&U.role=='petugas'&&paintSt(),20000);
+$('#go').onclick=async()=>{await petLoad().catch(()=>{});if(!isOpen())return toast(`Ronda hanya aktif ${ST.start.slice(0,5)}–${ST.end.slice(0,5)} WIB`);unlock();openCam('scan')};
+
+/* ========= KAMERA: scan barcode + ambil foto (live camera only, tanpa galeri) ========= */
+async function openCam(m){mode=m;$('#cam').classList.remove('hide');$('#bs').classList.toggle('hide',m!='scan');$('#bp').classList.toggle('hide',m=='scan');$('#fr').classList.toggle('hide',m!='scan');
+ $('#ct').textContent=m=='scan'?'Arahkan ke barcode rumah':H.name;
+ if(!stream){try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1920}},audio:false});$('#v').srcObject=stream}catch(e){toast('Kamera tidak bisa dibuka (butuh HTTPS & izin kamera)');return closeCam()}}
+ if(!gw&&navigator.geolocation)gw=navigator.geolocation.watchPosition(p=>{GPS={lat:p.coords.latitude,lng:p.coords.longitude,acc:p.coords.accuracy};$('#gp').textContent=`GPS ±${Math.round(GPS.acc)} m`},()=>$('#gp').textContent='GPS mati!',{enableHighAccuracy:true,maximumAge:3000});
+ if(m=='scan')scanLoop()}
+function closeCam(){mode='';stream&&stream.getTracks().forEach(t=>t.stop());stream=null;gw!=null&&navigator.geolocation.clearWatch(gw);gw=null;$('#cam').classList.add('hide')}
+$('#cx').onclick=closeCam;
+async function scanLoop(){const v=$('#v'),bd='BarcodeDetector' in window?new BarcodeDetector():null,c=document.createElement('canvas'),x=c.getContext('2d',{willReadFrequently:true});
+ while(mode=='scan'&&stream){await new Promise(r=>setTimeout(r,250));if(!v.videoWidth)continue;let code=null;
+  try{if(bd){const r=await bd.detect(v);code=r[0]&&r[0].rawValue}else if(window.jsQR){c.width=480;c.height=480*v.videoHeight/v.videoWidth;x.drawImage(v,0,0,c.width,c.height);const i=x.getImageData(0,0,c.width,c.height),r=jsQR(i.data,c.width,c.height);code=r&&r.data}}catch(e){}
+  if(code&&await pick(code))return}}
+async function pick(code){const h=await api.house(code.trim());if(!h){if(Date.now()-scanT>2500)toast('Kode "'+code+'" tidak terdaftar');scanT=Date.now();return false}H=h;ting();openCam('shot');return true}
+$('#mb').onclick=()=>$('#mc').value&&pick($('#mc').value);
+$('#sh').onclick=()=>{if(!GPS)return toast('Menunggu sinyal GPS… aktifkan lokasi');const v=$('#v');raw=document.createElement('canvas');raw.width=v.videoWidth;raw.height=v.videoHeight;raw.getContext('2d').drawImage(v,0,0);
+ meta={t:new Date(),...GPS};closeCam();hist=[{c:raw,br:0}];$('#br').value=0;$('#ed').classList.remove('hide');draw()};
+
+/* ========= EDITOR: putar, crop, cahaya, undo ========= */
+function render(h){const c=document.createElement('canvas');c.width=h.c.width;c.height=h.c.height;const x=c.getContext('2d');x.drawImage(h.c,0,0);
+ if(h.br>0){x.globalCompositeOperation='lighter';x.globalAlpha=h.br/100;x.drawImage(h.c,0,0)}else if(h.br<0){x.globalAlpha=-h.br/100;x.fillStyle='#000';x.fillRect(0,0,c.width,c.height)}return c}
+const top_=()=>hist[hist.length-1];
+function draw(b){const t=top_(),r=render({c:t.c,br:b==null?t.br:b}),p=$('#pv');p.width=r.width;p.height=r.height;p.getContext('2d').drawImage(r,0,0)}
+$('#br').oninput=()=>draw(+$('#br').value);
+$('#br').onchange=()=>{hist.push({c:top_().c,br:+$('#br').value});draw()};
+$('#rot').onclick=()=>{const t=top_(),c=document.createElement('canvas');c.width=t.c.height;c.height=t.c.width;const x=c.getContext('2d');x.translate(c.width/2,c.height/2);x.rotate(Math.PI/2);x.drawImage(t.c,-t.c.width/2,-t.c.height/2);hist.push({c,br:t.br});draw()};
+$('#und').onclick=()=>{if(hist.length>1){hist.pop();$('#br').value=top_().br;draw()}else toast('Tidak ada yang di-undo')};
+$('#rt2').onclick=()=>{$('#ed').classList.add('hide');openCam('shot')};
+let cr,drag;const cb=$('#cb');
+function pcb(){Object.assign(cb.style,{left:cr.x*100+'%',top:cr.y*100+'%',width:cr.w*100+'%',height:cr.h*100+'%'})}
+function cropUI(on){cb.classList.toggle('hide',!on);$('#e1').classList.toggle('hide',on);$('#e2').classList.toggle('hide',on);$('#e3').classList.toggle('hide',!on)}
+$('#crp').onclick=()=>{cr={x:.1,y:.1,w:.8,h:.8};pcb();cropUI(true)};$('#cc').onclick=()=>cropUI(false);
+$('#ca').onclick=()=>{const t=top_(),W=t.c.width,Hh=t.c.height,c=document.createElement('canvas');c.width=Math.round(cr.w*W);c.height=Math.round(cr.h*Hh);c.getContext('2d').drawImage(t.c,cr.x*W,cr.y*Hh,cr.w*W,cr.h*Hh,0,0,c.width,c.height);hist.push({c,br:t.br});cropUI(false);draw()};
+cb.onpointerdown=e=>{drag={k:e.target.dataset.k||'m',x:e.clientX,y:e.clientY,o:{...cr}};cb.setPointerCapture(e.pointerId)};
+cb.onpointermove=e=>{if(!drag)return;const r=$('#pv').getBoundingClientRect(),dx=(e.clientX-drag.x)/r.width,dy=(e.clientY-drag.y)/r.height,o=drag.o,k=drag.k;let{x,y,w,h}=o;
+ if(k=='m'){x=clamp(o.x+dx,0,1-w);y=clamp(o.y+dy,0,1-h)}else{
+  if(k[1]=='l'){x=clamp(o.x+dx,0,o.x+o.w-.1);w=o.x+o.w-x}if(k[1]=='r')w=clamp(o.w+dx,.1,1-o.x);
+  if(k[0]=='t'){y=clamp(o.y+dy,0,o.y+o.h-.1);h=o.y+o.h-y}if(k[0]=='b')h=clamp(o.h+dy,.1,1-o.y)}
+ cr={x,y,w,h};pcb()};cb.onpointerup=()=>drag=null;
+
+/* ========= STAMP (lokasi+waktu) & KOMPRES <500KB ========= */
+function stamp(c){const x=c.getContext('2d'),f=Math.max(16,Math.round(Math.max(c.width,c.height)/55)),L=[`${H.name} (${H.code})`,fmt(meta.t),`Lat ${meta.lat.toFixed(6)}, Lng ${meta.lng.toFixed(6)} (±${Math.round(meta.acc)} m)`,`Petugas: ${U.name}`],h=L.length*f*1.35+f;
+ x.fillStyle='rgba(0,0,0,.55)';x.fillRect(0,c.height-h,c.width,h);x.fillStyle='#fff';x.font=`600 ${f}px sans-serif`;x.textBaseline='top';L.forEach((t,i)=>x.fillText(t,f*.7,c.height-h+f*.5+i*f*1.35))}
+const toBlob=(c,q)=>new Promise(r=>c.toBlob(r,'image/jpeg',q));
+async function compress(src){const MAX=480*1024;let s=Math.min(1,1600/Math.max(src.width,src.height)),q=.85,b;
+ for(let i=0;i<14;i++){const c=document.createElement('canvas');c.width=Math.round(src.width*s);c.height=Math.round(src.height*s);c.getContext('2d').drawImage(src,0,0,c.width,c.height);b=await toBlob(c,q);if(b.size<=MAX)return b;q-=.08;if(q<.45){q=.8;s*=.85}}return b}
+
+/* ========= SIMPAN ========= */
+$('#svp').onclick=async()=>{const btn=$('#svp');if(!isOpen())return toast('Jam ronda sudah berakhir');unlock();btn.disabled=true;btn.textContent='Menyimpan…';
+ try{const f=render(top_());stamp(f);const b=await compress(f),path=`${U.id}/${meta.t.toISOString().replace(/[:.]/g,'-')}_${H.code}.jpg`;
+  await api.up(b,path);await api.submit({code:H.code,path,lat:meta.lat,lng:meta.lng,acc:meta.acc,t:meta.t});
+  $('#ed').classList.add('hide');$('#ok').classList.remove('hide');$('#okm').textContent=`+${rp(ST.rate)} · ${H.name} · ${Math.round(b.size/1024)} KB`;ting();
+  setTimeout(()=>{$('#ok').classList.add('hide');petLoad()},2200)}
+ catch(e){toast(e.code=='23505'||/duplicate|sudah/.test(e.message||'')?'Rumah ini sudah difoto malam ini':(e.message||'Gagal menyimpan'))}
+ btn.disabled=false;btn.textContent='✔ Simpan'};
+
+/* ========= BENDAHARA ========= */
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('act',x==b));['r','f','h','s'].forEach(k=>$('#t'+k).classList.toggle('hide',k!=b.dataset.t));benLoad()});
+async function benLoad(){houseLoad();ST={...ST,...await api.st()};$('#sr').value=ST.rate;$('#ss').value=ST.start.slice(0,5);$('#se').value=ST.end.slice(0,5);$('#by').checked=!!ST.bypass;
+ const R=await api.rekap();$('#tr').innerHTML=R.map(r=>`<div class="card"><div class="row"><div class="grow"><b>${r.name}</b><small>${r.fotos} foto tercatat</small></div><div style="text-align:right"><div class="saldo" style="font-size:22px">${rp(r.saldo)}</div><button class="btn sm gold" data-pay="${r.user_id}" ${r.saldo>0?'':'disabled'}>Bayarkan</button></div></div></div>`).join('')||'<p>Belum ada petugas.</p>';
+ document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=async()=>{if(confirm('Tandai saldo petugas ini sudah dibayar (jadi Rp0)?')){await api.pay(b.dataset.pay);benLoad()}});
+ const L=await api.all();$('#tf').innerHTML='<div class="card">'+(L.map(l=>`<div class="row"><img data-p="${l.photo_path}" alt=""><div class="grow"><b>${l.houses?.name||l.house_code}</b><small>${l.profiles?.name||''}<br>${fmt(l.created_at)}</small></div><b>${rp(l.amount)}</b></div>`).join('')||'Belum ada foto.')+'</div>';
+ document.querySelectorAll('#tf img').forEach(async i=>{const u=await api.url(i.dataset.p);i.src=u;i.onclick=()=>{$('#vi').src=u;$('#vw').classList.remove('hide')}})}
+$('#sv').onclick=async()=>{await api.saveSt({rate:+$('#sr').value,start:$('#ss').value,end:$('#se').value,bypass:$('#by').checked});toast('Pengaturan disimpan');benLoad()};
+const qr=c=>{if(!window.qrcode)return '<small>QR gagal dimuat (cek internet)</small>';const q=qrcode(0,'M');q.addData(c);q.make();return q.createSvgTag({cellSize:4,margin:2,scalable:true})};
+async function houseLoad(){const L=await api.houses();$('#hl').innerHTML=L.map(h=>`<div class="row"><div style="width:54px">${qr(h.code)}</div><div class="grow"><b>${h.name}</b><small>Kode: ${h.code}</small></div><button class="btn sm line" data-d="${h.code}">Hapus</button></div>`).join('')||'Belum ada rumah.';
+ document.querySelectorAll('[data-d]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus rumah '+b.dataset.d+'? (ditolak bila sudah punya riwayat foto)')){try{await api.delH(b.dataset.d);houseLoad()}catch(e){toast('Tidak bisa dihapus: sudah ada riwayat foto')}}})}
+$('#ha').onclick=async()=>{const c=$('#hc').value.trim().toUpperCase(),n=$('#hn').value.trim();if(!c||!n)return toast('Isi kode dan nama rumah');try{await api.addH(c,n);$('#hc').value=$('#hn').value='';houseLoad()}catch(e){toast(e.message)}};
+$('#hp').onclick=async()=>{const L=await api.houses();if(!L.length)return toast('Belum ada rumah');const p=$('#pr');p.innerHTML='<div class="g">'+L.map(h=>`<div class="q">${qr(h.code)}<div>${h.name}</div><div style="font-weight:400">${h.code}</div></div>`).join('')+'</div>';p.classList.remove('hide');setTimeout(()=>{window.print();p.classList.add('hide')},300)};
+boot();
+</script></body></html>
