@@ -103,7 +103,7 @@ const MP={},LS=()=>JSON.parse(localStorage.rd||'null')||{h:[{code:'A01',name:'Bl
 const demoU={ronda1:{id:'u1',name:'Pak Budi (Ronda)',role:'petugas'},ronda2:{id:'u2',name:'Pak Andi (Ronda)',role:'petugas'},bendahara:{id:'b1',name:'Bendahara',role:'bendahara'}};
 const bal=(d,id)=>d.logs.filter(l=>l.user_id==id).reduce((a,l)=>a+l.amount,0)-d.pay.filter(p=>p.user_id==id).reduce((a,l)=>a+l.amount,0);
 const api=sb?{
- async login(u,p){const{data,error}=await sb.auth.signInWithPassword({email:u,password:p});if(error)throw error;const{data:pr}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).single();return pr},
+ async login(u,p){const{data,error}=await sb.auth.signInWithPassword({email:u,password:p});if(error)throw error;const{data:pr,error:e2}=await sb.from('ronda_profiles').select('*').eq('id',data.user.id).maybeSingle();if(!pr){await sb.auth.signOut();throw{message:e2?'Gagal membaca profil: '+e2.message:'Akun belum terdaftar di ronda_profiles (minta admin mendaftarkan)'}}return pr},
  async me(){const{data}=await sb.auth.getSession();if(!data.session)return null;return(await sb.from('ronda_profiles').select('*').eq('id',data.session.user.id).maybeSingle()).data},
  async users(){return(await sb.rpc('admin_users')).data||[]},
  async setRole(id,n,r){const{error}=await sb.rpc('admin_set_profile',{p_user:id,p_name:n,p_role:r});if(error)throw error},
