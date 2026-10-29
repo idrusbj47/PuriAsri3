@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kisah Puri Asri 3 — RT 01 / RW 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#0c2619;--g8:#123826;--g7:#1e4225;--g5:#3a8c45;--g4:#56a660;--g3:#80c489;--g2:#b3ddb9;--gold:#d4af5a;--gold2:#f0d794;--cream:#f7f5f0;--ink:#14261a}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',-apple-system,sans-serif;color:var(--ink);background:var(--g9);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+/* sky */
+#sky,#dawn{position:fixed;inset:0;z-index:0}
+#sky{background:linear-gradient(180deg,#0c2619 0%,#123826 55%,#1f5a3a 100%)}
+#dawn{background:linear-gradient(180deg,#bfe3d0 0%,#f7ecc9 60%,#f7f5f0 100%);opacity:0}
+#sun{position:fixed;z-index:0;width:90px;height:90px;border-radius:50%;left:12%;top:60%;background:radial-gradient(circle,#fff6d6 0%,#f0d794 45%,rgba(240,215,148,0) 70%);box-shadow:0 0 90px 40px rgba(240,215,148,.35)}
+#bar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));z-index:50}
+header{position:fixed;top:0;left:0;right:0;z-index:40;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+header b{font-family:'Playfair Display',serif;font-weight:500;letter-spacing:.14em;color:#f4e3b0;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+header span{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#cfe3d5;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+/* tree */
+#treeWrap{position:fixed;inset:0;z-index:1;display:flex;justify-content:center;align-items:flex-end;pointer-events:none}
+svg#tree{height:100vh;width:auto;max-width:100vw;overflow:visible}
+.grow{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.trunk{stroke:#6b4a2b}.trunk2{stroke:#8a6238}.root{stroke:#5a3d22}.branch{stroke:#7a5632}
+.sway{animation:sway 5s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-4deg)}to{transform:rotate(5deg)}}
+.pop{transform-box:fill-box;transform-origin:50% 100%;transform:scale(0);transition:transform .9s cubic-bezier(.22,1,.36,1)}
+.pop.on{transform:scale(1)}
+.fade{opacity:0;transition:opacity 1s ease}.fade.on{opacity:1}
+.glow{animation:glow 2.8s ease-in-out infinite alternate}
+@keyframes glow{from{filter:drop-shadow(0 0 2px #f0d794)}to{filter:drop-shadow(0 0 9px #ffe9a8)}}
+.bird{animation:fly 14s linear infinite}
+@keyframes fly{from{transform:translateX(-60px)}to{transform:translateX(480px)}}
+/* story */
+main{position:relative;z-index:10}
+section{min-height:100vh;display:flex;align-items:center;padding:90px 5vw 70px}
+section.l{justify-content:flex-start}section.r{justify-content:flex-end}section.c{justify-content:center;text-align:center}
+.card{max-width:370px;background:rgba(253,252,250,.86);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);border:1px solid rgba(255,255,255,.6);border-radius:24px;padding:28px 28px 26px;box-shadow:0 20px 50px rgba(8,28,18,.28);opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1)}
+.card.in{opacity:1;transform:none}
+.k{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:#7a5c1e;margin-bottom:10px}
+h2{font-family:'Playfair Display',serif;font-weight:500;font-size:28px;line-height:1.15;margin-bottom:12px;color:var(--g7)}
+p{font-size:15px;line-height:1.65;color:#3a5040}
+ul{list-style:none;margin-top:14px;display:flex;flex-wrap:wrap;gap:7px}
+li{font-size:12.5px;padding:6px 12px;border-radius:99px;background:#ddf0e0;color:#265930;font-weight:500}
+li.g{background:#f8f0da;color:#7a5c1e}
+.hero{max-width:560px;text-align:center;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0}
+.hero .k{color:#c9dccd}
+.hero h1{font-family:'Playfair Display',serif;font-weight:500;font-size:clamp(38px,8vw,72px);line-height:1.05;color:#fff;margin-bottom:16px;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.hero h1 em{font-style:normal;color:#e6c777}
+.hero p{color:#d6e6d9;max-width:420px;margin:0 auto}
+.hint{margin-top:34px;font-size:11px;letter-spacing:.3em;color:#e6c777;text-transform:uppercase;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(8px)}}
+.end{background:rgba(12,38,25,.82);border-color:rgba(227,201,126,.35);text-align:center;max-width:420px}
+.end h2{color:#f4e3b0;font-size:32px}.end p{color:#d6e6d9}.end .k{color:#e6c777}
+.end .tri{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.end .tri li{background:rgba(240,215,148,.16);color:#f0d794}
+@media(max-width:900px){
+ section{align-items:flex-end;justify-content:center!important;padding:90px 16px 40px}
+ .card{max-width:520px;width:100%;padding:22px}
+ section.c{align-items:center}
+ #treeWrap{opacity:.9}
+}
+@media(prefers-reduced-motion:reduce){.sway,.glow,.bird,.hint{animation:none}.pop,.fade,.card{transition:none}}
+</style>
+</head>
+<body>
+<div id="sky"></div><div id="dawn"></div><div id="sun"></div><div id="bar"></div>
+<header><b>PURI ASRI 3</b><span>RT 01 · RW 12 · Jonggol</span></header>
+
+<div id="treeWrap">
+<svg id="tree" viewBox="0 0 400 830" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a8c45"/><stop offset="1" stop-color="#1e4225"/></linearGradient>
+  </defs>
+  <!-- ground -->
+  <path d="M-200 745 Q 200 722 600 745 L600 830 L-200 830Z" fill="url(#gr)" opacity=".95"/>
+  <g id="houses"></g>
+  <g id="birds" class="fade" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round">
+    <g class="bird"><path d="M0 120 q8 -9 16 0 q8 -9 16 0"/></g>
+    <g class="bird" style="animation-delay:-6s"><path d="M0 160 q6 -7 12 0 q6 -7 12 0"/></g>
+  </g>
+  <!-- roots -->
+  <g id="roots">
+    <path class="grow root" d="M200 742 C 170 764,140 770,100 800" stroke-width="9"/>
+    <path class="grow root" d="M200 742 C 232 764,268 770,305 798" stroke-width="9"/>
+    <path class="grow root" d="M200 742 C 196 772,190 790,182 818" stroke-width="8"/>
+    <path class="grow root" d="M150 765 C 130 770,118 768,95 774" stroke-width="4"/>
+    <path class="grow root" d="M252 767 C 272 772,288 770,312 776" stroke-width="4"/>
+  </g>
+  <!-- trunk + crown stem -->
+  <path id="trunk" class="grow trunk" d="M200 745 C 194 650,210 570,200 480 C 192 410,206 350,200 290 C 198 240,201 205,200 165" stroke-width="24"/>
+  <path id="trunkHi" class="grow trunk2" d="M205 745 C 199 650,215 570,205 480 C 197 410,211 350,205 290 C 203 240,205 205,203 170" stroke-width="7" opacity=".7"/>
+  <!-- branches -->
+  <g id="branches">
+    <path class="grow branch" d="M200 570 C 170 550,128 540,88 498" stroke-width="10"/>
+    <path class="grow branch" d="M200 525 C 236 505,276 495,320 452" stroke-width="10"/>
+    <path class="grow branch" d="M200 440 C 165 420,135 398,108 345" stroke-width="9"/>
+    <path class="grow branch" d="M200 400 C 236 380,266 358,292 300" stroke-width="9"/>
+    <path class="grow branch" d="M200 335 C 180 305,160 275,148 222" stroke-width="7"/>
+    <path class="grow branch" d="M200 315 C 222 285,242 255,256 205" stroke-width="7"/>
+    <path class="grow branch" d="M200 240 C 188 215,172 195,160 160" stroke-width="5"/>
+    <path class="grow branch" d="M200 230 C 214 208,228 188,240 158" stroke-width="5"/>
+  </g>
+  <g id="leaves"></g>
+  <g id="blossoms"></g>
+  <g id="lights"></g>
+</svg>
+</div>
+
+<main>
+ <section class="c" data-ph="0"><div class="card hero in">
+   <div class="k">Portal Warga · Jonggol</div>
+   <h1>Puri <em>Asri</em> 3</h1>
+   <p>Sebuah kisah tentang satu lingkungan kecil, RT 01 / RW 12, yang tumbuh pelan-pelan seperti sebatang pohon. Gulir ke bawah dan ikuti pertumbuhannya, bab demi bab.</p>
+   <div class="hint">↓ gulir</div>
+ </div></section>
+ <section class="l" data-ph="1"><div class="card">
+   <div class="k">Bab 1 · Akar</div>
+   <h2>Berawal dari kebersamaan</h2>
+   <p>Setiap pohon dimulai dari akar. Di Puri Asri 3, akarnya adalah para warga: tetangga yang saling sapa, saling bantu, dan percaya bahwa lingkungan yang baik dibangun bersama-sama. Semuanya dikelola pengurus RT dan terbuka bagi warga.</p>
+   <ul><li>Warga</li><li>Rukun</li><li>Saling percaya</li></ul>
+ </div></section>
+ <section class="r" data-ph="2"><div class="card">
+   <div class="k">Bab 2 · Batang</div>
+   <h2>Kas Umum yang terbuka</h2>
+   <p>Batang yang kokoh menopang semuanya. Laporan kas mencatat setiap anggota per blok dan pemilik rumah, dengan kolom iuran Januari sampai Desember, status lunas atau belum, dan persentase anggota yang sudah membayar. Ada penanda tanggal cut-off supaya jelas data itu per kapan, dan filter bulan untuk melihat siapa yang belum bayar.</p>
+   <ul><li class="g">Laporan Kas Umum</li><li class="g">Iuran Jan–Des</li><li class="g">Status Lunas</li><li class="g">Pengeluaran Kas</li></ul>
+ </div></section>
+ <section class="l" data-ph="3"><div class="card">
+   <div class="k">Bab 3 · Cabang Kepedulian</div>
+   <h2>Dana Kematian: saling meringankan</h2>
+   <p>Satu cabang tumbuh untuk saat-saat tersulit. Laporan Dana Kematian punya halaman sendiri: total dana masuk dari iuran warga tahun ini, total pengeluaran yang tercatat, sisa saldo, serta jumlah anggota yang terdaftar, supaya meringankan beban keluarga yang ditinggalkan tetap dilakukan dengan jelas.</p>
+   <ul><li>Dana Masuk</li><li>Pengeluaran Kematian</li><li>Sisa Saldo</li></ul>
+ </div></section>
+ <section class="r" data-ph="3.3"><div class="card">
+   <div class="k">Bab 4 · Ranting Perhatian</div>
+   <h2>Jangan ada tetangga yang terlewat</h2>
+   <p>Pengurus RT tidak selalu menerima kabar langsung. Karena itu ada Form Lapor Warga Sakit di Info &amp; Dokumen Kas, dan warga diajak ikut menyampaikan bila ada tetangga yang sakit atau dirawat, agar yang berhak menerima manfaat dana sosial tidak terlewat hanya karena belum ada laporan.</p>
+   <ul><li class="g">Form Lapor Warga Sakit</li><li class="g">Info &amp; Dokumen Kas</li></ul>
+ </div></section>
+ <section class="l" data-ph="4"><div class="card">
+   <div class="k">Bab 5 · Cabang Informasi</div>
+   <h2>Timeline Rapat Warga</h2>
+   <p>Setiap hasil rapat dicatat sebagai rekam jejak: keputusan apa yang diambil, kapan, dan di rapat ke berapa. Warga yang tidak sempat hadir tetap bisa menelusuri kembali apa yang sudah disepakati. Rapat warga rutin ke-8, pada 20 September 2026, tercatat bertepatan dengan musyawarah pemekaran pertama.</p>
+   <ul><li>Rekam Jejak Rapat</li><li>Rapat Warga Rutin</li><li>Per Kategori</li></ul>
+ </div></section>
+ <section class="r" data-ph="4.4"><div class="card">
+   <div class="k">Bab 6 · Cabang Informasi</div>
+   <h2>Program &amp; Kegiatan Warga</h2>
+   <p>Dari rapat lahirlah program. Halaman Program Kerja dan Kegiatan Warga RT 01 Tahun 2026 memuat apa saja yang sedang dan akan dikerjakan, lengkap dengan status tiap program, dikelola bersama pengurus dan warga.</p>
+   <ul><li class="g">Program Kerja 2026</li><li class="g">Status Program</li></ul>
+ </div></section>
+ <section class="l" data-ph="4.8"><div class="card">
+   <div class="k">Bab 7 · Cabang Informasi</div>
+   <h2>Progres Urusan &amp; Advokasi</h2>
+   <p>Tidak semua urusan selesai dalam satu rapat. Sistem Progres Urusan dan Advokasi menandai setiap urusan warga, apakah masih berstatus Proses atau sudah Selesai, sehingga tidak ada yang menguap begitu saja setelah dibicarakan.</p>
+   <ul><li>Proses</li><li>Selesai</li><li>Advokasi</li></ul>
+ </div></section>
+ <section class="r" data-ph="5.1"><div class="card">
+   <div class="k">Bab 8 · Cabang Informasi</div>
+   <h2>Dokumen yang rapi di satu tempat</h2>
+   <p>AD/ART RT 01 / RW 12 tahun 2026 bisa dibaca dan diunduh sebagai PDF. Peta lokasi resmi perumahan bisa dibuka langsung, daftar inventaris RT tercatat, dan dokumentasi acara tersimpan sebagai kenangan bersama.</p>
+   <ul><li>AD / ART</li><li>Peta Lokasi</li><li>Inventaris RT</li><li>Dokumentasi Acara</li></ul>
+ </div></section>
+ <section class="l" data-ph="5.4"><div class="card">
+   <div class="k">Bab 9 · Dedaunan</div>
+   <h2>Maulid Nabi Muhammad SAW</h2>
+   <p>Panitia PHBI mengajak warga menyukseskan peringatan Maulid Nabi 2026. Progres partisipasi terkumpul ditampilkan terhadap target RAB, dipisah antara donatur tunai dan donatur barang atau makanan, dengan rincian RAB yang bisa dibuka warga dan ucapan terima kasih di penghujung halaman.</p>
+   <ul><li>Partisipasi Tunai</li><li>Makanan &amp; Minuman</li><li>RAB Panitia</li></ul>
+ </div></section>
+ <section class="r" data-ph="5.7"><div class="card">
+   <div class="k">Bab 10 · Dedaunan</div>
+   <h2>17 Agustusan, dari warga untuk warga</h2>
+   <p>Menyambut HUT RI ke-81, panitia 17 Agustusan memantau dana terkumpul terhadap target RAB, mencakup iuran warga dan pencairan proposal donatur. Partisipasi tiap blok diberi warna: 80% ke atas, 50–79%, dan di bawah 50%, agar kekurangan terlihat dan bisa dikejar bersama.</p>
+   <ul><li class="g">Iuran Warga</li><li class="g">Pencairan Proposal</li><li class="g">Partisipasi per Blok</li></ul>
+ </div></section>
+ <section class="l" data-ph="6.0"><div class="card">
+   <div class="k">Bab 11 · Dedaunan</div>
+   <h2>Piala Bergilir: Blok E juara</h2>
+   <p>Semangat berlomba ditutup dengan klasemen. Poin Piala Bergilir hanya dihitung dari juara 1: 2 poin untuk perorangan dan 5 poin untuk regu atau blok. Blok E keluar sebagai juara, sementara juara 2 dan 3 tetap dicatat sebagai kebanggaan blok, dari kategori anak-anak, dewasa, hingga balita.</p>
+   <ul><li>Blok E Juara</li><li>Perorangan 2 Poin</li><li>Regu/Blok 5 Poin</li></ul>
+ </div></section>
+ <section class="r" data-ph="6.3"><div class="card">
+   <div class="k">Bab 12 · Dedaunan</div>
+   <h2>Suara warga tentang Posyandu</h2>
+   <p>Ketika dana kas RT dipakai untuk modal awal dan operasional Posyandu, warga diminta memilih lewat polling: menganggapnya sah dan boleh berlanjut, mewajibkan dana dikembalikan, atau jalan tengah, dana diputihkan namun Posyandu mandiri ke depan. Hasilnya dibuka agar semua tahu.</p>
+   <ul><li class="g">Setuju</li><li class="g">Tidak Setuju</li><li class="g">Jalan Tengah</li></ul>
+ </div></section>
+ <section class="l" data-ph="6.6"><div class="card">
+   <div class="k">Bab 13 · Bunga</div>
+   <h2>Pemekaran RT: menghitung dengan cermat</h2>
+   <p>Perumahan terus bertambah penghuni, sehingga RT perlu dimekarkan. Syaratnya minimal 50 KK per RT menurut Perbup Kabupaten Bogor No. 31 Tahun 2012. Halaman pemekaran menyediakan data jumlah rumah per blok, KK aktif dari data kas, serta kalkulator untuk menguji kelayakan RT baru.</p>
+   <ul><li>Minimal 50 KK</li><li>Data per Blok</li><li>Kalkulator RT</li></ul>
+ </div></section>
+ <section class="r" data-ph="6.95"><div class="card">
+   <div class="k">Bab 14 · Bunga</div>
+   <h2>Keputusan musyawarah pertama</h2>
+   <p>Pada 20 September 2026, musyawarah menyetujui pembentukan 3 wilayah RT baru, sehingga total menjadi 4 wilayah RT. Status Blok E1 dan E2 belum final dan akan ditentukan lewat musyawarah internal warga, dan panitia pemilihan Ketua RT dibentuk terpisah di tiap wilayah baru.</p>
+   <ul><li class="g">RT 001 · Blok A–D</li><li class="g">RT 003 · Blok E &amp; I</li><li class="g">RT 004 · Blok F &amp; G</li><li class="g">RT 005 · Blok H, J &amp; K</li></ul>
+ </div></section>
+ <section class="l" data-ph="7.4"><div class="card">
+   <div class="k">Bab 15 · Cahaya</div>
+   <h2>Hadir di layar genggaman</h2>
+   <p>Semua cerita tadi kini bisa dibuka dari HP lewat portal puriasri3.my.id, bahkan dipasang di layar utama sebagai aplikasi (PWA). Datanya diambil langsung dari Google Sheets, dikembangkan oleh Sekretaris RT 01, dan siap dibuka warga kapan saja.</p>
+   <ul><li>Portal Warga</li><li>Install PWA</li><li>Data Live</li></ul>
+ </div></section>
+ <section class="c" data-ph="8"><div class="card end">
+   <div class="k">Puri Asri 3 · RT 01 / RW 12</div>
+   <h2>Bersama Membangun Lingkungan yang Lebih Baik</h2>
+   <p>Transparan, rukun, dan mudah diakses. Pohon ini terus tumbuh selama warganya terus merawatnya.</p>
+   <ul class="tri"><li>Lebih Kompak</li><li>Lebih Peduli</li><li>Lebih Baik</li></ul>
+ </div></section>
+</main>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+const $=s=>document.querySelector(s);
+const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const seg=(p,a,b)=>clamp((p-a)/(b-a));
+// seeded rng
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+
+// prepare growing paths
+function prep(el,a,b){const L=el.getTotalLength();el.style.strokeDasharray=L;el.style.strokeDashoffset=L;return{el,L,a,b}}
+const G=[];
+G.push(prep($('#trunk'),.06,.30));G.push(prep($('#trunkHi'),.06,.30));
+[...$('#roots').children].forEach((el,i)=>G.push(prep(el,0.0+i*.015,.12+i*.01)));
+const br=[[.26,.35],[.34,.44],[.38,.46],[.44,.54],[.50,.58],[.54,.62],[.60,.68],[.62,.70]];
+[...$('#branches').children].forEach((el,i)=>G.push(prep(el,br[i][0],br[i][1])));
+// trunk reveals its crown stem later: extend trunk end
+G[0].b=.66;G[1].b=.66;
+
+// houses (Puri = perumahan)
+const hs=[[40,745,.8],[88,746,1],[300,746,1],[352,745,.8],[-10,747,.7],[392,747,.7]];
+hs.forEach(([x,y,s],i)=>{
+  const g=document.createElementNS(NS,'g');g.setAttribute('class','fade');g.dataset.t=.04+i*.03;
+  g.setAttribute('transform',`translate(${x} ${y}) scale(${s})`);
+  g.innerHTML=`<rect x="-16" y="-24" width="32" height="24" fill="#f7f5f0"/><path d="M-20 -24 L0 -42 L20 -24Z" fill="#c49a3c"/><rect x="-4" y="-14" width="8" height="14" fill="#7a5632"/><rect x="8" y="-19" width="6" height="6" fill="#f0d794"/>`;
+  $('#houses').appendChild(g);
+});
+
+// leaves along branch ends and crown
+const clusters=[
+ [88,498,.40,12],[320,452,.47,12],[108,345,.52,13],[292,300,.58,13],[148,222,.62,13],[256,205,.66,13],
+ [160,160,.70,14],[240,158,.72,14],[200,125,.75,18],[130,250,.64,8],[270,250,.68,8],[200,190,.74,12],[110,420,.50,8],[300,380,.54,8]
+];
+const greens=['#2e7038','#3a8c45','#56a660','#80c489','#265930'];
+clusters.forEach(([cx,cy,t,n])=>{
+  for(let i=0;i<n;i++){
+    const a=rnd()*6.283,r=rnd()*34+4;
+    const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.8;
+    const og=document.createElementNS(NS,'g');og.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(a*57.3).toFixed(0)})`);
+    const sw=document.createElementNS(NS,'g');sw.setAttribute('class','sway');sw.style.animationDelay=(-rnd()*5).toFixed(2)+'s';sw.style.transformBox='fill-box';sw.style.transformOrigin='50% 100%';
+    const e=document.createElementNS(NS,'ellipse');e.setAttribute('rx',(7+rnd()*8).toFixed(1));e.setAttribute('ry',(4+rnd()*4).toFixed(1));
+    e.setAttribute('fill',greens[Math.floor(rnd()*greens.length)]);e.setAttribute('opacity',.92);
+    e.setAttribute('class','pop');e.dataset.t=(t+i*.003).toFixed(3);
+    sw.appendChild(e);og.appendChild(sw);$('#leaves').appendChild(og);
+  }
+});
+// blossoms (gold)
+[[200,125],[160,160],[240,158],[148,222],[256,205],[108,345],[292,300],[88,498],[320,452],[200,190],[175,95],[225,100],[130,250],[270,250]].forEach(([cx,cy],i)=>{
+  for(let k=0;k<3;k++){
+    const x=cx+(rnd()-.5)*50,y=cy+(rnd()-.5)*38;
+    const c=document.createElementNS(NS,'circle');c.setAttribute('cx',x.toFixed(1));c.setAttribute('cy',y.toFixed(1));c.setAttribute('r',(2.4+rnd()*2.2).toFixed(1));
+    c.setAttribute('fill',k%2?'#f0d794':'#fff6d6');c.setAttribute('class','pop');c.dataset.t=(.76+i*.007+k*.004).toFixed(3);
+    $('#blossoms').appendChild(c);
+  }
+});
+// lights (warga) – glowing gold orbs, final
+[[100,470],[300,430],[125,330],[280,290],[165,200],[240,190],[200,110],[185,150],[225,145],[75,520],[330,470]].forEach(([x,y],i)=>{
+  const c=document.createElementNS(NS,'circle');c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',4.5);
+  c.setAttribute('fill','#ffe9a8');c.setAttribute('class','pop glow');c.dataset.t=(.88+i*.01).toFixed(3);c.style.animationDelay=(-i*.4)+'s';
+  $('#lights').appendChild(c);
+});
+
+const popEls=[...document.querySelectorAll('.pop')],fadeEls=[...document.querySelectorAll('#houses .fade')],birds=$('#birds'),
+ sun=$('#sun'),dawn=$('#dawn'),bar=$('#bar');
+const secs=[...document.querySelectorAll('section')];
+function phaseNow(){
+  const y=scrollY+innerHeight/2;
+  const cs=secs.map(e=>({c:e.offsetTop+e.offsetHeight/2,ph:+e.dataset.ph}));
+  if(y<=cs[0].c)return cs[0].ph;
+  for(let i=1;i<cs.length;i++){if(y<=cs[i].c){const a=cs[i-1],b=cs[i];return a.ph+(b.ph-a.ph)*(y-a.c)/(b.c-a.c)}}
+  return cs[cs.length-1].ph;
+}
+function update(){
+  const h=document.documentElement.scrollHeight-innerHeight;
+  const real=h>0?clamp(scrollY/h):0;
+  const p=clamp(phaseNow()/8);
+  bar.style.width=(real*100)+'%';
+  G.forEach(g=>{g.el.style.strokeDashoffset=g.L*(1-seg(p,g.a,g.b))});
+  popEls.forEach(e=>e.classList.toggle('on',p>=+e.dataset.t));
+  fadeEls.forEach(e=>e.classList.toggle('on',p>=+e.dataset.t));
+  birds.classList.toggle('on',p>.7);
+  dawn.style.opacity=seg(p,.05,.9);
+  sun.style.top=(62-real*48)+'%';sun.style.left=(10+real*70)+'%';
+}
+addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
+
+// reveal cards
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.35});
+document.querySelectorAll('.card').forEach(c=>io.observe(c));
+</script>
+</body>
+</html>
