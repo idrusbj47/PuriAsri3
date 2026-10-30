@@ -110,6 +110,19 @@ li.g{background:#f8f0da;color:#7a5c1e}
   .end{width:calc(100% - 36px)}
 }
 @media(prefers-reduced-motion:reduce){.csway{animation:none}.sp{display:none}}
+/* ---- v5: perbaikan teks HP + performa ---- */
+.card{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(253,252,250,.93);position:relative;z-index:13}
+.card.hero{background:none;box-shadow:none;border:0;padding:0;max-width:560px;width:100%}
+.hero h1{text-shadow:0 2px 6px rgba(0,0,0,.55),0 4px 30px rgba(0,0,0,.5)}
+.hero .k,.hero p{text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.card.end{background:rgba(12,38,25,.94);border-color:rgba(227,201,126,.35)}
+#sun{left:0;top:0;will-change:transform;box-shadow:0 0 60px 28px rgba(240,215,148,.3)}
+.glow{animation:none}
+@media(max-width:900px),(pointer:coarse){.csway,.bird{animation:none}.shoot{display:none}}
+/* ---- v6: daun jatuh membawa pesan ---- */
+.card:not(.hero){border-radius:34px 8px 34px 8px}
+.card:not(.hero) .k::before{content:'🍃 '}
+.fall{position:fixed;left:0;top:0;z-index:30;pointer-events:none;will-change:transform,opacity;filter:drop-shadow(0 4px 6px rgba(0,0,0,.3))}
 </style>
 </head>
 <body>
@@ -148,105 +161,105 @@ li.g{background:#f8f0da;color:#7a5c1e}
 
 <main>
  <section class="c" data-ph="0"><div class="card hero in">
-   <div class="k">Portal Warga · Jonggol</div>
+   <div class="k">Pesan dari sebatang pohon</div>
    <h1>Puri <em>Asri</em> 3</h1>
-   <p>Sebuah kisah tentang satu lingkungan kecil, RT 01 / RW 12, yang tumbuh pelan-pelan seperti sebatang pohon. Gulir ke bawah dan ikuti pertumbuhannya, bab demi bab.</p>
+   <p>Aku pohon di Puri Asri 3. Setiap kali selembar daunku jatuh, ia membawa satu pesan untuk warga RT 01 / RW 12. Gulir ke bawah, dan pungutlah daunku satu per satu.</p>
    <div class="hint">↓ gulir</div>
  </div></section>
  <section class="l" data-ph="1"><div class="card">
-   <div class="k">Bab 1 · Akar</div>
-   <h2>Berawal dari kebersamaan</h2>
-   <p>Setiap pohon dimulai dari akar. Di Puri Asri 3, akarnya adalah para warga: tetangga yang saling sapa, saling bantu, dan percaya bahwa lingkungan yang baik dibangun bersama-sama. Semuanya dikelola pengurus RT dan terbuka bagi warga.</p>
+   <div class="k">Daun 1 · Akar</div>
+   <h2>Aku tumbuh dari kebersamaan kalian</h2>
+   <p>Akarku adalah kalian, para warga: tetangga yang saling sapa dan saling bantu. Aku tidak pernah tumbuh sendirian. Semua dikelola pengurus RT dan terbuka bagi warga.</p>
    <ul><li>Warga</li><li>Rukun</li><li>Saling percaya</li></ul>
  </div></section>
  <section class="r" data-ph="2"><div class="card">
-   <div class="k">Bab 2 · Batang</div>
-   <h2>Kas Umum yang terbuka</h2>
-   <p>Batang yang kokoh menopang semuanya. Laporan kas mencatat setiap anggota per blok dan pemilik rumah, dengan kolom iuran Januari sampai Desember, status lunas atau belum, dan persentase anggota yang sudah membayar. Ada penanda tanggal cut-off supaya jelas data itu per kapan, dan filter bulan untuk melihat siapa yang belum bayar.</p>
-   <ul><li class="g">Laporan Kas Umum</li><li class="g">Iuran Jan–Des</li><li class="g">Status Lunas</li><li class="g">Pengeluaran Kas</li></ul>
+   <div class="k">Daun 2 · Batang</div>
+   <h2>Batangku bernama Kas Umum</h2>
+   <p>Batang yang kokoh menopang segalanya. Lewat laporan kas, kalian bisa melihat iuran Januari sampai Desember tiap anggota per blok, status lunas atau belum, persentase yang sudah membayar, tanggal cut-off data, dan filter bulan untuk melihat siapa yang belum bayar.</p>
+   <ul><li class=g>Laporan Kas Umum</li><li class=g>Iuran Jan–Des</li><li class=g>Status Lunas</li><li class=g>Pengeluaran Kas</li></ul>
  </div></section>
  <section class="l" data-ph="3"><div class="card">
-   <div class="k">Bab 3 · Cabang Kepedulian</div>
-   <h2>Dana Kematian: saling meringankan</h2>
-   <p>Satu cabang tumbuh untuk saat-saat tersulit. Laporan Dana Kematian punya halaman sendiri: total dana masuk dari iuran warga tahun ini, total pengeluaran yang tercatat, sisa saldo, serta jumlah anggota yang terdaftar, supaya meringankan beban keluarga yang ditinggalkan tetap dilakukan dengan jelas.</p>
+   <div class="k">Daun 3 · Cabang Kepedulian</div>
+   <h2>Satu cabangku tumbuh untuk saat tersulit</h2>
+   <p>Di halaman Dana Kematian, kalian bisa melihat dana masuk dari iuran tahun ini, pengeluaran yang tercatat, sisa saldo, dan jumlah anggota terdaftar, supaya meringankan keluarga yang ditinggalkan tetap dilakukan dengan jelas.</p>
    <ul><li>Dana Masuk</li><li>Pengeluaran Kematian</li><li>Sisa Saldo</li></ul>
  </div></section>
  <section class="r" data-ph="3.3"><div class="card">
-   <div class="k">Bab 4 · Ranting Perhatian</div>
-   <h2>Jangan ada tetangga yang terlewat</h2>
-   <p>Pengurus RT tidak selalu menerima kabar langsung. Karena itu ada Form Lapor Warga Sakit di Info &amp; Dokumen Kas, dan warga diajak ikut menyampaikan bila ada tetangga yang sakit atau dirawat, agar yang berhak menerima manfaat dana sosial tidak terlewat hanya karena belum ada laporan.</p>
-   <ul><li class="g">Form Lapor Warga Sakit</li><li class="g">Info &amp; Dokumen Kas</li></ul>
+   <div class="k">Daun 4 · Ranting Perhatian</div>
+   <h2>Bantu aku melihat tetangga yang sakit</h2>
+   <p>Aku tidak bisa berkeliling dari gang ke gang. Gunakan Form Lapor Warga Sakit di Info &amp; Dokumen Kas bila ada tetangga yang sakit atau dirawat, agar yang berhak menerima dana sosial tidak terlewat hanya karena belum ada laporan.</p>
+   <ul><li class=g>Form Lapor Warga Sakit</li><li class=g>Info &amp; Dokumen Kas</li></ul>
  </div></section>
  <section class="l" data-ph="4"><div class="card">
-   <div class="k">Bab 5 · Cabang Informasi</div>
-   <h2>Timeline Rapat Warga</h2>
-   <p>Setiap hasil rapat dicatat sebagai rekam jejak: keputusan apa yang diambil, kapan, dan di rapat ke berapa. Warga yang tidak sempat hadir tetap bisa menelusuri kembali apa yang sudah disepakati. Rapat warga rutin ke-8, pada 20 September 2026, tercatat bertepatan dengan musyawarah pemekaran pertama.</p>
+   <div class="k">Daun 5 · Cabang Informasi</div>
+   <h2>Aku mengingat setiap rapat</h2>
+   <p>Keputusan, tanggal, dan rapat ke berapa kucatat sebagai rekam jejak, jadi yang tidak sempat hadir tetap bisa menelusurinya. Rapat warga rutin ke-8, 20 September 2026, bertepatan dengan musyawarah pemekaran pertama.</p>
    <ul><li>Rekam Jejak Rapat</li><li>Rapat Warga Rutin</li><li>Per Kategori</li></ul>
  </div></section>
  <section class="r" data-ph="4.4"><div class="card">
-   <div class="k">Bab 6 · Cabang Informasi</div>
-   <h2>Program &amp; Kegiatan Warga</h2>
-   <p>Dari rapat lahirlah program. Halaman Program Kerja dan Kegiatan Warga RT 01 Tahun 2026 memuat apa saja yang sedang dan akan dikerjakan, lengkap dengan status tiap program, dikelola bersama pengurus dan warga.</p>
-   <ul><li class="g">Program Kerja 2026</li><li class="g">Status Program</li></ul>
+   <div class="k">Daun 6 · Cabang Informasi</div>
+   <h2>Dari rapat, lahirlah program</h2>
+   <p>Halaman Program Kerja dan Kegiatan Warga RT 01 Tahun 2026 memuat apa yang sedang dan akan dikerjakan, lengkap dengan status tiap program, dikelola bersama pengurus dan warga.</p>
+   <ul><li class=g>Program Kerja 2026</li><li class=g>Status Program</li></ul>
  </div></section>
  <section class="l" data-ph="4.8"><div class="card">
-   <div class="k">Bab 7 · Cabang Informasi</div>
-   <h2>Progres Urusan &amp; Advokasi</h2>
-   <p>Tidak semua urusan selesai dalam satu rapat. Sistem Progres Urusan dan Advokasi menandai setiap urusan warga, apakah masih berstatus Proses atau sudah Selesai, sehingga tidak ada yang menguap begitu saja setelah dibicarakan.</p>
+   <div class="k">Daun 7 · Cabang Informasi</div>
+   <h2>Urusan yang belum selesai jangan menguap</h2>
+   <p>Tidak semua urusan beres dalam satu rapat. Karena itu tiap urusan dan advokasi kutandai: masih Proses atau sudah Selesai, supaya tidak hilang begitu saja setelah dibicarakan.</p>
    <ul><li>Proses</li><li>Selesai</li><li>Advokasi</li></ul>
  </div></section>
  <section class="r" data-ph="5.1"><div class="card">
-   <div class="k">Bab 8 · Cabang Informasi</div>
-   <h2>Dokumen yang rapi di satu tempat</h2>
-   <p>AD/ART RT 01 / RW 12 tahun 2026 bisa dibaca dan diunduh sebagai PDF. Peta lokasi resmi perumahan bisa dibuka langsung, daftar inventaris RT tercatat, dan dokumentasi acara tersimpan sebagai kenangan bersama.</p>
+   <div class="k">Daun 8 · Cabang Informasi</div>
+   <h2>Dokumen kalian kusimpan rapi</h2>
+   <p>AD/ART RT 01 / RW 12 tahun 2026 bisa dibaca dan diunduh sebagai PDF. Peta lokasi resmi dapat dibuka langsung, inventaris RT tercatat, dan dokumentasi acara kusimpan sebagai kenangan bersama.</p>
    <ul><li>AD / ART</li><li>Peta Lokasi</li><li>Inventaris RT</li><li>Dokumentasi Acara</li></ul>
  </div></section>
  <section class="l" data-ph="5.4"><div class="card">
-   <div class="k">Bab 9 · Dedaunan</div>
-   <h2>Maulid Nabi Muhammad SAW</h2>
-   <p>Panitia PHBI mengajak warga menyukseskan peringatan Maulid Nabi 2026. Progres partisipasi terkumpul ditampilkan terhadap target RAB, dipisah antara donatur tunai dan donatur barang atau makanan, dengan rincian RAB yang bisa dibuka warga dan ucapan terima kasih di penghujung halaman.</p>
+   <div class="k">Daun 9 · Dedaunan</div>
+   <h2>Maulid Nabi: ajakanku untuk berbuat baik</h2>
+   <p>Panitia PHBI mengajak kalian menyukseskan Maulid Nabi Muhammad SAW 2026. Partisipasi terkumpul ditampilkan terhadap target RAB, dipisah antara donatur tunai dan donatur barang atau makanan, dengan rincian RAB yang bisa dibuka dan ucapan terima kasih di akhir halaman.</p>
    <ul><li>Partisipasi Tunai</li><li>Makanan &amp; Minuman</li><li>RAB Panitia</li></ul>
  </div></section>
  <section class="r" data-ph="5.7"><div class="card">
-   <div class="k">Bab 10 · Dedaunan</div>
-   <h2>17 Agustusan, dari warga untuk warga</h2>
-   <p>Menyambut HUT RI ke-81, panitia 17 Agustusan memantau dana terkumpul terhadap target RAB, mencakup iuran warga dan pencairan proposal donatur. Partisipasi tiap blok diberi warna: 80% ke atas, 50–79%, dan di bawah 50%, agar kekurangan terlihat dan bisa dikejar bersama.</p>
-   <ul><li class="g">Iuran Warga</li><li class="g">Pencairan Proposal</li><li class="g">Partisipasi per Blok</li></ul>
+   <div class="k">Daun 10 · Dedaunan</div>
+   <h2>17 Agustusan: dari warga untuk warga</h2>
+   <p>Menyambut HUT RI ke-81, panitia memantau dana terkumpul terhadap target RAB, dari iuran warga dan pencairan proposal donatur. Partisipasi tiap blok diberi warna: 80% ke atas, 50–79%, dan di bawah 50%, agar kekurangan terlihat dan bisa dikejar bersama.</p>
+   <ul><li class=g>Iuran Warga</li><li class=g>Pencairan Proposal</li><li class=g>Partisipasi per Blok</li></ul>
  </div></section>
  <section class="l" data-ph="6.0"><div class="card">
-   <div class="k">Bab 11 · Dedaunan</div>
-   <h2>Piala Bergilir: Blok E juara</h2>
-   <p>Semangat berlomba ditutup dengan klasemen. Poin Piala Bergilir hanya dihitung dari juara 1: 2 poin untuk perorangan dan 5 poin untuk regu atau blok. Blok E keluar sebagai juara, sementara juara 2 dan 3 tetap dicatat sebagai kebanggaan blok, dari kategori anak-anak, dewasa, hingga balita.</p>
+   <div class="k">Daun 11 · Dedaunan</div>
+   <h2>Piala Bergilir: selamat, Blok E!</h2>
+   <p>Poin hanya dihitung dari juara 1: 2 poin untuk perorangan dan 5 poin untuk regu atau blok. Blok E keluar sebagai juara, sementara juara 2 dan 3 tetap kucatat sebagai kebanggaan blok, dari anak-anak, dewasa, hingga balita.</p>
    <ul><li>Blok E Juara</li><li>Perorangan 2 Poin</li><li>Regu/Blok 5 Poin</li></ul>
  </div></section>
  <section class="r" data-ph="6.3"><div class="card">
-   <div class="k">Bab 12 · Dedaunan</div>
-   <h2>Suara warga tentang Posyandu</h2>
-   <p>Ketika dana kas RT dipakai untuk modal awal dan operasional Posyandu, warga diminta memilih lewat polling: menganggapnya sah dan boleh berlanjut, mewajibkan dana dikembalikan, atau jalan tengah, dana diputihkan namun Posyandu mandiri ke depan. Hasilnya dibuka agar semua tahu.</p>
-   <ul><li class="g">Setuju</li><li class="g">Tidak Setuju</li><li class="g">Jalan Tengah</li></ul>
+   <div class="k">Daun 12 · Dedaunan</div>
+   <h2>Aku mendengar suara kalian tentang Posyandu</h2>
+   <p>Ketika dana kas RT dipakai untuk modal awal dan operasional Posyandu, kalian memilih lewat polling: sah dan boleh berlanjut, wajib dikembalikan, atau jalan tengah, diputihkan namun Posyandu mandiri ke depan. Hasilnya kubuka agar semua tahu.</p>
+   <ul><li class=g>Setuju</li><li class=g>Tidak Setuju</li><li class=g>Jalan Tengah</li></ul>
  </div></section>
  <section class="l" data-ph="6.6"><div class="card">
-   <div class="k">Bab 13 · Bunga</div>
-   <h2>Pemekaran RT: menghitung dengan cermat</h2>
-   <p>Perumahan terus bertambah penghuni, sehingga RT perlu dimekarkan. Syaratnya minimal 50 KK per RT menurut Perbup Kabupaten Bogor No. 31 Tahun 2012. Halaman pemekaran menyediakan data jumlah rumah per blok, KK aktif dari data kas, serta kalkulator untuk menguji kelayakan RT baru.</p>
+   <div class="k">Daun 13 · Bunga</div>
+   <h2>Aku makin besar, RT pun perlu dimekarkan</h2>
+   <p>Penghuni terus bertambah. Syarat pemekaran minimal 50 KK per RT menurut Perbup Kabupaten Bogor No. 31 Tahun 2012. Halaman pemekaran menyediakan jumlah rumah per blok, KK aktif dari data kas, serta kalkulator untuk menguji kelayakan RT baru.</p>
    <ul><li>Minimal 50 KK</li><li>Data per Blok</li><li>Kalkulator RT</li></ul>
  </div></section>
  <section class="r" data-ph="6.95"><div class="card">
-   <div class="k">Bab 14 · Bunga</div>
-   <h2>Keputusan musyawarah pertama</h2>
-   <p>Pada 20 September 2026, musyawarah menyetujui pembentukan 3 wilayah RT baru, sehingga total menjadi 4 wilayah RT. Status Blok E1 dan E2 belum final dan akan ditentukan lewat musyawarah internal warga, dan panitia pemilihan Ketua RT dibentuk terpisah di tiap wilayah baru.</p>
-   <ul><li class="g">RT 001 · Blok A–D</li><li class="g">RT 003 · Blok E &amp; I</li><li class="g">RT 004 · Blok F &amp; G</li><li class="g">RT 005 · Blok H, J &amp; K</li></ul>
+   <div class="k">Daun 14 · Bunga</div>
+   <h2>Bunga pertamaku mekar</h2>
+   <p>Pada 20 September 2026, musyawarah menyetujui pembentukan 3 wilayah RT baru, sehingga total menjadi 4 wilayah RT.  dan panitia pemilihan Ketua RT dibentuk terpisah di tiap wilayah baru.</p>
+   <ul><li class=g>RT 001 · Blok A–D</li><li class=g>RT 003 · Blok E &amp; I</li><li class=g>RT 004 · Blok F &amp; G</li><li class=g>RT 005 · Blok H, J &amp; K</li></ul>
  </div></section>
  <section class="l" data-ph="7.4"><div class="card">
-   <div class="k">Bab 15 · Cahaya</div>
-   <h2>Hadir di layar genggaman</h2>
-   <p>Semua cerita tadi kini bisa dibuka dari HP lewat portal puriasri3.my.id, bahkan dipasang di layar utama sebagai aplikasi (PWA). Datanya diambil langsung dari Google Sheets, dikembangkan oleh Sekretaris RT 01, dan siap dibuka warga kapan saja.</p>
+   <div class="k">Daun 15 · Cahaya</div>
+   <h2>Temui aku di genggaman kalian</h2>
+   <p>Semua pesanku bisa dibuka dari HP lewat portal puriasri3.my.id, bahkan dipasang di layar utama sebagai aplikasi (PWA). Datanya diambil langsung dari Google Sheets, dikembangkan oleh Sekretaris RT 01, dan siap dibuka kapan saja.</p>
    <ul><li>Portal Warga</li><li>Install PWA</li><li>Data Live</li></ul>
  </div></section>
  <section class="r" data-ph="8"><div class="card end">
-   <div class="k">Puri Asri 3 · RT 01 / RW 12</div>
-   <h2>Bersama Membangun Lingkungan yang Lebih Baik</h2>
-   <p>Transparan, rukun, dan mudah diakses. Pohon ini terus tumbuh selama warganya terus merawatnya.</p>
+   <div class="k">Daun terakhir · dari pohonmu</div>
+   <h2>Rawat aku, aku akan terus tumbuh</h2>
+   <p>Transparan, rukun, dan mudah diakses. Aku akan terus tumbuh selama kalian terus merawatku.</p>
    <ul class="tri"><li>Lebih Kompak</li><li>Lebih Peduli</li><li>Lebih Baik</li></ul>
  </div></section>
 </main>
@@ -309,7 +322,8 @@ function addSeg(kind,pts,ws,a,b){
   const cd='M'+P(pts).join('L');
   let L=0;for(let i=1;i<n;i++)L+=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);
   const mxw=Math.max(...ws)+10,id='m'+(mid++);
-  const mask=mk('mask',{id,maskUnits:'userSpaceOnUse',x:-400,y:-200,width:1200,height:1400},masksDefs);
+  const xs=pts.map(p=>p[0]),yy=pts.map(p=>p[1]),pad=mxw+4,bx=Math.min(...xs)-pad,by=Math.min(...yy)-pad;
+  const mask=mk('mask',{id,maskUnits:'userSpaceOnUse',x:fx(bx),y:fx(by),width:fx(Math.max(...xs)+pad-bx),height:fx(Math.max(...yy)+pad-by)},masksDefs);
   const mp=mk('path',{d:cd,fill:'none',stroke:'#fff','stroke-width':fx(mxw),'stroke-dasharray':L.toFixed(1)+' '+(L+60).toFixed(1),'stroke-dashoffset':L.toFixed(1)},mask);
   const isRoot=kind==='r',w0=ws[0];
   const oc=isRoot?'#2a190b':'#24160b';
@@ -430,7 +444,7 @@ function update(){
   fadeEls.forEach(e=>e.classList.toggle('on',p>=+e.dataset.t));
   birds.classList.toggle('on',p>.7);
   dawn.style.opacity=seg(p,.05,.9);
-  sun.style.top=(62-real*48)+'%';sun.style.left=(10+real*70)+'%';
+  sun.style.transform='translate('+(10+real*70)+'vw,'+(62-real*48)+'vh)';
 }
 addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
 
@@ -499,7 +513,7 @@ function build(){
   LEN=lnBase.getTotalLength();
   lnBase.style.strokeDasharray=LEN;
   tls.forEach(t=>{t.setAttribute('d',d);t.style.strokeDasharray=(+t.dataset.l*tailK)+' '+(LEN+900)});
-  samples=[];for(let t=0;t<=LEN;t+=5){const q=lnBase.getPointAtLength(t);samples.push([q.y,t])}
+  qCur=-1;samples=[];for(let t=0;t<=LEN;t+=5){const q=lnBase.getPointAtLength(t);samples.push([q.y,t])}
   nodesG.innerHTML='';nodeEls=[];nodeLen=[];
   nodeInfo.forEach(n=>{
     const g=mk('g',{},nodesG);
@@ -521,7 +535,7 @@ function interp(vals){
   for(let i=1;i<centers.length;i++){if(y<=centers[i]){const t=(y-centers[i-1])/(centers[i]-centers[i-1]);const e=t*t*(3-2*t);return vals[i-1]+(vals[i]-vals[i-1])*e}}
   return vals[vals.length-1];
 }
-let cur=0,lastCur=0,sideCur=0,scCur=1,t0=performance.now();
+let qCur=-1,qPt=null,cur=0,lastCur=0,sideCur=0,scCur=1,t0=performance.now();
 const tree=$('#tree');
 function loop(now){
   if(centers.length){
@@ -529,7 +543,7 @@ function loop(now){
     cur+=(tgt-cur)*.09;if(Math.abs(tgt-cur)<.3)cur=tgt;
     lnBase.style.strokeDashoffset=LEN-cur;
     tls.forEach(t=>t.style.strokeDashoffset=(+t.dataset.l*tailK)-cur);
-    const q=lnBase.getPointAtLength(cur);
+    const q=(cur===qCur&&qPt)?qPt:(qPt=lnBase.getPointAtLength(cur),qCur=cur,qPt);
     head.setAttribute('cx',q.x);head.setAttribute('cy',q.y);head2.setAttribute('cx',q.x);head2.setAttribute('cy',q.y);
     const vis=cur>2?1:0;head.style.opacity=vis;head2.style.opacity=vis;
     if(Math.abs(cur-lastCur)>1.5&&sparks.childElementCount<36&&Math.random()<.6){
@@ -554,20 +568,39 @@ function loop(now){
   requestAnimationFrame(loop);
 }
 build();requestAnimationFrame(loop);
-addEventListener('resize',()=>{build();update()});
+let lastW=innerWidth;addEventListener('resize',()=>{if(innerWidth===lastW){update();return}lastW=innerWidth;build();update()});
 addEventListener('load',()=>{build()});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(build);
 setTimeout(build,600);
 
 // reveal cards + ping wave from the tree
 const ping=$('#ping');
+function dropLeaf(card,skip){
+  if(skip||matchMedia('(prefers-reduced-motion:reduce)').matches){card.classList.add('in');return}
+  const r=card.getBoundingClientRect(),t=$('#tree').getBoundingClientRect(),
+   sx=t.left+t.width/2+(Math.random()-.5)*90,sy=t.top+t.height*.28,
+   ex=r.left+r.width/2-22,ey=Math.max(70,r.top+16),dir=Math.random()<.5?-1:1,
+   el=document.createElement('div');
+  el.className='fall';
+  el.innerHTML='<svg width="44" height="36" viewBox="-3 -18 44 36"><path d="M0 0C4-14 23-17 37 0 23 15 5 13 0 0Z" fill="#5bb049" stroke="#17501b" stroke-width="1.2"/><path d="M2 0H31M12 0l7-6M12 0l7 6" fill="none" stroke="#c4ee9f" stroke-width="1" opacity=".7"/></svg>';
+  document.body.appendChild(el);
+  const m=(a,b,k)=>a+(b-a)*k,tr=(x,y,d)=>'translate('+x.toFixed(0)+'px,'+y.toFixed(0)+'px) rotate('+d+'deg)';
+  const a=el.animate([
+   {transform:tr(sx,sy,0),opacity:0},
+   {transform:tr(m(sx,ex,.25)+dir*50,m(sy,ey,.3),70*dir),opacity:1,offset:.15},
+   {transform:tr(m(sx,ex,.55)-dir*50,m(sy,ey,.6),-40*dir),offset:.5},
+   {transform:tr(m(sx,ex,.85)+dir*24,m(sy,ey,.88),25*dir),offset:.8},
+   {transform:tr(ex,ey,0),opacity:1}
+  ],{duration:1000,easing:'ease-in-out',fill:'forwards'});setTimeout(()=>card.classList.add('in'),380);
+  a.onfinish=()=>{card.classList.add('in');el.style.transition='opacity .4s';el.style.opacity=0;setTimeout(()=>el.remove(),450)};
+}
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   const card=e.target.querySelector('.card');
   if(e.isIntersecting&&!card.classList.contains('in')){
-    card.classList.add('in');
+    if(card.dataset.d)return;card.dataset.d=1;dropLeaf(card,card.classList.contains('hero'));
     if(!card.classList.contains('hero')){ping.classList.remove('go');void ping.getBoundingClientRect();ping.classList.add('go')}
   }
-}),{threshold:.4});
+}),{threshold:.05,rootMargin:'0px 0px 12% 0px'});
 document.querySelectorAll('main section').forEach(c=>io.observe(c));
 </script>
 </body>
